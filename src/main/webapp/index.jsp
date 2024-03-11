@@ -34,13 +34,13 @@
 	            <!-- The slideshow/carousel -->
 	            <div class="carousel-inner">
 	            <div class="carousel-item active">
-	                <img src="./resourcces/images/이미지1.jpg" alt="ad1" class="d-block" style="width:100%; height: 600px;">
+	                <img src="<%= contextPath %>/resources/images/이미지1.jsp" alt="ad1" class="d-block" style="width:100%; height: 600px;">
 	            </div>
 	            <div class="carousel-item">
-	                <img src="./resourcces/images/이미지2.jpg" alt="ad2" class="d-block" style="width:100%; height: 600px;">
+	                <img src="<%= contextPath %>/resources/images/이미지2.jsp" alt="ad2" class="d-block" style="width:100%; height: 600px;">
 	            </div>
 	            <div class="carousel-item">
-	                <img src="./resourcces/images/이미지3.jpg" alt="ad3" class="d-block" style="width:100%; height: 600px;">
+	                <img src="<%= contextPath %>/resources/images/이미지3.jsp" alt="ad3" class="d-block" style="width:100%; height: 600px;">
 	            </div>
 	            </div>
 	            
@@ -77,7 +77,7 @@
 	                    <div class="thumbnail-list-top d-flex w-100 justify-content-evenly"> 
 	                        <!-- 상품 썸네일 start -->
 	                        <div class="product img-thumbnail p-2" style="width:300px">
-	                            <img class="product-img" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%">
+	                            <img class="product-img" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
 	                            <div class="product-body">
 	                                <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
 	                                <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
@@ -96,7 +96,7 @@
 	
 	                        <!-- 상품 썸네일 start -->
 	                        <div class="product img-thumbnail p-2" style="width:300px">
-	                            <img class="product-img" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%">
+	                            <img class="product-img" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
 	                            <div class="product-body">
 	                                <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
 	                                <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
@@ -115,7 +115,7 @@
 	
 	                        <!-- 상품 썸네일 start -->
 	                        <div class="product img-thumbnail p-2" style="width:300px">
-	                            <img class="product-img" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%">
+	                            <img class="product-img" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
 	                            <div class="product-body">
 	                                <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
 	                                <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
@@ -138,7 +138,7 @@
 	                    <div class="product-thumbnail-list-bottom d-flex w-100 justify-content-evenly my-5">
 	                        <!-- 상품 썸네일 start -->
 	                        <div class="product img-thumbnail p-2" style="width:300px">
-	                            <img class="product-img" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%">
+	                            <img class="product-img" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
 	                            <div class="product-body">
 	                                <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
 	                                <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
@@ -157,7 +157,7 @@
 	
 	                        <!-- 상품 썸네일 start -->
 	                        <div class="product img-thumbnail p-2" style="width:300px">
-	                            <img class="product-img" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%">
+	                            <img class="product-img" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
 	                            <div class="product-body">
 	                                <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
 	                                <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
@@ -203,7 +203,7 @@
 	                        <!-- 레시피 썸네일 start -->
 	                        <div class="recipe-wrap">
 	                            <div class="recipe" style="width:300px">
-	                                <img class="recipe-img-top" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%; border-radius: 30px;">
+	                                <img class="recipe-img-top" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%; border-radius: 30px;">
 	                                <div class="recipe-body">
 	                                    <small class="recipe-category d-block text-secondary my-3">카테고리명</small>
 	                                    <h7 class="recipe-title"><b>레시피명</b></h7>
@@ -212,7 +212,7 @@
 	                                        <div class="recipe-writer" style="padding-right: 100px;">
 	                                            <h6 class="profile">
 	                                                <!-- 레시피 작성자 프로필 사진 -->
-	                                                <img src="./resourcces/images/user.svg" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
+	                                                <img src="<%= contextPath %>/resources/images/user.svg" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
 	                                                <div class="d-inline center ms-1"><small>작성자아이디</small></div>
 	                                            </h6>
 	                                        </div>
@@ -231,7 +231,7 @@
 	                                <div class="recipe-product border-top d-flex pt-4" style="display: flex;">
 	                                    <div class="recipe-product-img border me-4" style="width: 100px; height: 100px;">
 	                                        <!-- 레시피 관련 상품 이미지 -->
-	                                        <img src="./resourcces/images/이미지3.jpg" alt="" style="width: 100%; height: 100%;">
+	                                        <img src="<%= contextPath %>/resources/images/이미지3.jpg" alt="" style="width: 100%; height: 100%;">
 	                                    </div>
 	                                    <div class="recipe-product-detail">
 	                                        <div class="recipe-product-title"><h6 class="fw-bold"><b class="text-danger">[HOT]&nbsp;</b>관련상품명</h6></div>
@@ -246,7 +246,7 @@
 	                        <!-- 레시피 썸네일 start -->
 	                        <div class="recipe-wrap">
 	                            <div class="recipe" style="width:300px">
-	                                <img class="recipe-img-top" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%; border-radius: 30px;">
+	                                <img class="recipe-img-top" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%; border-radius: 30px;">
 	                                <div class="recipe-body">
 	                                    <small class="recipe-category d-block text-secondary my-3">카테고리명</small>
 	                                    <h7 class="recipe-title"><b>레시피명</b></h7>
@@ -255,7 +255,7 @@
 	                                        <div class="recipe-writer" style="padding-right: 100px;">
 	                                            <h6 class="profile">
 	                                                <!-- 레시피 작성자 프로필 사진 -->
-	                                                <img src="./resourcces/images/user.svg" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
+	                                                <img src="<%= contextPath %>/resources/images/user.svg" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
 	                                                <div class="d-inline center ms-1"><small>작성자아이디</small></div>
 	                                            </h6>
 	                                        </div>
@@ -274,7 +274,7 @@
 	                                <div class="recipe-product border-top d-flex pt-4" style="display: flex;">
 	                                    <div class="recipe-product-img border me-4" style="width: 100px; height: 100px;">
 	                                        <!-- 레시피 관련 상품 이미지 -->
-	                                        <img src="./resourcces/images/이미지3.jpg" alt="" style="width: 100%; height: 100%;">
+	                                        <img src="<%= contextPath %>/resources/images/이미지3.jpg" alt="" style="width: 100%; height: 100%;">
 	                                    </div>
 	                                    <div class="recipe-product-detail">
 	                                        <div class="recipe-product-title"><h6 class="fw-bold"><b class="text-danger">[HOT]&nbsp;</b>관련상품명</h6></div>
@@ -289,7 +289,7 @@
 	                        <!-- 레시피 썸네일 start -->
 	                        <div class="recipe-wrap">
 	                            <div class="recipe" style="width:300px">
-	                                <img class="recipe-img-top" src="./resourcces/images/이미지1.jpg" alt="Card image" style="width:100%; border-radius: 30px;">
+	                                <img class="recipe-img-top" src="<%= contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%; border-radius: 30px;">
 	                                <div class="recipe-body">
 	                                    <small class="recipe-category d-block text-secondary my-3">카테고리명</small>
 	                                    <h7 class="recipe-title"><b>레시피명</b></h7>
@@ -317,7 +317,7 @@
 	                                <div class="recipe-product border-top d-flex pt-4" style="display: flex;">
 	                                    <div class="recipe-product-img border me-4" style="width: 100px; height: 100px;">
 	                                        <!-- 레시피 관련 상품 이미지 -->
-	                                        <img src="./resourcces/images/이미지3.jpg" alt="" style="width: 100%; height: 100%;">
+	                                        <img src="<%= contextPath %>/resources/images/이미지3.jpg" alt="" style="width: 100%; height: 100%;">
 	                                    </div>
 	                                    <div class="recipe-product-detail">
 	                                        <div class="recipe-product-title"><h6 class="fw-bold"><b class="text-danger">[HOT]&nbsp;</b>관련상품명</h6></div>
