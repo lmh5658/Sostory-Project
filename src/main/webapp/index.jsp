@@ -8,7 +8,7 @@
 
 <style>
 /* 메인페이지 Section 영역관련 스타일 */
-.main-content{display: flex; flex-direction: column;}
+.main-content{display: flex; flex-direction: column; z-index: 1;}
 .content-product-list{display: flex; flex-direction: column;}
 .product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
 .recipe-product{display: flex;}
