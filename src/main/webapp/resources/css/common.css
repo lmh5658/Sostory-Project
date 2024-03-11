@@ -1,0 +1,25 @@
+@charset "EUC-KR";
+
+/* 레이아웃 관련 스타일 */
+.wrap, .wrap * {box-sizing: border-box;}
+.header{height: 150px;}
+.main-content{min-height: 800px;}
+.footer{height: 200px;}
+.center{display: flex; justify-content: center; align-items: center;}
+
+/* Header 영역관련 스타일 */
+.header{display: flex; position: fixed; top: 0; background-color: white;}
+.header-left-logo{width: 25%; display: flex;}
+.header-left-logo>img{height: 100%;}
+.header-right{width: 75%; display: flex; flex-direction: column;}
+.header-right-top{height: 30%;}
+.header-user>svg:hover{cursor: pointer;}
+.header-right-bottom{height: 70%;}
+
+/* Footer 영역관련 스타일 */
+.footer{display: flex;}
+.footer-logo{width: 30%;}
+.footer-company{width: 40%;}
+.footer-company>ul{list-style-type: "- "}
+.footer-business-time{width: 30%;}
+.footer-business-time>ul{list-style: none;}
