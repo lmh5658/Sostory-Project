@@ -2,6 +2,7 @@
 
 /* 레이아웃 관련 스타일 */
 .wrap, .wrap * {box-sizing: border-box;}
+.wrap{width:1200px; margin: auto;}
 .header{height: 150px;}
 .main-content{min-height: 800px;}
 .footer{height: 200px;}
