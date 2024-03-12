@@ -14,6 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- ---------------------------------- -->
 
+    <!-- 마이페이지(메인) css 파일 링크연결 -->
+    <link href="/src/main/webapp/resources/css/myPageMain.css" rel="stylesheet">
+
     <style>
     /* 레이아웃 관련 스타일 */
     .wrap{width: 1200px; margin: auto;}
@@ -39,68 +42,8 @@
     .footer-company>ul{list-style-type: "- "}
     .footer-business-time{width: 30%;}
     .footer-business-time>ul{list-style: none;}
-
-    /* 마이페이지 사이드 nav바 스타일 */
-    .main-wrap{
-    margin: auto;
-    width: 100%;
-    max-width: 1300px;
-    height: 800px;
-    display: flex;
-    }
-
-    .menu_wrap{
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(238, 67, 67);
-    }
-
-    .menu_wrap{
-    font-size: 20px;
-    width: 15%;
-    align-items: center;       
-    }
-
-    .side_menu>button{
-        width: 100%;
-        height: 70px;
-        background-color: rgb(238, 67, 67);
-        
-        }
-
-    .side_menu div{
-        display:none;
-        font-size: 17px;
-    }
-
-    .list{
-        border: none;
-        color: white;
-        font-weight: bolder;
-    }
-
-    .side_menu a{
-        color: white;
-    }
-
-    a{
-        text-decoration-line: none;
-        color: black        
-    }
-
-    a:hover{
-        opacity: 0.8;
-        text-decoration-line: none;
-    }
-
-    /* 마이페이지-고객문의 진행사항에서만 필요한 style */
-    .main-page{
-        display: flex;
-        flex-direction: column;
-    }
-
     </style>
+
 </head>
 <body>
     <div class="wrap container p-3">
@@ -169,7 +112,7 @@
             <div class="main-wrap border">
 
                 <!-- 사이드 nav바 start -->
-                <div class="menu_wrap" style="background-color: rgb(238, 67, 67);" >
+                <div class="menu_wrap" >
 
                     <div class="side_menu">
                         <button class="list">회원정보</button>
@@ -219,69 +162,91 @@
                 <!-- 사이드 nav바 end -->
 
                 <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 start -->
-                <div class="main-page w-100 border">
-                    <!-- 페이지 제목 start -->
-                    <div class="page-title d-flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user m-4" viewBox="0 0 16 16">
+                <div class="main-page">
+
+                    <!-- 페이지 제목 영역 start -->
+                    <div class="page-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon mx-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
-                        <h3 class="mt-4"><b>마이페이지</b></h3>
+                        <h3><b>마이페이지</b></h3>
                     </div>
-                    <!-- 페이지 제목 end -->
+                    <!-- 페이지 제목 영역 end -->
 
-                    <!-- 회원정보 영역 start -->
-                    <div class="user-info ps-5 d-flex border">
-                        <div class="profile my-3">
-                            <img src="프로필이미지" alt="" style="width: 150px; height: 150px;">
+                    <!-- 회원정보 영역(오른쪽 상단) start -->
+                    <div class="user-info">
+                        
+                        <div class="profile">
+                            <img src="프로필이미지" alt="" id="userProfile">
                         </div>
 
-                        <div class="ms-5 my-3 d-flex flex-column border">
-                            <h3>xxx님! 안녕하세요</h3>
-                            <div class="d-flex mt-3">
-                                <div class="border mx-5">
-                                    <a href="" class="d-block mb-2">배송중</a>
-                                    <p class="center">1개</p>
-                                </div>
+                        <div class="profile-right">
+                            <h3><b id="userName">xxx</b>님! 안녕하세요</h3>
+                            
+                            <div class="profile-right-bottom">
                                 
-                                <div class="border mx-5">
-                                    <a href="" class="d-block mb-2">환불/반품 진행중</a>
-                                    <p class="center">1개</p>
+                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+                                    <b class="d-block">배송중</b>
+                                    <h6><b>1</b>개</h6>
                                 </div>
 
-                                <div class="border mx-5">
-                                    <a href="" class="d-block mb-2">찜한 상품</a>
-                                    <p class="center">1개</p>
+                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+                                    <b class="d-block">환불/반품</b>
+                                    <h6><b>1</b>개</h6>
                                 </div>
 
-                                <div class="border mx-5">
-                                    <a href="" class="d-block mb-2">찜한 레시피</a>
-                                    <p class="center">1개</p>
+                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+                                    <b class="d-block">찜한상품</b>
+                                    <h6><b>5</b>개</h6>
                                 </div>
+
+                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+                                    <b class="d-block">찜한레시피</b>
+                                    <h6><b>3</b>개</h6>
+                                </div>
+
                             </div>
                         </div>
 
-
                     </div>
-                    <!-- 회원정보 영역 end -->
+                    <!-- 회원정보 영역(오른쪽 상단) end -->
 
-                    <!-- 고객문의 진행 사항 start-->
-                    <div class="page-content d-flex flex-column border">
-                        <h3 class="mx-5 my-4"><b>고객문의 진행 사항</b></h3>
+                    <!-- 고객문의 진행사항 영역(오른쪽 하단) start-->
+                    <div class="customer-qna-area">
+                        
+                        <h3><b>고객문의 진행사항</b></h3>
 
-                        <div class="d-flex">
-                            <!-- 상품문의 start -->
-                            <div class="ms-5 border" style="background-color: lightgray; width: 40%;">
-                                <h5><b>상품문의</b></h5>
+                        <div class="qna-wrap">
+                            <!-- 상품문의 -->
+                            <div class="product-qna">
+                                <h4 class="my-4"><b>상품문의</b></h4>
+
+                                <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
+                                <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
+
+                                <h6 class="mt-5 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>미확인 완료문의</b></h6>
+                                <b>확인하지 않은 2건의 완료 문의가 있습니다.</b>
+
+                                <a class="btn btn-secondary mt-5">확인하기</a>
                             </div>
-                            <!-- 상품문의 end -->
 
-                            <div class="ms-5 border" style="background-color: lightgray; width: 40%;">
-                                <h5><b>상품문의</b></h5>
+                            <!-- 1:1 문의 -->
+                            <div class="etc-qna">
+                                <h4 class="my-4"><b>1 : 1 문의</b></h4>
+
+                                <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
+                                <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
+
+                                <h6 class="mt-5 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>미확인 완료문의</b></h6>
+                                <b>확인하지 않은 2건의 완료 문의가 있습니다.</b>
+
+                                <a class="btn btn-secondary mt-5">확인하기</a>
                             </div>
-
                         </div>
+                        
+
                     </div>
-                    <!-- 고객문의 진행 사항 end-->
+                    <!-- 고객문의 진행사항 영역(오른쪽 하단) end-->
 
                 </div>
                 <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 end -->
