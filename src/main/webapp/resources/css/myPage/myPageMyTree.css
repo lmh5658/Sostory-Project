@@ -58,7 +58,7 @@ a{
     width: 100%;
 }
 
-/* 마이페이지 배송지관리에서만 필요한 style */
+/* 마이페이지 MyTree에서만 필요한 style */
 .page-title{
     align-items: center;
     display: flex;
@@ -69,18 +69,25 @@ a{
     margin-left: 40px;
 }
 
-.address-list{
+h3>label{
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 13px;
+}
+
+.recipe-list{
     margin-left: 40px;
 }
 
-.address-list tr>td{
-    vertical-align: middle;
-}
-
-.address-list>.table *{
+.recipe-list>.table *{
     text-align: center;
 }
 
-.table>tbody .address-size-limit{
-    width: 370px;
+.recipe-list #recipe-thumbnail>img{
+    width: 130px;
+    height: 130px;
+}
+
+.recipe-list tr>td{
+    vertical-align: middle;
 }
