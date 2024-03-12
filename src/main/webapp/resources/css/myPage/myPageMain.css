@@ -1,4 +1,4 @@
-/* 마이페이지 사이드 nav바 스타일(마이페이지 공통) */
+/* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
 .main-wrap{
     margin: auto;
     width: 100%;
@@ -52,8 +52,6 @@ a{
     text-decoration-line: none;
 }
 
-
-/* 마이페이지-고객문의 진행사항에서만 필요한 style */
 .main-page{
     display: flex;
     flex-direction: column;
@@ -65,8 +63,13 @@ a{
     display: flex;
     padding-top: 15px;
     margin-bottom: 40px;
+    border-bottom: 1px solid lightslategray;
+    width: 400px;
+    margin-left: 40px;
 }
 
+
+/* 마이페이지-고객문의 진행사항에서만 필요한 style */
 .user-info{
     display: flex;
     padding-left: 60px;
