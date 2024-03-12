@@ -58,6 +58,8 @@ a{
     width: 100%;
 }
 
+
+/* 마이페이지-고객문의 진행사항에서만 필요한 style */
 .page-title{
     align-items: center;
     display: flex;
@@ -68,8 +70,6 @@ a{
     margin-left: 40px;
 }
 
-
-/* 마이페이지-고객문의 진행사항에서만 필요한 style */
 .user-info{
     display: flex;
     padding-left: 60px;
