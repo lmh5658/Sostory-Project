@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 메인</title>
+
+    <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ---------------------------------- -->
+
+    <style>
+    /* 레이아웃 관련 스타일 */
+    .wrap{width: 1200px; margin: auto;}
+    .wrap, .wrap * {box-sizing: border-box;}
+    .header{height: 150px; z-index: 2; padding-top: 10px;}
+    .main-content{min-height: 800px; padding-top: 130px;}
+    .footer{height: 200px;}
+    .center{display: flex; justify-content: center; align-items: center;}
+
+    /* Header 영역관련 스타일 */
+    .header{display: flex; width: 1200px; position: fixed; top: 0; background-color: white;}
+    .header-left-logo{width: 25%; display: flex;}
+    .header-left-logo>img{height: 100%;}
+    .header-right{width: 75%; display: flex; flex-direction: column;}
+    .header-right-top{height: 30%;}
+    .header-user>svg:hover{cursor: pointer;}
+    .header-right-bottom{height: 70%;}
+
+    /* Footer 영역관련 스타일 */
+    .footer{display: flex;}
+    .footer-logo{width: 30%;}
+    .footer-company{width: 40%;}
+    .footer-company>ul{list-style-type: "- "}
+    .footer-business-time{width: 30%;}
+    .footer-business-time>ul{list-style: none;}
+
+    /* 마이페이지 사이드 nav바 스타일 */
+    .main-wrap{
+    margin: auto;
+    width: 100%;
+    max-width: 1300px;
+    height: 800px;
+    display: flex;
+    }
+
+    .menu_wrap{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(238, 67, 67);
+    }
+
+    .menu_wrap{
+    font-size: 20px;
+    width: 15%;
+    align-items: center;       
+    }
+
+    .side_menu>button{
+        width: 100%;
+        height: 70px;
+        background-color: rgb(238, 67, 67);
+        
+        }
+
+    .side_menu div{
+        display:none;
+        font-size: 17px;
+    }
+
+    .list{
+        border: none;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .side_menu a{
+        color: white;
+    }
+
+    a{
+        text-decoration-line: none;
+        color: black        
+    }
+
+    a:hover{
+        opacity: 0.8;
+        text-decoration-line: none;
+    }
+
+    /* 마이페이지-고객문의 진행사항에서만 필요한 style */
+    .main-page{
+        display: flex;
+        flex-direction: column;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="wrap container p-3">
+		
+        <!-- Header start -->
+        <header class="header border-bottom border-2">
+
+
+            <!-- Header 왼쪽(로고) 영역 start -->
+            <div class="header-left-logo center">
+                <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지">
+            </div>
+            <!-- Header 왼쪽(로고) 영역 end -->
+
+
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
+            <div class="header-right">
+
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
+                <div class="header-right-top">
+                    <div class="header-user d-flex justify-content-end center">
+                        <!-- 로그인 x  -->
+                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
+                        <!-- 로그인 o 
+                        <span><b>xxx님</b></span>
+                        -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+
+                        <!-- 로그인 되어있을 경우에만 보여짐 
+                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">logout</a>
+                        -->
+                        
+                    </div>
+                </div>
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
+
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+                <div class="header-right-bottom">
+                    <div class="header-nav py-4 mb-3">
+                        <nav class="nav nav-underline justify-content-between">
+                            <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+            </div>
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
+        </header>
+        <!-- Header end -->
+
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
+
+        <!-- Section start -->
+        <section class="main-content">
+
+            <div class="main-wrap border">
+
+                <!-- 사이드 nav바 start -->
+                <div class="menu_wrap" style="background-color: rgb(238, 67, 67);" >
+
+                    <div class="side_menu">
+                        <button class="list">회원정보</button>
+                        <div><a href="" class="">회원정보 변경</a></div>
+                        <div><a href="">비밀변호 변경</a></div>
+                        <div><a href="">배송지관리</a></div>
+                    </div>
+
+                    <div class="side_menu">
+                        <button class="list">My Tree</button>
+                    </div>
+
+                    <div class="side_menu">
+                        <button class="list">찜목록</button>
+                    </div>
+
+                    <div class="side_menu">
+                        <button class="list">고객문의</button>
+                        <div>
+                        <a href="">상품문의</a><br>
+                        <a href="">1:1 문의</a>
+                        </div>
+                    </div>
+
+                    <div class="side_menu">
+                        <button class="list">주문조회</button>
+                    </div>
+
+                </div>
+
+
+                <script>
+                   $(function(){
+                        $(".side_menu>button").click(function(){       
+                            const $b = $(this).nextAll();
+            
+                            if($b.css("display") == "none") {          
+                                $(".list").siblings("div").slideUp();
+                                $b.slideDown();         
+                            }else{
+                                $b.slideUp();
+                            }
+            
+                        })
+                    })
+                </script>
+                <!-- 사이드 nav바 end -->
+
+                <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 start -->
+                <div class="main-page w-100 border">
+                    <!-- 페이지 제목 start -->
+                    <div class="page-title d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user m-4" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        <h3 class="mt-4"><b>마이페이지</b></h3>
+                    </div>
+                    <!-- 페이지 제목 end -->
+
+                    <!-- 회원정보 영역 start -->
+                    <div class="user-info ps-5 d-flex border">
+                        <div class="profile my-3">
+                            <img src="프로필이미지" alt="" style="width: 150px; height: 150px;">
+                        </div>
+
+                        <div class="ms-5 my-3 d-flex flex-column border">
+                            <h3>xxx님! 안녕하세요</h3>
+                            <div class="d-flex mt-3">
+                                <div class="border mx-5">
+                                    <a href="" class="d-block mb-2">배송중</a>
+                                    <p class="center">1개</p>
+                                </div>
+                                
+                                <div class="border mx-5">
+                                    <a href="" class="d-block mb-2">환불/반품 진행중</a>
+                                    <p class="center">1개</p>
+                                </div>
+
+                                <div class="border mx-5">
+                                    <a href="" class="d-block mb-2">찜한 상품</a>
+                                    <p class="center">1개</p>
+                                </div>
+
+                                <div class="border mx-5">
+                                    <a href="" class="d-block mb-2">찜한 레시피</a>
+                                    <p class="center">1개</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- 회원정보 영역 end -->
+
+                    <!-- 고객문의 진행 사항 start-->
+                    <div class="page-content d-flex flex-column border">
+                        <h3 class="mx-5 my-4"><b>고객문의 진행 사항</b></h3>
+
+                        <div class="d-flex">
+                            <!-- 상품문의 start -->
+                            <div class="ms-5 border" style="background-color: lightgray; width: 40%;">
+                                <h5><b>상품문의</b></h5>
+                            </div>
+                            <!-- 상품문의 end -->
+
+                            <div class="ms-5 border" style="background-color: lightgray; width: 40%;">
+                                <h5><b>상품문의</b></h5>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- 고객문의 진행 사항 end-->
+
+                </div>
+                <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 end -->
+
+            </div>
+
+        </section>
+        <!-- Section end -->
+
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
+
+        <!-- Footer start -->
+        <footer class="footer pt-3 border-top border-2">
+            <div class="footer-logo">
+                <img src="<%= request.getContextPath() %>/resources/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
+            </div>
+            <div class="footer-company center">
+                <ul>
+                    <li class="mb-4">상호명 : So's tory</li>
+                    <li class="mb-4">개발자 : team sos</li>
+                    <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
+                </ul>
+            </div>
+            <div class="footer-business-time center">
+                <ul>
+                    <li class="border-bottom mb-3"><b>Business Time</b></li>
+                    <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
+                    <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
+                    <li>Sunday: Closed</li>
+                </ul>
+            </div>
+        </footer>
+        <!-- Footer end -->
+	     
+	 </div>
+</body>
+</html>
