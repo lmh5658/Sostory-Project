@@ -191,7 +191,7 @@
                                     <td>곽연우</td>
                                     <td class="address-size-limit"><label class="text-primary">[기본배송지]</label>인천광역시 연수구 랜드마크로 19</td>
                                     <td>010-3361-3351</td>
-                                    <td><a href="" class="btn">수정</a> | <a href="" class="btn text-danger">삭제</a></td>
+                                    <td><a href="" class="btn" data-toggle="modal" data-target="#updateAddr">수정</a> | <a href="" class="btn text-danger">삭제</a></td>
                                 </tr>
 
                                 <tr>
@@ -199,7 +199,7 @@
                                     <td>곽연우</td>
                                     <td class="address-size-limit">(080505) 서울특별시 금천구 가산디지털2로 95 (가산동, km타워) 2층, 3층</td>
                                     <td>010-3361-3351</td>
-                                    <td><a href="" class="btn">수정</a> | <a href="" class="btn text-danger">삭제</a></td>
+                                    <td><a href="" class="btn" data-toggle="modal" data-target="#updateAddr">수정</a> | <a href="" class="btn text-danger">삭제</a></td>
                                 </tr>
 
                                 <tr>
@@ -207,13 +207,148 @@
                                     <td>곽연우</td>
                                     <td class="address-size-limit">(080505) 서울특별시 금천구 가산디지털2로 95 (가산동, km타워) 2층, 3층</td>
                                     <td>010-3361-3351</td>
-                                    <td><a href="" class="btn">수정</a> | <a href="" class="btn text-danger">삭제</a></td>
+                                    <td><a href="" class="btn" data-toggle="modal" data-target="#updateAddr">수정</a> | <a href="" class="btn text-danger">삭제</a></td>
                                 </tr>
                             </tbody>
                         </table>
                         
                         <div class="center mt-5">
-                            <a href="" class="btn btn-danger">배송지 추가</a>
+
+                        <!-- 배송지수정 팝업창(수정버튼 클릭시 팝업창뜸) start -->
+                        <div class="modal" id="updateAddr">
+                        <div class="modal-dialog modal-lg">
+                        <div class="modal-content px-3" style="border: 1px solid;">
+                        
+                            <!-- 배송지수정 팝업창 Header -->
+                            <div class="modal-header">
+                            <h4 class="modal-title"><b>배송지 수정</b></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            
+                            <!-- 배송지수정 팝업창 body -->
+                            <div class="modal-body">
+
+                                <form action="" method="" class="form-group">
+
+                                    <div class="d-flex form-field">
+                                        <label for="addressName" class="mr-sm-2">* 배송지명</label>
+                                        <input type="text" class="form-control" id="addressName" value="기존배송지명">
+                                    </div>
+
+                                    <div class="d-flex form-field">
+                                        <label for="recipient-name" class="mr-sm-2">* 이름</label>
+                                        <input type="text" class="form-control" id="recipient-name" value="기존이름">
+                                    </div>
+
+                                    <div class="d-flex form-field">
+                                        <label for="phone" class="mr-sm-2">* 연락처</label>
+                                        <input type="tel" class="form-control" id="phone" value="기존연락처">
+                                    </div>
+
+                                    <div class="d-flex form-field">
+                                        
+                                        <label for="address" class="mr-sm-2">* 주소</label>
+                                        <input type="text" class="form-control" id="address" value="기존주소">
+                                    </div>
+
+                                    <div class="d-flex form-field mt-2">
+                                        <input type="text" class="form-control" id="addressDetail" value="기존상세주소">
+                                    </div>
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">기본 배송지로 선택</label>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            
+                            <!-- 배송지수정 팝업창 footer -->
+                            <div class="modal-footer d-flex flex-column">
+                                <div class="d-flex">
+                                    <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">취소</button>
+                                    <a href="" class="btn btn-danger px-4" data-dismiss="modal">수정</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <!-- 배송지수정 팝업창 end -->
+
+
+                    <!-- 배송지추가 버튼(클릭시 팝업창뜸) -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#insertAddr">배송지 추가</button>
+
+                    <!-- 배송지추가 팝업창 start -->
+                    <div class="modal" id="insertAddr">
+                        <div class="modal-dialog modal-lg">
+                        <div class="modal-content px-3">
+                        
+                            <!-- 배송지추가 팝업창 Header -->
+                            <div class="modal-header">
+                            <h4 class="modal-title"><b>배송지 추가</b></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            
+                            <!-- 배송지추가 팝업창 body -->
+                            <div class="modal-body">
+
+                                <form action="" method="" class="form-group">
+
+                                    <div class="d-flex form-field">
+                                        <label for="addressName" class="mr-sm-2">* 배송지명</label>
+                                        <input type="text" class="form-control" id="addressName" placeholder="내용을 입력해주세요">
+                                    </div>
+
+                                    <div class="d-flex form-field">
+                                        <label for="recipient-name" class="mr-sm-2">* 이름</label>
+                                        <input type="text" class="form-control" id="recipient-name" placeholder="내용을 입력해주세요">
+                                    </div>
+
+                                    <div class="d-flex form-field">
+                                        <label for="phone" class="mr-sm-2">* 연락처</label>
+                                        <input type="tel" class="form-control" id="phone" placeholder="내용을 입력해주세요">
+                                    </div>
+
+                                    <div class="d-flex form-field">
+                                        <!-- 
+                                        기능 : 박스 클릭시 주소찾기 창이 나오고, 선택된 주소가 텍스트에 표시
+                                                선택된 주소가 텍스트에 표시됨 (readonly)
+                                        피드백 : API 끌어다 써도좋다고 강사님이 하셨지만, 안되면 그냥 입력받는 걸로!!
+                                        -->
+                                        <label for="address" class="mr-sm-2">* 주소</label>
+                                        <input type="text" class="form-control" id="address" placeholder="우편번호 찾기">
+                                    </div>
+
+                                    <div class="d-flex form-field mt-2">
+                                        <input type="text" class="form-control" id="addressDetail" placeholder="상세주소">
+                                    </div>
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">기본 배송지로 선택</label>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            
+                            <!-- 배송지추가 팝업창 footer -->
+                            <div class="modal-footer d-flex flex-column">
+                                <div class="d-flex">
+                                    <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">취소</button>
+                                    <!-- 기능 : 추가버튼 클릭시, 배송지 관리 페이지 새로고침 -->
+                                    <a href="" class="btn btn-danger px-4" data-dismiss="modal">추가</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <!-- 배송지추가 팝업창 end -->
+
                         </div>
 
                     </div>
