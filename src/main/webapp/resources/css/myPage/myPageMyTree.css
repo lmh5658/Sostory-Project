@@ -91,3 +91,8 @@ h3>label{
 .recipe-list tr>td{
     vertical-align: middle;
 }
+
+.recipe-list #recipe-thumbnail:hover, .recipe-list #recipe-title:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
