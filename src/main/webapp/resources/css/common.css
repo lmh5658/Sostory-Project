@@ -16,7 +16,7 @@
 /* Header 영역관련 스타일 */
 .header{display: flex; width: 1200px; position: fixed; top: 0; background-color: white;}
 .header-left-logo{width: 25%; display: flex;}
-.header-left-logo>img{height: 100%;}
+.header-left-logo>img{height: 100%; cursor: pointer;}
 .header-right{width: 75%; display: flex; flex-direction: column;}
 .header-right-top{height: 30%;}
 .header-user>svg:hover{cursor: pointer;}
