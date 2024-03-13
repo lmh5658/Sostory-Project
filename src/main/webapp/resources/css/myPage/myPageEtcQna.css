@@ -137,20 +137,21 @@ h3>label{
     margin-top: 5px;
 }
 
-.modal-body #addressDetail{
-    margin-left: 130px;
-}
-
-.modal-body>form>.form-check>label{
-    float: right;
-    font-size: 18px;
-    width: 165px;
-    margin-top: 25px;
-    color: rgb(123, 123, 123);
-}
-
-.modal-content>.modal-footer{
+.modal-content .modal-button{
     margin: 30px 0 5px 0;
     display: flex;
     justify-content: center;
+}
+
+.modal-content #qna-content{
+    position: relative;
+    z-index: 1;
+}
+
+.modal-content .count-text-area{
+    position: absolute;
+    z-index: 10;
+    bottom: 120px;
+    right: 40px;
+    color: rgb(186, 181, 181);
 }
