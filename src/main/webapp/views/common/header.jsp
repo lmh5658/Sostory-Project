@@ -29,9 +29,16 @@
 
         <!-- Header 왼쪽(로고) 영역 start -->
         <div class="header-left-logo center">
-            <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지">
+            <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지" onclick="gotoMain();">
         </div>
         <!-- Header 왼쪽(로고) 영역 end -->
+        <script>
+        	function gotoMain(){
+        		location.href="<%=contextPath%>";
+        	}
+        
+        
+        </script>
 
 
         <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
