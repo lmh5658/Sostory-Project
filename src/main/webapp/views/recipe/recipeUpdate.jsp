@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>레시피등록</title>
+<title>레시피 수정</title>
 <style>
     .main-content {
         display: flex;
@@ -42,11 +42,7 @@
 </style>
 </head>
 <body>
-<!-- 
-    기본적인 form은 레시피 등록 페이지와 동일
-    기능 구현할때 기존 값이 표시되게 할것
- -->
-<div class="wrap">
+	<div class="wrap">
 		
 		<%@ include file="/views/common/header.jsp" %>
 		
@@ -70,9 +66,9 @@
                     <tr>
                         <td width="150px">상품명</td>
                         <td width="400px">
-                            <select class="product_name" name="" required>
-                                <option hidden>상품을 선택하세요</option>
-                                <option value="" selected >칼로리 zero 마요네즈</option>
+                            <select class="product_name" name="">
+                                <option selected hidden>상품을 선택하세요</option>
+                                <option value="">칼로리 zero 마요네즈</option>
                                 <option value="">케찹 떡볶이 밀키트</option>
                                 <option value="">칼로리 zero 고추장</option>
                             </select>
@@ -80,7 +76,7 @@
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input class="form-control" type="text" placeholder="레시피 제목을 입력해주세요" required>레시피 제목</td>
+                        <td><input class="form-control" type="text" placeholder="레시피 제목을 입력해주세요"></td>
                     </tr>
                     <tr>
                         <td>대표사진</td>
@@ -110,9 +106,9 @@
                     <tr>
                         <td>재료</td>
                         <td id="ingredientForm">
-                            <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명" required>
-                            <input class="ingredient" type="number" style="width: 120px;" placeholder="수량" required>
-                            <select class="ingredient" name="" style="width: 70px;" required>
+                            <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명">
+                            <input class="ingredient" type="number" style="width: 120px;" placeholder="수량">
+                            <select class="ingredient" name="" style="width: 70px;">
                                 <option selected hidden>단위</option>
                                 <option value="">g</option>
                                 <option value="">kg</option>
@@ -129,9 +125,9 @@
                     <script>
                         $(function(){
                             $("#addIngredientButton").click(function(){
-                                const ingName = '<input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명" required>';
-                                const ingMount = '<input class="ingredient" type="number" style="width: 120px;" placeholder="수량" required>';
-                                const unit = '<select class="ingredient" name="" style="width: 70px;" required><option selected hidden>단위</option><option value="">g</option><option value="">kg</option><option value="">ml</option><option value="">L</option></select>';
+                                const ingName = '<input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명">';
+                                const ingMount = '<input class="ingredient" type="number" style="width: 120px;" placeholder="수량">';
+                                const unit = '<select class="ingredient" name="" style="width: 70px;"><option selected hidden>단위</option><option value="">g</option><option value="">kg</option><option value="">ml</option><option value="">L</option></select>';
                                 const addButton = '<button type="button" class="btn btn-sm" style="background-color: rgb(224, 224, 224);">삭제</button>';
                                 let el = $("<tr></tr>").html("<td></td>" + '<td id="ingredientForm">' + ingName + "&nbsp;" +  ingMount + "&nbsp;" + unit + "&nbsp;" + addButton + "</td>");
                                 $("#addIngredientButton").parent().parent().before(el);
@@ -149,7 +145,7 @@
                     <tr class="input_step">
                         <td>Step 1.</td>
                         <td>
-                            <textarea class="form-control" name="" rows="6" style="resize: none;" required></textarea>
+                            <textarea class="form-control" name="" rows="6" style="resize: none;"></textarea>
                         </td>
                         <!-- 순서 이미지 파일 첨부 -->
                         <!-- 이미지 추가 누르면 파일 첨부 가능하게 -->
@@ -171,8 +167,8 @@
 
                         $("#addStep").click(function(){
                             countStep++;
-                            const stepContent = '<td><textarea class="form-control" name="" rows="6" style="resize: none;" required></textarea></td>';
-                            const stepImg = '<td><div class="add_step_img">이미지 추가<input type="file" required></div></td>';
+                            const stepContent = '<td><textarea class="form-control" name="" rows="6" style="resize: none;"></textarea></td>';
+                            const stepImg = '<td><div class="add_step_img">이미지 추가<input type="file"></div></td>';
                             let el = $("<tr></tr>").addClass("input_step").html("<td>Step " + countStep + ".</td>" + stepContent + stepImg);
                             $("#addStep").parent().parent().before(el);
                         })
@@ -188,12 +184,12 @@
                     <tr>
                         <!-- 정규표현식으로 공백문자로 구분이 안되어있으면 등록 안되게 -->
                         <td>태그</td>
-                        <td><input class="form-control" type="text" placeholder="#간장 #고추장 (태그 사이 공백으로 구분)"></td>
+                        <td><input class="form-control" type="text"placeholder="#간장 #고추장 (태그 사이 공백으로 구분)"></td>
                     </tr>
                 </table>
                 <br>
                 <div align="center">
-                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">수정</button>
+                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">등록</button>
                 </div>
                 <br><br>
             </form>
@@ -203,6 +199,5 @@
 	     <%@ include file="/views/common/footer.jsp" %>
 	     
 	 </div>
-
 </body>
 </html>
