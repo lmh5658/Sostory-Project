@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호변경</title>
+    <title>회원정보변경</title>
 
     <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -15,7 +15,7 @@
     <!-- ---------------------------------- -->
 
     <!-- 마이페이지(MyTree) css 파일 링크연결 -->
-    <link href="/src/main/webapp/resources/css/myPage/myPageChangePwd.css" rel="stylesheet">
+    <link href="/src/main/webapp/resources/css/myPage/myPageUpdateUserInfo.css" rel="stylesheet">
 
     <style>
     /* 레이아웃 관련 스타일 */
@@ -54,7 +54,7 @@
 
             <!-- Header 왼쪽(로고) 영역 start -->
             <div class="header-left-logo center">
-                <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지">
+                <img src="" alt="소스토리 로고이미지">
             </div>
             <!-- Header 왼쪽(로고) 영역 end -->
 
@@ -162,7 +162,7 @@
                 </script>
                 <!-- 사이드 nav바 end -->
 
-                <!-- 비밀번호 페이지 영역 start -->
+                <!-- 회원정보 페이지 영역 start -->
                 <div class="main-page">
 
                     <!-- 페이지 제목 영역 start -->
@@ -170,42 +170,121 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
-                        <h3><b>비밀번호변경</b></h3>
+                        <h3><b>회원정보변경</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
 
-                    <!-- 비밀번호 변경 양식영역 시작 -->
-                    <div class="change-pwd">
+                    <!-- 정보변경 양식영역 시작 -->
+                    <div class="update-info">
                         <form action="" method="">
-                            <h3>현재 비밀번호</h3>
-                            <input type="password" class="form-control" placeholder="현재 비밀번호를 입력하세요" required>
-                            
+
+                            <div class="profile">
+                                <b>프로필사진</b>
+                                <img class="preview-profile"></img>
+                                <button class="btn btn-secondary" id="upload-profile" style="height: 40px; margin: 50px 0; margin-left: 30px;">프로필사진 변경</button>
+                                <input type="file" style="display: none;">
+                            </div>
+
+                            <div class="user-id">
+                                <b style="margin-right: 60px;">아이디</b>
+                                <input type="text" class="form-control" readonly value="기존아이디">
+                            </div>
+
+                            <div class="nickname">
+                                <b style="margin-right: 60px;">닉네임</b>
+                                <input type="text" class="form-control" value="기존닉네임">
+                            </div>
+
+                            <div class="user-name">
+                                <b style="margin-right: 60px;">이름</b>
+                                <input type="text" class="form-control" readonly value="기존이름">
+                            </div>
+
+                            <div class="phone">
+                                <b style="margin-right: 60px;">전화번호</b>
+                                <input type="phone" class="form-control" value="기존전화번호">
+                            </div>
+
                             <!--
-                                기능설명 : 비밀번호 유효성검사로 "사용가능한 비밀번호입니다" 유효성체크
+                                기능설명 : 인증완료된 이메일은 변경 불가, 관리자가 변경해줘야함
                             -->
-                            <h3>변경 비밀번호</h3>
-                            <input type="password" class="form-control" placeholder="변경할 비밀번호를 입력하세요" required>
-                            <input type="password" class="form-control mt-4" placeholder="비밀번호 확인" required>
-                            
-                            <div class="button-area">
-                                <div class="d-flex">
-                                    <button type="reset" class="btn btn-secondary me-3 px-4">뒤로가기</button>
-                                    <!--
-                                        기능설명 : 변경하기 클릭시
-                                                  - 문제 없을 경우 : 성공 팝업뜨고 마이페이지 메인페이지로 이동
-                                                  - 현재비밀번호 or 비밀번호 확인 불일치 : 팝업 경고후 해당페이지에 머무름
-                                    -->
-                                    <button type="submit" class="btn btn-danger px-4">변경하기</a>
+                            <div class="email">
+                                <b style="margin-right: 60px;">이메일</b>
+                                <input type="text" class="form-control" readonly value="기존아이디">
+                            </div>
+
+                            <div class="gender">
+                                <b style="margin-right: 60px; width: 110px;">성별</b>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="x">
+                                    <label class="form-check-label me-5" style="font-size: 18px;" for="x">선택안함</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="m">
+                                    <label class="form-check-label me-5" style="font-size: 18px;" for="m">남자</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="f">
+                                    <label class="form-check-label" style="font-size: 18px;" for="f">여자</label>
                                 </div>
                             </div>
+
+                            <div class="birthday">
+                                <b style="margin-right: 60px; padding: 15px;">생년월일</b>
+                                <input type="date" class="form-control">
+                            </div>
+
+                            <!--
+                                기능설명 : 저장버튼 클릭시, 변경 내용 저장 후 마이페이지 메인으로 이동
+                            -->
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-danger px-4 py-2">저장하기</button>
+                            </div>
+
                         </form>
+
+                        <script>
+                            $(function(){
+
+                                // 프로필사진 벼경 버튼 클릭시 실행될 함수
+                                $("#upload-profile").click(function(){
+                                    console.log("버튼 클릭됨");
+                                     // input 타입 file(display: hidden으로 되어있는) 요소에 강제 클릭이벤트 부여
+                                     $(":file").click();
+                                })
+
+                                $(":file").change(function(e){
+                                    console.log("파일 클릭됨");
+                                    const inputFile = e.target;
+
+                                    if(inputFile.files.length == 1){ // 선택한 파일이 있을 경우 ==> 미리보기 실행
+                                       console.log("파일 로드됨");
+                                        // 선택한 파일을 읽어들일 객체생성
+                                        const reader = new FileReader();
+                                        // 파일 읽어들이는 메소드 실행
+                                        reader.readAsDataURL(inputFile.files[0]);
+                                        // 파일 읽기완료 이후 실행될 미리보기 메소드
+                                        reader.onload = function(e){
+                                            $(".preview-profile").attr("src", e.target.result);
+                                        }
+                                     }else{ // 파일선택을 취소했을 경우 ==> 미리보기 취소
+                                        $(".preview-profile").attr("src", null);
+                                    }
+                                })
+
+                            })
+                        </script>
 
 
                     </div>
-                    <!-- 비밀번호 변경 양식영역 끝 -->
+                    <!-- 정보번호 변경 양식영역 끝 -->
+
+
+                    
+
 
                 </div>   
-                <!-- 비밀번호 페이지 영역 end -->
+                <!-- 회원정보변경 페이지 영역 end -->
             </div>
 
         </section>
@@ -216,7 +295,7 @@
         <!-- Footer start -->
         <footer class="footer pt-3 border-top border-2">
             <div class="footer-logo">
-                <img src="<%= request.getContextPath() %>/resources/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
+                <img src="" alt="소스토리 로고이미지" class="w-100 h-100">
             </div>
             <div class="footer-company center">
                 <ul>
