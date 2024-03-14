@@ -2,8 +2,9 @@
 .main-wrap{
     margin: auto;
     width: 100%;
-    max-width: 1300px;
-    height: 800px;
+    margin-top: 130px;
+    max-width: 1200px;
+    min-height: 1200px;
     display: flex;
 }
 
@@ -11,13 +12,11 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    padding-top: 30px;
     background-color: rgb(238, 67, 67);
-}
-
-.menu_wrap{
     font-size: 20px;
     width: 15%;
-    align-items: center;       
+    align-items: center;
 }
 
 .side_menu>button{

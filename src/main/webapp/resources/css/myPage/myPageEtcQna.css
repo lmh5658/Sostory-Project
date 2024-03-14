@@ -2,22 +2,21 @@
 .main-wrap{
     margin: auto;
     width: 100%;
-    max-width: 1300px;
-    height: 800px;
+    margin-top: 130px;
+    max-width: 1200px;
+    min-height: 1200px;
     display: flex;
 }
 
 .menu_wrap{
     text-align: center;
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
     background-color: rgb(238, 67, 67);
-}
-
-.menu_wrap{
     font-size: 20px;
     width: 15%;
-    align-items: center;       
+    align-items: center; 
 }
 
 .side_menu>button{
@@ -77,7 +76,7 @@ h3>label{
 
 .jumbotron{
     margin-left: 40px;
-    width: 800px;
+    width: 100%;
     padding-top: 15px;
     padding-bottom: 1px;
     text-align: center;
