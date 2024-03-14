@@ -92,6 +92,7 @@ h3>label{
 }
 
 .profile>.preview-profile{
+    border: 1px solid lightcoral;
     border-radius: 100px;
     width: 150px;
     height: 150px;
