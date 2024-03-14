@@ -74,79 +74,25 @@ h3>label{
     margin-left: 13px;
 }
 
-.qna-detail{
-    margin-left: 40px;
-    margin-top: 30px;
-    padding: 10px 0;
-    width: 850px;
-}
-
-.qna-detail>.table>tbody .regist-date{
-    padding-left: 660px;
-    font-size: 18px;
-    color: lightslategray;
-}
-
-.qna-detail>.table>tbody>tr{
-    height: 60px;
-}
-
-.qna-detail>.table>tbody>tr>td{
-    font-size: 20px;
-    color: lightslategray;
-    padding: 20px 0;
-}
-
-.qna-detail>.table>tbody>tr>th{
-    width: 200px;
+.change-pwd{
+    margin-left: 150px;
+    width: 500px;
     text-align: center;
-    font-size: 20px;
-    padding: 20px 0;
+
 }
 
-.table-button{
-    margin-left: 40px;
-    width: 850px;
-    display: flex;
-    justify-content: center;
-}
-
-.modal-title{
-    padding: 8px 0;
-}
-
-.modal-content{
-    margin-top: 220px;
-    border-radius: 20px;
-}
-
-.modal-body>form>.form-field{
-    margin-top: 30px;
-}
-
-.modal-body>form>div>label{
-    width: 150px;
-    font-size: 20px;
+.change-pwd h3{
+    margin-top: 60px;
+    margin-bottom: 30px;
     font-weight: bold;
-    margin-top: 5px;
 }
 
-.modal-content .modal-button{
-    margin: 30px 0 5px 0;
+.change-pwd>form>input{
+    height: 50px;
+}
+
+.button-area{
     display: flex;
     justify-content: center;
+    margin-top: 50px;
 }
-
-.modal-content #qna-content{
-    position: relative;
-    z-index: 1;
-}
-
-.modal-content .count-text-area{
-    position: absolute;
-    z-index: 10;
-    bottom: 120px;
-    right: 40px;
-    color: rgb(186, 181, 181);
-}
-

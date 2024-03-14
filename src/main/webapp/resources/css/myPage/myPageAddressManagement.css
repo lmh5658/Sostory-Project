@@ -2,7 +2,7 @@
 .main-wrap{
     margin: auto;
     width: 100%;
-    margin-top: 130px;
+    margin-top: 50px;
     max-width: 1200px;
     min-height: 1200px;
     display: flex;
@@ -88,12 +88,11 @@ a{
     margin-top: 220px;
     border-radius: 20px;
 }
-
-.modal-body>form>.form-field{
+form>.modal-body>.form-field{
     margin-top: 30px;
 }
 
-.modal-body>form>div>label{
+form>.modal-body>div>label{
     width: 150px;
     font-size: 20px;
     font-weight: bold;
@@ -104,7 +103,7 @@ a{
     margin-left: 130px;
 }
 
-.modal-body>form>.form-check>label{
+form>.modal-body>.form-check>label{
     float: right;
     font-size: 18px;
     width: 165px;
@@ -112,7 +111,7 @@ a{
     color: rgb(123, 123, 123);
 }
 
-.modal-content>.modal-footer{
+.modal-footer{
     margin: 30px 0 5px 0;
     display: flex;
     justify-content: center;

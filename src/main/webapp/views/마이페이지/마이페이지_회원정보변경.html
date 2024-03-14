@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지 메인</title>
+    <title>회원정보변경</title>
 
     <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -14,8 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- ---------------------------------- -->
 
-    <!-- 마이페이지(메인) css 파일 링크연결 -->
-    <link href="/src/main/webapp/resources/css/myPage/myPageMain.css" rel="stylesheet">
+    <!-- 마이페이지(MyTree) css 파일 링크연결 -->
+    <link href="/src/main/webapp/resources/css/myPage/myPageUpdateUserInfo.css" rel="stylesheet">
 
     <style>
     /* 레이아웃 관련 스타일 */
@@ -54,7 +54,7 @@
 
             <!-- Header 왼쪽(로고) 영역 start -->
             <div class="header-left-logo center">
-                <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지">
+                <img src="" alt="소스토리 로고이미지">
             </div>
             <!-- Header 왼쪽(로고) 영역 end -->
 
@@ -107,9 +107,9 @@
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
         <!-- Section start -->
-        <section class="main-content pt-3">
+        <section class="main-content">
 
-            <div class="main-wrap border">
+            <div class="main-wrap">
 
                 <!-- 사이드 nav바 start -->
                 <div class="menu_wrap" >
@@ -119,7 +119,7 @@
                         <div><a href="" class="">회원정보 변경</a></div>
                         <div><a href="">비밀변호 변경</a></div>
                         <div><a href="">배송지관리</a></div>
-                        <div><a href="" >회원탈퇴</a></div>
+                        <div><a href="">회원탈퇴</a></div>
                     </div>
 
                     <div class="side_menu">
@@ -162,7 +162,7 @@
                 </script>
                 <!-- 사이드 nav바 end -->
 
-                <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 start -->
+                <!-- 회원정보 페이지 영역 start -->
                 <div class="main-page">
 
                     <!-- 페이지 제목 영역 start -->
@@ -170,98 +170,121 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
-                        <h3><b>마이페이지</b></h3>
+                        <h3><b>회원정보변경</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
 
-                    <!-- 회원정보 영역(오른쪽 상단) start -->
-                    <div class="user-info">
-                        
-                        <div class="profile">
-                            <img src="프로필이미지" alt="" id="userProfile">
-                        </div>
+                    <!-- 정보변경 양식영역 시작 -->
+                    <div class="update-info">
+                        <form action="" method="">
 
-                        <div class="profile-right">
-                            <h3><b id="userName">xxx</b>님! 안녕하세요</h3>
-                            
-                            <!-- 각 메뉴 클릭시, 해당페이지로 이동 -->
-                            <div class="profile-right-bottom">
-                                
-                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
-                                    <b class="d-block">배송중</b>
-                                    <h6><b>1</b>개</h6>
-                                </div>
-
-                                <!--
-                                    뺐지만, 일단 화면에 넣으는 놓음
-                                -->
-                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
-                                    <b class="d-block">환불/반품</b>
-                                    <h6><b>1</b>개</h6>
-                                </div>
-
-                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
-                                    <b class="d-block">찜한상품</b>
-                                    <h6><b>5</b>개</h6>
-                                </div>
-
-                                <div class="user-info-etc" style="border-right: 2px solid lightgray;">
-                                    <b class="d-block">찜한레시피</b>
-                                    <h6><b>3</b>개</h6>
-                                </div>
-
+                            <div class="profile">
+                                <b>프로필사진</b>
+                                <img class="preview-profile"></img>
+                                <button class="btn btn-secondary" id="upload-profile" style="height: 40px; margin: 50px 0; margin-left: 30px;">프로필사진 변경</button>
+                                <input type="file" style="display: none;">
                             </div>
-                        </div>
+
+                            <div class="user-id">
+                                <b style="margin-right: 60px;">아이디</b>
+                                <input type="text" class="form-control" readonly value="기존아이디">
+                            </div>
+
+                            <div class="nickname">
+                                <b style="margin-right: 60px;">닉네임</b>
+                                <input type="text" class="form-control" value="기존닉네임">
+                            </div>
+
+                            <div class="user-name">
+                                <b style="margin-right: 60px;">이름</b>
+                                <input type="text" class="form-control" readonly value="기존이름">
+                            </div>
+
+                            <div class="phone">
+                                <b style="margin-right: 60px;">전화번호</b>
+                                <input type="phone" class="form-control" value="기존전화번호">
+                            </div>
+
+                            <!--
+                                기능설명 : 인증완료된 이메일은 변경 불가, 관리자가 변경해줘야함
+                            -->
+                            <div class="email">
+                                <b style="margin-right: 60px;">이메일</b>
+                                <input type="text" class="form-control" readonly value="기존아이디">
+                            </div>
+
+                            <div class="gender">
+                                <b style="margin-right: 60px; width: 110px;">성별</b>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="x">
+                                    <label class="form-check-label me-5" style="font-size: 18px;" for="x">선택안함</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="m">
+                                    <label class="form-check-label me-5" style="font-size: 18px;" for="m">남자</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="f">
+                                    <label class="form-check-label" style="font-size: 18px;" for="f">여자</label>
+                                </div>
+                            </div>
+
+                            <div class="birthday">
+                                <b style="margin-right: 60px; padding: 15px;">생년월일</b>
+                                <input type="date" class="form-control">
+                            </div>
+
+                            <!--
+                                기능설명 : 저장버튼 클릭시, 변경 내용 저장 후 마이페이지 메인으로 이동
+                            -->
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-danger px-4 py-2">저장하기</button>
+                            </div>
+
+                        </form>
+
+                        <script>
+                            $(function(){
+
+                                // 프로필사진 벼경 버튼 클릭시 실행될 함수
+                                $("#upload-profile").click(function(){
+                                    console.log("버튼 클릭됨");
+                                     // input 타입 file(display: hidden으로 되어있는) 요소에 강제 클릭이벤트 부여
+                                     $(":file").click();
+                                })
+
+                                $(":file").change(function(e){
+                                    console.log("파일 클릭됨");
+                                    const inputFile = e.target;
+
+                                    if(inputFile.files.length == 1){ // 선택한 파일이 있을 경우 ==> 미리보기 실행
+                                       console.log("파일 로드됨");
+                                        // 선택한 파일을 읽어들일 객체생성
+                                        const reader = new FileReader();
+                                        // 파일 읽어들이는 메소드 실행
+                                        reader.readAsDataURL(inputFile.files[0]);
+                                        // 파일 읽기완료 이후 실행될 미리보기 메소드
+                                        reader.onload = function(e){
+                                            $(".preview-profile").attr("src", e.target.result);
+                                        }
+                                     }else{ // 파일선택을 취소했을 경우 ==> 미리보기 취소
+                                        $(".preview-profile").attr("src", null);
+                                    }
+                                })
+
+                            })
+                        </script>
+
 
                     </div>
-                    <!-- 회원정보 영역(오른쪽 상단) end -->
+                    <!-- 정보번호 변경 양식영역 끝 -->
 
-                    <!-- 고객문의 진행사항 영역(오른쪽 하단) start-->
-                    <div class="customer-qna-area">
-                        
-                        <h3><b>고객문의 진행사항</b></h3>
 
-                        <div class="qna-wrap">
-                            <!-- 상품문의 -->
-                            <div class="product-qna">
-                                <h4 class="my-4"><b>상품문의</b></h4>
+                    
 
-                                <!-- 현재 진행중인 고객문의 표시 -->
-                                <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
-                                <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
 
-                                <!-- 미확인 문의는 확인하면 표시안됨 -->
-                                <h6 class="mt-5 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>미확인 완료문의</b></h6>
-                                <b>확인하지 않은 2건의 완료 문의가 있습니다.</b>
-
-                                <!-- 클릭시 해당 문의페이지로 이동-->
-                                <a class="btn btn-secondary mt-5">확인하기</a>
-                            </div>
-
-                            <!-- 1:1 문의 -->
-                            <div class="etc-qna">
-                                <h4 class="my-4"><b>1 : 1 문의</b></h4>
-
-                                <!-- 현재 진행중인 고객문의 표시 -->
-                                <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
-                                <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
-
-                                <!-- 미확인 문의는 확인하면 표시안됨 -->
-                                <h6 class="mt-5 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>미확인 완료문의</b></h6>
-                                <b>확인하지 않은 2건의 완료 문의가 있습니다.</b>
-
-                                <!-- 클릭시 해당 문의페이지로 이동-->
-                                <a class="btn btn-secondary mt-5">확인하기</a>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                    <!-- 고객문의 진행사항 영역(오른쪽 하단) end-->
-
-                </div>
-                <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 end -->
-
+                </div>   
+                <!-- 회원정보변경 페이지 영역 end -->
             </div>
 
         </section>
@@ -272,7 +295,7 @@
         <!-- Footer start -->
         <footer class="footer pt-3 border-top border-2">
             <div class="footer-logo">
-                <img src="<%= request.getContextPath() %>/resources/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
+                <img src="" alt="소스토리 로고이미지" class="w-100 h-100">
             </div>
             <div class="footer-company center">
                 <ul>
