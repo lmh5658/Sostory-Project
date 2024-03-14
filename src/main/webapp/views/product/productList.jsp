@@ -13,7 +13,9 @@
 
 
 <body>
-	<div class="wrap container p-3">
+
+		<!-- container p-3 삭제 -->
+	<div class="wrap">
 		
 			<%@ include file="/views/common/header.jsp" %>
 
