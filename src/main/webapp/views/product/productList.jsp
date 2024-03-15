@@ -6,7 +6,25 @@
 <meta charset="UTF-8">
 <title>전체상품목록페이지</title>
 
-    <link href="../../resources/css/product/productList.css" rel="stylesheet">
+    <style>
+    
+    /* 전체상품목록페이지 관련 스타일 */
+        .more-product{
+            margin-top: 20px;
+        }
+
+        .pagination{
+            margin-top: 30px;
+        }
+        .select-product{
+            margin-bottom: 20px;
+        }
+        .main-content{display: flex; flex-direction: column;}
+        .content-product-list{display: flex; flex-direction: column;}
+        .product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
+    
+    
+    </style>
 
 
 
