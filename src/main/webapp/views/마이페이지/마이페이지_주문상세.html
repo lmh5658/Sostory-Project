@@ -119,13 +119,50 @@ h3>label{
     margin-left: 13px;
 }
 
-/* 레시피 찜목록 전용 style */
-.order_list th, .order_list td{
-    text-align: center;
-    vertical-align: middle;
+/* 주문조회 전용 style */
+.order_content{
+    width: 100%;
+    border-top: 1px solid grey;
 }
-.order_list tr{height: 70px;}
-.order_content{cursor: pointer;}
+.order_list{
+    background-color: rgb(237, 237, 237);
+    padding: 10px;
+}
+.order_product{
+    background-color: white;
+    display: flex;
+    align-items: center;
+}
+.order_product>*{margin: 10px;}
+.order_product>img{
+    width: 120px;
+    height: 120px;
+}
+.order_product b{font-size: 20px;}
+.order_product>img+label{width: 60%;}
+.order_product>img+label+label{width: 15%;}
+.order_product>img+label+label+label{width: 15%;}
+.order_product>div{width: 50px;}
+.calc_payment{
+    width: 100%;
+    height: 170px;
+    margin-top: 15px;
+    background-color: rgb(211, 84, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.calc_payment>table{
+    width: 80%;
+}
+.calc_payment>table *{
+    text-align: center;
+}
+.total_price{font-size: 40px;}
+.order_content>table tr{
+    height: 60px;
+    font-size: 17px;
+}
 </style>
 
 </head>
@@ -253,76 +290,130 @@ h3>label{
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
-                        <h3><b>주문조회</b></h3>
+                        <h3><b>주문상세</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
 
                     <!-- 컨텐츠 영역 start -->
-                    <div>
-                        <button class="btn btn-outline-secondary btn-sm">전체</button>
-                        <button class="btn btn-outline-secondary btn-sm">1주일</button>
-                        <button class="btn btn-outline-secondary btn-sm">3개월</button>
-                        <form action="" style="display: inline; margin-left: 10px;">
-                            <input class="" type="date">&nbsp;~
-                            <input type="date">
-                            <button class="btn btn-secondary btn-sm">조회</button>
-                        </form>
+
+                    <!-- 주문목록 -->
+                    <h4 style="margin-top: 10px;"><b>주문목록</b></h4>
+                    <div class="order_list order_content">
+                        <div style="margin-bottom: 10px;">주문번호:216554&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2024-02-26 16:15:50</div>
+                        <div>
+
+                            <div class="order_product">
+                                <img src="../../resources/images/이미지2.jpg" alt="상품이미지">
+                                <label><b>칼로리 zero 고추장</b></label>
+                                <label>
+                                    <!-- 할인중인 상품 -->
+                                    <s>10,000원</s><br>
+                                    <b>9,000원</b>
+                                </label>
+                                <label>수량 : 2</label>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                      </svg>
+                                </div>
+                            </div>
+
+                            <div class="order_product">
+                                <img src="../../resources/images/이미지2.jpg" alt="상품이미지">
+                                <label><b>칼로리 zero 고추장</b></label>
+                                <label>
+                                    <!-- 할인하고 있지 않을때 -->
+                                    <b>10,000원</b>
+                                </label>
+                                <label>수량 : 2</label>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                      </svg>
+                                </div>
+                            </div>
+
+                            <div class="order_product">
+                                <img src="../../resources/images/이미지2.jpg" alt="상품이미지">
+                                <label><b>칼로리 zero 고추장</b></label>
+                                <label>
+                                    <s>10,000원</s><br>
+                                    <b>9,000원</b>
+                                </label>
+                                <label>수량 : 2</label>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                      </svg>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <table class="table order_list" style="margin-top: 20px;">
-                        <!-- 주문조회 테이블 header -->
-                        <tr>
-                            <th width="150px">주문번호</th>
-                            <th width="400px">주문내용</th>
-                            <th width="150px">주문일시</th>
-                            <th width="150px">상태</th>
-                            <th>주문취소</th>
-                        </tr>
+                    <div class="calc_payment">
+                        <table>
+                            <tr>
+                                <th>상품금액</th>
+                                <th rowspan="2" style="font-size: 60px;">-</t>
+                                <th>상품할인금액</th>
+                                <th rowspan="2" style="font-size: 50px;">=</th>
+                                <th>총 결제금액</th>
+                            </tr>
+                            <tr class="total_price">
+                                <th>36,000</th>
+                                <th>9,000</th>
+                                <th>27,000</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- 배송지 정보 -->
+                    <h4 style="margin-top: 50px;"><b>배송지 정보</b></h4>
+                    <div class="address order_content">
+                        <table>
+                            <tr>
+                                <th width="120px">배송지명</th>
+                                <td>집</td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td>홍길동</td>
+                            </tr>
+                            <tr>
+                                <th>전화번호</th>
+                                <td>010-1111-2222</td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td>
+                                    인천광역시 연수구 연수동<br>
+                                    상세주소
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
-                        <!-- 주문조회 내용 -->
+                    <!-- 결제 정보 -->
+                    <h4 style="margin-top: 50px;"><b>결제 정보</b></h4>
+                    <div class="payment order_content">
+                        <table>
+                            <tr>
+                                <th width="120px">결제수단</th>
+                                <td>무통장입금</td>
+                            </tr>
+                            <tr>
+                                <th>결제금액</th>
+                                <td>27,000</td>
+                            </tr>
+                            <tr>
+                                <th>결제일시</th>
+                                <td>2024년 01월 24일 16:26:34</td>
+                            </tr>
+                        </table>
+                    </div>
 
-                        <!-- 주문내역이 없을 경우 -->
-                        <!-- 
-                        <tr>
-                            <td colspan="5">주문내역이 존재하지 않습니다</td>
-                        </tr>
-                         -->
-                        <!-- 주문 목록 리스트 -->
-                        <!-- 주문내역이 존재하지 않습니다. -->
-
-                        <!-- 주문내역이 있을 경우 -->
-                        <tr>
-                            <td>135135</td>
-                            <td class="order_content">칼로리 zero 머스타드 외 1건</td>
-                            <td>2024-02-26</td>
-                            <td>결제완료</td>
-                            <td><button class="btn btn-secondary btn-sm">주문취소</button></td>
-                        </tr>
-                        <tr>
-                            <td>135135</td>
-                            <td class="order_content">칼로리 zero 머스타드 외 1건</td>
-                            <td>2024-02-26</td>
-                            <td>결제완료</td>
-                            <!-- 주문취소가 불가한 경우 -->
-                            <td><b style="color: red;">불가</b></td>
-                        </tr>
-                        <tr>
-                            <td>135135</td>
-                            <td class="order_content">칼로리 zero 머스타드 외 1건</td>
-                            <td>2024-02-26</td>
-                            <td>결제완료</td>
-                            <td><button class="btn btn-secondary btn-sm">주문취소</button></td>
-                        </tr>
-                    </table>
                     <!-- 컨텐츠 영역 end -->
-                    <div style="display: flex; justify-content: center;">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </div>
                 </div>
 
 	        </div>

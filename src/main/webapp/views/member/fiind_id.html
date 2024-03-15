@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,21 +17,65 @@
 
     <style>
         /* 레이아웃 관련 스타일 */
-        .wrap, .wrap * {box-sizing: border-box;}
-        .header{height: 150px;}
-        .main-content{min-height: 470px;}
-        .footer{height: 200px;}
-        .center{display: flex; justify-content: center; align-items: center;}
-        
+        .wrap,
+        .wrap * {
+            box-sizing: border-box;
+        }
+
+        .header {
+            height: 150px;
+        }
+
+        .main-content {
+            min-height: 470px;
+        }
+
+        .footer {
+            height: 200px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         /* Header 영역관련 스타일 */
-        .header{display: flex; position: sticky; top: 0; background-color: white; z-index: 1000;}
-        .header-left-logo{width: 25%; display: flex;}
-        .header-left-logo>img{height: 100%;}
-        .header-right{width: 75%; display: flex; flex-direction: column;}
-        .header-right-top{height: 30%;}
-        .header-user>svg:hover{cursor: pointer;}
-        .header-right-bottom{height: 70%;}
-        
+        .header {
+            display: flex;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1000;
+        }
+
+        .header-left-logo {
+            width: 25%;
+            display: flex;
+        }
+
+        .header-left-logo>img {
+            height: 100%;
+        }
+
+        .header-right {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-right-top {
+            height: 30%;
+        }
+
+        .header-user>svg:hover {
+            cursor: pointer;
+        }
+
+        .header-right-bottom {
+            height: 70%;
+        }
+
         /* Section 영역관련 스타일 */
 
         .main-content {
@@ -40,17 +85,17 @@
             flex-direction: column;
             padding: 10% 10% 10% 10%;
 
-        }        
+        }
 
         .find-table th {
             text-align: center;
             font-size: medium;
             padding-bottom: 25%;
-            
+
 
         }
 
-        .dropdown-toggle{
+        .dropdown-toggle {
             border: 1px solid lightgray;
             height: 37px;
             width: 125%;
@@ -58,37 +103,37 @@
             margin: 23% 0% 25% 26%;
             color: grey;
             font-weight: bold;
-            border-radius: 4pt;    
+            border-radius: 4pt;
         }
 
-        .dropdown-toggle:hover{
+        .dropdown-toggle:hover {
             border: 2px black solid;
-            font-weight: bold;  
+            font-weight: bold;
         }
 
         #check-button {
             background-color: rgb(255, 205, 3);
             color: black;
-            border: 2px solid rgb(255, 205, 3); 
+            border: 2px solid rgb(255, 205, 3);
             width: 177%;
             font-weight: bold;
-            
+
         }
 
         .find-table th a {
-            text-decoration: none; 
+            text-decoration: none;
             color: black;
             font-weight: bold;
             position: relative;
         }
 
         .find-table th a:hover:after {
-            content: ""; 
-            position: absolute; 
-            left: 0; 
-            bottom: -13px; 
-            width: 100%; 
-            height: 2px; 
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -13px;
+            width: 100%;
+            height: 2px;
             background-color: darkgray;
         }
 
@@ -96,15 +141,15 @@
             font-size: small;
             padding-left: 10px;
             color: rgba(0, 0, 0, 0.767);
-        }  
+        }
 
-        #find-id-section #email-text{
+        #find-id-section #email-text {
             font-size: medium;
             font-weight: bold;
             padding: 0% 0% 5% 52%;
             color: rgb(124, 121, 121);
         }
-        
+
         #find-id-section #email-text::after {
             content: "";
             display: block;
@@ -113,7 +158,7 @@
             width: 82%;
         }
 
-        #find-password-section #email-text{
+        #find-password-section #email-text {
             font-size: medium;
             font-weight: bold;
             text-align: center;
@@ -129,94 +174,114 @@
             width: 155%;
         }
 
-        #findId_name{
+        #findId_name {
             font-weight: bold;
             font-size: large;
             padding: 10% 10% 10% 10%;
         }
 
-        #findId_date{
+        #findId_date {
             font-weight: bold;
             color: darkgrey;
             font-size: small;
         }
 
         /* Footer 영역관련 스타일 */
-        .footer{display: flex;}
-        .footer-logo{width: 30%;}
-        .footer-company{width: 40%;}
-        .footer-company>ul{list-style-type: "- "}
-        .footer-business-time{width: 30%;}
-        .footer-business-time>ul{list-style: none;}
+        .footer {
+            display: flex;
+        }
 
-        
+        .footer-logo {
+            width: 30%;
+        }
+
+        .footer-company {
+            width: 40%;
+        }
+
+        .footer-company>ul {
+            list-style-type: "- "
+        }
+
+        .footer-business-time {
+            width: 30%;
+        }
+
+        .footer-business-time>ul {
+            list-style: none;
+        }
     </style>
 
 </head>
+
 <body>
     <div class="wrap">
 
-      <!-- Header start -->
-    <header class="header border-bottom border-2">
+        <!-- Header start -->
+        <header class="header border-bottom border-2">
 
 
-        <!-- Header 왼쪽(로고) 영역 start -->
-        <div class="header-left-logo center">
-            <img src="/src/main/webapp/resources/images/로고.png" alt="소스토리 로고이미지">
-        </div>
-        <!-- Header 왼쪽(로고) 영역 end -->
+            <!-- Header 왼쪽(로고) 영역 start -->
+            <div class="header-left-logo center">
+                <img src="/src/main/webapp/resources/images/로고.png" alt="소스토리 로고이미지">
+            </div>
+            <!-- Header 왼쪽(로고) 영역 end -->
 
 
-        <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
-        <div class="header-right">
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
+            <div class="header-right">
 
-            <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
-            <div class="header-right-top">
-                <div class="header-user d-flex justify-content-end center">
-                    <!-- 로그인 x  -->
-                    <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
-                    <!-- 로그인 o 
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
+                <div class="header-right-top">
+                    <div class="header-user d-flex justify-content-end center">
+                        <!-- 로그인 x  -->
+                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
+                        <!-- 로그인 o 
                     <span><b>xxx님</b></span>
                     -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
-                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="user mx-2" viewBox="0 0 16 16">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="cart mx-2" viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                        </svg>
 
-                    <!-- 로그인 되어있을 경우에만 보여짐 
+                        <!-- 로그인 되어있을 경우에만 보여짐 
                     <a class="btn btn-outline-secondary btn-sm mx-2 py-0">logout</a>
                     -->
-                    
-                </div>
-            </div>
-            <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
 
-            <!-- Header 오른쪽-하단(nav바) 영역 start -->
-            <div class="header-right-bottom">
-                <div class="header-nav py-4 mb-3">
-                    <nav class="nav nav-underline justify-content-between">
-                        <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
-                    </nav>
+                    </div>
                 </div>
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
+
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+                <div class="header-right-bottom">
+                    <div class="header-nav py-4 mb-3">
+                        <nav class="nav nav-underline justify-content-between">
+                            <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
             </div>
-            <!-- Header 오른쪽-하단(nav바) 영역 start -->
-        </div>
-        <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
-    </header>
-    <!-- Header end -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-        
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
+        </header>
+        <!-- Header end -->
+        <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
         <!-- Section start -->
         <section class="main-content">
             <!--  아이디 찾기 -->
-            <div id="find-id-section" class="find-section" >
+            <div id="find-id-section" class="find-section">
                 <form action="" method="">
                     <table class="find-table">
                         <tr>
@@ -224,23 +289,24 @@
                             <th><a class="find_pwd" href="#">비밀번호 찾기</a></th>
                         </tr>
                         <tr>
-                            <td id="email-text">Find_Id</td>  
-                        </tr>                      
+                            <td id="email-text">Find_Id</td>
+                        </tr>
                         <tr>
                             <td id="findId_name" class="find-id center" style="width: 177%;">회원님 아이디는 xxxx**입니다.</td>
                             <td id="findId_date" class="find-id center" style="width: 177%;">(xxxx년 xx월 xx일 가입)</td>
                         </tr>
                         </tr>
-                            <td>
-                                <button type="submit" id="check-button" style="margin-top: 20%" class="btn btn-secondary" >로그인</button>
-                            </td>
+                        <td>
+                            <button type="submit" id="check-button" style="margin-top: 20%"
+                                class="btn btn-secondary">로그인</button>
+                        </td>
                         </tr>
                     </table>
                 </form>
             </div>
-    
-             <!-- 비밀번호 찾기 -->
-             <div id="find-password-section" class="find-section" style="display: none;">
+
+            <!-- 비밀번호 찾기 -->
+            <div id="find-password-section" class="find-section" style="display: none;">
                 <form action="" method="">
                     <table class="find-table center">
                         <tr>
@@ -248,75 +314,79 @@
                             <th><a class="find_pwd" href="#">비밀번호 찾기</a></th>
                         </tr>
                         <tr>
-                            <td id="email-text">Find_Password</td>  
-                        </tr>                      
+                            <td id="email-text">Find_Password</td>
+                        </tr>
                         <tr>
                             <td><input class="form-control" type="text" style="width: 177%;" placeholder="이름"></td>
                         </tr>
-                        <tr>  
-                            <td><input class="form-control" type="email"  placeholder="이메일 입력"></td>  
+                        <tr>
+                            <td><input class="form-control" type="email" placeholder="이메일 입력"></td>
                             <td>
-                                <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">직접입력</button>
+                                <button class="btn btn-sm dropdown-toggle" type="button"
+                                    data-toggle="dropdown">직접입력</button>
                                 <ul class="dropdown-menu">
-                                <li><a href="#">naver.com</a></li>
-                                <li><a href="#">gmail.com</a></li>
-                                <li><a href="#">daum.net</a></li>
+                                    <li><a href="#">naver.com</a></li>
+                                    <li><a href="#">gmail.com</a></li>
+                                    <li><a href="#">daum.net</a></li>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
-                            <td><input class="form-control" type="text" style="width: 177%;" placeholder="인증번호를 입력해주세요"></td>
+                            <td><input class="form-control" type="text" style="width: 177%;" placeholder="인증번호를 입력해주세요">
+                            </td>
                         </tr>
                         <tr>
                             <td>
-                                <button type="submit" id="check-button" class="btn btn-secondary" style="margin-top: 13%;">확인</button>
+                                <button type="submit" id="check-button" class="btn btn-secondary"
+                                    style="margin-top: 13%;">확인</button>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>
-    
-        </div>
+        </section>
+
         <script>
-            $(".find_id").click(function(){
+            $(".find_id").click(function () {
                 $("#find-id-section").show();
                 $("#find-password-section").hide();
             });
-    
-            $(".find_pwd").click(function(){
+
+            $(".find_pwd").click(function () {
                 $("#find-password-section").show();
                 $("#find-id-section").hide();
             });
 
-            
+
         </script>
-  </section>
+
         <!-- Section end -->
 
-<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+        <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
 
         <!-- Footer start -->
-    <footer class="footer pt-3 border-top border-2">
-        <div class="footer-logo">
-            <img src="/src/main/webapp/resources/images/로고.png" alt="소스토리 로고이미지">
-        </div>
-        <div class="footer-company center">
-            <ul>
-                <li class="mb-4">상호명 : So's tory</li>
-                <li class="mb-4">개발자 : team sos</li>
-                <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
-            </ul>
-        </div>
-        <div class="footer-business-time center">
-            <ul>
-                <li class="border-bottom mb-3"><b>Business Time</b></li>
-                <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
-                <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
-                <li>Sunday: Closed</li>
-            </ul>
-        </div>
-    </footer>
-<!-- Footer end -->
+        <footer class="footer pt-3 border-top border-2">
+            <div class="footer-logo">
+                <img src="/src/main/webapp/resources/images/로고.png" alt="소스토리 로고이미지">
+            </div>
+            <div class="footer-company center">
+                <ul>
+                    <li class="mb-4">상호명 : So's tory</li>
+                    <li class="mb-4">개발자 : team sos</li>
+                    <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
+                </ul>
+            </div>
+            <div class="footer-business-time center">
+                <ul>
+                    <li class="border-bottom mb-3"><b>Business Time</b></li>
+                    <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
+                    <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
+                    <li>Sunday: Closed</li>
+                </ul>
+            </div>
+        </footer>
+        <!-- Footer end -->
     </div>
 </body>
+
 </html>
