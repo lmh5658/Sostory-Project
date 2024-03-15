@@ -42,15 +42,98 @@
     .footer-company>ul{list-style-type: "- "}
     .footer-business-time{width: 30%;}
     .footer-business-time>ul{list-style: none;}
-    </style>
+    
+    /* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
+.main-wrap{
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    max-width: 1200px;
+    min-height: 1200px;
+    display: flex;
+}
+
+.menu_wrap{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    font-size: 20px;
+    width: 15%;
+    align-items: center;    
+    background-color: rgb(238, 67, 67);
+}
+
+.side_menu>button{
+    width: 100%;
+    height: 70px;
+    background-color: rgb(238, 67, 67);
+    
+    }
+
+.side_menu div{
+    display:none;
+    font-size: 17px;
+}
+
+.list{
+    border: none;
+    color: white;
+    font-weight: bolder;
+}
+
+.side_menu a{
+    color: white;
+}
+
+a{
+    text-decoration-line: none;
+    color: black        
+}
+
+.side_menu a:hover{
+    opacity: 0.8;
+    text-decoration-line: none;
+}
+
+.main-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 40px;
+}
+
+/* 마이페이지 1:1문의에서만 필요한 style */
+.page-title{
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    width: 700px;
+    border-bottom: 1px solid lightslategray;
+}
+
+h3>label{
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 13px;
+}
+
+/* 레시피 찜목록 전용 style */
+.order_list th, .order_list td{
+    text-align: center;
+    vertical-align: middle;
+}
+.order_list tr{height: 70px;}
+.order_content{cursor: pointer;}
+</style>
 
 </head>
 <body>
     <div class="wrap">
-		
+      
         <!-- Header start -->
         <header class="header border-bottom border-2">
-
 
             <!-- Header 왼쪽(로고) 영역 start -->
             <div class="header-left-logo center">
@@ -162,7 +245,7 @@
                 </script>
                 <!-- 사이드 nav바 end -->
 
-                <!-- 비밀번호 페이지 영역 start -->
+                <!-- 찜목록 영역 start -->
                 <div class="main-page">
 
                     <!-- 페이지 제목 영역 start -->
@@ -170,47 +253,84 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
-                        <h3><b>비밀번호변경</b></h3>
+                        <h3><b>주문조회</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
 
-                    <!-- 비밀번호 변경 양식영역 시작 -->
-                    <div class="change-pwd">
-                        <form action="" method="">
-                            <h3>현재 비밀번호</h3>
-                            <input type="password" class="form-control" placeholder="현재 비밀번호를 입력하세요" required>
-                            
-                            <!--
-                                기능설명 : 비밀번호 유효성검사로 "사용가능한 비밀번호입니다" 유효성체크
-                            -->
-                            <h3>변경 비밀번호</h3>
-                            <input type="password" class="form-control" placeholder="변경할 비밀번호를 입력하세요" required>
-                            <input type="password" class="form-control mt-4" placeholder="비밀번호 확인" required>
-                            
-                            <div class="button-area">
-                                <div class="d-flex">
-                                    <button type="reset" class="btn btn-secondary me-3 px-4">뒤로가기</button>
-                                    <!--
-                                        기능설명 : 변경하기 클릭시
-                                                  - 문제 없을 경우 : 성공 팝업뜨고 마이페이지 메인페이지로 이동
-                                                  - 현재비밀번호 or 비밀번호 확인 불일치 : 팝업 경고후 해당페이지에 머무름
-                                    -->
-                                    <button type="submit" class="btn btn-danger px-4">변경하기</a>
-                                </div>
-                            </div>
+                    <!-- 컨텐츠 영역 start -->
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm">전체</button>
+                        <button class="btn btn-outline-secondary btn-sm">1주일</button>
+                        <button class="btn btn-outline-secondary btn-sm">3개월</button>
+                        <form action="" style="display: inline; margin-left: 10px;">
+                            <input class="" type="date">&nbsp;~
+                            <input type="date">
+                            <button class="btn btn-secondary btn-sm">조회</button>
                         </form>
-
-
                     </div>
-                    <!-- 비밀번호 변경 양식영역 끝 -->
+                    <table class="table order_list" style="margin-top: 20px;">
+                        <!-- 주문조회 테이블 header -->
+                        <tr>
+                            <th width="150px">주문번호</th>
+                            <th width="400px">주문내용</th>
+                            <th width="150px">주문일시</th>
+                            <th width="150px">상태</th>
+                            <th>주문취소</th>
+                        </tr>
 
-                </div>   
-                <!-- 비밀번호 페이지 영역 end -->
-            </div>
+                        <!-- 주문조회 내용 -->
 
+                        <!-- 주문내역이 없을 경우 -->
+                        <!-- 
+                        <tr>
+                            <td colspan="5">주문내역이 존재하지 않습니다</td>
+                        </tr>
+                         -->
+                        <!-- 주문 목록 리스트 -->
+                        <!-- 주문내역이 존재하지 않습니다. -->
+
+                        <!-- 주문내역이 있을 경우 -->
+                        <tr>
+                            <td>135135</td>
+                            <td class="order_content">칼로리 zero 머스타드 외 1건</td>
+                            <td>2024-02-26</td>
+                            <td>결제완료</td>
+                            <td><button class="btn btn-secondary btn-sm">주문취소</button></td>
+                        </tr>
+                        <tr>
+                            <td>135135</td>
+                            <td class="order_content">칼로리 zero 머스타드 외 1건</td>
+                            <td>2024-02-26</td>
+                            <td>결제완료</td>
+                            <!-- 주문취소가 불가한 경우 -->
+                            <td><b style="color: red;">불가</b></td>
+                        </tr>
+                        <tr>
+                            <td>135135</td>
+                            <td class="order_content">칼로리 zero 머스타드 외 1건</td>
+                            <td>2024-02-26</td>
+                            <td>결제완료</td>
+                            <td><button class="btn btn-secondary btn-sm">주문취소</button></td>
+                        </tr>
+                    </table>
+                    <!-- 컨텐츠 영역 end -->
+                    <div style="display: flex; justify-content: center;">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+	        </div>
+
+            
         </section>
         <!-- Section end -->
-
+        
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
         <!-- Footer start -->
@@ -235,7 +355,7 @@
             </div>
         </footer>
         <!-- Footer end -->
-	     
-	 </div>
+        
+    </div>
 </body>
 </html>

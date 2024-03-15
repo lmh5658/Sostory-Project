@@ -42,15 +42,120 @@
     .footer-company>ul{list-style-type: "- "}
     .footer-business-time{width: 30%;}
     .footer-business-time>ul{list-style: none;}
-    </style>
+    
+    /* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
+.main-wrap{
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    max-width: 1200px;
+    min-height: 1200px;
+    display: flex;
+}
+
+.menu_wrap{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    font-size: 20px;
+    width: 15%;
+    align-items: center;    
+    background-color: rgb(238, 67, 67);
+}
+
+.side_menu>button{
+    width: 100%;
+    height: 70px;
+    background-color: rgb(238, 67, 67);
+    
+    }
+
+.side_menu div{
+    display:none;
+    font-size: 17px;
+}
+
+.list{
+    border: none;
+    color: white;
+    font-weight: bolder;
+}
+
+.side_menu a{
+    color: white;
+}
+
+a{
+    text-decoration-line: none;
+    color: black        
+}
+
+.side_menu a:hover{
+    opacity: 0.8;
+    text-decoration-line: none;
+}
+
+.main-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 40px;
+}
+
+/* 마이페이지 1:1문의에서만 필요한 style */
+.page-title{
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    width: 700px;
+    border-bottom: 1px solid lightslategray;
+}
+
+h3>label{
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 13px;
+}
+
+/* 주문조회 전용 style */
+.order_content{
+    width: 100%;
+    border-top: 1px solid grey;
+}
+.order_list{
+    background-color: rgb(237, 237, 237);
+    padding: 10px;
+}
+.calc_payment{
+    width: 100%;
+    height: 170px;
+    margin-top: 15px;
+    background-color: rgb(211, 84, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.calc_payment>table{
+    width: 80%;
+}
+.calc_payment>table *{
+    text-align: center;
+}
+.total_price{font-size: 40px;}
+.order_content>table tr{
+    height: 60px;
+    font-size: 17px;
+}
+</style>
 
 </head>
 <body>
     <div class="wrap">
-		
+      
         <!-- Header start -->
         <header class="header border-bottom border-2">
-
 
             <!-- Header 왼쪽(로고) 영역 start -->
             <div class="header-left-logo center">
@@ -162,7 +267,7 @@
                 </script>
                 <!-- 사이드 nav바 end -->
 
-                <!-- 비밀번호 페이지 영역 start -->
+                <!-- 찜목록 영역 start -->
                 <div class="main-page">
 
                     <!-- 페이지 제목 영역 start -->
@@ -170,47 +275,92 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
-                        <h3><b>비밀번호변경</b></h3>
+                        <h3><b>주문상세</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
 
-                    <!-- 비밀번호 변경 양식영역 시작 -->
-                    <div class="change-pwd">
-                        <form action="" method="">
-                            <h3>현재 비밀번호</h3>
-                            <input type="password" class="form-control" placeholder="현재 비밀번호를 입력하세요" required>
-                            
-                            <!--
-                                기능설명 : 비밀번호 유효성검사로 "사용가능한 비밀번호입니다" 유효성체크
-                            -->
-                            <h3>변경 비밀번호</h3>
-                            <input type="password" class="form-control" placeholder="변경할 비밀번호를 입력하세요" required>
-                            <input type="password" class="form-control mt-4" placeholder="비밀번호 확인" required>
-                            
-                            <div class="button-area">
-                                <div class="d-flex">
-                                    <button type="reset" class="btn btn-secondary me-3 px-4">뒤로가기</button>
-                                    <!--
-                                        기능설명 : 변경하기 클릭시
-                                                  - 문제 없을 경우 : 성공 팝업뜨고 마이페이지 메인페이지로 이동
-                                                  - 현재비밀번호 or 비밀번호 확인 불일치 : 팝업 경고후 해당페이지에 머무름
-                                    -->
-                                    <button type="submit" class="btn btn-danger px-4">변경하기</a>
-                                </div>
+                    <!-- 컨텐츠 영역 start -->
+
+                    <!-- 주문목록 -->
+                    <h4 style="margin-top: 10px;"><b>주문목록</b></h4>
+                    <div class="order_list order_content">
+                        <div style="margin-bottom: 10px;">주문번호:216554&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2024-02-26 16:15:50</div>
+                        <div>
+                            <div>
+
                             </div>
-                        </form>
-
-
+                        </div>
                     </div>
-                    <!-- 비밀번호 변경 양식영역 끝 -->
+                    <div class="calc_payment">
+                        <table>
+                            <tr>
+                                <th>상품금액</th>
+                                <th rowspan="2" style="font-size: 60px;">-</t>
+                                <th>상품할인금액</th>
+                                <th rowspan="2" style="font-size: 50px;">=</th>
+                                <th>총 결제금액</th>
+                            </tr>
+                            <tr class="total_price">
+                                <th>36,000</th>
+                                <th>9,000</th>
+                                <th>27,000</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- 배송지 정보 -->
+                    <h4 style="margin-top: 50px;"><b>배송지 정보</b></h4>
+                    <div class="address order_content">
+                        <table>
+                            <tr>
+                                <th width="120px">배송지명</th>
+                                <td>집</td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td>홍길동</td>
+                            </tr>
+                            <tr>
+                                <th>전화번호</th>
+                                <td>010-1111-2222</td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td>
+                                    인천광역시 연수구 연수동<br>
+                                    상세주소
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
-                </div>   
-                <!-- 비밀번호 페이지 영역 end -->
-            </div>
+                    <!-- 결제 정보 -->
+                    <h4 style="margin-top: 50px;"><b>결제 정보</b></h4>
+                    <div class="payment order_content">
+                        <table>
+                            <tr>
+                                <th width="120px">결제수단</th>
+                                <td>무통장입금</td>
+                            </tr>
+                            <tr>
+                                <th>결제금액</th>
+                                <td>27,000</td>
+                            </tr>
+                            <tr>
+                                <th>결제일시</th>
+                                <td>2024년 01월 24일 16:26:34</td>
+                            </tr>
+                        </table>
+                    </div>
 
+                    <!-- 컨텐츠 영역 end -->
+                </div>
+
+	        </div>
+
+            
         </section>
         <!-- Section end -->
-
+        
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
         <!-- Footer start -->
@@ -235,7 +385,7 @@
             </div>
         </footer>
         <!-- Footer end -->
-	     
-	 </div>
+        
+    </div>
 </body>
 </html>
