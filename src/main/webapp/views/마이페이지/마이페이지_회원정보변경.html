@@ -181,7 +181,7 @@
                             <div class="profile">
                                 <b>프로필사진</b>
                                 <img class="preview-profile"></img>
-                                <button class="btn btn-secondary" id="request-upload" style="height: 40px; margin: 50px 0; margin-left: 30px;">프로필사진 변경</button>
+                                <button type="button" class="btn btn-secondary" id="request-upload" style="height: 40px; margin: 50px 0; margin-left: 30px;">프로필사진 변경</button>
                                 <input type="file" style="display: none;">
                             </div>
 
@@ -253,23 +253,31 @@
                                 
                                 // 숨겨놓은 input type="file"에 파일선택 or 파일삭제 이벤트가 발생되었을 경우
                                 $(":file").change(function(){
-                                    
+                        
+                                    console.log($(this)); // $this는 input태그요소의 정보를 담은 object 출력
+                                    console.log($(this).get(0)); // .get(0) 내가 선택한 태그의 정보만 출력
+                                    console.log(this)
+                        
+                                    // console.log(e.target.files);
+                        
                                     // 이벤트가 발생한 input type="file" 요소가 존재할 경우
-                                    if($(this).files.length == 1){
-                                        // 파일을 읽어들이는 FileReader 객체생성
+                                    if(this.files.length == 1){
+                        
                                         const reader = new FileReader();
                                         // 파일을 읽어들이는 메소드 호출
-                                        reader.readAsDataURL($(this).files[0]);
-                                 
+                                        reader.readAsDataURL(this.files[0]); // file이 배열로 담겨있음 ==> 첫번쨰 사진 0번으로 뽑아주기
+                                        
                                         reader.onload = function(e){ // 파일 읽어들이기가 완료되었을 경우 ==> 이미지 첨부파일 미리보기
                                             $(".preview-profile").attr("src", e.target.result);
                                         }
+                        
+                        
                                     }else{ // 선택되었던 파일에 제거 되었을 경우 ==> 이미지 첨부파일 미리보기 제거
                                         $(".preview-profile").attr("src", null);
                                     }
-
+                        
                                 })
-
+                        
                             })
                         </script>
 
