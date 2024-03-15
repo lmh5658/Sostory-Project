@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 재설정</title>
+    <title>로그인 성공</title>
 
     <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -33,40 +33,33 @@
         
         /* Section 영역관련 스타일 */
        
-        .main-content{display: flex; justify-content: center; align-items: center; }
-        
-        .rePwd-form td{
-            text-align: center;
-            font-size: small;
-            font-weight: bold;
+        .main-content{
+            margin-bottom: 10%;
         }
 
-        .rePwd-form th{
-           font-size: large;
-           color: rgb(124, 121, 121);
+        .success-logo{
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin: 8% 0% 2% 0%;
         }
-        
-        .rePwd-form th::after{           
-            content: "";
-            display: block;
-            border-bottom: 2px solid rgba(169, 169, 169, 0.486);
-            margin: 3% 0% 8% 0%;
-            width: 110%;
-            transform: translateX(-6%);       
-          }   
-        
-        .rePwd-form input {
-            margin: 5%;
+
+        .success-logo > img{
+            display: flex;
+            width: 60%;
+            
         }
+      
+        .success_comment{font-size: x-large;}
 
         #login-button{
-            background-color: lightgrey;
-            color: rgb(93, 91, 91);
-            border: 2px solid lightgrey; 
+            background-color: rgb(243, 156, 18);
+            color: white;
+            border: 2px solid rgb(243, 156, 18); 
             font-weight: bold;
-            margin-top: 6%;
-        }
+            margin-top: 3%;
 
+        }
 
         /* Footer 영역관련 스타일 */
         .footer{display: flex;}
@@ -75,6 +68,7 @@
         .footer-company>ul{list-style-type: "- "}
         .footer-business-time{width: 30%;}
         .footer-business-time>ul{list-style: none;}
+        
     </style>
 
 </head>
@@ -142,29 +136,16 @@
         <!-- Section start -->
         <!--로그인 전-->
       <section class="main-content">
-        <div class="rePwd">
-            <form action="" method="" class="rePwd-form">
-                <table>
-                    <tr>
-                        <th colspan="2">비밀번호 재설정</th>
-                    </tr>
-                    <tr>
-                        <td>아이디</td>
-                        <td><input class="form-control" type="text" readonly></td>
-                    </tr>
-                    <tr>
-                        <td>새 비밀번호</td>
-                        <td><input class="form-control" type="text" placeholder="비밀번호를 입력하세요" required></td>
-                    </tr>
-                    <tr>
-                        <td>새 비밀번호 확인</td>
-                        <td><input class="form-control" type="text" placeholder="비밀번호를 입력하세요" required></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button" id="login-button" class="btn-sm px-3 mx-2 py-0">로그인</button></td>
-                    </tr>
-                </table>
-            </form>
+        <div class="signup_success">
+            <div class="success-logo">
+                <img src="/Sostory-Project/src/main/webapp/resources/images/회원가입성공.png" alt="소스토리 로고이미지">
+            </div>                
+            <div class="success_comment center">
+                <b>OOO님 가입을 축하합니다.</b>
+            </div>
+            <div align="center">
+                <button type="button" id="login-button" class="btn btn-secondary btn-sm center">로그인</button>
+            </div>
         </div>
       </section>
             <!--로그인 성공-->

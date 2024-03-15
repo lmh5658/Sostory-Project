@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 재설정</title>
+    <title>로그인</title>
 
     <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -32,41 +32,49 @@
         .header-right-bottom{height: 70%;}
         
         /* Section 영역관련 스타일 */
+
        
-        .main-content{display: flex; justify-content: center; align-items: center; }
-        
-        .rePwd-form td{
+        .section-logo > img {
+            max-height: 30px; 
+            max-width: 30%; 
+            margin: 7% 0 10px 0; 
+        }
+
+        #login-text{
             text-align: center;
+            font-weight: bold;
+        }
+
+        .login-table td {
             font-size: small;
+        }
+
+        .login-table input {
+            margin: 2% 0% 5% 0%;
+        }
+
+        #login-button {
+            background-color: rgb(255, 205, 3);
+            color: black;
+            border: 2px solid rgb(255, 205, 3); 
+            width: 183%;
             font-weight: bold;
         }
 
-        .rePwd-form th{
-           font-size: large;
-           color: rgb(124, 121, 121);
-        }
-        
-        .rePwd-form th::after{           
-            content: "";
-            display: block;
-            border-bottom: 2px solid rgba(169, 169, 169, 0.486);
-            margin: 3% 0% 8% 0%;
-            width: 110%;
-            transform: translateX(-6%);       
-          }   
-        
-        .rePwd-form input {
-            margin: 5%;
-        }
-
-        #login-button{
-            background-color: lightgrey;
-            color: rgb(93, 91, 91);
-            border: 2px solid lightgrey; 
+        #signup-button{
+            background-color: rgb(243, 156, 18);
+            color: white;
+            border: 2px solid rgb(243, 156, 18); 
+            width: 183%;
             font-weight: bold;
-            margin-top: 6%;
         }
 
+       .form-control{width: 183%;}
+
+       .login-table a {
+            text-decoration: none; 
+            color: black;
+        }
 
         /* Footer 영역관련 스타일 */
         .footer{display: flex;}
@@ -75,11 +83,13 @@
         .footer-company>ul{list-style-type: "- "}
         .footer-business-time{width: 30%;}
         .footer-business-time>ul{list-style: none;}
+
+        
     </style>
 
 </head>
 <body>
-    <div class="wrap">
+    <div class="wrap p-3">
 
        <!-- Header start -->
     <header class="header border-bottom border-2">
@@ -141,31 +151,41 @@
         
         <!-- Section start -->
         <!--로그인 전-->
-      <section class="main-content">
-        <div class="rePwd">
-            <form action="" method="" class="rePwd-form">
-                <table>
-                    <tr>
-                        <th colspan="2">비밀번호 재설정</th>
-                    </tr>
-                    <tr>
-                        <td>아이디</td>
-                        <td><input class="form-control" type="text" readonly></td>
-                    </tr>
-                    <tr>
-                        <td>새 비밀번호</td>
-                        <td><input class="form-control" type="text" placeholder="비밀번호를 입력하세요" required></td>
-                    </tr>
-                    <tr>
-                        <td>새 비밀번호 확인</td>
-                        <td><input class="form-control" type="text" placeholder="비밀번호를 입력하세요" required></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button" id="login-button" class="btn-sm px-3 mx-2 py-0">로그인</button></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
+        <section class="main-content">
+
+                <div class="section-logo center">
+                    <img src="/src/main/webapp/resources/images/소스1.png" alt="소스토리 로고이미지">
+                </div>
+
+                <h3 id="login-text">로그인</h3>
+                
+                <form action="" method="" >
+                    <table class="login-table center">
+                        <tr>
+                            <td><input class="form-control" type="text" placeholder="아이디를 입력해주세요" required></td>
+                        </tr>
+                        <tr>  
+                            <td><input class="form-control" type="password"  placeholder="비밀번호를 입력해주세요" required></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"><label for="saveid">&nbsp;아이디 저장</label></td>
+                            <td><a href="#">아이디 찾기 &nbsp;</a></td>
+                            <td><a href="#">비밀번호 찾기</a></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top:12px;">
+                                <button type="submit" id="login-button" class="btn btn-secondary btn-sm">로그인</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style= "padding-top:12px;">
+                                <button type="button" id="signup-button" class="btn btn-secondary btn-sm">회원가입</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+             </div>
+            </div>
       </section>
             <!--로그인 성공-->
             <!--로그인 실패-->
