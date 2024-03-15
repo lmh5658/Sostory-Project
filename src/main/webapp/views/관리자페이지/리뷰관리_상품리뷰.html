@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인페이지</title>
+
+    <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ---------------------------------- -->
+
+    <style>
+        /* 레이아웃 관련 스타일 */
+        .wrap, .wrap * {box-sizing: border-box;}
+        .header{height: 150px;}
+        .main-content{min-height: 800px;}
+        .footer{height: 200px;}
+        .center{display: flex; justify-content: center; align-items: center;}
+        
+        /* Header 영역관련 스타일 */
+        .header{display: flex; position: sticky; top: 0; background-color: white;}
+        .header-left-logo{width: 25%; display: flex;}
+        .header-left-logo>img{height: 100%;}
+        .header-right{width: 75%; display: flex; flex-direction: column;}
+        .header-right-top{height: 30%;}
+        .header-user>svg:hover{cursor: pointer;}
+        .header-right-bottom{height: 70%;}
+        
+        /* Footer 영역관련 스타일 */
+        .footer{display: flex;}
+        .footer-logo{width: 30%;}
+        .footer-company{width: 40%;}
+        .footer-company>ul{list-style-type: "- "}
+        .footer-business-time{width: 30%;}
+        .footer-business-time>ul{list-style: none;}
+
+        /* 메인페이지 Section 영역관련 스타일 */
+        .main-content{display: flex; flex-direction: column;}
+        .content-product-list{display: flex; flex-direction: column;}
+        .product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
+        .recipe-product{display: flex;}
+
+        /*관리자 페이지 메뉴바 스타일*/
+        /* .section_1, .section_1 * {box-sizing: border-box; border: 1px solid black;} */
+ 
+        .section_1{
+            margin: auto;
+            width: 100%;
+            min-height: 1300px;
+            height: 800px;
+            display: flex;
+         }
+         .menu_wrap{text-align: center;display: flex;flex-direction: column;background-color: gray;}
+         .menu_wrap{font-size: 20px; width: 15%; align-items: center;}
+         .side_menu>button{width: 100%; height: 70px; background-color: gray;}      
+         .side_menu div{display:none; font-size: 17px;}
+         .list{border: none;}
+         .side_menu a{color: white;}
+         a{text-decoration-line: none; color: black}
+         .side_menu a:hover{color: red; text-decoration-line: none;}
+
+         /*레시피관리>레시피등록 스타일*/
+         .section_right{
+            width: 100%;
+            margin: 20px;
+            margin-top: 30px;
+         }
+         .section_right label{
+            font-weight: bolder;
+            font-size: 17px;
+            
+         }
+         .section_right>div{
+            display: flex;
+            
+         }
+         .pro_search{
+            display: flex;
+            margin-left: 10px;
+            margin-top: 15px;
+         
+         }
+
+         .pro_search button{
+            width: 80px;
+            background-color: #c20000; /* 배경색 설정 */
+            color: #ffffff; /* 텍스트 색상 설정 */
+            border: none; /* 테두리 제거 */
+            font-weight: bold;
+            height: 100%;
+            border-radius: 5px; /* 모서리를 둥글게 만듦 */
+         }
+
+        table{
+            margin-top: 20px;
+            width: 80%;
+            text-align: center;
+            border: 1px solid #dddddd;
+         }
+         td:hover{
+            cursor: pointer;
+         }
+         
+         .table_title th{
+            background-color: #dddddd;;
+            font-weight: bold; /* 헤더 글씨체를 굵게 설정 */
+            padding: 8px; /* 셀 안의 여백 설정 */
+         }
+
+         .pro_name{
+            display: flex;
+            align-items: center; 
+            justify-content: center;  
+            background-color: #dddddd; 
+            width: 100px; 
+            font-weight: bold;
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+            border: 1px solid rgb(148, 146, 146);
+            border: none; /* 테두리 제거 */
+            border-radius: 5px; /* 모서리를 둥글게 만듦 */
+         }
+
+         
+
+         .select_div{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            align-items: center;
+            
+         }
+         .select_div select{
+            width: 100px;
+         }
+         .select_delete{
+            margin-right: 50px;
+            height: 40px;
+            width: 100px;
+            background-color: #c20000; /* 배경색 설정 */
+            color: #ffffff; /* 텍스트 색상 설정 */
+            border: none; /* 테두리 제거 */
+            border-radius: 5px; /* 모서리를 둥글게 만듦 */
+            font-weight: bold;
+         }
+         .pagination{
+            display: flex; justify-content: center; margin-top: 10px;
+         }
+         .table_d{display: flex; flex-direction: column;}
+         .section_title b{font-size: 20px;}
+
+    </style>
+
+</head>
+<body>
+    <div class="wrap container p-3">
+
+        <!-- Header start -->
+        <header class="header border-bottom border-2">
+
+            <!-- Header 왼쪽(로고) 영역 start -->
+            <div class="header-left-logo center">
+                <img src="./resourcces/images/로고.png" alt="소스토리 로고이미지">
+            </div>
+            <!-- Header 왼쪽(로고) 영역 end -->
+
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
+            <div class="header-right">
+
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
+                <div class="header-right-top">
+                    <div class="header-user d-flex justify-content-end center">
+                        <!-- 로그인 x  -->
+                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
+                        <!-- 로그인 o 
+                        <span><b>xxx님</b></span>
+                        -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
+
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+                <div class="header-right-bottom">
+                    <div class="header-nav py-4 mb-3">
+                        <nav class="nav nav-underline justify-content-between">
+                            <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+            </div>
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
+        </header>
+        <!-- Header end -->
+
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+        
+        <!-- Section start -->
+        <section class="content">
+            <div class="section_1">
+                <div class="menu_wrap" style="background-color: gray;" >
+                    <div class="side_menu">
+                        <button class="list">회원관리</button>
+                        <div><a href="">회원목록</a></div>
+                    </div>
+                    <div class="side_menu">
+                        <button class="list">상품관리</button>
+                        <div>
+                        <a href="">상품조회</a><br>
+                        <a href="">상품등록</a><br>
+                        <a href="">상품수정</a><br>
+                        <a href="">TimeSale</a>
+                        </div>
+                    </div>
+                    <div class="side_menu">
+                        <button class="list">주문관리</button>
+                        <div><a href="">결제관리</a></div>
+
+                    </div>
+                    <div class="side_menu">
+                        <button class="list">레시피관리</button>
+                        <div>
+                        <a href="">레시피조회</a><br>
+                        <a href="">레시피등록</a>
+                        </div>
+                    </div>
+                    <div class="side_menu">
+                        <button class="list">리뷰관리</button>
+                        <div>
+                        <a href="">상품리뷰</a><br>
+                        <a href="">레시피리뷰</a>
+                        </div>
+                    </div>
+                    <div class="side_menu">
+                        <button class="list">문의관리</button>
+                        <div>
+                        <a href="">상품문의</a><br>
+                        <a href="">1:1문의</a>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                   $(function(){
+                        $(".side_menu>button").click(function(){       
+                            const $b = $(this).nextAll();
+            
+                            if($b.css("display") == "none") {          
+                                $(".list").siblings("div").slideUp();
+                                $b.slideDown();         
+                            }else{
+                                $b.slideUp();
+                            }
+            
+                        })
+                    })
+                </script>
+        <!-- 사이드메뉴바 클릭시 바뀌는 화면-->
+        <div class="section_right">
+            <div class="section_title" style="border-bottom: 2px solid gray">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-house-gear-fill" viewBox="0 0 16 16">
+                    <path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708z"/>
+                    <path d="M11.07 9.047a1.5 1.5 0 0 0-1.742.26l-.02.021a1.5 1.5 0 0 0-.261 1.742 1.5 1.5 0 0 0 0 2.86 1.5 1.5 0 0 0-.12 1.07H3.5A1.5 1.5 0 0 1 2 13.5V9.293l6-6 4.724 4.724a1.5 1.5 0 0 0-1.654 1.03"/>
+                    <path d="m13.158 9.608-.043-.148c-.181-.613-1.049-.613-1.23 0l-.043.148a.64.64 0 0 1-.921.382l-.136-.074c-.561-.306-1.175.308-.87.869l.075.136a.64.64 0 0 1-.382.92l-.148.045c-.613.18-.613 1.048 0 1.229l.148.043a.64.64 0 0 1 .382.921l-.074.136c-.306.561.308 1.175.869.87l.136-.075a.64.64 0 0 1 .92.382l.045.149c.18.612 1.048.612 1.229 0l.043-.15a.64.64 0 0 1 .921-.38l.136.074c.561.305 1.175-.309.87-.87l-.075-.136a.64.64 0 0 1 .382-.92l.149-.044c.612-.181.612-1.049 0-1.23l-.15-.043a.64.64 0 0 1-.38-.921l.074-.136c.305-.561-.309-1.175-.87-.87l-.136.075a.64.64 0 0 1-.92-.382ZM12.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                </svg>리뷰관리><b>상품리뷰</b>
+            </div>
+            <div class="pro_search">
+                <div class="pro_name">상품명</div>
+                <div><input type="text" class="form-control"></div>
+                <div><button>조회</button></div>
+            </div>
+            <div class="select_div">
+                <div>
+                    <select name="" id="">
+                        <option value="">전체</option>
+                        <option value="">장류</option>
+                        <option value="">드레싱</option>
+                        <option value="">기타</option>
+                    </select>
+                </div>
+                <div class="option_2">
+                    <button class="select_delete" onclick="return confirm('정말로 삭제하시겠습니까?');">선택삭제</button>
+                    <select name="" id="">
+                        <option value="">전체</option>
+                        <option value="">처리</option>
+                        <option value="">미처리</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table_d">
+                <div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="table_title">
+                                <th><input type="checkbox" id="cbx_chkAll"></th>
+                                <th>번호</th>
+                                <th>작성일자</th>
+                                <th>아이디</th>
+                                <th>상품명</th>
+                                <th>상품코드</th>
+                                <th>상품리뷰제목</th>
+                                <th>처리결과</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table_title">
+                                <td><input type="checkbox" name="typArr"></td>
+                                <td>6</td>
+                                <td>2024/02/25</td>
+                                <td>user02</td>
+                                <td>고추장</td>
+                                <td>A2</td>
+                                <td>너무 매워요!</td>
+                                <td>미처리</td>
+                            </tr>
+                            <tr class="table_title">
+                                <td><input type="checkbox" name="typArr"></td>
+                                <td>5</td>
+                                <td>2024/02/25</td>
+                                <td>user01</td>
+                                <td>고추장</td>
+                                <td>A2</td>
+                                <td>맛있어요</td>
+                                <td>미처리</td>
+                            </tr>
+                            <tr class="table_title">
+                                <td><input type="checkbox" name="typArr"></td>
+                                <td>4</td>
+                                <td>2024/02/25</td>
+                                <td>user03</td>
+                                <td>고추장</td>
+                                <td>A2</td>
+                                <td>좋아요</td>
+                                <td>미처리</td>
+                            </tr>
+                            <tr class="table_title">
+                                <td><input type="checkbox" name="typArr"></td>
+                                <td>3</td>
+                                <td>2024/02/25</td>
+                                <td>user02</td>
+                                <td>고추장</td>
+                                <td>A2</td>
+                                <td>다음에도 재구매의사 있습니다</td>
+                                <td>처리</td>
+                            </tr>
+                            <tr class="table_title">
+                                <td><input type="checkbox" name="typArr"></td>
+                                <td>2</td>
+                                <td>2024/02/25</td>
+                                <td>user02</td>
+                                <td>고추장</td>
+                                <td>A2</td>
+                                <td>굿굿</td>
+                                <td>처리</td>
+                            </tr>
+                            <tr class="table_title">
+                                <td><input type="checkbox" name="typArr"></td>
+                                <td>1</td>
+                                <td>2024/02/25</td>
+                                <td>user02</td>
+                                <td>고추장</td>
+                                <td>A2</td>
+                                <td>좋아용</td>
+                                <td>처리</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+                </div>
+                    <div style="font-weight: bold;">
+                        총 상품리뷰 수 : <label style="color: red;">6</label>
+                    </div>                  
+            </div>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            <script>
+
+                $(function(){
+                        // 전체 선택 / 해제
+                    $("#cbx_chkAll").click(function(){
+                        if($("#cbx_chkAll").is(":checked")){
+                        $("input[name=typArr]").prop("checked", true);
+                        }else {
+                        $("input[name=typArr]").prop("checked", false);
+                        }
+                    });
+                    
+                    $("input[name=typArr]").click(function(){
+                        var totalArr = $("input[name=typArr]").length;
+                        var checked = $("input[name=typArr]:checked").length;
+                        
+                        if(totalArr != ckecked){
+                        $("#cbx_chkAll").prop("checked", false);
+                        }else{
+                        $("#cbx_chkAll").prop("checked", true);
+                        }
+                    });
+
+                    $(".table_title>td").each(function(){
+                        if($(this).text() == "미처리"){
+                            $(this).css("color", "red");
+                        }else{
+                            $(this).css("color", "black");
+                        }
+                    })
+                })
+                
+              </script>
+
+        </div>
+
+            
+        </section>
+        <!-- Section end -->
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+
+        <!-- Footer start -->
+        <footer class="footer pt-3 border-top border-2">
+            <div class="footer-logo">
+                <img src="./resourcces/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
+            </div>
+            <div class="footer-company center">
+                <ul>
+                    <li class="mb-4">상호명 : So's tory</li>
+                    <li class="mb-4">개발자 : team sos</li>
+                    <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
+                </ul>
+            </div>
+            <div class="footer-business-time center">
+                <ul>
+                    <li class="border-bottom mb-3"><b>Business Time</b></li>
+                    <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
+                    <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
+                    <li>Sunday: Closed</li>
+                </ul>
+            </div>
+        </footer>
+        <!-- Footer end -->
+    </div>
+</body>
+</html>
