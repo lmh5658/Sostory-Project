@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문성공</title>
+
+    <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ---------------------------------- -->
+
+    <!-- 마이페이지(MyTree) css 파일 링크연결 -->
+    <link href="/src/main/webapp/resources/css/myPage/myPageEtcQnaDetail.css" rel="stylesheet">
+
+    <style>
+    /* 레이아웃 관련 스타일 */
+    .wrap{width: 1200px; margin: auto;}
+    .wrap, .wrap * {box-sizing: border-box;}
+    .header{height: 150px; z-index: 2; padding-top: 10px;}
+    .main-content{min-height: 800px; padding-top: 130px;}
+    .footer{height: 200px;}
+    .center{display: flex; justify-content: center; align-items: center;}
+
+    /* Header 영역관련 스타일 */
+    .header{display: flex; width: 1200px; position: fixed; top: 0; background-color: white;}
+    .header-left-logo{width: 25%; display: flex;}
+    .header-left-logo>img{height: 100%;}
+    .header-right{width: 75%; display: flex; flex-direction: column;}
+    .header-right-top{height: 30%;}
+    .header-user>svg:hover{cursor: pointer;}
+    .header-right-bottom{height: 70%;}
+
+
+    /*Secction 영역 스타일*/
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin: 10% 0% 10% 0%;
+    }
+
+      /*주문안내 스타일 start*/
+    .order_success{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid lightgrey;
+        border-radius: 10cqi;
+        white-space: nowrap;
+    }
+
+    .order_success h6 {
+        margin: 3% 3% 3% 3%;
+    }
+
+    .order-num h6 {
+        margin-right: 10px; 
+        font-size: small;
+        color: darkgray;
+    }
+
+    .order-num span, .order-date {
+        font-weight: bold;
+        font-size: small;
+        color: darkgray;
+    }
+      /*주문안내 스타일 end*/
+
+
+      /*주문 테이블 스타일 start*/
+    .order_list{
+        margin-left: 20%;
+        max-width: 60%;
+    }
+
+    .order_list th{
+        color: rgb(100, 135, 31);
+    }
+
+    .product-name{
+        font-size: small;
+        margin-left: 10%;
+    }
+
+    .product-img{
+        display: flex;
+        max-width: 30%;
+    } 
+
+    .product-info{
+        display: flex;
+        align-items: center;
+        margin-left: 10%;
+    }
+
+    /*결제정보 스타일 start*/
+    .order_infomation div{
+        margin: 5% 5% 5% 5%;
+    }
+
+    .order-info{
+        text-align: start;
+        white-space: nowrap;
+        color: rgb(78, 78, 78);
+        font-size: small;
+    }
+
+     /*결제정보 스타일_언더바*/
+     .line{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .line::after{
+        content: "";
+        display: block;
+        border-bottom: 2px solid rgba(169, 169, 169, 0.486);
+        width: 20%;
+        margin-bottom: 3%;
+    }
+
+    /* Footer 영역관련 스타일 */
+    .footer{display: flex;}
+    .footer-logo{width: 30%;}
+    .footer-company{width: 40%;}
+    .footer-company>ul{list-style-type: "- "}
+    .footer-business-time{width: 30%;}
+    .footer-business-time>ul{list-style: none;}
+    </style>
+
+</head>
+<body>
+    <div class="wrap">
+		
+        <!-- Header start -->
+        <header class="header border-bottom border-2">
+
+
+            <!-- Header 왼쪽(로고) 영역 start -->
+            <div class="header-left-logo center">
+                <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지">
+            </div>
+            <!-- Header 왼쪽(로고) 영역 end -->
+
+
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
+            <div class="header-right">
+
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
+                <div class="header-right-top">
+                    <div class="header-user d-flex justify-content-end center">
+                        <!-- 로그인 x  -->
+                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
+                        <!-- 로그인 o 
+                        <span><b>xxx님</b></span>
+                        -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+
+                        <!-- 로그인 되어있을 경우에만 보여짐 
+                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">logout</a>
+                        -->
+                        
+                    </div>
+                </div>
+                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
+
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+                <div class="header-right-bottom">
+                    <div class="header-nav py-4 mb-3">
+                        <nav class="nav nav-underline justify-content-between">
+                            <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
+                            <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Header 오른쪽-하단(nav바) 영역 start -->
+            </div>
+            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
+        </header>
+        <!-- Header end -->
+
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
+
+        <!-- Section start -->
+        <section class="main-content">
+
+            <div class="main-wrap">
+                
+                <h4 ><b>결제완료</b></h4>
+                <br><br>
+
+                <!--결제완료 안내-->
+                <div class="order_success">
+                    <h6><b>주문/결제가 정상적으로 완료되었습니다.</b></h6>
+
+                    <!-- 주문번호 -->
+                    <div class="order-num center" >
+                        <h6><b>주문번호</b></h6>
+                        <span id="order-num" style="color: gray;">123123</span>
+                    </div>
+                    <br>
+
+                    <b class="order-date">배송일자는 주문날짜로부터 2~3일 내에 상품이 도착할 예정입니다.</b>
+                    <br>
+
+                    <h6><b><span style="color: green;" >So's tory</span>를 이용해주셔서 감사합니다.</b></h6>
+                </div>
+
+
+                <!--결제상품 테이블-->
+                <table class="table order_list" style="margin-top: 7%;">
+                    <!-- 주문조회 테이블 header -->
+                    <tr>
+                        <th width="150px" colspan="2">상품 정보</th>
+                        <th width="150px">금액</th>
+                        <th width="150px">수량</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">  
+                            <div class="product-info">
+                                <img class="product-img" src="../../resources/images/이미지1.jpg">
+                                <b class="product-name">칼로리 Zero 머스타드</b>
+                            </div>
+                        </td>
+                        <td class="order-price" style="padding-top: 4%;"><b>9,000원</b></td>
+                        <td class="order-qty" style="padding-top: 4%;"><b>1</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">  
+                            <div class="product-info">
+                                <img class="product-img" src="../../resources/images/이미지1.jpg">
+                                <b class="product-name">칼로리 Zero 머스네즈</b>
+                            </div>
+                        </td>
+                        
+                        <td class="order-price" style="padding-top: 4%;"><b>4,000원</b></td>
+                        <td class="order-qty" style="padding-top: 4%;"><b>5</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">  
+                            <div class="product-info">
+                                <img class="product-img" src="../../resources/images/이미지1.jpg">
+                                <b class="product-name">칼로리 Zero 케찹</b>
+                            </div>
+                        </td>
+                        
+                        <td class="order-price" style="padding-top: 4%;"><b>6,000원</b></td>
+                        <td class="order-qty" style="padding-top: 4%;"><b>8</b></td>
+                    </tr>
+                </table>                
+               
+                 <!--결제정보-->
+                 <div style="margin-top: 7%;" class="line"><h4><b>결제 정보</b></h4></div>
+               
+                 <div style="display: flex; justify-content: center; align-items: center;">
+                     <div class="order_infomation">
+                         <div class="order-info">
+                             <b>결제수단&nbsp; :&nbsp;</b>
+                             <b>무통장 입금</b>
+                         </div>
+                         <div class="order-info">
+                             <b>결제금액&nbsp; :&nbsp;</b>
+                             <b>27,000원</b>
+                         </div>
+                         <div class="order-info">
+                             <b>결제일시&nbsp; :&nbsp;</b>
+                             <b>22024년 01월 24일 16:36:34</b>
+                         </div>
+                         <div class="order-info">
+                              <b>입금자명&nbsp; :&nbsp;  소스토리  / 입금은행명 : 농협 / 입금은행계좌 : 46576-46864-454</ㅠ>
+                         </div>
+                     </div>
+             </div>
+             </div>
+ 
+         </section>
+         <!-- Section end -->
+
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
+
+        <!-- Footer start -->
+        <footer class="footer pt-3 border-top border-2">
+            <div class="footer-logo">
+                <img src="<%= request.getContextPath() %>/resources/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
+            </div>
+            <div class="footer-company center">
+                <ul>
+                    <li class="mb-4">상호명 : So's tory</li>
+                    <li class="mb-4">개발자 : team sos</li>
+                    <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
+                </ul>
+            </div>
+            <div class="footer-business-time center">
+                <ul>
+                    <li class="border-bottom mb-3"><b>Business Time</b></li>
+                    <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
+                    <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
+                    <li>Sunday: Closed</li>
+                </ul>
+            </div>
+        </footer>
+        <!-- Footer end -->
+	     
+	 </div>
+</body>
+</html>
