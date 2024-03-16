@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="selectProductList">
+		SELECT 
+		     PRODUCT_NO
+		   , CATEGORY_NAME
+		   , PRODUCT_NAME
+		   , PRICE
+		   , PATH
+		FROM TB_PRODUCT
+		JOIN TB_CATEGORY USING(CATEGORY_NO)
+		WHERE STATUS = 'Y'
+	</entry>
+
+
+</properties>
