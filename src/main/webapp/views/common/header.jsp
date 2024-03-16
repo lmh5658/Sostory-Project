@@ -82,11 +82,15 @@
                     	<span><b><%= loginUser.getUserName() %></b>님</span>
                     <% } %>
 
-					
-                    <svg id="myPage" style="pointer-events: visible" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
-                        <path style="pointer-events: visible" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                    </svg>
-                   
+					<% if(loginUser != null) { %>
+	                    <svg id="myPage" style="pointer-events: visible" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
+	                        <path style="pointer-events: visible" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+	                    </svg>
+                   <% } else {%>
+                   		<svg id="loginPage" style="pointer-events: visible" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
+	                        <path style="pointer-events: visible" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+	                    </svg>
+	               <% } %>
                 
                 <% if(loginUser != null) { %>
                     <a href="<%=contextPath%>/list.ca"><svg id="cart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
@@ -106,25 +110,19 @@
                 </div>
             </div>
             <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
-            
-            <script>
-            	$(function(){
-            		
-            		// 마이페이지 이동요청시 실행될 함수
-            		$("#myPage").click(function(){
-            			
-            			if(<%= loginUser %> != null){
-            				location.href="<%= contextPath %>/myPage.me";
-            			}else{
-            				alert("로그인을 먼저 진행해주세요.");
-            			}
-            		})
-            		
-            	})
-            	
-            
-            	
-            </script>
+       		
+       		<script>
+       			$(function(){
+       				$("#myPage").click(function(){
+       					location.href = "<%= contextPath %>/myPage.me";
+       				})
+       				
+       				$("#loginPage").click(function(){
+       					alert("로그인을 먼저진행해주세요.");
+       					location.href = "<%= contextPath %>/loginForm.me";
+       				})
+       			})
+       		</script>
 
             <!-- Header 오른쪽-하단(nav바) 영역 start -->
             <div class="header-right-bottom">
