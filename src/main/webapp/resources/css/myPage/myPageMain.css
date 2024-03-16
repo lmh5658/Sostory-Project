@@ -10,13 +10,13 @@
 
 .menu_wrap{
     text-align: center;
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
-    padding-top: 30px;
     background-color: rgb(238, 67, 67);
     font-size: 20px;
     width: 15%;
-    align-items: center;
+    align-items: center; 
 }
 
 .side_menu>button{
@@ -56,7 +56,6 @@ a{
     flex-direction: column;
     width: 85%;
 }
-
 
 /* 마이페이지-고객문의 진행사항에서만 필요한 style */
 .page-title{
