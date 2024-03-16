@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	
+	<entry key="loginMember">
+		SELECT 
+		       USER_NO
+		      ,USER_ID
+		      ,USER_PWD
+		      ,USER_NAME
+		      ,TO_CHAR(BIRTH_DATE, 'YYYY-MM-DD') BIRTH_DATE
+		      ,NICKNAME
+		      ,PHONE
+		      ,EMAIL
+		      ,ADDRESS
+		      ,ADDRESSDETAIL
+		      ,GENDER
+		      ,TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') ENROLL_DATE
+		      ,TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD') MODIFY_DATE
+		      ,USER_TYPE
+		      ,USER_PATH
+		 FROM TB_MEMBER
+		WHERE USER_ID = ?
+		  AND USER_PWD = ?
+		  AND USER_STATUS = 'Y'
+	</entry>
+
+</properties>

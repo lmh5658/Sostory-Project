@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public class JDBCTemplate {
 	
-	// 1. Connection 객체(DB와 접속된) 생성 후 해당 생성된 객체를 반환시켜주는 메소드 
+			// 1. Connection 객체(DB와 접속된) 생성 후 해당 생성된 객체를 반환시켜주는 메소드 
 			public static Connection getConnection() {
 				
 				Connection conn = null;
@@ -27,8 +27,6 @@ public class JDBCTemplate {
 				
 				// 읽어들이고자 하는 파일 : driver.properties (src/main/java 안에 있는 파일 x, src/main/webapp/WEB-INF/classes 안의 파일)
 				String filePath = JDBCTemplate.class.getResource("/db/driver/driver.properties").getPath();
-				
-//				System.out.println(filePath);
 				
 				try {
 					prop.load(new FileInputStream(filePath));

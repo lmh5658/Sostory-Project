@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.member.model.vo.Member" %>
 <%
+	// 웹 애플리케이션 ContextPath == /sos
 	String contextPath = request.getContextPath();
+	
+	// 팝업알림창에 출력할 Session값 가져오기
+	String alertMsg = (String)session.getAttribute("alertMsg");
+	
+	/* 로그인한 회원정보가 담겨있는 회원객체
+	   회원번호, 회원아이디, 회원비밀번호, 회원명, 생년월일, 닉네임, 전화번호, 
+	   이메일, 우편주소, 상세주소, 성별, 가입일, 최종수정일, 회원유형, 회원상태, 프로필URL
+	*/
+	Member loginUser = (Member)session.getAttribute("loginUser");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -23,6 +35,20 @@
 
 </head>
 <body>
+	
+	<!-- Session값 유효여부 판단
+		 - Session에 전달받은 alertMsg값이 있을경우 : Session값 알림팝업으로 띄워주기
+		 - Session에 전달받은 alertMsg값이 없을경우 : Session값 삭제하기	
+	 -->
+	<% if(alertMsg != null){ %>
+		<script>
+			alert('<%= alertMsg %>');
+		</script>
+	<% 
+		session.removeAttribute("alertMsg");
+	   } 
+	%>
+	
 	<!-- Header start -->
     <header class="header border-bottom border-2">
 
@@ -48,24 +74,35 @@
             <div class="header-right-top">
                 <div class="header-user d-flex justify-content-end center">
                     <!-- 로그인 x  -->
-                    <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
-                    <!-- 로그인 o 
-                    <span><b>xxx님</b></span>
-                    -->
+                    <% if(loginUser == null) { %>
+                    	<a class="btn btn-outline-secondary btn-sm mx-2 py-0" href="<%= contextPath %>/loginForm.me">login</a>
+                    <% } else { %>
+                    <!-- 로그인 o -->
+                    	<span><b><%= loginUser.getUserName() %></b>님</span>
+                    <% } %>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
-                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        <path id="myPage" pointer-events="visible" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                     </svg>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                     </svg>
 
-                    <!-- 로그인 되어있을 경우에만 보여짐 
-                    <a class="btn btn-outline-secondary btn-sm mx-2 py-0">logout</a>
-                    -->
+                    <!-- 로그인 되어있을 경우에만 보여짐 -->
+                    <% if(loginUser != null) { %>
+                    	<a type="button" class="btn btn-outline-secondary btn-sm mx-2 py-0" href="<%= contextPath %>/logout.me">logout</a>
+                    <% } %>
                     
                 </div>
             </div>
             <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
+            
+            <script>
+            	$(function(){
+            		$("#myPage").click(function(){
+            			location.href="<%= contextPath %>/myPage.me";
+            		})
+            	})
+            </script>
 
             <!-- Header 오른쪽-하단(nav바) 영역 start -->
             <div class="header-right-bottom">
