@@ -9,21 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.ProductRecipe;
 
 /**
- * Servlet implementation class ProductListController
+ * Servlet implementation class ProductDetailController
  */
-@WebServlet("/list.pr")
-public class ProductListController extends HttpServlet {
+@WebServlet("/detail.pr")
+public class ProductDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductListController() {
+    public ProductDetailController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +34,18 @@ public class ProductListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int productNo = Integer.parseInt(request.getParameter("no"));
 		
-		int listCount = new ProductService().selectListCount();// 총사진게시글갯수
-		int currentPage = Integer.parseInt(request.getParameter("page")); 
-		int pageLimit = 5;
-		int boardLimit = 9;
-		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
-		int endPage= startPage + pageLimit - 1;
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
+		Product pro = new ProductService().selectProduct(productNo);
+		List<Member> list = new ProductService().selectPaymentUser();
+		List<ProductRecipe> rlist = new ProductService().selectRecipeList(productNo);
 		
-		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		// 전체상품게시글 데이터 조회
-		List<Product> list = new ProductService().selectProductList(pi);
-		
-		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);
-		
-		
+		request.setAttribute("pro", pro);
+		request.setAttribute("rlist", rlist);
+		request.getRequestDispatcher("/views/product/productDetail.jsp").forward(request, response);			
+	
 		
 	}
 

@@ -68,7 +68,7 @@
     </style>
 </head>
 <body>
-	<div class="wrap p-3">
+	<div class="wrap">
 
       <%@ include file="/views/common/header.jsp" %>
 
