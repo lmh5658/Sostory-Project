@@ -1,5 +1,7 @@
 package com.sos.myPage.model.dao;
 
+import static com.sos.common.template.JDBCTemplate.close;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,7 +10,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
 
-import static com.sos.common.template.JDBCTemplate.*;
+import com.sos.member.model.vo.Member;
 
 public class MyPageDao {
 	
@@ -57,5 +59,41 @@ public class MyPageDao {
 		return result;
 		
 	}
+	
+	/**
+	 * 마이페이지에서 사용자가 회원정보 변경요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param mem : 수정할 회원정보가 담긴 회원객체
+	 * @return : 회원정보 수정 처리결과 행 수
+	 */
+	public int updateMemberInfo(Connection conn, Member mem) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateMemberInfo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem.getNickName());
+			pstmt.setString(2, mem.getPhone());
+			pstmt.setString(3, mem.getGender());
+			pstmt.setString(4, mem.getBirthDate());
+			pstmt.setString(5, mem.getUserPath());
+			pstmt.setInt(6, mem.getUserNo());
+			
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
 
 }

@@ -13,6 +13,7 @@
 	   이메일, 우편주소, 상세주소, 성별, 가입일, 최종수정일, 회원유형, 회원상태, 프로필URL
 	*/
 	Member loginUser = (Member)session.getAttribute("loginUser");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -93,13 +94,13 @@
 	               <% } %>
                 
                 <% if(loginUser != null) { %>
-                    <a href="<%=contextPath%>/list.ca"><svg id="cart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+                    <svg id="cart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
                     	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </svg></a>
+                    </svg>
 					<%}else{ %>
-					 <a href="<%=contextPath%>/login.me"><svg id="cart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+					<svg id="loginPage2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
                     	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </svg></a>
+                    </svg>
 					<%} %>
                     
                     <!-- 로그인 되어있을 경우에만 보여짐 -->
@@ -121,7 +122,19 @@
        					alert("로그인을 먼저진행해주세요.");
        					location.href = "<%= contextPath %>/loginForm.me";
        				})
+       				
+       				$("#cart").click(function(){
+       					location.href = "<%= contextPath %>/list.ca";
+       				})
+       				
+       				$("#loginPage2").click(function(){
+       					alert("로그인을 먼저진행해주세요.");
+       					location.href = "<%= contextPath %>/loginForm.me";
+       				})
        			})
+       			
+       			
+       			
        		</script>
 
             <!-- Header 오른쪽-하단(nav바) 영역 start -->

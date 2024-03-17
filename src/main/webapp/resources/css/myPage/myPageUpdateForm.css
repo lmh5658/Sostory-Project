@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
 .main-wrap{
     margin: auto;
@@ -11,11 +13,11 @@
 .menu_wrap{
     text-align: center;
     display: flex;
-    flex-direction: column;
     padding-top: 30px;
+    flex-direction: column;
     font-size: 20px;
     width: 15%;
-    align-items: center;    
+    align-items: center;  
     background-color: rgb(238, 67, 67);
 }
 
@@ -54,10 +56,10 @@ a{
 .main-page{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
 }
 
-/* 마이페이지 1:1문의에서만 필요한 style */
+/* 마이페이지 회원정보변경에서만 필요한 style */
 .page-title{
     align-items: center;
     display: flex;
@@ -101,5 +103,3 @@ h3>label{
 .update-info>form input{
     height: 60px;
 }
-
-
