@@ -37,11 +37,10 @@
         .product-thumbnail-list d-flex flex-column w-100{display: flex; flex-wrap: wrap; max-height: 900px;}
     
     </style>
-
+	
 
 
 </head>
-
 
 <body>
 
@@ -95,6 +94,7 @@
                 <!-- 상품 페이지 상단 영역 end -->
                 
                     <!-- 상품 리스트 start -->
+<<<<<<< HEAD
                      <div class="product-thumbnail-list d-flex flex-column w-100">
                         <!-- 상품 썸네일 상단 start -->       	
                     	
@@ -131,6 +131,197 @@
                    		})	
                   	 </script>
                    
+=======
+                    <div class="product-thumbnail-list d-flex flex-column w-100">
+                        <!-- 상품 썸네일 상단 start -->
+                        <div class="thumbnail-list-top d-flex w-100 justify-content-evenly"> 
+                            <!-- 상품 썸네일 start -->
+                            <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                          <% if(loginUser != null) { %>
+						                    <a href="javascript:cartMe(1);"><svg id="cart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+						                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+						                    </svg></a>
+											<%}else{ %>
+											 <a onclick="alert('로그인을 해주세요.')"><svg id="cart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+						                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+						                    </svg></a>
+											<%} %>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+
+                            <!-- 상품 썸네일 start -->
+                            <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+
+                            <!-- 상품 썸네일 start -->
+                            <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+                        </div> 
+                        <!-- 상품 썸네일 상단 end -->
+
+                        <!-- 상품 썸네일 중단 start -->
+                        <div class="thumbnail-list-middle d-flex w-100 justify-content-evenly">
+                             <!-- 상품 썸네일 start -->
+                             <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+                             <!-- 상품 썸네일 start -->
+                             <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+                             <!-- 상품 썸네일 start -->
+                             <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+
+                        </div>
+                        <!-- 상품 썸네일 하단 end -->
+
+                        <!-- 상품 썸네일 하단 start -->
+                        <div class="thumbnail-list-bottom d-flex w-100 justify-content-evenly">
+                            <!-- 상품 썸네일 start -->
+                            <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+
+                            <!-- 상품 썸네일 start -->
+                            <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+
+                            <!-- 상품 썸네일 start -->
+                            <div class="product img-thumbnail p-2" style="width:300px">
+                                <img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+                                <div class="product-body">
+                                    <small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
+                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
+                                    <h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+                                    <div class="icon d-flex justify-content-end">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 상품 썸네일 end -->
+                        </div>
+                        <!-- 상품 썸네일 하단 end -->
+                        
+
 
                         <!-- 페이징바 영역 start -->
                         <ul class="pagination justify-content center">
@@ -148,7 +339,7 @@
                             <% } %>
                         <% } %>
                             
-						<% if(pi.getEndPage() != pi.getMaxPage()) { %>
+						<% if(pi.getCurrentPage() != pi.getMaxPage() ) { %>
                             <li class="page-item"><a class="page-link" href="<%= contextPath%>/list.pr?page=<%= pi.getCurrentPage() + 1%>">Next</a></li>
                         <% } else { %>
                          	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
@@ -167,7 +358,41 @@
         <!-- Section end -->
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+	<script>
+	function cartMe(productNo){
+		console.log(productNo);
+		userNo=<%=loginUser.getUserNo()%>;
+		console.log(userNo);
+		console.log(productNo);
 
+		$.ajax({
+			url:"<%=contextPath%>/add.ca",
+			data:{
+				productNo:productNo,
+				userNo:userNo,
+				cart_amount:1
+				
+			},
+			type:"post",
+			success:function(result){
+				if(result>0){ // 장바구니 상품등록 성공
+				console.log("성공!");
+				alert("상품을 장바구니에 담았습니다.");
+				}
+			},error:function(){
+				console.log("ajax 통신 실패");
+				
+			}
+			
+			
+		})
+		
+		
+		
+		
+		//location.href=("/sos/views/cart/cartList.jsp);
+	}
+</script>
        
 		<%@ include file="/views/common/footer.jsp" %>
 		
