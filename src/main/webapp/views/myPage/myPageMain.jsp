@@ -24,17 +24,15 @@
 	    <section class="main-content pt-3">
 	
 	        <div class="main-wrap">
-				<!-- 
-					css 안먹히는 문제때문에 마이페이지(메인페이지)에서만 include처리 안함
-					직접 인라인스타일을 먹이지 않으면 CSS스타일 적용이 잘 안되어서 메뉴바(마이페이지) 찌그러짐 현상있음 
-					공통 메뉴바(마이페이지) HTML코드에는 메뉴바 스타일이 인라인으로 되어있지 않음
-				-->
+	        
+<!-- ============================================================================================================================================== -->
+	        
 	            <!-- 마이페이지 사이드 nav바 start -->
 				<div class="menu_wrap" style="margin-top: 120px; width:200px;">
 				
 				    <div class="side_menu">
 				        <button class="list">회원정보</button>
-				        <div><a href="" class="" style="color:white; text-decoration-line:none;">회원정보 변경</a></div>
+				        <div><a href="" id="updateMemInfo" class="" style="color:white; text-decoration-line:none;">회원정보 변경</a></div>
 				        <div><a href="<%= contextPath %>/updatePwdForm.me" style="color:white; text-decoration-line:none;">비밀변호 변경</a></div>
 				        <div><a href="" style="color:white; text-decoration-line:none;">배송지관리</a></div>
 				        <div><a href="" style="color:white; text-decoration-line:none;">회원탈퇴</a></div>
@@ -62,9 +60,32 @@
 				
 				</div>
 				
-				
 				<script>
 				   $(function(){
+						// 회원정보변경페이지 요청시 실행될 함수
+					   $("#updateMemInfo").click(function(e){
+						  
+						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+						   if("<%= loginUser.getUserPwd() %>" == userPwd){
+								   /* 
+								    * 로그인한 회원(정보변경을 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
+								   	* ==> 회원정보변경 페이지 이동
+								   */
+								   $(this).attr("href", "<%= contextPath %>/updateForm.me");
+							   }
+						   
+						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+								   /*
+								    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
+								    * ==> alert("실패메세지")
+								   */
+								   alert("비밀번호가 일치하지 않습니다.");
+						   } 
+						   
+						   
+					   })
+					   
+						// 마이페이지 nav메뉴바 목록 슬라이딩 처리용 함수
 				        $(".side_menu>button").click(function(){       
 				            const $b = $(this).nextAll();
 				
@@ -79,6 +100,9 @@
 				    })
 				</script>
 				<!-- 마이페이지 사이드 nav바 end -->
+
+<!-- ============================================================================================================================================== -->
+
 	
 	            <!-- nav바 별 메인페이지 (보이는 페이지) : nav바 옆에 start -->
 	            <div class="main-page" style="margin-top: 120px;">
@@ -100,7 +124,7 @@
 	                    </div>
 	
 	                    <div class="profile-right">
-	                        <h3><b id="userName">xxx</b>님! 안녕하세요</h3>
+	                        <h3><b id="userName"><%= loginUser.getUserName() %></b>님! 안녕하세요</h3>
 	                        
 	                        <!-- 각 메뉴 클릭시, 해당페이지로 이동 -->
 	                        <div class="profile-right-bottom">
