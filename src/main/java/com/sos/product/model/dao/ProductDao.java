@@ -1,5 +1,7 @@
 package com.sos.product.model.dao;
 
+import static com.sos.common.template.JDBCTemplate.close;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,8 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static com.sos.common.template.JDBCTemplate.*;
+import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.ProductRecipe;
+import com.sos.product.model.vo.Qna;
 
 public class ProductDao {
 	
@@ -25,7 +30,7 @@ public class ProductDao {
 		}
 	}
 	
-	public List<Product> selectProductList(Connection conn){
+	public List<Product> selectProductList(Connection conn, PageInfo pi){
 		
 		List<Product> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -33,7 +38,12 @@ public class ProductDao {
 		String sql = prop.getProperty("selectProductList");
 		
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);	
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -80,6 +90,147 @@ public class ProductDao {
 		return count;
 	}
 	
+	public Product selectProduct(Connection conn, int productNo) {
+		
+		Product pro = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				pro = new Product(rset.getInt("PRODUCT_NO"),
+								  rset.getString("CATEGORY_NAME"),
+								  rset.getString("PRODUCT_NAME"),
+								  rset.getInt("PRICE"),
+								  rset.getString("PATH")
+						);
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			close(rset);
+			close(pstmt);
+		}
+		
+		return pro;
+	}
 	
+	public List<Member> selectPaymentUser(Connection conn) {
+		List<Member> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPaymentUser");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Member m = new Member();
+				m.setUserNo(rset.getInt("USER_NO"));
+				m.setUserId(rset.getString("USER_ID"));
+				
+				list.add(m);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+
+	public int selectQnaCount(Connection conn, int productNo) {
+		
+		int countList = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectQnaCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				countList = rset.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return countList;
+	}
+	
+	
+	public List<Qna> selectQnaList(Connection conn, int productNo){
+
+		List<Qna> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReviewList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, productNo);			
+//			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+//			int endRow = startRow + pi.getBoardLimit() - 1;			
+//			pstmt.setInt(2, startRow);
+//			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Qna q = new Qna();
+				q.setAnswerNo(rset.getInt("ANSWER_NO"));
+				q.setProductNo(rset.getInt("PRODUCT_NO"));
+				q.setUserNo(rset.getString("USER_ID"));
+				q.setAnswerDate(rset.getString("ANSWER_DATE"));
+				q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				q.setAnswerContent(rset.getString("ANSWER_CONTENT"));
+				q.setAnswerType(rset.getString("ANSWER_STATUS"));
+				q.setReply(rset.getString("REPLY"));
+				q.setReplyDate(rset.getString("REPLY_DATE"));
+				
+				list.add(q);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public List<ProductRecipe> selectRecipeList(Connection conn, int productNo){
+		List<ProductRecipe> rlist = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectRecipeList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

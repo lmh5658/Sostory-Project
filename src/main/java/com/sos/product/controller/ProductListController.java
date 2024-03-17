@@ -48,11 +48,11 @@ public class ProductListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 전체상품게시글 데이터 조회
-		List<Product> list = new ProductService().selectProductList();
+		List<Product> list = new ProductService().selectProductList(pi);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/views/product/productList.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);
 		
 		
 		

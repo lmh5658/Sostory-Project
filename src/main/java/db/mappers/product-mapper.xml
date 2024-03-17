@@ -2,16 +2,78 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="selectProductList">
+	
+		SELECT *
+			FROM (
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT 
+			         PRODUCT_NO
+			       , CATEGORY_NAME
+			       , PRODUCT_NAME
+			       , PRICE
+			       , PATH
+			    FROM TB_PRODUCT
+			    JOIN TB_CATEGORY USING(CATEGORY_NO)
+			    WHERE STATUS = 'Y'
+			    ) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectListCount">
 		SELECT 
-		     PRODUCT_NO
-		   , CATEGORY_NAME
-		   , PRODUCT_NAME
-		   , PRICE
-		   , PATH
+			   COUNT(*) COUNT
+		  FROM TB_PRODUCT
+	</entry>
+	
+	<entry key="selectProduct">
+		SELECT 
+		      PRODUCT_NO
+		    , CATEGORY_NAME
+		    , PRODUCT_NAME
+		    , PRICE
+		    , DISCOUNT_PRICE
+		    , PATH
 		FROM TB_PRODUCT
 		JOIN TB_CATEGORY USING(CATEGORY_NO)
-		WHERE STATUS = 'Y'
+		WHERE PRODUCT_NO = ?
 	</entry>
+	
+	<entry key="selectPaymentUser">
+		SELECT 
+		       USER_NO
+		     , USER_ID
+		FROM TB_MEMBER M
+		LEFT JOIN TB_ORDER O USING(USER_NO)
+		LEFT JOIN TB_PAYMENT P USING(PAYMENT_NO)
+		WHERE PAYMENT_STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectQnaList">
+	
+		SELECT 
+		      ANSWER_NO
+		    , PRODUCT_NO
+		    , USER_ID
+		    , TO_CHAR(ANSWER_DATE, 'YYYY/MM/DD') ANSWER_DATE
+		    , ANSWER_TITLE
+		    , ANSWER_CONTENT
+		    , ANSWER_STATUS
+		    , REPLY
+		    , TO_CHAR(REPLY_DATE, 'YYYY/MM/DD') REPLY_DATE
+		FROM TB_QNA_REPLY    
+		LEFT JOIN TB_MEMBER USING(USER_NO)
+		WHERE ANSWER_TYPE = 1
+		AND PRODUCT_NO = ?
 
+	</entry>
+	
+	<entry key="selectQnaCount">
+		SELECT COUNT(*) COUNT
+		  FROM 
+		      TB_PRODUCT
+		  WHERE PRODUCT_NO = 4
+	</entry>
 
 </properties>
