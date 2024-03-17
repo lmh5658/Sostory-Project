@@ -221,16 +221,37 @@ public class ProductDao {
 	}
 	
 	public List<ProductRecipe> selectRecipeList(Connection conn, int productNo){
+		
 		List<ProductRecipe> rlist = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectRecipeList");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
+			pstmt.setInt(1, productNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ProductRecipe pr = new ProductRecipe();
+				pr.setRecipeNo(rset.getInt("RECIPE_NO"));
+				pr.setUserNo(rset.getString("USER_ID"));
+				pr.setProductNo(rset.getString("PRODUCT_NAME"));
+				pr.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pr.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				pr.setThumbnailUrl(rset.getString("THUMBNAIL_URL"));
+				pr.setRecipeIntro(rset.getString("RECIPE_INTRO"));
+				pr.setProductPrice(rset.getInt("PRICE"));
+				pr.setProductPath(rset.getString("PATH"));
+				rlist.add(pr);
+				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
+		
+		return rlist;
 	}
 
 }
