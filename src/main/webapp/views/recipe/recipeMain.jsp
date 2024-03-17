@@ -335,6 +335,188 @@
 	                    </div>
 	                </div>
 	            </div>
+	            
+				<div class="recipe">
+	                <div class="recipe_thumbnail">
+	                    <img src="<%=contextPath%>/resources/images/이미지1.jpg">
+	                </div>
+	                <div class="recipe_category">분류>전통장/장류</div>
+	                <div class="recipe_name" style="font-weight: bolder;">고추장 불고기</div>
+	                <div class="recipe_detail">
+	                    칼로리 zero 고추장을 사용해 만든 고추장 불고기에요!
+	                </div>
+	                <div class="recipe_etc">
+	                    <div class="recipe_userProfile">
+	                        <img src="<%=contextPath%>/resources/images/user.png" alt="프로필" height="15px">
+	                        user01
+	                    </div>
+	                    <div class="recipe_like">
+	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+							</svg>
+	                        (2000)
+	                    </div>
+	                </div>
+	                <div class="recipe_product">
+	                    <div class="product_img">
+	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
+	                    </div>
+	                    <div class="product_etc">
+	                        <label style="color: grey; margin:0;">칼로리 zero 고추장</label>
+	                        <!-- 할인하고 있지 않을 때 -->
+	                        <!-- 8,000원 -->
+	                        <!-- 할인하고 있을 때 -->
+	                        <div class="product_price"><s style="color:grey; font-size:14px">8000원</s>&nbsp;7200원</div>
+	                        <div class="product_star">별(4.8)</div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+				<div class="recipe">
+	                <div class="recipe_thumbnail">
+	                    <img src="<%=contextPath%>/resources/images/이미지1.jpg">
+	                </div>
+	                <div class="recipe_category">분류>전통장/장류</div>
+	                <div class="recipe_name" style="font-weight: bolder;">고추장 불고기</div>
+	                <div class="recipe_detail">
+	                    칼로리 zero 고추장을 사용해 만든 고추장 불고기에요!
+	                </div>
+	                <div class="recipe_etc">
+	                    <div class="recipe_userProfile">
+	                        <img src="<%=contextPath%>/resources/images/user.png" alt="프로필" height="15px">
+	                        user01
+	                    </div>
+	                    <div class="recipe_like">
+	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+							</svg>
+	                        (2000)
+	                    </div>
+	                </div>
+	                <div class="recipe_product">
+	                    <div class="product_img">
+	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
+	                    </div>
+	                    <div class="product_etc">
+	                        <label style="color: grey; margin:0;">칼로리 zero 고추장</label>
+	                        <!-- 할인하고 있지 않을 때 -->
+	                        <!-- 8,000원 -->
+	                        <!-- 할인하고 있을 때 -->
+	                        <div class="product_price"><s style="color:grey; font-size:14px">8000원</s>&nbsp;7200원</div>
+	                        <div class="product_star">별(4.8)</div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+				<div class="recipe">
+	                <div class="recipe_thumbnail">
+	                    <img src="<%=contextPath%>/resources/images/이미지1.jpg">
+	                </div>
+	                <div class="recipe_category">분류>전통장/장류</div>
+	                <div class="recipe_name" style="font-weight: bolder;">고추장 불고기</div>
+	                <div class="recipe_detail">
+	                    칼로리 zero 고추장을 사용해 만든 고추장 불고기에요!
+	                </div>
+	                <div class="recipe_etc">
+	                    <div class="recipe_userProfile">
+	                        <img src="<%=contextPath%>/resources/images/user.png" alt="프로필" height="15px">
+	                        user01
+	                    </div>
+	                    <div class="recipe_like">
+	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+							</svg>
+	                        (2000)
+	                    </div>
+	                </div>
+	                <div class="recipe_product">
+	                    <div class="product_img">
+	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
+	                    </div>
+	                    <div class="product_etc">
+	                        <label style="color: grey; margin:0;">칼로리 zero 고추장</label>
+	                        <!-- 할인하고 있지 않을 때 -->
+	                        <!-- 8,000원 -->
+	                        <!-- 할인하고 있을 때 -->
+	                        <div class="product_price"><s style="color:grey; font-size:14px">8000원</s>&nbsp;7200원</div>
+	                        <div class="product_star">별(4.8)</div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+				<div class="recipe">
+	                <div class="recipe_thumbnail">
+	                    <img src="<%=contextPath%>/resources/images/이미지1.jpg">
+	                </div>
+	                <div class="recipe_category">분류>전통장/장류</div>
+	                <div class="recipe_name" style="font-weight: bolder;">고추장 불고기</div>
+	                <div class="recipe_detail">
+	                    칼로리 zero 고추장을 사용해 만든 고추장 불고기에요!
+	                </div>
+	                <div class="recipe_etc">
+	                    <div class="recipe_userProfile">
+	                        <img src="<%=contextPath%>/resources/images/user.png" alt="프로필" height="15px">
+	                        user01
+	                    </div>
+	                    <div class="recipe_like">
+	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+							</svg>
+	                        (2000)
+	                    </div>
+	                </div>
+	                <div class="recipe_product">
+	                    <div class="product_img">
+	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
+	                    </div>
+	                    <div class="product_etc">
+	                        <label style="color: grey; margin:0;">칼로리 zero 고추장</label>
+	                        <!-- 할인하고 있지 않을 때 -->
+	                        <!-- 8,000원 -->
+	                        <!-- 할인하고 있을 때 -->
+	                        <div class="product_price"><s style="color:grey; font-size:14px">8000원</s>&nbsp;7200원</div>
+	                        <div class="product_star">별(4.8)</div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+				<div class="recipe">
+	                <div class="recipe_thumbnail">
+	                    <img src="<%=contextPath%>/resources/images/이미지1.jpg">
+	                </div>
+	                <div class="recipe_category">분류>전통장/장류</div>
+	                <div class="recipe_name" style="font-weight: bolder;">고추장 불고기</div>
+	                <div class="recipe_detail">
+	                    칼로리 zero 고추장을 사용해 만든 고추장 불고기에요!
+	                </div>
+	                <div class="recipe_etc">
+	                    <div class="recipe_userProfile">
+	                        <img src="<%=contextPath%>/resources/images/user.png" alt="프로필" height="15px">
+	                        user01
+	                    </div>
+	                    <div class="recipe_like">
+	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+							</svg>
+	                        (2000)
+	                    </div>
+	                </div>
+	                <div class="recipe_product">
+	                    <div class="product_img">
+	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
+	                    </div>
+	                    <div class="product_etc">
+	                        <label style="color: grey; margin:0;">칼로리 zero 고추장</label>
+	                        <!-- 할인하고 있지 않을 때 -->
+	                        <!-- 8,000원 -->
+	                        <!-- 할인하고 있을 때 -->
+	                        <div class="product_price"><s style="color:grey; font-size:14px">8000원</s>&nbsp;7200원</div>
+	                        <div class="product_star">별(4.8)</div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+	            
 	        </div>
 			<br><br>
 			<ul class="pagination">
