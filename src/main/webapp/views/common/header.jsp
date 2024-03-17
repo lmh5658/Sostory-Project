@@ -146,7 +146,7 @@
                         <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
                         <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
                         <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
+                        <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.re?page=1">소스트리</a>
                     </nav>
                 </div>
             </div>
