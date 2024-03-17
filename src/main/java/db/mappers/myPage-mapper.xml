@@ -2,6 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
+
 	<!-- 비밀번호 변경요청 -->
 	<entry key="updateMemberPwd">
 		UPDATE TB_MEMBER
@@ -9,6 +10,18 @@
 		   	  ,MODIFY_DATE = SYSDATE
 		 WHERE USER_NO =?
 		   AND USER_PWD =?
+	</entry>
+	
+	<!-- 회원정보 변경요청 -->
+	<entry key="updateMemberInfo">
+		UPDATE TB_MEMBER
+		   SET NICKNAME = ?
+		   	  ,PHONE = ?
+		   	  ,GENDER = ?
+		   	  ,BIRTH_DATE = ?
+		   	  ,MODIFY_DATE = SYSDATE
+		   	  ,USER_PATH = ?
+		 WHERE USER_NO = ?
 	</entry>
 
 </properties>
