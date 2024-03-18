@@ -52,10 +52,6 @@ public class AjaxReviewListController extends HttpServlet {
 		
 		List<ProductReview> rlist = new ProductService().selectReviewList(productNo, pi);
 		
-		System.out.println(pi);
-		System.out.println(rlist);
-		
-		
 		HashMap<String, Object> map = new HashMap();
 		if(!rlist.isEmpty()) {
 			map.put("pi", pi);

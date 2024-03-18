@@ -190,12 +190,12 @@ public class ProductDao {
 			
 			pstmt.setInt(1, productNo);			
 			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
-			int endRow = startRow + pi.getBoardLimit() - 1;			
+			int endRow = startRow + pi.getBoardLimit() - 1;	
+			
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
-			
 			rset = pstmt.executeQuery();
-			
+			System.out.println(productNo);
 			while(rset.next()) {
 				Qna q = new Qna();
 				q.setAnswerNo(rset.getInt("ANSWER_NO"));

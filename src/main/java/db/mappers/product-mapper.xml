@@ -87,22 +87,31 @@
 	</entry>
 	
 	<entry key="selectRecipeList">
-		SELECT 
-		     RECIPE_NO
-		   , USER_ID
-		   , PRODUCT_NAME
-		   , CATEGORY_NAME
-		   , RECIPE_TITLE
-		   , THUMBNAIL_URL
-		   , RECIPE_INTRO
-		   , PRICE
-		   , PATH
-		FROM TB_RECIPE
-		LEFT JOIN TB_CATEGORY USING(CATEGORY_NO)
-		LEFT JOIN TB_PRODUCT USING(PRODUCT_NO)
-		LEFT JOIN TB_MEMBER USING (USER_NO)
-		WHERE PRODUCT_NO = ?
-		  AND RECIPE_STATUS = 'Y'
+		SELECT * FROM
+			(
+			SELECT ROWNUM RNUM, A.*
+			FROM 
+			(SELECT 
+			         RECIPE_NO
+			       , USER_ID
+			       , PRODUCT_NAME
+			       , CATEGORY_NAME
+			       , RECIPE_TITLE
+			       , THUMBNAIL_URL
+			       , RECIPE_INTRO
+			       , PRICE
+			       , PATH
+			    FROM TB_RECIPE R
+			    LEFT JOIN TB_CATEGORY USING(CATEGORY_NO)
+			    LEFT JOIN TB_PRODUCT USING(PRODUCT_NO)
+			    LEFT JOIN TB_MEMBER USING (USER_NO)
+			    WHERE PRODUCT_NO = ?
+			      AND RECIPE_STATUS = 'Y'
+			    ORDER
+			       BY POST_DATE DESC
+			)A
+			)
+			WHERE RNUM BETWEEN 1 AND 3
 	</entry>
 	
 	<entry key="selectReviewCount">
