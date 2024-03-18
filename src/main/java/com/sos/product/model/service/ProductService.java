@@ -11,6 +11,7 @@ import com.sos.member.model.vo.Member;
 import com.sos.product.model.dao.ProductDao;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.ProductRecipe;
+import com.sos.product.model.vo.ProductReview;
 import com.sos.product.model.vo.Qna;
 
 public class ProductService {
@@ -69,6 +70,19 @@ public class ProductService {
 		return rlist;
 	}
 	
+	public int selectReviewCount() {
+		Connection conn = getConnection();
+		int count = pDao.selectReviewCount(conn);
+		close(conn);
+		return count;
+	}
+	
+	public List<ProductReview> selectReviewList(int productNo, PageInfo pi){
+		Connection conn = getConnection();
+		List<ProductReview> list = pDao.selectReviewList(conn, productNo, pi);
+		close(conn);
+		return list;
+	}
 	
 	
 

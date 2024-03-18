@@ -184,7 +184,11 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	
 	        <!-- 레시피 컨텐츠 -->
 	
-	        <!-- 레시피가 없을 경우 -->
+	   
+					    	
+	        <!-- 레시피가 있는 경우 -->
+	        <div class="recipe_wrap ">
+	             <!-- 레시피가 없을 경우 -->
 	        <%if(list.isEmpty()){%>
 		       <h4 style="padding : 3%; color:gray; font-weight:bold;">레시피가 존재하지 않습니다.</h4>
 		        <!-- 레시피가 존재하지 않습니다. -->
@@ -192,10 +196,6 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 			<%}else{ %>
   			    <% for (Recipe r : list) { %>
 			<!-- 가로로 세 개 둬야함 현재 세로로 9개  -->  	
-			
-					    	
-	        <!-- 레시피가 있는 경우 -->
-	        <div class="recipe_wrap">
 	            <div class="recipe">
 	                <div class="recipe_thumbnail">
 	                    <img src=<%=r.getThumbnailUrl()%>>
@@ -207,15 +207,15 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	                </div>
 	                <div class="recipe_etc">
 	                    <div class="recipe_userProfile">
-	                        <img src="<%=contextPath%>/resources/images/user.png" alt="프로필" height="15px">
-	                        user01
+	                        <img src=<%=r.getUserPath()%> alt="프로필" height="15px">
+	                        <%=r.getUserName()%>
 	                    </div>
 	                    <!-- 내가 찜하지 않은 레시피인 경우 -->
 	                    <div class="recipe_like">
 	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
 							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 							</svg>
-	                        (2000)
+	                        <%=r.getLikeRefno()%>
 	                    </div>
 	                    <!-- 내가 찜한 레시피인 경우 -->
 	                    <!-- 
@@ -232,15 +232,15 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
 	                    </div>
 	                    <div class="product_etc">
-	                        <label style="color: grey; margin:0;">칼로리 zero 고추장</label>
+	                        <label style="color: grey; margin:0;"><%=r.getProductName()%></label>
 	                        <!-- 할인하고 있지 않을 때 -->
 	                        <!-- 8,000원 -->
 	                        <!-- 할인하고 있을 때 -->
-	                        <div class="product_price"><s style="color:grey; font-size:14px">8000원</s>&nbsp;7200원</div>
-	                        <div class="product_star">별(4.8)</div>
+	                        <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getDiscountPrice()%></div>
 	                    </div>
 	                </div>
 	            </div>
+	            
 	    	  <% } %>
         </div>
 			<br><br>

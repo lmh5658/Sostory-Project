@@ -62,6 +62,7 @@
 
 </head>
 <body>
+<div class="wrap">
 	 <!-- Header start -->
         <%@ include file="/views/common/header.jsp" %>
 
@@ -69,7 +70,7 @@
             
             <!-- Section start -->
             <section class="main">
-                <h3 style="margin-top: 20px; margin-bottom: 20px;">HOME><%= pro.getCategoryNo() %></h3>
+                <h3 style="margin-top: 150px; margin-bottom: 20px;">HOME><%= pro.getCategoryNo() %></h3>
 
                 <!-- 상품상세 상단 start -->
                 <div class="main_top d-flex flex-direction">
@@ -86,7 +87,7 @@
                                         <h1><b><%= pro.getProductName() %></b></h1>
                                                            
                                         <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() %>원</b></h1></span> 
-                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getDiscountPrice() %>원</del></h4>
+                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice()+ pro.getDiscountPrice() %>원</del></h4>
                                         <hr>
                                         
                                     </div>
@@ -102,31 +103,14 @@
                                             <div class="amount">
                                                 
                                                 <button type="button" class="btn btn-outline-dark">수량선택</button>
-                                                <input type="button" value="-" style="width: 30px;" id="minus">
-                                                <input type="button" value="0" style="width: 30px;" id="count">
+                                                <input type="button" value="-" style="width: 30px;" onclick= id="minus">
+                                                <div id="result">0</div>
                                                 <input type="button" value="+" style="width: 30px;" id="plus">
         
                                             </div>
                                             <hr>
                                             
-                                            <script>
-                                            	$(function(){
-                                            		$("#plus").click(function(){
-                                            			
-                                            			$("#count").val() = $("#count").val()+ 1;
-                                            			
-                                            		})
-                                            		
-                                            		$("#minus").click(function(){
-                                            			if($(#count).val() > 0){
-          		                                  			$("#count").val() = $("#count").val() - 1;
-                                    				
-                                            			}else{
-                                            				$("#count").val() = 0;
-                                            			}
-                                            		})
-                                            	})
-                                            </script>
+                                            
                                         
                                     </div>
                                     
@@ -186,6 +170,7 @@
                     <div class="recipe-list  d-flex w-100 justify-content-evenly p-5" style="background-color:cornsilk;">
 
                         <!-- 레시피 썸네일 start -->
+                        <% if(!rlist.isEmpty()) { %>
                         <% for(int i=0; i<3; i++) {  %>
                         <div class="recipe-wrap">
                             <div class="recipe" style="width:300px">
@@ -221,13 +206,14 @@
                                     </div>
                                     <div class="recipe-product-detail">
                                         <div class="recipe-product-title"><h6 class="fw-bold"><b class="text-danger">[HOT]&nbsp;</b><%=rlist.get(i).getProductNo() %></h6></div>
-                                        <div class="recipe-product-price text-secondary mt-5"><h6><%= rlist.get(i).getProductPrice() %></h6></div>
+                                        <div class="recipe-product-price text-secondary mt-5"><h6><%= rlist.get(i).getProductPrice() %>원</h6></div>
                                     </div>
                                 </div>
                                 <!-- 레시피 관련상품 영역 end -->
                             </div>
                         </div>
                         <!-- 레시피 썸네일 end -->
+						<% } %>
 						<% } %>
                     </div>
                     <!-- 레시피 커뮤니티 리스트 end -->
@@ -278,23 +264,21 @@
                         </div>               
 
                         <hr>
-                        <div class="rev_content">
+                        <div class="rev_content" id="tableReview">
                            
                             <table class="table"> <!-- 부트스트랩 테이블에 줄넣어주기 -->
                                 <thead>
                                     <tr>
-                                        <th width="100px">리뷰번호</th>
                                         <th width="400px">리뷰내용</th>
                                         <th>평점</th>
                                         <th width="120px">작성자</th>
-                                        <th>조회수</th>
                                         <th>작성일</th>
                                     </tr>
                                 </thead>
         
                                 <tbody>
                                     
-                                    
+                                    <!-- 
                                     <tr>
                                         <td>1</td>
                                         <td>리뷰내용 소스토리~~</td>
@@ -335,27 +319,90 @@
                                         <td>200</td>
                                         <td>2024/01/12</td>
                                     </tr>
-        
+        							 -->
                                 </tbody>
         
         
                             </table>
                             <!-- 페이징 바 -->
-                            <ul class="pagination justify-content center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                              </ul>
+                            <ul class="pagination justify-content center" id="reviewPaging">
+                               <!-- 
+                               <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                               <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                               <li class="page-item"><a class="page-link" href="#">2</a></li>
+                               <li class="page-item"><a class="page-link" href="#">3</a></li>
+                               <li class="page-item"><a class="page-link" href="#">4</a></li>
+                               <li class="page-item"><a class="page-link" href="#">5</a></li>
+                               <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                -->
+                             </ul>
         
                         </div>
 
 
                     </div>
                     <!-- 상품상세 리뷰 end -->
+                    
+                    <script>
+                       	$(function(){
+                       		selectReview(1);
+                       		//s();
+                       	})
+                       	
+                       	function selectReview(requestPage){
+                       		$.ajax({
+                       			url:"<%=contextPath%>/rlist.pr",
+                       			data:{
+                       				proNo:<%= pro.getProductNo() %>,
+                             				page:requestPage//요청할페이지번호(매개변수활용)
+                             			}, // 실행되는 servlet에서는 응답데이터로 PageInfo, ArrayList<리뷰>
+                             			type:"post",
+                             			success:function(result){
+                             				console.log(result); // {pi:{}, rlist:[{}, {},.. ]}
+                             				console.log();
+                             				
+                             				
+                             				// pi(PageInfo객체)가지고 아래의 li요소들 만들어서 #reviewPaging(ul) 요소 내에 넣어주기
+                             				let value2 = "<li class=page-item disabled>" + "<a>previous</a>" + "</li>"
+                             						  +=  "<li class=page-item active>" + "<a onclick="">previous</a>" + "</li>";
+                             				
+                             				
+                             				/*
+                             					   <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+					                               <li class="page-item active"><a class="page-link" onclick=""selectReview(1);">1</a></li>
+					                               <li class="page-item"><a class="page-link">2</a></li>
+					                               <li class="page-item"><a class="page-link">3</a></li>
+					                               <li class="page-item"><a class="page-link">4</a></li>
+					                               <li class="page-item"><a class="page-link">5</a></li>
+					                               <li class="page-item"><a class="page-link">Next</a></li>
+                             				*/
+                             				
+                             				// rlist(List<Review>객체) 가지고 반복적으로 아래의 tr요소들 만들어서 tbody에 뿌리기 
+                             				
+                             				
+                             				let value = "";
+                             				
+                           					for(let i=0; i<result.rlist.length; i++){
+                            					value += "<tr>"
+                            						   + "<td>" + result.rlist[i].reviewContent + "</td>"
+                            						   + "<td>" + result.rlist[i].rating + "</td>"
+                            						   + "<td>" + result.rlist[i].writerNo + "</td>"
+                            						   + "<td>" + result.rlist[i].postDate + "</td>"
+                            						   + "</tr>";
+                           					}
+                           					$("#tableReview tbody").html(value);
+                             				
+                             				
+                             			}
+                             		})
+                             	}
+                             	
+                             	
+                             	
+                             	function 해당상품의문의목록조회용ajax(){
+                             		
+                             	}
+                             </script>
 
 
                     <!-- 상품상세 문의 start -->
@@ -440,57 +487,6 @@
         <!-- Footer end -->
     </div>
     
-    
-    <script>
-    
-    	
-    
-    
-        // 후기 작성 insert용
-	
-		// 후기작성 목록 조회용 
-		
-		
-		
-		
-		// 문의 작성 insert용
-		
-		
-		// 문의작성 목록 조회용
-		function selectiInquiryList(){
-			$.ajax({
-				url:"<%=contextPath%>/qlist.qn",
-				data:{no:<%= pro.getProductNo() %>},
-				type:"post",
-				success:function(alist){
-							
-					let value = "";
-					if(alist.length > 0){
-						for(let i=0; i<alist.length; i++){
-							value += "<tr>" 
-							+ "<td>" + alist[i].answerNo + "</td>"
-	                        + "<td>" + alist[i].answerTitle + "</td>"
-	                        + "<td>" + alist[i].userNo + "</td>"
-	                        + "<td>" + (alist[i].answerStatus == "처리"? "답변완료" : "답변처리중") + "</td>"
-	                        + "<td>" + alist[i].answerDate + "</td>"
-	                        + "</tr>";							
-						}
-						
-						$("#qna_table tbody").html(value);
-						
-					}else{
-						value = "<tr><td colspan='5'>존재하는 댓글이 없습니다</td></tr>"
-					}
-				}
-			})
-		}
-			
-	
-	
-    </script>
-							        
-	
-	
-
+</div>
 </body>
 </html>
