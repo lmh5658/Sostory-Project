@@ -17,7 +17,6 @@ public class Product {
 	public Product() {}
 
 	
-	
 	public Product(int productNo, String categoryNo, String productName, int price, String inventory, Date enrollDate,
 			Date modifyDate, String status, int discountPrice, String path) {
 		super();

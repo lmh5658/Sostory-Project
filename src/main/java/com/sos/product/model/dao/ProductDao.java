@@ -16,6 +16,7 @@ import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.ProductRecipe;
+import com.sos.product.model.vo.ProductReview;
 import com.sos.product.model.vo.Qna;
 
 public class ProductDao {
@@ -252,6 +253,69 @@ public class ProductDao {
 		}
 		
 		return rlist;
+	}
+	
+	public int selectReviewCount(Connection conn) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReviewCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+		
+	}
+	
+	public List<ProductReview> selectReviewList(Connection conn, int productNo, PageInfo pi){
+		
+		
+		List<ProductReview> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReviewList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productNo);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductReview pr = new ProductReview();
+				pr.setProductNo(rset.getInt("PRODUCT_NO"));
+				pr.setReviewContent(rset.getString("REVIEW_CONTENT"));
+				pr.setRating(rset.getInt("RATING"));
+				pr.setWriterNo(rset.getString("USER_ID"));
+				pr.setPostDate(rset.getString("POST_DATE"));
+				list.add(pr);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
 	}
 
 }
