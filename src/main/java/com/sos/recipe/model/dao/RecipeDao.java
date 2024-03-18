@@ -80,10 +80,17 @@ public class RecipeDao {
 			
 			while(rset.next()) {
 				list.add(new Recipe( rset.getInt("RECIPE_NO"), 
-									rset.getInt("CATEGORY_NO"), 
+									rset.getString("CATEGORY_NAME"), 
 									rset.getString("RECIPE_TITLE"),
 									rset.getString("THUMBNAIL_URL"),
-									rset.getString("RECIPE_INTRO")
+									rset.getString("RECIPE_INTRO"),
+									rset.getString("USER_NAME"),
+									rset.getString("USER_PATH"),
+									rset.getInt("LIKE_COUNT"),
+									rset.getString("PRODUCT_NAME"),
+									rset.getInt("PRICE"),
+									rset.getInt("DISCOUNT_PRICE"),
+									rset.getString("PATH")
 								  ));
 			}
 			

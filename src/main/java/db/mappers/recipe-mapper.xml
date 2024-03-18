@@ -9,45 +9,48 @@
 		WHERE RECIPE_STATUS = 'Y' 
 	</entry>
 	
-	<!-- currnet페이지 레시피게시글 목록 조회-->
+	<!-- 레시피게시글 목록 조회-->
 	<entry key="selectRecipeList">
-					SELECT *
-			FROM (
-			    SELECT ROWNUM RNUM, A.*
-			    FROM (
-			        SELECT
-			            R.RECIPE_NO,
-			            R.CATEGORY_NO,
-			            R.RECIPE_TITLE,
-			            R.THUMBNAIL_URL,
-			            R.RECIPE_INTRO,
-			            M.USER_NAME,
-			            COUNT(L.LIKE_REFNO) AS LIKE_COUNT,
-			            P.PRODUCT_NAME,
-			            P.PRICE,
-			            P.DISCOUNT_PRICE,
-			            P.PATH
-			        FROM TB_RECIPE R
-			        JOIN TB_MEMBER M ON R.USER_NO = M.USER_NO
-			        JOIN TB_PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
-			        JOIN TB_LIKE L ON R.USER_NO = L.USER_NO
-			        JOIN TB_CATEGORY C ON C.CATEGORY_NO = R.CATEGORY_NO
-			        WHERE R.RECIPE_STATUS = 'Y' AND L.LIKE_TYPE = 'R'
-			        GROUP BY 
-			            R.RECIPE_NO,
-			            R.CATEGORY_NO,
-			            R.RECIPE_TITLE,
-			            R.THUMBNAIL_URL,
-			            R.RECIPE_INTRO,
-			            M.USER_NAME,
-			            P.PRODUCT_NAME,
-			            P.PRICE,
-			            P.DISCOUNT_PRICE,
-			            P.PATH
-			    ) A
-			    ORDER BY LIKE_COUNT DESC
-			)
-			WHERE RNUM BETWEEN ? AND ?
+		SELECT *
+		FROM (
+		    SELECT ROWNUM RNUM, A.*
+		    FROM (
+		        SELECT
+		            R.RECIPE_NO,
+		            C.CATEGORY_NAME,
+		            R.RECIPE_TITLE,
+		            R.THUMBNAIL_URL,
+		            R.RECIPE_INTRO,
+		            M.USER_NAME,
+		            M.USER_PATH,
+		            COUNT(L.LIKE_REFNO) AS LIKE_COUNT,
+		            P.PRODUCT_NAME,
+		            P.PRICE,
+		            P.DISCOUNT_PRICE,
+		            P.PATH
+		        FROM TB_RECIPE R
+		       left JOIN TB_MEMBER M ON R.USER_NO = M.USER_NO
+      		   left JOIN TB_PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
+               left JOIN TB_LIKE L ON R.USER_NO = L.USER_NO
+               left JOIN TB_CATEGORY C ON C.CATEGORY_NO = R.CATEGORY_NO
+		        WHERE R.RECIPE_STATUS = 'Y' 
+		        GROUP BY 
+		            R.RECIPE_NO,
+		            C.CATEGORY_NAME,
+		            R.RECIPE_TITLE,
+		            R.THUMBNAIL_URL,
+		            R.RECIPE_INTRO,
+		            M.USER_NAME,
+		            P.PRODUCT_NAME,
+		            P.PRICE,
+		            P.DISCOUNT_PRICE,
+		            P.PATH,
+		            M.USER_PATH    
+		            
+		    ) A
+		    ORDER BY LIKE_COUNT DESC
+		)
+		WHERE RNUM BETWEEN ? AND ?
 			
 	</entry>
 
