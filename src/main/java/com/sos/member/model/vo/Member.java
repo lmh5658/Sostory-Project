@@ -1,7 +1,5 @@
 package com.sos.member.model.vo;
 
-import java.sql.Date;
-
 public class Member {
 
 	private int userNo;
@@ -43,6 +41,20 @@ public class Member {
 		this.userType = userType;
 		this.userStatus = userStatus;
 		this.userPath = userPath;
+	}
+	public Member(String userId, String userPwd, String userName, String birthDate, String nickName, String phone,
+			String email, String address, String addressDetail, String gender) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.birthDate = birthDate;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+		this.addressDetail = addressDetail;
+		this.gender = gender;
 	}
 
 	public int getUserNo() {

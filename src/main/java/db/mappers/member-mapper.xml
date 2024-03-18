@@ -26,4 +26,42 @@
 		  AND USER_STATUS = 'Y'
 	</entry>
 
+	<entry key="idCheck">
+		SELECT COUNT(*) COUNT
+		  FROM TB_MEMBER
+		 WHERE USER_ID = ?
+	</entry>
+	
+	<entry key="insertMember">
+		INSERT 
+		  INTO TB_MEMBER
+		  	   (
+		  	   USER_NO
+		  	 , USER_ID
+		  	 , USER_PWD
+		  	 , USER_NAME
+		  	 , BIRTH_DATE
+		  	 , NICKNAME
+		  	 , PHONE
+		  	 , EMAIL
+		  	 , ADDRESS
+		  	 , ADDRESSDETAIL
+		  	 , GENDER
+		  	 , USER_PATH
+		  	   )
+		VALUES (
+		  	   SEQ_MNO.NEXTVAL
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	   )
+	</entry>
 </properties>

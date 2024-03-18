@@ -1,7 +1,7 @@
 package com.sos.myPage.controller;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,6 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.sos.common.template.MyFileRenamePolicy;
-import com.sos.member.model.service.MemberService;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.service.MyPageService;
 
@@ -66,8 +65,8 @@ public class MyPageUpdateMemberInfoController extends HttpServlet {
 			if(multiRequest.getOriginalFileName("upProfile") != null) {
 				mem.setUserPath("resources/uploadFiles/" + multiRequest.getFilesystemName("upProfile"));
 			}else {
-				// 사용자가 업로드한 프로필 첨부파일이 없을경우 : 소스토리 로고이미지파일 저장경로+수정파일명 저장 (default)
-				mem.setUserPath("resources/images/로고.png");
+				// 사용자가 업로드한 프로필 첨부파일이 없을경우 : user.png이미지 첨부파일 저장경로+수정파일명 저장 (default)
+				mem.setUserPath("resources/images/user.png");
 			}
 			
 			// 회원정보 수정요청 및 결과반환
@@ -81,6 +80,7 @@ public class MyPageUpdateMemberInfoController extends HttpServlet {
 			 * case 02) 정보수정이 정상적으로 처리되지 않았을경우
 			 *          응답화면 ==> 마이페이지 메인페이지
 			 *          응답메세지 : "정보수정이 정상적으로 이루어지지 않았습니다. 다시 시도해주세요."
+			 *          추가작업 : 미수정된 회원정보 객체의 프로필첨부파일 삭제
 			 */
 			if(result > 0){
 				request.getSession().setAttribute("alertMsg", "정보수정이 완료되었습니다. 수정된 정보반영을 위해서는 로그아웃 후 재로그인을 진행해주셔야합니다.");
@@ -88,6 +88,9 @@ public class MyPageUpdateMemberInfoController extends HttpServlet {
 			}else {
 				request.getSession().setAttribute("alertMsg", "정보수정이 정상적으로 이루어지지 않았습니다. 다시 시도해주세요.");
 				response.sendRedirect(request.getContextPath() + "/myPage.me");
+				
+				// 미수정된 회원정보 객체의 프로필첨부파일 삭제
+				new File(savePath + multiRequest.getFilesystemName("upProfile")).delete();
 			}
 			
 			

@@ -178,31 +178,31 @@ public class ProductDao {
 	}
 	
 	
-	public List<Qna> selectQnaList(Connection conn, int productNo){
+	public List<Qna> selectQnaList(Connection conn, int productNo, PageInfo pi){
 
 		List<Qna> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectReviewList");
+		String sql = prop.getProperty("selectQnaList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, productNo);			
-//			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
-//			int endRow = startRow + pi.getBoardLimit() - 1;			
-//			pstmt.setInt(2, startRow);
-//			pstmt.setInt(3, endRow);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;			
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				Qna q = new Qna();
 				q.setAnswerNo(rset.getInt("ANSWER_NO"));
-				q.setProductNo(rset.getInt("PRODUCT_NO"));
+				q.setProductNo(rset.getInt("PRODUCT_NAME"));
+				q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
 				q.setUserNo(rset.getString("USER_ID"));
 				q.setAnswerDate(rset.getString("ANSWER_DATE"));
-				q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
 				q.setAnswerContent(rset.getString("ANSWER_CONTENT"));
 				q.setAnswerType(rset.getString("ANSWER_STATUS"));
 				q.setReply(rset.getString("REPLY"));

@@ -20,5 +20,29 @@ public class MemberService {
 		return loginUser;
 		
 	}
+
+	public int idCheck(String checkId) {
+		Connection conn = getConnection();
+		int count = mDao.idCheck(conn, checkId);
+		close(conn);
+		
+		return count;
+	}
+
+	public int insertMember(Member m) {
+		Connection conn = getConnection();
+		
+		int result = mDao.insertMember(conn, m);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+	
 	
 }

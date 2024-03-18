@@ -85,7 +85,7 @@
                 <h3 id="login-text">로그인</h3>
                 
                 <form action="<%= contextPath %>/login.me" method="post">
-                    <table class="login-table center" margin-top: 0px;">
+                    <table class="login-table center">
                         <tbody>
                         	<tr>
                             	<td colspan="2"><input class="form-control" type="text" placeholder="아이디를 입력해주세요" required style="width: 500px;" name="userId"></td>
@@ -107,7 +107,7 @@
 	                        </tr>
 	                        <tr>
 	                            <td colspan="2" style= "padding-top:12px;">
-	                                <button type="button" id="signup-button" class="btn btn-secondary btn-sm">회원가입</button>
+	                                <a href="signupForm.me" id="signup-button" class="btn btn-secondary btn-sm">회원가입</a>
 	                            </td>
 	                        </tr>
                         </tbody>

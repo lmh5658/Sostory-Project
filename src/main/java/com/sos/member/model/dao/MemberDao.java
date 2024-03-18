@@ -69,5 +69,60 @@ public class MemberDao {
 		return loginUser;
 			
 	}
+
+	public int idCheck(Connection conn, String checkId) {
+		int checkResult = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("idCheck");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, checkId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				checkResult = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return checkResult;
+	}
+
+	public int insertMember(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getUserId());
+			pstmt.setString(2, m.getUserPwd());
+			pstmt.setString(3, m.getUserName());
+			pstmt.setString(4, m.getBirthDate());
+			pstmt.setString(5, m.getNickName());
+			pstmt.setString(6, m.getPhone());
+			pstmt.setString(7, m.getEmail());
+			pstmt.setString(8, m.getAddress());
+			pstmt.setString(9, m.getAddressDetail());
+			if(m.getGender().equals("no_gender")) {
+				pstmt.setString(10, "X");
+			} else {
+				pstmt.setString(10, m.getGender());	
+			}
+			pstmt.setString(11, "resources/images/user.png");
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 }

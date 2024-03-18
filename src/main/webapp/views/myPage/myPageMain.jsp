@@ -34,7 +34,7 @@
 				        <button class="list">회원정보</button>
 				        <div><a href="" id="updateMemInfo" class="" style="color:white; text-decoration-line:none;">회원정보 변경</a></div>
 				        <div><a href="<%= contextPath %>/updatePwdForm.me" style="color:white; text-decoration-line:none;">비밀변호 변경</a></div>
-				        <div><a href="" style="color:white; text-decoration-line:none;">배송지관리</a></div>
+				        <div><a href="<%= contextPath %>/address.me" style="color:white; text-decoration-line:none;">배송지관리</a></div>
 				        <div><a href="" style="color:white; text-decoration-line:none;">회원탈퇴</a></div>
 				    </div>
 				
@@ -64,23 +64,25 @@
 				   $(function(){
 						// 회원정보변경페이지 요청시 실행될 함수
 					   $("#updateMemInfo").click(function(e){
-						  
-						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
-						   if("<%= loginUser.getUserPwd() %>" == userPwd){
-								   /* 
-								    * 로그인한 회원(정보변경을 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
-								   	* ==> 회원정보변경 페이지 이동
-								   */
-								   $(this).attr("href", "<%= contextPath %>/updateForm.me");
-							   }
-						   
-						   if("<%= loginUser.getUserPwd() %>" != userPwd){
-								   /*
-								    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
-								    * ==> alert("실패메세지")
-								   */
-								   alert("비밀번호가 일치하지 않습니다.");
-						   } 
+						  // 회원정보변경페이지 진입이후 동일페이지를 재요청할 경우 : 비밀번호확인 x
+						   if(location.href.indexOf("<%= contextPath %>/updateForm.me") == -1){
+							   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+							   if("<%= loginUser.getUserPwd() %>" == userPwd){
+									   /* 
+									    * 로그인한 회원(정보변경을 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
+									   	* ==> 회원정보변경 페이지 이동
+									   */
+									   $(this).attr("href", "<%= contextPath %>/updateForm.me");
+								   }
+							   
+							   if("<%= loginUser.getUserPwd() %>" != userPwd){
+									   /*
+									    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
+									    * ==> alert("실패메세지")
+									   */
+									   alert("비밀번호가 일치하지 않습니다.");
+							   } 
+						   }
 						   
 						   
 					   })
