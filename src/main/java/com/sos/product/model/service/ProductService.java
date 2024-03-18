@@ -56,9 +56,9 @@ public class ProductService {
 		return countList;
 	}
 	
-	public List<Qna> selectQnaList(int productNo){
+	public List<Qna> selectQnaList(int productNo, PageInfo pi){
 		Connection conn = getConnection();
-		List<Qna> list = pDao.selectQnaList(conn, productNo);
+		List<Qna> list = pDao.selectQnaList(conn, productNo, pi);
 		close(conn);
 		return list;
 	}
