@@ -41,6 +41,20 @@
 		         ,ADDRESS_NO
 	</entry>
 	
+	<!-- 배송지 정보조회 -->
+	<entry key="selectAddress">
+		SELECT
+			   ADDRESS_NO
+			  ,ADDRESS_LOCAL
+			  ,ADDRESS_NAME
+			  ,ADDRESS_PHONE
+			  ,ADDRESS_ADDRESS
+			  ,ADDRESS_DETAIL
+			  ,ADDRESS_TYPE
+		  FROM TB_ADDRESS
+		 WHERE ADDRESS_NO = ?
+	</entry>
+	
 	<!-- 기본배송지 유무조회 -->
 	<entry key="selectDefaultAddress">
 		SELECT COUNT(*) COUNT
@@ -48,6 +62,13 @@
 		 WHERE USER_NO = ?
 		   AND ADDRESS_TYPE = 'Y'
 		   AND ADDRESS_STATUS = 'Y'
+	</entry>
+	
+	<!-- 회원정보 최종변경일 수정 -->
+	<entry key="updateMemberModifyDate">
+		UPDATE TB_MEMBER
+		   SET MODIFY_DATE = SYSDATE
+		 WHERE USER_NO = ?
 	</entry>
 	
 	<!-- 배송지타입 수정요청 -->

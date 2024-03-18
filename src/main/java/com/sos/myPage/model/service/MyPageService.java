@@ -80,6 +80,24 @@ public class MyPageService {
 	}
 	
 	/**
+	 * 기존배송지 정보조회 요청시 실행될 메소드
+	 * 
+	 * @param addressNo : 조회할 배송지의 배송지번호
+	 * @return : 조회된 배송지정보를 담은 배송지객체
+	 */
+	public Address selectAddress(int addressNo) {
+		
+		Connection conn = getConnection();
+		
+		Address addr = mpDao.selectAddress(conn, addressNo);
+		
+		close(conn);
+		
+		return addr;
+		
+	}
+	
+	/**
 	 * 배송지등록 | 배송지수정 요청시 해당 사용자의 기본배송지 유무조회시 실행될 메소드
 	 * 
 	 * @param conn

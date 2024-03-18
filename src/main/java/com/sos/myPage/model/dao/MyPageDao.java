@@ -145,6 +145,59 @@ public class MyPageDao {
 	}
 	
 	/**
+	 * 기존배송지 정보조회 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param addressNo : 조회할 배송지의 배송지번호
+	 * @return : 조회된 배송지정보를 담은 배송지객체
+	 */
+	public Address selectAddress(Connection conn, int addressNo) {
+		
+		Address addr = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, addressNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				addr = new Address();
+				addr.setAddressNo(rset.getInt("address_no"));
+				addr.setAddressLocal(rset.getString("address_local"));
+				addr.setAddressName(rset.getString("address_name"));
+				addr.setAddressPhone(rset.getString("address_phone"));
+				addr.setAddressAddress(rset.getString("address_address"));
+				addr.setAddressDetail(rset.getString("address_detail"));
+				addr.setAddressType(rset.getString("address_type"));
+			}
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return addr;
+	}
+	
+	/**
+	 * @param conn
+	 * @param userNo
+	 * @return
+	 */
+	/*
+	public int updateMemberModifyDate(Connection conn, int userNoqoth) {
+		
+	}
+	*/
+	/**
 	 * 배송지등록 | 배송지수정 요청시 해당 사용자의 기본배송지 유무조회시 실행될 메소드
 	 * 
 	 * @param conn
@@ -284,6 +337,8 @@ public class MyPageDao {
 		return result;
 		
 	}
+	
+	
 	
 
 }
