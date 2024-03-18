@@ -19,6 +19,7 @@ public class ProductRecipe {
 	private int likeCount;
 	private int productPrice;
 	private String productPath;
+	private String userPath;
 	
 
 	public ProductRecipe() {}
@@ -26,7 +27,7 @@ public class ProductRecipe {
 
 	public ProductRecipe(int recipeNo, String categoryNo, String userNo, String productNo, String recipeTitle,
 			String thumbnailUrl, String recipeIntro, String difficulty, int serving, int cookingTime, Date postDate,
-			String recipeStatus, int likeCount, int productPrice, String productPath) {
+			String recipeStatus, int likeCount, int productPrice, String productPath, String userPath) {
 		super();
 		this.recipeNo = recipeNo;
 		this.categoryNo = categoryNo;
@@ -43,6 +44,7 @@ public class ProductRecipe {
 		this.likeCount = likeCount;
 		this.productPrice = productPrice;
 		this.productPath = productPath;
+		this.userPath = userPath;
 	}
 
 
@@ -196,15 +198,28 @@ public class ProductRecipe {
 	}
 
 
+	public String getUserPath() {
+		return userPath;
+	}
+
+
+	public void setUserPath(String userPath) {
+		this.userPath = userPath;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ProductRecipe [recipeNo=" + recipeNo + ", categoryNo=" + categoryNo + ", userNo=" + userNo
 				+ ", productNo=" + productNo + ", recipeTitle=" + recipeTitle + ", thumbnailUrl=" + thumbnailUrl
 				+ ", recipeIntro=" + recipeIntro + ", difficulty=" + difficulty + ", serving=" + serving
 				+ ", cookingTime=" + cookingTime + ", postDate=" + postDate + ", recipeStatus=" + recipeStatus
-				+ ", likeCount=" + likeCount + ", productPrice=" + productPrice + ", productPath=" + productPath + "]";
+				+ ", likeCount=" + likeCount + ", productPrice=" + productPrice + ", productPath=" + productPath
+				+ ", userPath=" + userPath + "]";
 	}
 
+
+	
 
 	
 

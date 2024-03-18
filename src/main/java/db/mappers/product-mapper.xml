@@ -100,7 +100,14 @@
 			       , THUMBNAIL_URL
 			       , RECIPE_INTRO
 			       , PRICE
+                   , NVL((SELECT COUNT(LIKE_REFNO)
+                        FROM TB_LIKE
+                       WHERE LIKE_TYPE = 'R'
+                       GROUP BY LIKE_REFNO
+                        HAVING LIKE_REFNO = RECIPE_NO
+                      ), 0) COUNT
 			       , PATH
+			       , USER_PATH
 			    FROM TB_RECIPE R
 			    LEFT JOIN TB_CATEGORY USING(CATEGORY_NO)
 			    LEFT JOIN TB_PRODUCT USING(PRODUCT_NO)
@@ -138,6 +145,37 @@
 		)A
 		)
 		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="insertReview">
+		INSERT 
+		    INTO TB_REVIEW
+		    (
+		      PRODUCT_NO
+		    , WRITER_NO
+		    , RATING
+		    , REVIEW_CONTENT
+		    )
+		    VALUES
+		    (
+		     ?
+		    ,?
+		    ,?
+		    ,?
+		    )
+	
+	</entry>
+	
+	<entry key="selectReview">
+		SELECT 
+		       REVIEW_CONTENT
+		     , RATING
+		     , USER_ID
+		     , TO_CHAR(POST_DATE, 'yyyy/mm/dd') POST_DATE
+		FROM 
+		    TB_REVIEW
+		LEFT JOIN TB_MEMBER ON(USER_NO = WRITER_NO)
+		WHERE WRITER_NO = ?
 	</entry>
 	
 	

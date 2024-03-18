@@ -1,12 +1,13 @@
 package com.sos.product.model.service;
 
-import static com.sos.common.template.JDBCTemplate.close;
+import static com.sos.common.template.JDBCTemplate.*;
 import static com.sos.common.template.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
 import java.util.List;
 
 import com.sos.common.model.vo.PageInfo;
+import com.sos.common.template.JDBCTemplate;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.dao.ProductDao;
 import com.sos.product.model.vo.Product;
@@ -82,6 +83,19 @@ public class ProductService {
 		List<ProductReview> list = pDao.selectReviewList(conn, productNo, pi);
 		close(conn);
 		return list;
+	}
+	
+	public ProductReview insertReview(ProductReview pr) {
+		Connection conn = getConnection();
+		int result = pDao.insertReview(conn, pr);
+		ProductReview proRe = null;
+		if(result > 0) {
+			commit(conn);
+			proRe = pDao.selectReview(conn, Integer.parseInt(pr.getWriterNo()));
+		}else {
+			rollback(conn);
+		}
+		return proRe;
 	}
 	
 	

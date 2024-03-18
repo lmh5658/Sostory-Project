@@ -7,7 +7,7 @@
 	List<Member> list = (List<Member>)request.getAttribute("list");
 	// 결제 여부 확인 리스트 회원번호, 회원아이디
 	List<ProductRecipe> rlist =(List<ProductRecipe>)request.getAttribute("rlist");
-	// 레시피번호, 사용자아이디, 상품이름, 카테고리이름, 레시피제목, 파일경로, 레시피설명
+	// 레시피번호, 사용자아이디, 상품이름, 카테고리이름, 레시피제목, 파일경로, 레시피설명, 레시피좋아요수 COUNT
 %>
 <!DOCTYPE html>
 <html>
@@ -184,7 +184,7 @@
                                         <div class="recipe-writer" style="padding-right: 100px;">
                                             <h6 class="profile">
                                                 <!-- 레시피 작성자 프로필 사진 -->
-                                                <img src="./resourcces/images/user.svg" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
+                                                <img src="<%=contextPath + "/" + pr.getUserPath() %>" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
                                                 <div class="d-inline center ms-1"><small><%= pr.getUserNo() %> </small></div>
                                             </h6>
                                         </div>
@@ -194,7 +194,7 @@
                                                 <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2 2 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a10 10 0 0 0-.443.05 9.4 9.4 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a9 9 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.2 2.2 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.9.9 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
                                             </svg>
                                             <!-- 레시피 좋아요 총 갯수 -->
-                                            <div class="total-good">(2000)샘플데이터수가 적어서그런지 갯수가 안나옴..</div>
+                                            <div class="total-good">(<%=pr.getLikeCount() %>)</div>
                                         </div>
                                     </div> <!-- 레시피 etc end -->
                                 </div> <!-- 레시피 body end -->
@@ -234,37 +234,46 @@
                             <span class="d-flex justify-content-end">
                             <% for(Member m : list) { %>
 	                            <% if(loginUser != null && loginUser.getUserId().equalsIgnoreCase(m.getUserId())) { %>
-	                            <button type="button" class="btn btn-outline-dark" onclick="insertReply();">후기 작성하기</button>                            
-	                            <% } %>
-                            <% } %>
+	                            <button type="button" class="btn btn-outline-dark" onclick="insertReply();">후기 작성하기</button>
+                            	<% } %>
+                            <% } %>                            
                             </span>
                         </div>
 
                         <br>
+                      
                         <div class="d-flex" style="border: 1px solid black; border-radius: 10px; height: 200px;">
-
                             <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2 style="margin-left: 10px;">평점</h2>
-
-                                <select class="form-control" style="width: 100px; margin-left: 10px;">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    
-                                </select>
+								
+                                <select class="form-control" style="width: 100px; margin-left: 10px;" name="category">
+                                <% for(int i=1; i<=5; i++) { %>
+                                    <option value="<%= i %>"><%= i %></option>
+                                <% } %>
+                                </select>         
                                     
                             </div>
                                 
                              <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2>리뷰내용</h2>
-                                <textarea rows="3" class="form-control" style="resize: none; width: 600px;" id="reply_content"></textarea>
+                                <textarea rows="3" class="form-control" style="resize: none; width: 600px;" id="reply_content" name="content"></textarea>
                                 
                             </div>
                             
-                        </div>               
-
+                        </div>
+                        <script>
+                        	$.ajax({
+                        		url:"<%=contextPath%>/rinsert.pr",
+                        		data:{
+                        			proNo:<%=pro.getProductNo()%>,
+                        			point:
+                        			
+                        			
+                        		}
+                        	})
+                        </script>           
+						
+						
                         <hr>
                         <div class="rev_content" id="tableReview">
                            
@@ -280,63 +289,13 @@
         
                                 <tbody>
                                     
-                                    <!-- 
-                                    <tr>
-                                        <td>1</td>
-                                        <td>리뷰내용 소스토리~~</td>
-                                        <td>3</td>
-                                        <td>user01</td>
-                                        <td>200</td>
-                                        <td>2024/01/12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>리뷰내용 소스토리~~</td>
-                                        <td>4</td>
-                                        <td>user01</td>
-                                        <td>200</td>
-                                        <td>2024/01/12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>리뷰내용 소스토리~~</td>
-                                        <td>5</td>
-                                        <td>user01</td>
-                                        <td>200</td>
-                                        <td>2024/01/12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>리뷰내용 소스토리~~</td>
-                                        <td>5</td>
-                                        <td>user01</td>
-                                        <td>200</td>
-                                        <td>2024/01/12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>리뷰내용 소스토리~~</td>
-                                        <td>3</td>
-                                        <td>user01</td>
-                                        <td>200</td>
-                                        <td>2024/01/12</td>
-                                    </tr>
-        							 -->
                                 </tbody>
         
         
                             </table>
                             <!-- 페이징 바 -->
                             <ul class="pagination justify-content center" id="reviewPaging">
-                               <!-- 
-                               <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                               <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                               <li class="page-item"><a class="page-link" href="#">2</a></li>
-                               <li class="page-item"><a class="page-link" href="#">3</a></li>
-                               <li class="page-item"><a class="page-link" href="#">4</a></li>
-                               <li class="page-item"><a class="page-link" href="#">5</a></li>
-                               <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                -->
+                               
                              </ul>
         
                         </div>
@@ -346,7 +305,9 @@
                     <!-- 상품상세 리뷰 end -->
                     
                     <script>
+
                        	$(function(){
+  		
                        		selectReview(1);
                        		selectQna(1);
                        		
@@ -374,7 +335,7 @@
   				
                         					for(let i= result.pi.startPage; i<=result.pi.endPage; i++){
                         						if(i == result.pi.currentPage){
-                        							page += '<li class="page-item active" onclick="selectReview('+ i +')"><a class="page-link">' + i + '</a></li>';
+                        							page += '<li class="page-item active"><a class="page-link">' + i + '</a></li>';
                         						}else{
                         							page += '<li class="page-item" onclick="selectReview(' + i + ')"><a class="page-link">' + i + '</a></li>';                        							
                         						}
@@ -383,7 +344,7 @@
                         					if(result.pi.currentPage == result.pi.MaxPage){
                              					page +='<li class="page-item disabled"><a class="page-link">Next</a></li>';			                        						
                         					}else{
-                        						page +='<li class="page-item "><a class="page-link" onclick=selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
+                        						page +='<li class="page-item "><a class="page-link" onclick="selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
                         					}
                         					
                         					console.log(page);
@@ -442,7 +403,7 @@
   				
                         					for(let i= result.pi.startPage; i<=result.pi.endPage; i++){
                         						if(i == result.pi.currentPage){
-                        							page += '<li class="page-item active" onclick="selectReview('+ i +')"><a class="page-link">' + i + '</a></li>';
+                        							page += '<li class="page-item active"><a class="page-link">' + i + '</a></li>';
                         						}else{
                         							page += '<li class="page-item" onclick="selectReview(' + i + ')"><a class="page-link">' + i + '</a></li>';                        							
                         						}
@@ -451,7 +412,7 @@
                         					if(result.pi.currentPage == result.pi.MaxPage){
                              					page +='<li class="page-item disabled"><a class="page-link">Next</a></li>';			                        						
                         					}else{
-                        						page +='<li class="page-item "><a class="page-link" onclick=selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
+                        						page +='<li class="page-item "><a class="page-link" onclick="selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
                         					}
                         					
                         					$("#qna_page").html(page);
@@ -473,6 +434,8 @@
                              				
                              			}                            			
                              		})
+                             		
+                             		
                              		
                              	}
                              	

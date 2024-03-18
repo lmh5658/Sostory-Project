@@ -241,7 +241,9 @@ public class ProductDao {
 				pr.setThumbnailUrl(rset.getString("THUMBNAIL_URL"));
 				pr.setRecipeIntro(rset.getString("RECIPE_INTRO"));
 				pr.setProductPrice(rset.getInt("PRICE"));
+				pr.setLikeCount(rset.getInt("COUNT"));
 				pr.setProductPath(rset.getString("PATH"));
+				pr.setUserPath(rset.getString("USER_PATH"));
 				rlist.add(pr);
 				
 			}
@@ -315,6 +317,57 @@ public class ProductDao {
 		}
 		
 		return list;
+		
+	}
+	
+	public int insertReview(Connection conn, ProductReview pr) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertReview");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pr.getProductNo());
+			pstmt.setString(2, pr.getWriterNo());
+			pstmt.setInt(3, pr.getRating());
+			pstmt.setString(4, pr.getReviewContent());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;	
+	}
+	
+	public ProductReview selectReview(Connection conn, int userNo) {
+		
+		ProductReview proRe = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReview");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				proRe = new ProductReview();
+				proRe.setReviewContent(rset.getString("REVIEW_CONTENT"));
+				proRe.setRating(rset.getInt("RATING"));
+				proRe.setWriterNo(rset.getString("USER_ID"));
+				proRe.setPostDate(rset.getString("POST_DATE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return proRe;
 		
 	}
 
