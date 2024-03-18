@@ -105,5 +105,46 @@ public class RecipeDao {
 		return list;
 		
 	}
+	
+	//카테고리 레시피게시글 필터링
+	public List<Recipe> selectRecipeList(Connection conn, String categoryName) {
+	    List<Recipe> categorylist = new ArrayList<>();
+	    
+	    PreparedStatement pstmt = null;
+	    ResultSet rset = null;
+	    String sql = prop.getProperty("selectCategoryRecipe");
+	    
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, categoryName);
+	        rset = pstmt.executeQuery();
+	        
+	        while(rset.next()) {
+	        	categorylist.add(new Recipe( rset.getInt("RECIPE_NO"), 
+	                                rset.getString("CATEGORY_NAME"), 
+	                                rset.getString("RECIPE_TITLE"),
+	                                rset.getString("THUMBNAIL_URL"),
+	                                rset.getString("RECIPE_INTRO"),
+	                                rset.getString("USER_NAME"),
+	                                rset.getString("USER_PATH"),
+	                                rset.getInt("LIKE_COUNT"),
+	                                rset.getString("PRODUCT_NAME"),
+	                                rset.getInt("PRICE"),
+	                                rset.getInt("DISCOUNT_PRICE"),
+	                                rset.getString("PATH")
+	                              ));
+	        }
+	        
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(rset);
+	        close(pstmt);
+	    }
+	    
+	    return categorylist;
+	}
+
 }
 

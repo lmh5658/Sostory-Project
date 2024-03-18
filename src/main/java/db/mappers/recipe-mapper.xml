@@ -54,4 +54,20 @@
 			
 	</entry>
 
+
+	<!-- 카테고리 별 레시피게시글 조회-->
+	<entry key="selectCategoryRecipe">
+		SELECT *
+	 	 FROM TB_RECIPE R
+		 JOIN TB_CATEGORY C ON C.CATEGORY_NAME = R.CATEGORY_NAME
+		WHERE R.CATEGORY_NO = ?
+			
+	</entry>
+	
+	<!-- 상품 제목 검색 -->
+	<entry key="recipeSerch">
+	SELECT *
+	 FROM TB_RECIPE 
+	WHERE RECIPE_TITLE LIKE '%?%';
+	</entry>
 </properties>

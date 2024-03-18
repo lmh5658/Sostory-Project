@@ -29,4 +29,12 @@ public class RecipeService {
 		return list;
 	}
 
+	public List<Recipe> selectCategoryRecipe(String categoryName) {
+		Connection conn = getConnection();
+		List<Recipe> categorylist= rDao.selectRecipeList(conn, categoryName);
+		close(conn);
+		return categorylist;
+	}
+
+
 }
