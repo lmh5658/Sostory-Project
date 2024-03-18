@@ -23,5 +23,78 @@
 		   	  ,USER_PATH = ?
 		 WHERE USER_NO = ?
 	</entry>
+	
+	<!-- 배송지리스트 조회요청 -->
+	<entry key="selectAddressList">
+		SELECT 
+		       ADDRESS_NO
+		      ,ADDRESS_LOCAL
+		      ,USER_NAME
+		      ,ADDRESS_ADDRESS || ' ' || ADDRESS_DETAIL ADDRESS
+		      ,ADDRESS_PHONE
+		      ,ADDRESS_TYPE
+		  FROM TB_ADDRESS
+		  JOIN TB_MEMBER USING (USER_NO)
+		 WHERE USER_NO = ?
+		   AND ADDRESS_STATUS = 'Y'
+		 ORDER BY ADDRESS_TYPE DESC
+		          ADDRESS_NO
+	</entry>
+	
+	<!-- 기본배송지 유무조회 -->
+	<entry key="selectDefaultAddress">
+		SELECT COUNT(*) COUNT
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   AND ADDRESS_TYPE = 'Y'
+		   AND ADDRESS_STATUS = 'Y'
+	</entry>
+	
+	<!-- 배송지타입 수정요청 -->
+	<entry key="updateAddressType">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_TYPE = 'N'
+		 WHERE USER_NO = ?
+		   AND ADDRESS_TYPE ='Y'
+	</entry>
+	
+	<!-- 배송지 등록요청 -->
+	<entry key="insertAddress">
+		INSERT
+		    INTO TB_ADDRESS
+		        (
+		          ADDRESS_NO
+		         ,USER_NO
+		         ,ADDRESS_LOCAL
+		         ,ADDRESS_NAME
+		         ,ADDRESS_ADDRESS
+		         ,ADDRESS_DETAIL
+		         ,ADDRESS_PHONE
+		         ,ADDRESS_TYPE
+		        )
+		    VALUES
+		        (
+		          SEQ_ANO.NEXTVAL
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		        )
+	</entry>
+	
+	<!-- 배송지 수정요청 -->
+	<entry key="updateAddress">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_LOCAL = ?
+		      ,ADDRESS_NAME = ?
+		      ,ADDRESS_ADDRESS = ?
+		      ,ADDRESS_DETAIL = ?
+		      ,ADDRESS_PHONE = ?
+		      ,ADDRESS_TYPE = ?
+		 WHERE ADDRESS_NO = ?
+	</entry>
 
 </properties>

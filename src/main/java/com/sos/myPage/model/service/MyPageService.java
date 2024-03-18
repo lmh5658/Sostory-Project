@@ -1,15 +1,16 @@
 package com.sos.myPage.model.service;
 
-import static com.sos.common.template.JDBCTemplate.commit;
+import static com.sos.common.template.JDBCTemplate.*;
 import static com.sos.common.template.JDBCTemplate.getConnection;
 import static com.sos.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 
-import com.sos.member.model.dao.MemberDao;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.dao.MyPageDao;
+import com.sos.myPage.model.vo.Address;
 
 public class MyPageService {
 
@@ -58,6 +59,114 @@ public class MyPageService {
 		
 		return result;
 		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 배송지관리페이지 요청시 실행될 메소드 (배송지리스트 조회)
+	 * 
+	 * @param userNo : 서비스요청 사용자의 회원번호
+	 * @return : 조회된 해당회원의 배송지객체 리스트 (null | 리스트)
+	 */
+	public List<Address> selectAddressList(int userNo){
+		
+		Connection conn = getConnection();
+		
+		List<Address> list = mpDao.selectAddressList(conn, userNo);
+		
+		close(conn);
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 배송지등록 | 배송지수정 요청시 해당 사용자의 기본배송지 유무조회시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 배송지 추가 | 수정 요청 사용자의 회원번호
+	 * @return : 조회된 해당사용자의 기본배송지 갯수
+	 */
+	public int selectDefaultAddress(int userNo) {
+		
+		Connection conn = getConnection();
+		
+		int count = mpDao.selectDefaultAddress(conn, userNo);
+		
+		close(conn);
+		
+		return count;
+		
+	}
+	
+	/**
+	 * 배송지등록 | 배송지수정시 새로운 배송지를 기본배송지로 지정할 경우 실행될 메소드 (기존 기본배송지 ADDRESS_TYPE = 'N')
+	 * 
+	 * @param conn
+	 * @param userNo : 배송지등록 | 배송지수정 요청한 사용자의 회원번호
+	 * @return : 배송지유형(ADDRESS_TYPE) 수정요청 처리결과 행 수
+	 */
+	public int updateAddressType(int userNo) {
+		
+		Connection conn = getConnection();
+		
+		int result = mpDao.updateAddressType(conn, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 배송지관리페이지에서 배송지등록 요청시 실행될 메소드
+	 * 
+	 * @param addr : 등록할 배송지정보가 담긴 배송지객체
+	 * @return : 신규 배송지등록 처리결과 행 수
+	 */
+	public int insertAddress(Address addr) {
+		
+		Connection conn = getConnection();
+		
+		int result = mpDao.insertAddress(conn, addr);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 배송지수정 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param addr : 수정할 배송지정보가 담긴 배송지객체
+	 * @return : 배송지수정 처리결과 행 수
+	 */
+	public int updateAddress(Address addr) {
+		
+		Connection conn = getConnection();
+		
+		int result = mpDao.updateAddress(conn, addr);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
 	}
 	
 }
