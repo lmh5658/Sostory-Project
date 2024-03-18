@@ -421,7 +421,7 @@
                              		})
                              	}
                              	
-                             	<!--
+                             
                              	function selectQna(requestPage){
                              		$.ajax({
                              			url:"<%=contextPath%>/qlist.pr",
@@ -432,7 +432,7 @@
                              			post:"post",
                              			success:function(result){
                              				console.log(result);
-                             			
+  
                              				let page = "";
                              				if(1 == result.pi.currengPage){
                              					page += '<li class="page-item disabled"><a class="page-link">previous</a><li>';
@@ -456,17 +456,17 @@
                         					
                         					$("#qna_page").html(page);
                         					
-                        					let value = "";
-                        					
-                        					for(let i=0; i<result.rlist.length; i++){
+                        					let value = "";            					
+                        					for(let i=0; i<result.qlist.length; i++){
                             					value += "<tr>"
-                            						   + "<td>" + result.rlist[i].answerNo + "</td>"
-                            						   + "<td>" + result.rlist[i].answerTitle + "</td>"
-                            						   + "<td>" + result.rlist[i].reply + "</td>"
-                            						   + "<td>" + result.rlist[i].userId + "</td>"
-                            						   + "<td>" + result.rlist[i].answerDate + "</td>"
+                            						   + "<td>" + result.qlist[i].answerNo + "</td>"
+                            						   + "<td>" + result.qlist[i].answerTitle + "</td>"
+                            						   + "<td>" + result.qlist[i].userNo + "</td>"
+                            						   + "<td>" + result.qlist[i].answerType + "</td>"
+                            						   + "<td>" + result.qlist[i].answerDate + "</td>"
                             						   + "</tr>";
                            					}
+                        					
                            					$("#qna_table tbody").html(value);
                            					
                            					
@@ -475,7 +475,7 @@
                              		})
                              		
                              	}
-                             	 -->
+                             	
                              </script>
 
 
@@ -500,7 +500,7 @@
                                         <th width="100px">문의번호</th>
                                         <th width="400px">문의제목</th>
                                         <th width="120px">작성자</th>
-                                        <th>조회수</th>
+                                        <th>답변상태</th>
                                         <th>작성일</th>
                                     </tr>
                                 </thead>
@@ -513,7 +513,7 @@
         
                             </table>
                             <!-- 페이징 바 -->
-                            <ul class="pagination justify-content center" id="">
+                            <ul class="pagination justify-content center" id="qna_page">
                               
                             </ul>
         
