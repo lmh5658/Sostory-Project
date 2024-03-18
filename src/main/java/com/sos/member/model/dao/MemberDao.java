@@ -124,5 +124,28 @@ public class MemberDao {
 		
 		return result;
 	}
+
+	public String findIdByEmail(Connection conn, Member m) {
+		String userId = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findIdByEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getUserName());
+			pstmt.setString(2, m.getEmail());
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				userId = rset.getString("user_id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return userId;
+	}
 	
 }

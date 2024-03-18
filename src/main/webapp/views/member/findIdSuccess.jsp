@@ -104,17 +104,13 @@
                             <th width="180px"><a class="find_pwd" href="#">비밀번호 찾기</a></th>
                         </tr>
                         <tr>
-                            <td id="email-text" colspan="2">이메일로 아이디 찾기</td>
+                            <td id="email-text" colspan="2">1개의 아이디를 찾았습니다</td>
                         </tr>
                         <tr>
-                            <td colspan="2">
-                            	<input class="form-control" name="userName" type="text" style="width: 100%;" placeholder="이름을 입력해주세요" required>
-                            </td>
+                            <td colspan="2" id="findId_name" class="find-id center">회원님 아이디는 xxxx**입니다.</td>
                         </tr>
                         <tr>
-                            <td colspan="2" style="padding-bottom: 20px;">
-                                <input class="form-control" name="email" type="email" placeholder="이메일을 입력해주세요" style="width: 100%;" required>
-                            </td>
+                            <td colspan="2" id="findId_date" class="find-id center">(xxxx년 xx월 xx일 가입)</td>
                         </tr>
                         <tr>
                             <td colspan="2">

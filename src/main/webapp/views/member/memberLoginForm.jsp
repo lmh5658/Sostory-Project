@@ -96,8 +96,7 @@
                         	<tr>
                             	<td><input type="checkbox" id="#saved"><label for="#saved">&nbsp;아이디 저장</label></td>
                             	<td style="text-align: right;">
-	                            	<a href="#">아이디 찾기 &nbsp;</a>
-	                            	<a href="#">비밀번호 찾기</a>
+	                            	<a href="findForm.me">아이디 비밀번호 찾기</a>
                             	</td>
                         	</tr>
 	                        <tr>

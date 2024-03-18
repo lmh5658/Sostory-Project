@@ -43,6 +43,13 @@ public class MemberService {
 		
 		return result;
 	}
+
+	public String findIdByEmail(Member m) {
+		Connection conn = getConnection();
+		String userId = mDao.findIdByEmail(conn, m);
+		close(conn);
+		return userId;
+	}
 	
 	
 }

@@ -12,16 +12,16 @@ import com.sos.member.model.service.MemberService;
 import com.sos.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberSignupCotroller
+ * Servlet implementation class FindIdController
  */
-@WebServlet("/signup.me")
-public class MemberSignupCotroller extends HttpServlet {
+@WebServlet("/findId.me")
+public class FindIdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberSignupCotroller() {
+    public FindIdController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,25 +30,18 @@ public class MemberSignupCotroller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
-		Member m = new Member(request.getParameter("userId"),
-							  request.getParameter("userPwd"),
-							  request.getParameter("userName"),
-							  request.getParameter("birthDate"),
-							  request.getParameter("nickName"),
-							  request.getParameter("phone"),
-							  request.getParameter("email"),
-							  request.getParameter("address"),
-							  request.getParameter("addressDetail"),
-							  request.getParameter("gender"));
+		Member m = new Member();
+		m.setUserName(request.getParameter("userName"));
+		m.setEmail(request.getParameter("email"));
 		
-		int result = new MemberService().insertMember(m);
+		String userId = new MemberService().findIdByEmail(m);
 		
-		if(result > 0) {
+		if(userId != null) {
+			request.setAttribute("userId", userId);
 			request.setAttribute("userName", m.getUserName());
-			request.getRequestDispatcher("/views/member/signupSuccess.jsp").forward(request, response);
+			request.getRequestDispatcher("/views/member/findIdSuccess.jsp").forward(request, response);
 		} else {
-			request.getSession().setAttribute("alertMsg", "회원가입 요청에 실패했습니다.");
+			request.getSession().setAttribute("alertMsg", "아이디를 찾지 못했습니다.");
 			response.sendRedirect(request.getContextPath());
 		}
 	}
