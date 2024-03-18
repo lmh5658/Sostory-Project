@@ -91,10 +91,10 @@
                         <!-- 상품 썸네일 상단 start -->
                             <!-- 상품 썸네일 start -->
                         <% for(Product p : list) { %>
-                        <div class="thumbnail"> 
+                        <div> 
                             <input type="hidden" name="productNo" value="<%= p.getProductNo() %>">
                             <div class="product img-thumbnail p-2" style="width:300px">
-                                <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%">
+                                <img class="product-img thumbnail" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%">
                                 <div class="product-body">
                                     <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
                                     <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
