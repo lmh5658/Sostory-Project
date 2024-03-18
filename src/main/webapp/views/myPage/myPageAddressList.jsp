@@ -3,6 +3,7 @@
 <%@ page import="java.util.List, com.sos.myPage.model.vo.Address" %>
     
 <%
+	// 배송지번호, 배송지명, 이름, 주소(우편주소+상세주소), 연락처, 배송지유형(Y(기본배송지) | N(기타배송지))
 	List<Address> list = (List<Address>)request.getAttribute("addressList");
 %>
 <!DOCTYPE html>
@@ -150,7 +151,7 @@
 	                                    </td>
 	                                    <td><%= addr.getAddressPhone() %></td>
 	                                    <td>
-	                                        <a href="" class="btn text-primary" data-toggle="modal" data-target="#updateAddr">수정</a> 
+	                                        <button class="btn text-primary" data-toggle="modal" data-target="#updateAddr" onclick="selectAddress(<%= addr.getAddressNo() %>);">수정</button> 
 	                                        | 
 	                                        <a href="" class="btn text-danger">삭제</a>
 	                                    </td>
@@ -175,38 +176,40 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             
-                            <form action="" method="" class="form-group">
+                            <form action="<%= contextPath %>/updateAddr.me" method="post" class="form-group">
                                 <!-- 배송지수정 팝업창 body -->
                                 <div class="modal-body">
-
+									
+									<input type="hidden" id="addressNo" name="addressNo">
+									
                                     <div class="d-flex form-field">
                                         <label for="addressName" class="mr-sm-2">* 배송지명</label>
-                                        <input type="text" class="form-control" id="addressName" value="기존배송지명">
+                                        <input type="text" class="form-control" id="addressName" name="addressLocal">
                                     </div>
 
                                     <div class="d-flex form-field">
                                         <label for="recipient-name" class="mr-sm-2">* 이름</label>
-                                        <input type="text" class="form-control" id="recipient-name" value="기존이름">
+                                        <input type="text" class="form-control" id="recipient-name" name="addressName">
                                     </div>
 
                                     <div class="d-flex form-field">
                                         <label for="phone" class="mr-sm-2">* 연락처</label>
-                                        <input type="tel" class="form-control" id="phone" value="기존연락처">
+                                        <input type="tel" class="form-control" id="phone" name="addressPhone">
                                     </div>
 
                                     <div class="d-flex form-field">
                                         
                                         <label for="address" class="mr-sm-2">* 주소</label>
-                                        <input type="text" class="form-control" id="address" value="기존주소">
+                                        <input type="text" class="form-control" id="address" name="addressAddress">
                                     </div>
 
                                     <div class="d-flex form-field mt-2">
-                                        <input type="text" class="form-control" id="addressDetail" value="기존상세주소">
+                                        <input type="text" class="form-control" id="addressDetail" name="addressDetail">
                                     </div>
 
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" value="">기본 배송지로 선택</label>
+                                        <input type="checkbox" class="form-check-input" value="Y" name="addressType">기본 배송지로 선택</label>
                                     </div>
 
                                 </div>
@@ -224,6 +227,42 @@
                         </div>
                     </div>
                     <!-- 배송지수정 팝업창 end -->
+                    
+                    <script>
+						
+                   		// 기존배송지 정보수정 요청시 해당배송지 정보조회용 ajax 통신
+                   		function selectAddress(addressNo){
+
+                   			$.ajax({
+                   				url:"<%= contextPath %>/addrDetail.me",
+                   				method:"post",
+                   				data:{addressNo:addressNo},
+                   				success:function(addr){
+                   					
+                   					const $updateAddr = $("#updateAddr");
+
+                   					$updateAddr.find("#addressNo").val(addr.addressNo);
+                   					$updateAddr.find("#addressName").val(addr.addressLocal);
+                   					$updateAddr.find("#recipient-name").val(addr.addressName);
+                   					$updateAddr.find("#phone").val(addr.addressPhone);
+                   					$updateAddr.find("#address").val(addr.addressAddress);
+                   					$updateAddr.find("#addressDetail").val(addr.addressDetail);
+                   					
+                   					if(addr.addressType == 'Y'){
+                   						$updateAddr.find(":checkbox").attr("checked", true);
+                   					}else if(addr.addressType == 'N'){
+                   						$updateAddr.find(":checkbox").attr("checked", false);
+                   					}
+                   					
+                   				},error:function(){
+                   					alert("배송지 정보조회에 실패했습니다. 다시 시도해주세요.");
+                   				}
+                   				
+                   			})
+                   			
+                   		}
+                    		
+                    </script>
 
 	
                     <!-- 배송지추가 버튼(클릭시 팝업창뜸) : 총 배송지 수가 10개 이하일 경우에만 보여짐 -->
