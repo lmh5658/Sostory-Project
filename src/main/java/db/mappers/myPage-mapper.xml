@@ -38,7 +38,7 @@
 		 WHERE USER_NO = ?
 		   AND ADDRESS_STATUS = 'Y'
 		 ORDER BY ADDRESS_TYPE DESC
-		          ADDRESS_NO
+		         ,ADDRESS_NO
 	</entry>
 	
 	<!-- 기본배송지 유무조회 -->

@@ -49,11 +49,13 @@ public class AjaxQnaListController extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(countList, currentPage, boardLimit, pageLimit, maxPage, startPage, endPage);
 		
-		List<Qna> list = new ProductService().selectQnaList(productNo, pi);
+		List<Qna> qlist = new ProductService().selectQnaList(productNo, pi);
 		
 		HashMap<String, Object> hmap = new HashMap();
-		hmap.put("hmap", hmap);
-		hmap.put("pi", pi);
+		if(hmap != null) {
+			hmap.put("qlist", qlist);
+			hmap.put("pi", pi);			
+		}
 	
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(hmap, response.getWriter());

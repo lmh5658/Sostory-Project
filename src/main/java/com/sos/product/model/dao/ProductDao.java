@@ -190,16 +190,16 @@ public class ProductDao {
 			
 			pstmt.setInt(1, productNo);			
 			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
-			int endRow = startRow + pi.getBoardLimit() - 1;			
+			int endRow = startRow + pi.getBoardLimit() - 1;	
+			
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
-			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				Qna q = new Qna();
 				q.setAnswerNo(rset.getInt("ANSWER_NO"));
-				q.setProductNo(rset.getInt("PRODUCT_NAME"));
+				q.setProductNo(rset.getString("PRODUCT_NAME"));
 				q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
 				q.setUserNo(rset.getString("USER_ID"));
 				q.setAnswerDate(rset.getString("ANSWER_DATE"));

@@ -2,9 +2,9 @@ package com.sos.product.model.vo;
 
 public class Qna {
 	private int answerNo;
-	private int productNo;
+	private String productNo;
 	private String userNo;
-	private int adminNo;
+	private String adminNo;
 	private String answerDate;
 	private String answerTitle;
 	private String answerContent;
@@ -15,7 +15,7 @@ public class Qna {
 	
 	public Qna() {}
 
-	public Qna(int answerNo, int productNo, String userNo, int adminNo, String answerDate, String answerTitle,
+	public Qna(int answerNo, String productNo, String userNo, String adminNo, String answerDate, String answerTitle,
 			String answerContent, String answerType, String answerStatus, String reply, String replyDate) {
 		super();
 		this.answerNo = answerNo;
@@ -39,11 +39,11 @@ public class Qna {
 		this.answerNo = answerNo;
 	}
 
-	public int getProductNo() {
+	public String getProductNo() {
 		return productNo;
 	}
 
-	public void setProductNo(int productNo) {
+	public void setProductNo(String productNo) {
 		this.productNo = productNo;
 	}
 
@@ -55,11 +55,11 @@ public class Qna {
 		this.userNo = userNo;
 	}
 
-	public int getAdminNo() {
+	public String getAdminNo() {
 		return adminNo;
 	}
 
-	public void setAdminNo(int adminNo) {
+	public void setAdminNo(String adminNo) {
 		this.adminNo = adminNo;
 	}
 
@@ -127,6 +127,8 @@ public class Qna {
 				+ replyDate + "]";
 	}
 
+	
+	
 	
 	
 }

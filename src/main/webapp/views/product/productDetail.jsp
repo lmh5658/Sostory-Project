@@ -170,21 +170,22 @@
                     <div class="recipe-list  d-flex w-100 justify-content-evenly p-5" style="background-color:cornsilk;">
 
                         <!-- 레시피 썸네일 start -->
-                        <% if(!rlist.isEmpty()) { %>
-                        <% for(int i=0; i<3; i++) {  %>
+                       <% if(!rlist.isEmpty()) { %>
+                        <% for(ProductRecipe pr : rlist) {  %>
+                        
                         <div class="recipe-wrap">
                             <div class="recipe" style="width:300px">
-                                <img class="recipe-img-top" src="<%= contextPath + "/" + rlist.get(i).getThumbnailUrl() %>" alt="Card image" style="width:100%; border-radius: 30px;">
+                                <img class="recipe-img-top" src="<%= contextPath + "/" + pr.getThumbnailUrl() %>" alt="Card image" style="width:100%; border-radius: 30px;">
                                 <div class="recipe-body">
-                                    <small class="recipe-category d-block text-secondary my-3">분류><%= rlist.get(i).getCategoryNo() %></small>
-                                    <h7 class="recipe-title"><b><%= rlist.get(i).getRecipeTitle() %></b></h7>
-                                    <small class="recipe-intro d-block text-secondary text-wrap my-2"><%= rlist.get(i).getRecipeIntro() %></small>
+                                    <small class="recipe-category d-block text-secondary my-3">분류><%= pr.getCategoryNo() %></small>
+                                    <h7 class="recipe-title"><b><%= pr.getRecipeTitle() %></b></h7>
+                                    <small class="recipe-intro d-block text-secondary text-wrap my-2"><%= pr.getRecipeIntro() %></small>
                                     <div class="recipe-etc d-flex my-3 mt-4 border-bottom pb-2">
                                         <div class="recipe-writer" style="padding-right: 100px;">
                                             <h6 class="profile">
                                                 <!-- 레시피 작성자 프로필 사진 -->
                                                 <img src="./resourcces/images/user.svg" alt="user profile image" class="rounded-circle border" style="width: 20px; height: 20px;">
-                                                <div class="d-inline center ms-1"><small><%= rlist.get(i).getUserNo() %> </small></div>
+                                                <div class="d-inline center ms-1"><small><%= pr.getUserNo() %> </small></div>
                                             </h6>
                                         </div>
                                         <div class="recipe-good d-flex justify-content-end">
@@ -202,19 +203,20 @@
                                 <div class="recipe-product border-top d-flex pt-4" style="display: flex;">
                                     <div class="recipe-product-img border me-4" style="width: 100px; height: 100px;">
                                         <!-- 레시피 관련 상품 이미지 -->
-                                        <img src="<%= contextPath + "/" + rlist.get(i).getProductPath() %>" alt="" style="width: 100%; height: 100%;">
+                                        <img src="<%= contextPath + "/" + pr.getProductPath() %>" alt="" style="width: 100%; height: 100%;">
                                     </div>
                                     <div class="recipe-product-detail">
-                                        <div class="recipe-product-title"><h6 class="fw-bold"><b class="text-danger">[HOT]&nbsp;</b><%=rlist.get(i).getProductNo() %></h6></div>
-                                        <div class="recipe-product-price text-secondary mt-5"><h6><%= rlist.get(i).getProductPrice() %>원</h6></div>
+                                        <div class="recipe-product-title"><h6 class="fw-bold"><b class="text-danger">[HOT]&nbsp;</b><%=pr.getProductNo() %></h6></div>
+                                        <div class="recipe-product-price text-secondary mt-5"><h6><%= pr.getProductPrice() %>원</h6></div>
                                     </div>
                                 </div>
                                 <!-- 레시피 관련상품 영역 end -->
                             </div>
                         </div>
                         <!-- 레시피 썸네일 end -->
+                        
 						<% } %>
-						<% } %>
+					 <% } %>
                     </div>
                     <!-- 레시피 커뮤니티 리스트 end -->
 
@@ -401,7 +403,7 @@
                              				
                              				// rlist(List<Review>객체) 가지고 반복적으로 아래의 tr요소들 만들어서 tbody에 뿌리기 
                              				
-                             				
+                             			
                              				let value = "";
                              				
                            					for(let i=0; i<result.rlist.length; i++){
@@ -419,8 +421,7 @@
                              		})
                              	}
                              	
-                             	
-                             	
+                             
                              	function selectQna(requestPage){
                              		$.ajax({
                              			url:"<%=contextPath%>/qlist.pr",
@@ -429,12 +430,52 @@
                              				page : requestPage
                              			},
                              			post:"post",
-                             			success:function(){
+                             			success:function(result){
+                             				console.log(result);
+  
+                             				let page = "";
+                             				if(1 == result.pi.currengPage){
+                             					page += '<li class="page-item disabled"><a class="page-link">previous</a><li>';
+                             				}else{
+                             					page += '<li class="page-item"><a class="page-link" onclick="selectReview(' + (requestPage - 1) + ')">previous</a><li>';
+                             				}
+  				
+                        					for(let i= result.pi.startPage; i<=result.pi.endPage; i++){
+                        						if(i == result.pi.currentPage){
+                        							page += '<li class="page-item active" onclick="selectReview('+ i +')"><a class="page-link">' + i + '</a></li>';
+                        						}else{
+                        							page += '<li class="page-item" onclick="selectReview(' + i + ')"><a class="page-link">' + i + '</a></li>';                        							
+                        						}
+                        					}
+                        					
+                        					if(result.pi.currentPage == result.pi.MaxPage){
+                             					page +='<li class="page-item disabled"><a class="page-link">Next</a></li>';			                        						
+                        					}else{
+                        						page +='<li class="page-item "><a class="page-link" onclick=selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
+                        					}
+                        					
+                        					$("#qna_page").html(page);
+                        					
+                        					let value = "";            					
+                        					for(let i=0; i<result.qlist.length; i++){
+                            					value += "<tr>"
+                            						   + "<td>" + result.qlist[i].answerNo + "</td>"
+                            						   + "<td>" + result.qlist[i].answerTitle + "</td>"
+                            						   + "<td>" + result.qlist[i].userNo + "</td>"
+                            						   + "<td>" + result.qlist[i].answerType + "</td>"
+                            						   + "<td>" + result.qlist[i].answerDate + "</td>"
+                            						   + "</tr>";
+                           					}
+                        					
+                           					$("#qna_table tbody").html(value);
+                           					
+                           					
                              				
                              			}                            			
                              		})
                              		
                              	}
+                             	
                              </script>
 
 
@@ -459,7 +500,7 @@
                                         <th width="100px">문의번호</th>
                                         <th width="400px">문의제목</th>
                                         <th width="120px">작성자</th>
-                                        <th>조회수</th>
+                                        <th>답변상태</th>
                                         <th>작성일</th>
                                     </tr>
                                 </thead>
@@ -472,15 +513,9 @@
         
                             </table>
                             <!-- 페이징 바 -->
-                            <ul class="pagination justify-content center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                              </ul>
+                            <ul class="pagination justify-content center" id="qna_page">
+                              
+                            </ul>
         
                         </div>
 
