@@ -241,7 +241,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             
-                            <form action="<%= contextPath %>/insert.addr" method="post" class="form-group">
+                            <form action="<%= contextPath %>/insertAddr.me" method="post" class="form-group">
                                 <!-- 배송지추가 팝업창 body -->
                                 <div class="modal-body">
 
