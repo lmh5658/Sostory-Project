@@ -6,11 +6,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import com.sos.member.model.vo.Member;
+import com.sos.myPage.model.vo.Address;
 
 public class MyPageDao {
 	
@@ -85,6 +89,192 @@ public class MyPageDao {
 			pstmt.setInt(6, mem.getUserNo());
 			
 			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 배송지관리페이지 요청시 실행될 메소드 (배송지리스트 조회)
+	 * 
+	 * @param conn
+	 * @param userNo : 서비스요청 사용자 회원번호
+	 * @return : 조회된 해당회원의 배송지객체 리스트 (null | 리스트)
+	 */
+	public List<Address> selectAddressList(Connection conn, int userNo){
+		
+		List<Address> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAddressList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Address addr = new Address();
+				
+				addr.setAddressNo(rset.getInt("address_no"));
+				addr.setAddressLocal(rset.getString("address_local"));
+				addr.setAddressWriter(rset.getString("user_name"));
+				addr.setAddress(rset.getString("address"));
+				addr.setAddressPhone(rset.getString("address_phone"));
+				addr.setAddressType(rset.getString("address_type"));	// Y(기본배송지) | N(기타배송지)
+				
+				list.add(addr);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 배송지등록 | 배송지수정 요청시 해당 사용자의 기본배송지 유무조회시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 배송지 추가 | 수정 요청 사용자의 회원번호
+	 * @return : 조회된 해당사용자의 기본배송지 갯수
+	 */
+	public int selectDefaultAddress(Connection conn, int userNo) {
+		
+		int count = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectDefaultAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()){
+				count = rset.getInt("count");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+	}
+	
+	/**
+	 * 배송지등록 | 배송지수정시 새로운 배송지를 기본배송지로 지정할 경우 실행될 메소드 (기존 기본배송지 ADDRESS_TYPE = 'N')
+	 * 
+	 * @param conn
+	 * @param userNo : 배송지등록 | 배송지수정 요청한 사용자의 회원번호
+	 * @return : 배송지유형(ADDRESS_TYPE) 수정요청 처리결과 행 수
+	 */
+	public int updateAddressType(Connection conn, int userNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateAddressType");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 배송지관리페이지에서 배송지등록 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param addr : 등록할 배송지정보가 담긴 배송지객체
+	 * @return : 신규 배송지등록 처리결과 행 수
+	 */
+	public int insertAddress(Connection conn, Address addr) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, addr.getAddressWriter());
+			pstmt.setString(2, addr.getAddressLocal());
+			pstmt.setString(3, addr.getAddressName());
+			pstmt.setString(4, addr.getAddressAddress());
+			pstmt.setString(5, addr.getAddressDetail());
+			pstmt.setString(6, addr.getAddressPhone());
+			pstmt.setString(7, addr.getAddressType());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 배송지수정 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param addr : 수정할 배송지정보가 담긴 배송지객체
+	 * @return : 배송지수정 처리결과 행 수
+	 */
+	public int updateAddress(Connection conn, Address addr) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, addr.getAddressLocal());
+			pstmt.setString(2, addr.getAddressName());
+			pstmt.setString(3, addr.getAddressAddress());
+			pstmt.setString(4, addr.getAddressDetail());
+			pstmt.setString(5, addr.getAddressPhone());
+			pstmt.setString(6, addr.getAddressType());
+			pstmt.setInt(7, addr.getAddressNo());
+			
+			result = pstmt.executeUpdate();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
