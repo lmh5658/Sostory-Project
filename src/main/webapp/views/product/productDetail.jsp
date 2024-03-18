@@ -346,7 +346,8 @@
                     <script>
                        	$(function(){
                        		selectReview(1);
-                       		//s();
+                       		selectQna(1);
+                       		
                        	})
                        	
                        	function selectReview(requestPage){
@@ -359,13 +360,34 @@
                              			type:"post",
                              			success:function(result){
                              				console.log(result); // {pi:{}, rlist:[{}, {},.. ]}
-                             				console.log();
                              				
                              				
+                             				let page = "";
                              				// pi(PageInfo객체)가지고 아래의 li요소들 만들어서 #reviewPaging(ul) 요소 내에 넣어주기
-                             				let value2 = "<li class=page-item disabled>" + "<a>previous</a>" + "</li>"
-                             						  +=  "<li class=page-item active>" + "<a onclick="">previous</a>" + "</li>";
-                             				
+                             				if(1 == result.pi.currengPage){
+                             					page += '<li class="page-item disabled"><a class="page-link">previous</a><li>';
+                             				}else{
+                             					page += '<li class="page-item"><a class="page-link" onclick="selectReview(' + (requestPage - 1) + ')">previous</a><li>';
+                             				}
+  				
+                        					for(let i= result.pi.startPage; i<=result.pi.endPage; i++){
+                        						if(i == result.pi.currentPage){
+                        							page += '<li class="page-item active" onclick="selectReview('+ i +')"><a class="page-link">' + i + '</a></li>';
+                        						}else{
+                        							page += '<li class="page-item" onclick="selectReview(' + i + ')"><a class="page-link">' + i + '</a></li>';                        							
+                        						}
+                        					}
+                        					
+                        					if(result.pi.currentPage == result.pi.MaxPage){
+                             					page +='<li class="page-item disabled"><a class="page-link">Next</a></li>';			                        						
+                        					}else{
+                        						page +='<li class="page-item "><a class="page-link" onclick=selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
+                        					}
+                        					
+                        					console.log(page);
+											
+                             				$("#reviewPaging").html(page);
+                             			
                              				
                              				/*
                              					   <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
@@ -399,7 +421,18 @@
                              	
                              	
                              	
-                             	function 해당상품의문의목록조회용ajax(){
+                             	function selectQna(requestPage){
+                             		$.ajax({
+                             			url:"<%=contextPath%>/qlist.pr",
+                             			data:{
+                             				proNo:<%= pro.getProductNo() %>,
+                             				page : requestPage
+                             			},
+                             			post:"post",
+                             			success:function(){
+                             				
+                             			}                            			
+                             		})
                              		
                              	}
                              </script>

@@ -44,7 +44,7 @@
 		background-color: rgb(231, 76, 60);
 		position: absolute;
 		top: 700px;
-		right: 380px;
+		right: 630px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
