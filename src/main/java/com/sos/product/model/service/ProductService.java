@@ -85,19 +85,30 @@ public class ProductService {
 		return list;
 	}
 	
-	public ProductReview insertReview(ProductReview pr) {
+	public int insertReview(ProductReview pr) {
 		Connection conn = getConnection();
 		int result = pDao.insertReview(conn, pr);
-		ProductReview proRe = null;
 		if(result > 0) {
 			commit(conn);
-			proRe = pDao.selectReview(conn, Integer.parseInt(pr.getWriterNo()));
 		}else {
 			rollback(conn);
 		}
-		return proRe;
+		return result;
 	}
 	
+	public int searchCountList(String search) {
+		Connection conn = getConnection();
+		int count = pDao.searchCountList(conn, search);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> selectSearchList(String search, PageInfo pi){
+		Connection conn = getConnection();
+		List<Product> list = pDao.selectSearchList(conn, search, pi);
+		close(conn);
+		return list;
+	}
 	
 
 }

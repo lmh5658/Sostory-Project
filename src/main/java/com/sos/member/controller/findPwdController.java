@@ -13,16 +13,16 @@ import com.sos.member.model.service.MemberService;
 import com.sos.member.model.vo.Member;
 
 /**
- * Servlet implementation class FindIdController
+ * Servlet implementation class findPwdController
  */
-@WebServlet("/findId.me")
-public class FindIdController extends HttpServlet {
+@WebServlet("/findPwd.me")
+public class findPwdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdController() {
+    public findPwdController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,18 +34,19 @@ public class FindIdController extends HttpServlet {
 		Member m = new Member();
 		m.setUserName(request.getParameter("userName"));
 		m.setEmail(request.getParameter("email"));
+		m.setUserId(request.getParameter("userId"));
 		
-		List<Member> list = new MemberService().findIdByEmail(m);
+		String userPwd = new MemberService().findPwdByEmail(m);
 		
-		request.setAttribute("findMemberList", list);
-		request.getRequestDispatcher("/views/member/findIdSuccess.jsp").forward(request, response);
+		request.setAttribute("userId", m.getUserId());
+		request.setAttribute("userPwd", userPwd);
+		request.getRequestDispatcher("/views/member/findPwdSuccess.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

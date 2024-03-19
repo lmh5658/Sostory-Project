@@ -5,6 +5,8 @@
 	List<Product> list = (List<Product>)request.getAttribute("list");
 	// 상품번호, 카테고리이름, 상품이름, 가격, 사진경로
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	String search = (String)request.getAttribute("search"); // null | 검색단어
 %>
 <!DOCTYPE html>
 <html>
@@ -64,9 +66,40 @@
                         <a href="#" class="btn btn-outline-danger btn-sm py-1 px-3">드레싱</a>
                         <a href="#" class="btn btn-outline-danger btn-sm py-1 px-3">기타</a>
                         <!-- 검색 영역-->
-                        <a href="#" style="color: black;"><svg xmlns="http://www.w3.org/2000/svg"  height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        
+                      
+						  <!-- Button to Open the Modal -->
+						   <a href="#" style="color: black;" data-toggle="modal" data-target="#myModal"><svg xmlns="http://www.w3.org/2000/svg"  height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                           </svg></a>
+						  
+						
+						  <!-- The Modal -->
+						  
+							  <div class="modal fade" id="myModal" style="margin-top:300px; margin-left:-200px;">
+							    <div class="modal-dialog" style="width:900px;">
+							      <div class="modal-content" style="width:900px; height:200px;">
+							              
+							        <!-- Modal body -->
+							        <div style="display:flex;">
+								        <div class="modal-body">
+								          <input type="text" class="form-control" style="width:700px; height:50px; margin:50px;" placeholder="검색어를 입력하세요" id="search">
+								        </div>
+
+								        <!-- Modal footer -->
+								        <div style="width:200px;  margin-left:-70px; display: flex; justify-content: center; align-items: center;">
+									        <a class="btn" style="color: black;"  data-dismiss="modal" data-target="#myModal" id="search_btn"><svg xmlns="http://www.w3.org/2000/svg"  height="50" margin-left="-70px" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+				                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+				                          	</svg></a>					        
+								        </div>						     
+							        </div>
+							      </div>
+							    </div>
+							  </div>
+						  
+						  
+						
+                       
                     </div>
                     <!-- 상품 카테고리 영역 end -->
 
@@ -100,7 +133,12 @@
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
 	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
-	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() %>원</b></h7>
+	                                    <% if(p.getDiscountPrice() == 0) { %>
+	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice() + p.getDiscountPrice() %>원</b></h7>
+	                                    <% }else { %>
+	                                    <h7 class="product-price d-block my-4"><b><%= p.getDiscountPrice() - p.getPrice() %>원</b></h7>
+	                                    <h7 class="product-price d-block my-4"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+	                                    <% } %>	                                   
 	                                    <div class="icon d-flex justify-content-end">
 	                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
 	                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
@@ -123,34 +161,69 @@
                        <% } %>
                     <!-- 상품 리스트 end--> 
                     </div>
+                   <% if(search == null) { %>
+	                   <div style="display: flex; justify-content: center; align-items: center;">
+						
+						  <!-- 페이징바 영역 start -->
+	                        <ul class="pagination justify-content center">
+	                        <% if(pi.getCurrentPage() == 1) { %>
+	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	                        <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
+	                        <% } %>
+	                        
+	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
+	                            <% if(p == pi.getCurrentPage()) { %>
+	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
+	                            <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= p %>"><%= p %></a></li>
+	                            <% } %>
+	                        <% } %>
+	                            
+							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
+	                        <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/list.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
+	                        <% } %>
+	                        </ul>
+	                        <!-- 페이징바 영역 end -->
+	                    
+	                   </div>                  
+                   <% }else{ %>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+						
+						  <!-- 페이징바 영역 start -->
+	                        <ul class="pagination justify-content center">
+	                        <% if(pi.getCurrentPage() == 1) { %>
+	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	                        <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/slist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
+	                        <% } %>
+	                        
+	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
+	                            <% if(p == pi.getCurrentPage()) { %>
+	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
+	                            <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/slist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
+	                            <% } %>
+	                        <% } %>
+	                            
+							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
+	                        <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/slist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
+	                        <% } %>
+	                        </ul>
+	                        <!-- 페이징바 영역 end -->
+	                    
+	                   </div> 
+                   
+                   <% } %> 
                     
-					<div style="display: flex; justify-content: center; align-items: center;">
+                    
+                   
+                    
 					
-					  <!-- 페이징바 영역 start -->
-                        <ul class="pagination justify-content center">
-                        <% if(pi.getCurrentPage() == 1) { %>
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <% } else { %>
-                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
-                        <% } %>
-                        
-                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
-                            <% if(p == pi.getCurrentPage()) { %>
-                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
-                            <% } else { %>
-                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= p %>"><%= p %></a></li>
-                            <% } %>
-                        <% } %>
-                            
-						<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
-                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
-                        <% } else { %>
-                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/list.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
-                        <% } %>
-                        </ul>
-                        <!-- 페이징바 영역 end -->
-                    
-                   </div>
                    
                  
 
@@ -165,10 +238,14 @@
     <script>
         $(function(){
           $("#thumb>img").click(function(){
-             	location.href = "<%= contextPath %>/detail.pr?no=" + $(this).next().val();
+              location.href = "<%= contextPath %>/detail.pr?no=" + $(this).next().val();
           })
           
+          $("#search_btn").click(function(){
+        	  location.href = "<%=contextPath%>/slist.pr?search=" + $("#search").val() + "&page=1";
+          })
           
+         
   
         })	
     </script>

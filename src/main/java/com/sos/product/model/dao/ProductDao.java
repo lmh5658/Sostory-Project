@@ -341,25 +341,18 @@ public class ProductDao {
 		return result;	
 	}
 	
-	public ProductReview selectReview(Connection conn, int userNo) {
-		
-		ProductReview proRe = null;
+	public int searchCountList(Connection conn, String search) {
+		int count = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectReview");
+		String sql = prop.getProperty("searchCountList");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
+			pstmt.setString(1, search);
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				proRe = new ProductReview();
-				proRe.setReviewContent(rset.getString("REVIEW_CONTENT"));
-				proRe.setRating(rset.getInt("RATING"));
-				proRe.setWriterNo(rset.getString("USER_ID"));
-				proRe.setPostDate(rset.getString("POST_DATE"));
+			if(rset.next()){
+				count = rset.getInt("COUNT");
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -367,8 +360,47 @@ public class ProductDao {
 			close(pstmt);
 		}
 		
-		return proRe;
-		
+		return count;
 	}
+	
+	public List<Product> selectSearchList(Connection conn, String search, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSearchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1; 
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+
+	
+	
 
 }

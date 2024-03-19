@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.sos.member.model.vo.Member, java.util.List" %>
+<% List<Member> findMemberList = (List<Member>)request.getAttribute("findMemberList");%>
 <!DOCTYPE html>
 <html>
 
@@ -24,6 +26,7 @@
         font-size: small;
     }
     .find-table td{
+    	text-align: center;
     	padding: 8px;
     }
 
@@ -97,28 +100,38 @@
 
             <!--  아이디 찾기 -->
             <div id="find-id-section" class="find-section">
-                <form action="findId.me" method="post">
-                    <table class="find-table center">
-                        <tr>
-                            <th width="180px"><a class="find_id" href="#">아이디 찾기</a></th>
-                            <th width="180px"><a class="find_pwd" href="#">비밀번호 찾기</a></th>
-                        </tr>
-                        <tr>
-                            <td id="email-text" colspan="2">1개의 아이디를 찾았습니다</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" id="findId_name" class="find-id center">회원님 아이디는 xxxx**입니다.</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" id="findId_date" class="find-id center">(xxxx년 xx월 xx일 가입)</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <button type="submit" id="check-button" class="btn btn-secondary">확인</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                <table class="find-table center">
+                    <tr>
+                        <th width="180px"><a class="find_id" href="#">아이디 찾기</a></th>
+                        <th width="180px"><a class="find_pwd" href="#">비밀번호 찾기</a></th>
+                    </tr>
+                    <tr>
+                        <td id="email-text" colspan="2">아이디 찾기 결과</td>
+                    </tr>
+                    <tr>
+                        <th id="findId_name" class="find-id">아이디</th>
+                        <th id="findId_date" class="find-id">가입일</th>
+                    </tr>
+                    <% if(findMemberList.isEmpty()) { %>
+                    <tr>
+                    	<td colspan="2">
+                    		아이디를 찾지 못했습니다.
+                    	</td>
+                    </tr>
+                    <% } else { %>
+                    	<% for(Member m : findMemberList){ %>
+                     <tr>
+                         <td><%= m.getUserId() %></td>
+                         <td><%= m.getEnrollDate() %></td>
+                     </tr>
+                    	<% } %>
+                    <% } %>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" id="check-button" class="btn btn-secondary" onclick="location.href='<%=contextPath%>/loginForm.me'">로그인 페이지로 가기</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
             <!-- 비밀번호 찾기 -->
@@ -130,7 +143,7 @@
                             <th width="180px"><a class="find_pwd" href="#">비밀번호 찾기</a></th>
                         </tr>
                         <tr>
-                            <td id="email-text" colspan="2">이메일로 비밀번호 찾기</td>
+                            <td id="email-text" colspan="2">비밀번호 찾기</td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -162,18 +175,6 @@
 
     </div>
 
-
-    <script>
-        $(".find_id").click(function () {
-            $("#find-id-section").show();
-            $("#find-password-section").hide();
-        });
-
-        $(".find_pwd").click(function () {
-            $("#find-password-section").show();
-            $("#find-id-section").hide();
-        });
-    </script>
 
     <script>
         $(".find_id").click(function () {

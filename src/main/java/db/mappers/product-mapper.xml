@@ -178,6 +178,33 @@
 		WHERE WRITER_NO = ?
 	</entry>
 	
+	<entry key="searchCountList">
+		SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		 WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="selectSearchList">
+		SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH 
+			FROM TB_PRODUCT
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+			  AND STATUS = 'Y'
+			ORDER
+			   BY ENROLL_DATE DESC
+			) A
+			) WHERE RNUM BETWEEN ? AND ?
+	</entry>
 	
 
 </properties>
