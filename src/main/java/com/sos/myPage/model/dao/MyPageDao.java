@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.vo.Address;
+import com.sos.product.model.vo.Qna;
 
 public class MyPageDao {
 	
@@ -89,6 +91,37 @@ public class MyPageDao {
 			pstmt.setInt(6, mem.getUserNo());
 			
 			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 회원탈퇴 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 탈퇴할 회원번호
+	 * @return : 회원탈퇴(USER_STATUS = 'N') 요청처리 결과 행 수
+	 */
+	public int deleteMember(Connection conn, int userNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -397,6 +430,49 @@ public class MyPageDao {
 		
 	}
 	
+	/**
+	 * 마이페이지에서 사용자가 1:1문의 전체목록페이지 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param info : 페이징 정보를 담은 페이징바 객체, 문의 리스트조회 회원번호를 담은 객체
+	 * @return : 조회된 전체 1:1문의 객체 리스트
+	 */
+	public List<Qna> selectAllQnaList(Connection conn, HashMap<String, Object> info){
+		
+		List<Qna> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAllQnaList");
+		
+		/*
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt((String)info.get("userNo")));
+			
+			PageInfo pi = (PageInfo)info.get("pageInfo");
+			int lastNo = pi.getCurrentPage() * pi.getBoardLimit();
+			int firstNo = lastNo - (pi.getBoardLimit() - 1);
+			
+			pstmt.setInt(2, firstNo);
+			pstmt.setInt(3, lastNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Qna q = new Qna();
+				
+				q.setAnswerNo(rset.getInt("answer_no"));
+				q.setAnswerDate(rset.getString("answer_date"));
+			}
+			
+		}
+		*/
+		
+		return list;
+		
+	}
 	
 	
 
