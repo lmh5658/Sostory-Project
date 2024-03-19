@@ -85,10 +85,13 @@
 
                                     <div class="main_right_top">
                                         <h1><b><%= pro.getProductName() %></b></h1>
-                                                           
-                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() %>원</b></h1></span> 
+                                         <% if(pro.getDiscountPrice() == 0){ %>
+                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()+ pro.getDiscountPrice() %>원</b></h1></span>
+                                        <% }else{ %>
+                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1></span>
                                         <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice()+ pro.getDiscountPrice() %>원</del></h4>
                                         <hr>
+                                        <% } %>
                                         
                                     </div>
 
@@ -97,7 +100,7 @@
                                             <div class="address_information">
                                                 <button type="button" class="btn btn-outline-dark">배송정보</button>
                                             
-                                                <span style="font-size: 20px; color: gray;"> 3,500원(10,000원 이상 무료배송) </span>
+                                                <span style="font-size: 20px; color: gray;"> 3,000원 </span>
                                                 
                                             </div>
                                             <div class="amount">
@@ -175,7 +178,9 @@
                         
                         <div class="recipe-wrap">
                             <div class="recipe" style="width:300px">
-                                <img class="recipe-img-top" src="<%= contextPath + "/" + pr.getThumbnailUrl() %>" alt="Card image" style="width:100%; border-radius: 30px;">
+                            	<div style="height:300px; width:300px;">
+                                	<img class="recipe-img-top" src="<%= contextPath + "/" + pr.getThumbnailUrl() %>" alt="Card image" style="width:100%; height:100%; border-radius: 30px;">
+                            	</div>
                                 <div class="recipe-body">
                                     <small class="recipe-category d-block text-secondary my-3">분류><%= pr.getCategoryNo() %></small>
                                     <h7 class="recipe-title"><b><%= pr.getRecipeTitle() %></b></h7>
@@ -234,7 +239,7 @@
                             <span class="d-flex justify-content-end">
                             <% for(Member m : list) { %>
 	                            <% if(loginUser != null && loginUser.getUserId().equalsIgnoreCase(m.getUserId())) { %>
-	                            <button type="button" class="btn btn-outline-dark" onclick="insertReply();">후기 작성하기</button>
+	                            <button class="btn btn-outline-dark" onclick="insertReview();">후기 작성하기</button>
                             	<% } %>
                             <% } %>                            
                             </span>
@@ -246,7 +251,7 @@
                             <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2 style="margin-left: 10px;">평점</h2>
 								
-                                <select class="form-control" style="width: 100px; margin-left: 10px;" name="category">
+                                <select class="form-control" style="width: 100px; margin-left: 10px;" id="category">
                                 <% for(int i=1; i<=5; i++) { %>
                                     <option value="<%= i %>"><%= i %></option>
                                 <% } %>
@@ -261,17 +266,7 @@
                             </div>
                             
                         </div>
-                        <script>
-                        	$.ajax({
-                        		url:"<%=contextPath%>/rinsert.pr",
-                        		data:{
-                        			proNo:<%=pro.getProductNo()%>,
-                        			point:
-                        			
-                        			
-                        		}
-                        	})
-                        </script>           
+                                
 						
 						
                         <hr>
@@ -307,11 +302,29 @@
                     <script>
 
                        	$(function(){
-  		
                        		selectReview(1);
                        		selectQna(1);
                        		
                        	})
+                       	
+                       	function insertReview(){
+                       		
+	                       	$.ajax({
+                        		url:"<%=contextPath%>/rinsert.pr",
+                        		data:{
+                        			proNo:<%=pro.getProductNo()%>,
+                        			category:$("#category").val(),
+                        			content:$("#reply_content").val()
+                        		},
+                        		type:"post",
+                        		success:function(result){
+                        			if(result > 0){
+                        				selectReview(1);
+                        			}
+                        		}
+	                        })
+                       		
+                       	}
                        	
                        	function selectReview(requestPage){
                        		$.ajax({
@@ -327,7 +340,7 @@
                              				
                              				let page = "";
                              				// pi(PageInfo객체)가지고 아래의 li요소들 만들어서 #reviewPaging(ul) 요소 내에 넣어주기
-                             				if(1 == result.pi.currengPage){
+                             				if(1 == result.pi.currentPage){
                              					page += '<li class="page-item disabled"><a class="page-link">previous</a><li>';
                              				}else{
                              					page += '<li class="page-item"><a class="page-link" onclick="selectReview(' + (requestPage - 1) + ')">previous</a><li>';

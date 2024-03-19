@@ -34,7 +34,7 @@ public class AjaxReviewinsertController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// category(평점), content
 		int point = Integer.parseInt(request.getParameter("category"));
-		String content = request.getParameter(request.getParameter("content"));
+		String content = request.getParameter("content");
 		int userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 		int productNo = Integer.parseInt(request.getParameter("proNo"));
 		
@@ -44,10 +44,14 @@ public class AjaxReviewinsertController extends HttpServlet {
 		pr.setRating(point);
 		pr.setReviewContent(content);
 		
-		ProductReview pro = new ProductService().insertReview(pr);
+		System.out.println(pr);
+		
+		int result = new ProductService().insertReview(pr);
+		System.out.println(result);
+		
 		
 		response.setContentType("application/json; charset=utf-8");
-		new Gson().toJson(pro, response.getWriter());
+		new Gson().toJson(result, response.getWriter());
 		
 	
 	}
