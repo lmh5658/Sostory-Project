@@ -366,6 +366,37 @@ public class MyPageDao {
 		
 	}
 	
+	/**
+	 * 사용자가 마이페이지에서 배송지 삭제요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param addressNo : 삭제할 배송지번호
+	 * @return : 배송지 삭제요청 처리결과 행 수
+	 */
+	public int deleteAddress(Connection conn, int addressNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, addressNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
 	
 	
 

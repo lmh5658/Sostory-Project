@@ -203,4 +203,34 @@ public class MyPageService {
 		return resultAddr * resultMem;
 	}
 	
+	/**
+	 * 사용자가 마이페이지에서 배송지 삭제요청시 실행될 메소드
+	 * 
+	 * @param addr : 삭제할 배송지번호, 회원번호 정보가 담긴 배송지객체
+	 * @return : 배송지 삭제요청 처리결과 행 수
+	 */
+	public int deleteAddress(Address addr) {
+		
+		Connection conn = getConnection();
+		
+		int resultAddr = mpDao.deleteAddress(conn, addr.getAddressNo());	// 배송지 삭제요청 처리결과
+		
+		int resultMem = 0;		// 회원정보 수정일(MODIFY_DATE) 수정요청 처리결과를 담을 변수
+		
+		if(resultAddr > 0) { // 배송지 수정요청 처리성공
+			// 회원정보 수정일(MODIFY_DATE) 수정요청
+			resultMem = mpDao.updateMemberModifyDate(conn, addr.getAddressWriter());
+			
+			if(resultMem > 0) { // 회원정보 수정일 수정성공
+				commit(conn);
+			}
+		}else { // 배송지 수정요청 처리실패
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return resultAddr * resultMem;
+	}
+	
 }

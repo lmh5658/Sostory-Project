@@ -116,5 +116,12 @@
 		      ,ADDRESS_TYPE = ?
 		 WHERE ADDRESS_NO = ?
 	</entry>
+	
+	<!-- 배송지 삭제요청 -->
+	<entry key="deleteAddress">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_STATUS = 'N'
+		 WHERE ADDRESS_NO = ?
+	</entry>
 
 </properties>
