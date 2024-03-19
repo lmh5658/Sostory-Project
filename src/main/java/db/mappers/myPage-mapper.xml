@@ -132,7 +132,15 @@
 		 WHERE ADDRESS_NO = ?
 	</entry>
 	
-	<!-- 1:1문의 전체목록조회 -->
+	<!-- 총 문의수 계산 -->
+	<entry key="totalQna">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_TYPE = ?
+		   AND USER_NO = ?
+	</entry>
+	
+	<!-- 전체상태 문의 목록조회 -->
 	<entry key="selectAllQnaList">
 		SELECT B.*
 		  FROM (
@@ -140,17 +148,50 @@
 		          FROM (
 		                SELECT 
 		                      ANSWER_NO
+		                     ,PRODUCT_NAME
 		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
 		                     ,ANSWER_TITLE
 		                     ,ANSWER_STATUS
 		                  FROM TB_QNA_REPLY
+		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
 		                 WHERE USER_NO = ?
-		                   AND ANSWER_TYPE = 2
+		                   AND ANSWER_TYPE = ?
 		                 ORDER BY ANSWER_DATE DESC
 		                         ,ANSWER_NO
 		                ) A
 		        ) B
 		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 답변상태별 문의 목록조회 -->
+	<entry key="selectQnaList">
+		SELECT B.*
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT 
+		                      ANSWER_NO
+		                     ,PRODUCT_NAME
+		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
+		                     ,ANSWER_TITLE
+		                     ,ANSWER_STATUS
+		                  FROM TB_QNA_REPLY
+		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE USER_NO = ?
+		                   AND ANSWER_TYPE = ?
+		                   AND ANSWER_STATUS = ?
+		                 ORDER BY ANSWER_DATE DESC
+		                         ,ANSWER_NO
+		                ) A
+		        ) B
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 문의 삭제요청 -->
+	<entry key="deleteQna">
+		DELETE
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
 	</entry>
 
 </properties>
