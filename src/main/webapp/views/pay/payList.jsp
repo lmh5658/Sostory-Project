@@ -1,53 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.sos.pay.model.vo.Pay, java.util.List"%>
+    
+    
+<%
+ 	List<Pay> list = (List<Pay>)request.getAttribute("list");
+%>
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인페이지</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 
-    <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ---------------------------------- -->
-
-    <style>
-        /* 레이아웃 관련 스타일 */
-        .wrap, .wrap * {box-sizing: border-box;}
-        .header{height: 150px;}
-        .main-content{min-height: 800px;}
-        .footer{height: 200px;}
-        .center{display: flex; justify-content: center; align-items: center;}
-        
-        /* Header 영역관련 스타일 */
-        .header{display: flex; position: sticky; top: 0; background-color: white;}
-        .header-left-logo{width: 25%; display: flex;}
-        .header-left-logo>img{height: 100%;}
-        .header-right{width: 75%; display: flex; flex-direction: column;}
-        .header-right-top{height: 30%;}
-        .header-user>svg:hover{cursor: pointer;}
-        .header-right-bottom{height: 70%;}
-        
-        /* Footer 영역관련 스타일 */
-        .footer{display: flex;}
-        .footer-logo{width: 30%;}
-        .footer-company{width: 40%;}
-        .footer-company>ul{list-style-type: "- "}
-        .footer-business-time{width: 30%;}
-        .footer-business-time>ul{list-style: none;}
-
-        /* 메인페이지 Section 영역관련 스타일 */
-        .main-content{display: flex; flex-direction: column;}
-        .content-product-list{display: flex; flex-direction: column;}
-        .product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
-        .recipe-product{display: flex;}
-
-        
-
-         /*결제페이지 스타일*/
+<style>
+	/*결제페이지 스타일*/
          .content{box-sizing: border-box;}
          .content{width: 80%; min-height: 1300px; margin: auto;}
         table{width: 100%; border: 1;}
@@ -57,62 +25,14 @@
         .order_pro{text-align: center; border: 1;}
         .order_pro th{width: 100px;}
         .ch_box{width: 15px; height: 15px;}
-        
-        
-    </style>
+
+</style>
 
 </head>
 <body>
-    <div class="wrap container p-3">
+	 <div class="wrap container p-3">
 
-        <!-- Header start -->
-        <header class="header border-bottom border-2">
-
-            <!-- Header 왼쪽(로고) 영역 start -->
-            <div class="header-left-logo center">
-                <img src="./resourcces/images/로고.png" alt="소스토리 로고이미지">
-            </div>
-            <!-- Header 왼쪽(로고) 영역 end -->
-
-            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
-            <div class="header-right">
-
-                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
-                <div class="header-right-top">
-                    <div class="header-user d-flex justify-content-end center">
-                        <!-- 로그인 x  -->
-                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
-                        <!-- 로그인 o 
-                        <span><b>xxx님</b></span>
-                        -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
-                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                        </svg>
-                    </div>
-                </div>
-                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
-
-                <!-- Header 오른쪽-하단(nav바) 영역 start -->
-                <div class="header-right-bottom">
-                    <div class="header-nav py-4 mb-3">
-                        <nav class="nav nav-underline justify-content-between">
-                            <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
-                        </nav>
-                    </div>
-                </div>
-                <!-- Header 오른쪽-하단(nav바) 영역 start -->
-            </div>
-            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
-        </header>
-        <!-- Header end -->
+        <%@ include file="/views/common/header.jsp" %>
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         
@@ -120,7 +40,8 @@
         <section class="content">
         <!-- 결제 페이지 시작-->
         <div class="section_main">
-            <br>
+
+            <br><br><br><br><br><br><br><br>
             <h2><b>주문결제</b></h2>
             <div>
                 <form action="" method="">
@@ -197,30 +118,17 @@
                             <h5><b>주문상품</b></h5>
                         </th>
                     </tr>
+                     <% for(Pay p : list) { %>
                     <tr>
                         <th style="width: 50px;">
-                            <img src="resourcces/images/이미지1.jpg" alt="" width="130px" height="130px">
+                            <img src="<%=contextPath + "/" + p.getPath() %>" alt="" width="130px" height="130px">
                         </th>
-                        <th>칼로리Zero마요네즈</th>
-                        <th>9,000원</th>
-                        <th>1</th>
+                        <th><%=p.getProductName() %></th>
+                        <th><%=p.getPrice() %></th>
+                        <th><%=p.getCount() %></th>
                     </tr>
-                    <tr>
-                        <th>
-                            <img src="resourcces/images/이미지1.jpg" alt="" width="130px" height="130px">
-                        </th>
-                        <th>칼로리Zero마요네즈</th>
-                        <th>9,000원</th>
-                        <th>1</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <img src="resourcces/images/이미지1.jpg" alt="" width="130px" height="130px">
-                        </th>
-                        <th>칼로리Zero마요네즈</th>
-                        <th>9,000원</th>
-                        <th>1</th>
-                    </tr>
+                    <%} %>
+                 
                 </table>
             </div>
         </div>
@@ -345,31 +253,16 @@
             
         </section>
         <!-- Section end -->
+       </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
 
-        <!-- Footer start -->
-        <footer class="footer pt-3 border-top border-2">
-            <div class="footer-logo">
-                <img src="./resourcces/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
-            </div>
-            <div class="footer-company center">
-                <ul>
-                    <li class="mb-4">상호명 : So's tory</li>
-                    <li class="mb-4">개발자 : team sos</li>
-                    <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
-                </ul>
-            </div>
-            <div class="footer-business-time center">
-                <ul>
-                    <li class="border-bottom mb-3"><b>Business Time</b></li>
-                    <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
-                    <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
-                    <li>Sunday: Closed</li>
-                </ul>
-            </div>
-        </footer>
-        <!-- Footer end -->
-    </div>
+       <%@ include file="/views/common/footer.jsp" %>
+
+
+
+
+
+
 </body>
 </html>
