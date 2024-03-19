@@ -68,10 +68,18 @@
 	<entry key="findIdByEmail">
 		SELECT
 		       USER_ID
+		     , ENROLL_DATE
 		  FROM TB_MEMBER
 		 WHERE USER_NAME = ?
 		   AND EMAIL = ?
 	</entry>
 	
-
+	<entry key="findPwdByEmail">
+		SELECT
+		       USER_PWD
+		  FROM TB_MEMBER
+		 WHERE USER_NAME = ?
+		   AND EMAIL = ?
+		   AND USER_ID = ?
+	</entry>
 </properties>

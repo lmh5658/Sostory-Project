@@ -2,6 +2,7 @@ package com.sos.member.model.service;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.sos.common.template.JDBCTemplate.*;
 import com.sos.member.model.dao.MemberDao;
@@ -44,12 +45,18 @@ public class MemberService {
 		return result;
 	}
 
-	public String findIdByEmail(Member m) {
+	public List<Member> findIdByEmail(Member m) {
 		Connection conn = getConnection();
-		String userId = mDao.findIdByEmail(conn, m);
+		List<Member> list = mDao.findIdByEmail(conn, m);
 		close(conn);
-		return userId;
+		return list;
 	}
-	
+
+	public String findPwdByEmail(Member m) {
+		Connection conn = getConnection();
+		String userPwd = mDao.findPwdByEmail(conn, m);
+		close(conn);
+		return userPwd;
+	}
 	
 }
