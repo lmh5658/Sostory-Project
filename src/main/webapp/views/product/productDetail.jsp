@@ -56,6 +56,45 @@
         .product_detail_nav>a:hover{
             background:lightgrey;
         }
+        
+		.modal-title{
+		    padding: 8px 0;
+		}
+		
+		.modal-content{
+		    margin-top: 220px;
+		    border-radius: 20px;
+		}
+		
+		.modal-body>form>.form-field{
+		    margin-top: 30px;
+		}
+		
+		.modal-body>form>div>label{
+		    width: 150px;
+		    font-size: 20px;
+		    font-weight: bold;
+		    margin-top: 5px;
+		}
+		
+		.modal-content .modal-button{
+		    margin: 30px 0 5px 0;
+		    display: flex;
+		    justify-content: center;
+		}
+		
+		.modal-content #qna-content{
+		    position: relative;
+		    z-index: 1;
+		}
+		
+		.modal-content .count-text-area{
+		    position: absolute;
+		    z-index: 10;
+		    bottom: 120px;
+		    right: 40px;
+		    color: rgb(186, 181, 181);
+		}
 
 
 </style>
@@ -447,25 +486,99 @@
                              				
                              			}                            			
                              		})
-                             		
-                             		
-                             		
                              	}
+                             	
+                           		function insertQna(){
+                           			/*
+                           			a.jax({
+                           				url: "<%=contextPath%>/minsert.pr",
+                           				data:{
+                           					title:$("#qna-title").val(),
+                           					content:$("#qna-content").val()
+                           					proNo:<%= pro.getProductNo() %>
+                           					upfile:
+                           				},
+                           				type:"post",
+                           				success:function(){
+                           					
+                           				}
+                           	
+                           			})
+                           			*/
+                           			
+                           			location.reload();
+                           			
+                           		}
+                             		
+                             		
+                             		
                              	
                              </script>
 
 
                     <!-- 상품상세 문의 start -->
 
-                    <!-- 상품상세 문의 팝업창으로 띄워주기 jsp -->
-                    <div class="main_bottom_rev d-flex flex-column" id="proQna">
+                       <!-- 상품상세 문의 팝업창으로 띄워주기 jsp -->
+                    <div class="main_bottom_rev d-flex flex-column">
 
                         <div>
                             <span><b style="font-size: 30px;">상품문의</b></span>
 
                             <!-- 현재 로그인된 상태일 경우 보여지는 요소 -->
-                            <span class="d-flex justify-content-end"> <button type="button" class="btn btn-outline-dark">문의 작성하기</button></span>
+                            <span class="d-flex justify-content-end"> <button type="button" class="btn text-primary" data-toggle="modal" data-target="#qna">상품문의</button></span>
                         </div>
+
+
+                        <!-- 문의수정 팝업창(수정버튼 클릭시 팝업창뜸) start -->
+                        <div class="modal" id="qna">
+                            <div class="modal-dialog modal-lg">
+                            <div class="modal-content px-3" style="border: 1px solid;">
+                            
+                                <!-- 문의수정 팝업창 Header -->
+                                <div class="modal-header modal-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                    </svg>
+                                    <h4><b>상품문의</b></h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                
+                                <!-- 문의수정 팝업창 body -->
+                                <div class="modal-body">
+    
+                                    <form action="<%= contextPath %>/minsert.pr" method="post" class="form-group" enctype="multipart/form-data">
+    									<input type="hidden" name="proNo" value="<%= pro.getProductNo() %>">
+                                        <div class="d-flex form-field">
+                                            <label for="qna-title" class="mr-sm-2">제목</label>
+                                            <input type="text" class="form-control qna-title" id="qna-title" name="title">
+                                        </div>
+                                        
+                                        <div class="d-flex form-field">
+                                            <label for="qna-content" class="mr-sm-2">문의사항</label>
+                                            <textarea id="qna-content" class="form-control qna-content" cols="30" rows="10" maxlength="500" style="resize: none; text-align: justify;" placeholder="내용을 입력해주세요 / 500자" name="content"></textarea>
+                                            <div class="count-text-area" style="margin:30px;">
+                                                <label class="count-text"></label>/500
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-flex form-field">
+                                            <label for="qna-attachment" class="mr-sm-2" name="upfiles">첨부파일</label>
+                                            <input type="file" class="form-control" id="qna-attachment">
+                                        </div>
+
+                                        <div class="modal-button">
+                                            <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">뒤로가기</button>
+                                            <button type="submit" class="btn btn-danger me-3 px-4">문의</button>
+                                        </div>
+    
+                                   </form>
+    
+                                </div>
+                                
+                            </div>
+                            </div>
+                        </div>
+                        <!-- 문의수정 팝업창 end -->
 
                         <hr>
                         <div class="qna_content">

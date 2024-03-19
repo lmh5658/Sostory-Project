@@ -206,5 +206,35 @@
 			) WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<entry key="">
+	INSERT 
+    INTO TB_QNA_REPLY
+    (
+      ANSWER_NO
+    , PRODUCT_NO
+    , USER_NO
+    , ANSWER_TITLE
+    , ANSWER_CONTENT
+    , ANSWER_TYPE
+    , ANSWER_STATUS
+     )
+     VALUES
+     (
+      SEQ_QNO.NEXTVAL
+     ,?
+     ,?
+     ,?
+     ,?
+     ,1
+     ,'미처리'
+     );
+INSERT
+    INTO TB_ATTACHMENT_PRODUCT
+    (
+      SEQ_ANO.NEXTVAL
+    , 
+    )
+	</entry>
+	
 
 </properties>
