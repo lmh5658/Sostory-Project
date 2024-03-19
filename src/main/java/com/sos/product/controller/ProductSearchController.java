@@ -37,8 +37,8 @@ public class ProductSearchController extends HttpServlet {
 		String search = request.getParameter("search");
 		int currentPage = Integer.parseInt(request.getParameter("page"));
 		int countList = new ProductService().searchCountList(search);
-		int boardLimit = 9;
 		int pageLimit = 5;
+		int boardLimit = 9;
 		int maxPage = (int)Math.ceil((double)countList / boardLimit);
 		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;  
 		int endPage = startPage + pageLimit - 1;

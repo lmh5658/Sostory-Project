@@ -24,6 +24,14 @@
 		 WHERE USER_NO = ?
 	</entry>
 	
+	<!-- 회원 탈퇴요청 -->
+	<entry key="deleteMember">
+		UPDATE TB_MEMBER
+		   SET USER_STATUS = 'N'
+		 WHERE USER_NO = ?
+	</entry>
+	
+	
 	<!-- 배송지리스트 조회요청 -->
 	<entry key="selectAddressList">
 		SELECT 
@@ -122,6 +130,27 @@
 		UPDATE TB_ADDRESS
 		   SET ADDRESS_STATUS = 'N'
 		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<!-- 1:1문의 전체목록조회 -->
+	<entry key="selectAllQnaList">
+		SELECT B.*
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT 
+		                      ANSWER_NO
+		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
+		                     ,ANSWER_TITLE
+		                     ,ANSWER_STATUS
+		                  FROM TB_QNA_REPLY
+		                 WHERE USER_NO = ?
+		                   AND ANSWER_TYPE = 2
+		                 ORDER BY ANSWER_DATE DESC
+		                         ,ANSWER_NO
+		                ) A
+		        ) B
+		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 
 </properties>

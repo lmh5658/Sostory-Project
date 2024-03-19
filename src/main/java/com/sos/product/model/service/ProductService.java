@@ -110,5 +110,12 @@ public class ProductService {
 		return list;
 	}
 	
+	public int insertQna(String title, String content, int productNo, int userNo) {
+		Connection conn = getConnection();
+		int result = pDao.insertQna(conn, title, content, productNo, userNo);
+		close(conn);
+		return result;
+	}
+	
 
 }

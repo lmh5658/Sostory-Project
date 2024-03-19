@@ -399,6 +399,18 @@ public class ProductDao {
 		return list;
 	}
 	
+	public int insertQna(Connection conn, String title, String content, int userNo, int productNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertQna");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			p
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	
 	

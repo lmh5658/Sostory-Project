@@ -62,6 +62,28 @@ public class MyPageService {
 	}
 	
 	/**
+	 * 마이페이지에서 사용자가 회원탈퇴 요청시 실행될 메소드
+	 * 
+	 * @param userNo : 탈퇴할 회원번호
+	 * @return : 회원탈퇴(USER_STATUS = 'N') 요청처리 결과 행 수
+	 */
+	public int deleteMember(int userNo) {
+		
+		Connection conn = getConnection();
+		
+		int result = mpDao.deleteMember(conn, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
 	 * 마이페이지에서 사용자가 배송지관리페이지 요청시 실행될 메소드 (배송지리스트 조회)
 	 * 
 	 * @param userNo : 서비스요청 사용자의 회원번호
