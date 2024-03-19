@@ -33,16 +33,17 @@ public class MemberService {
 	public int insertMember(Member m) {
 		Connection conn = getConnection();
 		
-		int result = mDao.insertMember(conn, m);
+		int result1 = mDao.insertMember(conn, m);
+		int result2 = mDao.insertAddress(conn, m);
 		
-		if(result > 0) {
+		if(result1 > 0 && result2 > 0) {
 			commit(conn);
 		}else {
 			rollback(conn);
 		}
 		close(conn);
 		
-		return result;
+		return result1 * result2;
 	}
 
 	public List<Member> findIdByEmail(Member m) {

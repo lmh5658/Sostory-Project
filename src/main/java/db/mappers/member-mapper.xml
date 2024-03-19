@@ -65,6 +65,29 @@
 		  	   )
 	</entry>
 	
+	<entry key="insertAddress">
+		INSERT 
+		  INTO TB_ADDRESS
+		  	   (
+		  	   ADDRESS_NO
+		  	 , USER_NO
+		  	 , ADDRESS_LOCAL
+		  	 , ADDRESS_NAME
+		  	 , ADDRESS_ADDRESS
+		  	 , ADDRESS_DETAIL
+		  	 , ADDRESS_PHONE
+		  	   )
+		VALUES (
+		  	   SEQ_ANO.NEXTVAL
+		  	 , SEQ_MNO.CURRVAL
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	   )
+	</entry>
+	
 	<entry key="findIdByEmail">
 		SELECT
 		       USER_ID

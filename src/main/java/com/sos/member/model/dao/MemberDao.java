@@ -126,6 +126,29 @@ public class MemberDao {
 		
 		return result;
 	}
+	
+	public int insertAddress(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "배송지");
+			pstmt.setString(2, m.getUserName());
+			pstmt.setString(3, m.getAddress());
+			pstmt.setString(4, m.getAddressDetail());
+			pstmt.setString(5, m.getPhone());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		System.out.println(result);
+		return result;
+	}
 
 	public List<Member> findIdByEmail(Connection conn, Member m) {
 		List<Member> list = new ArrayList<>();
@@ -177,5 +200,6 @@ public class MemberDao {
 		
 		return userPwd;
 	}
+
 	
 }
