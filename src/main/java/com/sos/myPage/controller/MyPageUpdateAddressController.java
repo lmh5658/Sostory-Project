@@ -52,12 +52,15 @@ public class MyPageUpdateAddressController extends HttpServlet {
 			
 			// 수정할 배송지정보 추출
 			Address addr = new Address();
+			int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
+			addr.setAddressWriter(String.valueOf(userNo));
 			addr.setAddressNo(Integer.parseInt(request.getParameter("addressNo")));
 			addr.setAddressLocal(request.getParameter("addressLocal"));
 			addr.setAddressName(request.getParameter("addressName"));
 			addr.setAddressPhone(request.getParameter("addressPhone"));
 			addr.setAddressAddress(request.getParameter("addressAddress"));
 			addr.setAddressDetail(request.getParameter("addressDetail"));
+			
 			
 			/* addressType 추출값
 			 * 
@@ -88,8 +91,6 @@ public class MyPageUpdateAddressController extends HttpServlet {
 			}else { // case 02) 기본배송지로 수정배송지를 설정하며 수정
 				
 				addr.setAddressType(addressType);
-				
-				int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 				
 				// 해당회원의 기존기본배송지 유무조회
 				int count = mpService.selectDefaultAddress(userNo);

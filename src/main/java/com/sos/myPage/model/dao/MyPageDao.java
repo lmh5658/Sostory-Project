@@ -126,7 +126,7 @@ public class MyPageDao {
 				
 				addr.setAddressNo(rset.getInt("address_no"));
 				addr.setAddressLocal(rset.getString("address_local"));
-				addr.setAddressWriter(rset.getString("user_name"));
+				addr.setAddressName(rset.getString("address_name"));
 				addr.setAddress(rset.getString("address"));
 				addr.setAddressPhone(rset.getString("address_phone"));
 				addr.setAddressType(rset.getString("address_type"));	// Y(기본배송지) | N(기타배송지)
@@ -192,11 +192,39 @@ public class MyPageDao {
 	 * @param userNo
 	 * @return
 	 */
-	/*
-	public int updateMemberModifyDate(Connection conn, int userNoqoth) {
+	
+	
+	/**
+	 * 해당회원의 정보가 새롭게 수정|등록 되었을 경우 회원정보 수정일 수정시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 수정일 정보를 수정할 회원번호
+	 * @return : 회원정보 수정요청 처리결과 행 수
+	 */
+	public int updateMemberModifyDate(Connection conn, String userNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateMemberModifyDate");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 		
 	}
-	*/
+	
 	/**
 	 * 배송지등록 | 배송지수정 요청시 해당 사용자의 기본배송지 유무조회시 실행될 메소드
 	 * 

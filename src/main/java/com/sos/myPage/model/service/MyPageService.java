@@ -151,15 +151,23 @@ public class MyPageService {
 		
 		Connection conn = getConnection();
 		
-		int result = mpDao.insertAddress(conn, addr);
+		int resultAddr = mpDao.insertAddress(conn, addr);	// 신규배송지 추가등록 처리결과
 		
-		if(result > 0) {
-			commit(conn);
+		int resultMem = 0;		// 회원정보 수정요청 처리결과를 담을 변수
+		
+		if(resultAddr > 0) {
+			
+			// 신규배송지 추가성공시 : 회원정보 수정일(MODIFY_DATE) 수정요청
+			resultMem = mpDao.updateMemberModifyDate(conn, addr.getAddressWriter());
+			
+			if(resultMem > 0) { // 회원정보 수정일(MODIFY_DATE) 수정성공시
+				commit(conn);				
+			}
 		}else {
 			rollback(conn);
 		}
 		
-		return result;
+		return resultAddr * resultMem;
 		
 	}
 	
@@ -174,17 +182,25 @@ public class MyPageService {
 		
 		Connection conn = getConnection();
 		
-		int result = mpDao.updateAddress(conn, addr);
+		int resultAddr = mpDao.updateAddress(conn, addr);	// 배송지 수정요청 처리결과
 		
-		if(result > 0) {
-			commit(conn);
+		int resultMem = 0;		// 회원정보 수정일(MODIFY_DATE) 수정요청 처리결과를 담을 변수
+		
+		if(resultAddr > 0) {
+			
+			// 배송지 수정성공시 : 회원정보 수정일(MODICY_DATE) 수정요청
+			resultMem = mpDao.updateMemberModifyDate(conn, addr.getAddressWriter());
+			
+			if(resultMem > 0) { // 회원정보 수정일(MODIFY_DATE) 수정성공시
+				commit(conn);				
+			}
 		}else {
 			rollback(conn);
 		}
 		
 		close(conn);
 		
-		return result;
+		return resultAddr * resultMem;
 	}
 	
 }
