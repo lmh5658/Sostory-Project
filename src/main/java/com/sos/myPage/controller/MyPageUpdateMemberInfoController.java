@@ -85,7 +85,7 @@ public class MyPageUpdateMemberInfoController extends HttpServlet {
 			if(result > 0){
 				request.getSession().setAttribute("alertMsg", "정보수정이 완료되었습니다. 수정된 정보반영을 위해서는 로그아웃 후 재로그인을 진행해주셔야합니다.");
 				response.sendRedirect(request.getContextPath() + "/myPage.me");
-			}else {
+			}else{
 				request.getSession().setAttribute("alertMsg", "정보수정이 정상적으로 이루어지지 않았습니다. 다시 시도해주세요.");
 				response.sendRedirect(request.getContextPath() + "/myPage.me");
 				
