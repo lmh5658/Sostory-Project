@@ -67,7 +67,7 @@
 			$("#gotoProduct").click(function(){
 				
 				// 상품보러가기 버튼 클릭시 전체상품목록페이지로 이동
-				location.href="<%=contextPath%>/views/product/productList.jsp"
+				location.href="<%=contextPath%>/list.pr?page=1"
 				
 				
 			})
