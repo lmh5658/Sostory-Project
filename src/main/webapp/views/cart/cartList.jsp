@@ -5,6 +5,7 @@
  <%
  	List<Cart> list = (List<Cart>)request.getAttribute("list");
  	PageInfo pi = (PageInfo)request.getAttribute("pi");
+ 	
  %>
 <!DOCTYPE html>
 <html>
@@ -69,10 +70,10 @@
                 <!-- 상품 상단 영역 end -->
 
 
-                 
+               
                     <div class="d-flex" style="margin-bottom: 20px;">
                         
-                        <input type="checkbox" style="width: 30px;" id="selectAll-cart">
+                        <input type="checkbox" style="width: 30px;" id="selectAll-cart" checked>
                     
                         
                         <b>전체선택(해제)</b>
@@ -82,6 +83,7 @@
                    
 
 				<!-- 장바구니 목록리스트 start -->
+			<form action="<%=contextPath %>/payForm.pa" method="post">
 				<div class="cart-list">
 				
                     <!-- 상품 리스트 start -->
@@ -89,24 +91,25 @@
                     <div class="product-thumbnail-list d-flex flex-direction w-100">
                         <div class="thumbnail-list d-flex w-100 justify-content-evenly"> 
                             <!-- 상품 썸네일 start -->
-                                <input type="checkbox" style="width: 30px;" class="cartCheckbox">
+                                <input type="checkbox" style="width: 30px;" class="cartCheckbox" checked onclick="updateTotalPrice()">
                             <div class="product img-thumbnail p-2" style="width:200px">
-                                <img class="product-img" src="<%=contextPath + "/" + c.getPath() %>" alt="Card image" style="width:100%" id="cartImage">
+                                <img class="product-img" src="<%=contextPath + "/" + c.getPath() %>" alt="Card image" style="width:100%" name="cartImage">
                             </div>
                             <div class="product-name">
                                 <small class="product-category text-secondary d-block mb-3 mt-2"><%=c.getCategoryName() %></small>
-                                <h7 class="product-title"><b id="cartName"><b style="color: rgb(150, 24, 136);">[BEST] </b><%= c.getProductName()%></b></h7>
+                                <h7 class="product-title"><b name="cartName"><b style="color: rgb(150, 24, 136);">[BEST] </b><%= c.getProductName()%></b></h7>
                             </div>
                             <div class="cart-price">
-                            	<h7 class="cart-price d-block mb-3 mt-2"><b id="cartPrice"><%=c.getPrice() %>원</b></h7>
+                            	<h7 class="cart-price d-block mb-3 mt-2"><b id="cartPrice" name="changePrice"><%=c.getPrice() %>원</b></h7>
                              </div>
                              <div class="cart-count">
-                                <input type="button" value="-" style="width: 30px;" id="decrementBtn-cart">
-                                <input type="text" value="<%=c.getCartAmount() %>" style="width: 40px; text-align: center;" id="cartQuantity" value="1" min="1">
-                                <input type="button" value="+" style="width: 30px;" id="incrementBtn-cart">
+                             <!-- 수량 증감버튼 -->
+                                <input type="button" value="-" style="width: 30px;" class="quantity-decrement">
+                                <input type="text" id="cartCount"  value="<%=c.getCartAmount() %>" style="width: 40px; text-align: center;" min="1" class="quantity-input" name="changeCount">
+                                <input type="button" value="+" style="width: 30px;" class="quantity-increment">
                             </div>
                             <div class="icon d-flex justify-content-end">
-                                <a href="javascript:cartDelete(<%=c.getProductNo()%>);"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-excel" viewBox="0 0 16 16">
+                                <a href="javascript:cartDelete(<%=c.getProductNo()%>);"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-excel" viewBox="0 0 16 16" class="cartCheck">
                                     <path d="M5.18 4.616a.5.5 0 0 1 .704.064L8 7.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 8l2.233 2.68a.5.5 0 0 1-.768.64L8 8.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 8 5.116 5.32a.5.5 0 0 1 .064-.704"/>
                                     <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1"/>
                                  </svg></a>
@@ -117,6 +120,14 @@
                     <!-- 상품 리스트 end -->
                     <br>
                     
+                    <%} %>
+                  </div>
+                  
+                  <!-- 장바구니 목록리스트 end -->
+                       
+                    <hr>
+                    <br>
+                    
                     <!-- 상품 금액 표시 영역 start -->
                     <div class="cart-allprice d-flex flex-direction justify-content-evenly" style="background-color: rgba(240, 240, 240); height: 300px;">
                         
@@ -124,7 +135,7 @@
                                 <div class="d-flex flex-column productPrice" style="border-radius: 30px; border: 1px solid black; width: 200px; height: 150px;">
                                     
 	                                <h4 class="center" style="padding-top: 30px;">상품금액</h4>
-	                                <h2 class="center">33,000</h2>
+	                                <h2 class="center" id="totalPrice">0</h2>
                                 </div>
 
                             </div>
@@ -151,7 +162,7 @@
                                 <div class="d-flex flex-column" style="border-radius: 30px; border: 1px solid black; width: 200px; height: 150px;">
 	
 	                                <h4 class="center totalPayment" style="padding-top: 30px;">총 결제금액</h4>
-	                                <h2 class="center">33,000</h2>
+	                                <h2 class="center" id="allPrice">0</h2>
                                  </div>
                             </div>
 
@@ -159,64 +170,106 @@
                     <br>
                     <div class="d-flex flex-direction justify-content-evenly">
                     
-                        <button type="button" class="btn btn-outline-dark" style="background-color: rgb(197, 191, 191); border-radius: 15px; color: black;">뒤로가기</button>
-                        <button type="button" class="btn btn-outline-dark" style="background-color: rgb(206, 73, 73); border-radius: 15px; color: white;">주문하기</button>
+                        <button onclick="goBack()" class="btn btn-outline-dark" style="background-color: rgb(197, 191, 191); border-radius: 15px; color: black;">뒤로가기</button>
+                        <button type="submit" class="btn btn-outline-dark" style="background-color: rgb(206, 73, 73); border-radius: 15px; color: white;">주문하기</button>
 
                      </div>
+                  </form>
+                  
+                  
                      <br>
                     <!-- 상품 금액 표시 영역 end -->
-                    <%} %>
-                  </div>
-                  <!-- 장바구니 목록리스트 end -->
-                  
-                       <!-- 페이징바 영역 start -->
-                        <ul class="pagination justify-content center">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
-                        <!-- 페이징바 영역 end -->
-                    <hr>
-                    <br>
+                    
+                    
+					
 
                     
         	</section>
         <!-- Section end -->
          </div>
-         
+         				
+         				
+                  		
+                  		
+	                           
           				<script>
                             <!-- 장바구니 상품 수량 증감버튼  -->
-                            $(document).ready(function(){
-                                $('#incrementBtn-cart').click(function(){
-                                  var quantityInput = $('#cartQuantity');
-                                  var currentValue = parseInt(quantityInput.val());
-                                  quantityInput.val(currentValue + 1);
-                                  updatePrice(currentValue + 1);
-                                });
-
-                                $('#decrementBtn-cart').click(function(){
-                                  var quantityInput = $('#cartQuantity');
-                                  var currentValue = parseInt(quantityInput.val());
-                                  if (currentValue > 1) {
-                                    quantityInput.val(currentValue - 1);
-                                    updatePrice(currentValue - 1);
-                                  }
-                                });
-
-                                <!-- 수량 증감에 따른 상품 가격 변화  -->
-                                function updatePrice(quantity) {	
-                                	// 가격 업데이트
-                                  var price = quantity * 8000; 	// 수량에 따른 가격 계산
-                                  $('.cart-price b').text(price + '원');
-                                  $('.productPrice h2').text(price);
-                                  
-                                }
-                              });
                             
+                                
+                           
+                                <!-- 체크박스 선택시 선택된 상품의 가격들만 변동 -->
+                                function updateTotalPrice() {
+                                    var totalPrice = 0;
+                                    $('.cartCheckbox:checked').each(function() {
+                                        var priceElement = $(this).closest('.thumbnail-list').find('#cartPrice');
+                                        var priceText = priceElement.text();
+                                        var price = parseInt(priceText.replace('원', '').trim());
+                                        var quantity = parseInt($(this).closest('.thumbnail-list').find('.quantity-input').val());
+                                        totalPrice += price * quantity;
+                                    });
+                                    $('#totalPrice').text(totalPrice);
+                                    $('#allPrice').text(totalPrice);
+                                }
+                                
+                               
+                                $(document).ready(function() {
+                                    // 수량 감소 버튼 클릭 시
+                                    $('.quantity-decrement').click(function() {
+                                        var $quantityInput = $(this).siblings('.quantity-input');
+                                        var quantity = parseInt($quantityInput.val());
+                                        if (quantity > 1) {
+                                            $quantityInput.val(quantity - 1);
+                                            updateTotalPrice();
+                                        }
+                                    });
+
+                                    // 수량 증가 버튼 클릭 시
+                                    $('.quantity-increment').click(function() {
+                                        var $quantityInput = $(this).siblings('.quantity-input');
+                                        var quantity = parseInt($quantityInput.val());
+                                        $quantityInput.val(quantity + 1);
+                                        updateTotalPrice();
+                                    });
+
+                                    // 페이지 로드 시 총 가격 업데이트
+                                    updateTotalPrice();
+
+                                    // 가격 업데이트 함수
+                                    function updateTotalPrice() {
+                                        var totalPrice = 0;
+                                        $('.cartCheckbox:checked').each(function() {
+                                            var priceElement = $(this).closest('.thumbnail-list').find('#cartPrice');
+                                            var priceText = priceElement.text();
+                                            var price = parseInt(priceText.replace('원', '').trim());
+                                            var quantity = parseInt($(this).closest('.thumbnail-list').find('.quantity-input').val());
+                                            totalPrice += price * quantity;
+                                        });
+                                        $('#totalPrice').text(totalPrice);
+                                        $('#allPrice').text(totalPrice);
+                                    }
+                                });
+
+
+                                <!-- 전체선택(해제) checkbox  -->
+                                $(document).ready(function() {
+                                    // 전체 선택 체크박스
+                                    $("#selectAll-cart").change(function() {
+                                        $(".cartCheckbox").prop('checked', $(this).prop("checked"));
+                                        updateTotalPrice(); // 가격 업데이트
+                                    });
+
+                                    // 개별 항목 체크박스들 중 하나라도 체크 해제 시 전체 선택 체크박스도 체크 해제
+                                    $(".cartCheckbox").change(function() {
+                                        if (!$(this).prop("checked")) {
+                                            $("#selectAll-cart").prop('checked', false);
+                                        }
+                                            updateTotalPrice(); // 가격 업데이트
+                                    });
+                                });
+                                
+                                
+                                
+                                
                             <!-- x버튼 클릭 시 상품 삭제 --> 
                                 function cartDelete(productNo){
                                 	
@@ -225,6 +278,9 @@
                                     
                                     // 해당 상품 썸네일 리스트 삭제
                                     productThumbnail.remove();
+                                    updateTotalPrice(); //  상품 삭제 시 상품가격 업데이트
+                                    
+                                    // 상품 삭제 시 해당 상품가격만큼 뺀 가격을 상품금액 표시영역에 넣어주기
                                     
                                 	<%
                             		int userNo = loginUser.getUserNo();
@@ -232,7 +288,6 @@
                             		%>
                             		
                             		var userNo = <%= userNo %>;
-                               		
                             		
                                   	$.ajax({
                                   		
@@ -254,26 +309,14 @@
                                   	})
                                     
                               }
+                                
+                                function goBack(){
+                                	window.history.back();
+                                }
                             
-                            <!-- 전체선택(해제) checkbox 스크립트 -->
-                            $(document).ready(function() {
-                                // 전체 선택 체크박스
-                                $("#selectAll-cart").change(function() {
-                                    $(".cartCheckbox").prop('checked', $(this).prop("checked"));
-                                });
-
-                                // 개별 항목 체크박스들 중 하나라도 체크 해제 시 전체 선택 체크박스도 체크 해제
-                                $(".cartCheckbox").change(function() {
-                                    if (!$(this).prop("checked")) {
-                                        $("#selectAll-cart").prop('checked', false);
-                                    }
-                                });
-                            });
+                            
                             
                   		</script>
-                  		
-                  		
-	                           
                             
                             
                           

@@ -6,6 +6,8 @@ public class Cart {
 	 private int userNo;
 	 private int productNo;
 	 private int cartAmount;
+	 
+	 
 	 private String productName;
 	 private int price;
 	 private int discountPrice;

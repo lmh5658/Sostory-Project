@@ -105,9 +105,17 @@
 	                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
 	                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 	                                        </svg>
-	                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-	                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-	                                        </svg>
+	                                        <% if(loginUser != null) { %>
+								                    <a href="javascript:cartMe(<%=p.getProductNo()%>)"><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+								                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+								                    </svg></a>
+												<%}else{ %>
+													 <a onclick="alert('로그인을 해주세요.')"><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+								                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+								                    </svg></a>
+												<%} %>
+	                                        
+	                                        
 	                                	</div>
 	                               </div>
                            </div>
@@ -163,6 +171,65 @@
           
   
         })	
+    </script>
+    
+    <script>
+    function cartMe(productNo){
+		<%
+		int userNo = 0;
+		if(loginUser != null){
+			userNo = loginUser.getUserNo();
+		}
+		%>
+		
+		var userNo = <%= userNo %>;
+		//장바구니 테이블에 해당 상품,유저가 존재하는지 중복체크
+		$.ajax({
+			url:"<%=contextPath%>/count.ca",
+			data:{
+				productNo:productNo,
+				userNo:userNo,
+			},
+			type:"post",
+			success:function(count){ 
+				if(count > 0){ // 장바구니 테이블에 같은상품이 존재
+				alert("이미 장바구니에 존재하는 상품입니다.");
+				}else{
+					$.ajax({
+						url:"<%=contextPath%>/add.ca",
+						data:{
+							productNo:productNo,
+							userNo:userNo,
+							cart_amount:1 // 장바구니 상품등록 기본수량 1
+							
+						},
+						type:"post",
+						success:function(result){
+							if(result>0){ // 장바구니 상품등록 성공
+							alert("상품을 장바구니에 담았습니다.");
+							}
+						},error:function(){
+							console.log("ajax 통신 실패");
+							
+						}
+					})
+				}
+			},error:function(){
+				console.log("ajax 통신 실패");
+				
+			}
+			
+			
+		})
+
+		
+		//location.href=("/sos/views/cart/cartList.jsp);
+
+
+
+	}
+    
+    
     </script>
 
 
