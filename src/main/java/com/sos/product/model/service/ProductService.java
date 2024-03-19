@@ -1,15 +1,17 @@
 package com.sos.product.model.service;
 
-import static com.sos.common.template.JDBCTemplate.*;
+import static com.sos.common.template.JDBCTemplate.close;
+import static com.sos.common.template.JDBCTemplate.commit;
 import static com.sos.common.template.JDBCTemplate.getConnection;
+import static com.sos.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
 
 import com.sos.common.model.vo.PageInfo;
-import com.sos.common.template.JDBCTemplate;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.dao.ProductDao;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.ProductRecipe;
 import com.sos.product.model.vo.ProductReview;
@@ -110,11 +112,35 @@ public class ProductService {
 		return list;
 	}
 	
-	public int insertQna(String title, String content, int productNo, int userNo) {
+	public int insertQna(String title, String content, int productNo, int userNo, AttachmentProduct ap) {
 		Connection conn = getConnection();
-		int result = pDao.insertQna(conn, title, content, productNo, userNo);
+		int result1 = pDao.insertQna(conn, title, content, productNo, userNo);
+		int result2 = 1;
+		if(ap !=null) {
+			result2 = pDao.insertQnaFiles(conn, ap, productNo);			
+		}
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
 		close(conn);
-		return result;
+		
+		return result1 * result2;
+	}
+	
+	public int selectJangListCount() {
+		Connection conn = getConnection();
+		int count = pDao.selectJangListCount(conn);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> selectProductJang(PageInfo pi){
+		Connection conn = getConnection();
+		List<Product> list = pDao.selectProductJang(conn, pi);
+		close(conn);
+		return list;
 	}
 	
 

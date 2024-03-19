@@ -341,9 +341,13 @@
                     <script>
 
                        	$(function(){
+                       		
                        		selectReview(1);
                        		selectQna(1);
                        		
+                       		$("#prod_btn").click(function(){
+                       			alert("로그인 먼저 해주세요");
+                       		})
                        	})
                        	
                        	function insertReview(){
@@ -523,11 +527,12 @@
 
                         <div>
                             <span><b style="font-size: 30px;">상품문의</b></span>
-
+						</div>
                             <!-- 현재 로그인된 상태일 경우 보여지는 요소 -->
-                            <span class="d-flex justify-content-end"> <button type="button" class="btn text-primary" data-toggle="modal" data-target="#qna">상품문의</button></span>
-                        </div>
-
+                         <% if(loginUser != null) { %>
+                         <span class="d-flex justify-content-end"> <button type="button" class="btn text-primary" data-toggle="modal" data-target="#qna">상품문의</button></span>
+                            
+                            
 
                         <!-- 문의수정 팝업창(수정버튼 클릭시 팝업창뜸) start -->
                         <div class="modal" id="qna">
@@ -548,6 +553,7 @@
     
                                     <form action="<%= contextPath %>/minsert.pr" method="post" class="form-group" enctype="multipart/form-data">
     									<input type="hidden" name="proNo" value="<%= pro.getProductNo() %>">
+    									<input type="hidden" name="userNo" value="<%= loginUser.getUserNo() %>">
                                         <div class="d-flex form-field">
                                             <label for="qna-title" class="mr-sm-2">제목</label>
                                             <input type="text" class="form-control qna-title" id="qna-title" name="title">
@@ -562,13 +568,13 @@
                                         </div>
                                         
                                         <div class="d-flex form-field">
-                                            <label for="qna-attachment" class="mr-sm-2" name="upfiles">첨부파일</label>
-                                            <input type="file" class="form-control" id="qna-attachment">
+                                            <label for="qna-attachment" class="mr-sm-2">첨부파일</label>
+                                            <input type="file" class="form-control" id="qna-attachment" name="upfiles">
                                         </div>
 
                                         <div class="modal-button">
                                             <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">뒤로가기</button>
-                                            <button type="submit" class="btn btn-danger me-3 px-4">문의</button>
+                                            <button type="submit" class="btn btn-danger me-3 px-4" >문의</button>
                                         </div>
     
                                    </form>
@@ -577,6 +583,9 @@
                                 
                             </div>
                             </div>
+                            <% }else{%>
+                            <span class="d-flex justify-content-end"> <button type="button" class="btn text-primary" id="prod_btn">상품문의</button></span>
+                            <% } %>
                         </div>
                         <!-- 문의수정 팝업창 end -->
 

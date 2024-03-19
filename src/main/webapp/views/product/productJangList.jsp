@@ -133,11 +133,12 @@
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
 	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
+	                                    
 	                                    <% if(p.getDiscountPrice() == 0) { %>
-	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice() + p.getDiscountPrice() %>원</b></h7>
+	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice() %>원</b></h7>
 	                                    <% }else { %>
-	                                    <h7 class="product-price d-block my-4"><b><%= p.getDiscountPrice() - p.getPrice() %>원</b></h7>
-	                                    <h7 class="product-price d-block my-4"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
+	                                    <h7 class="product-price d-block my-4"><b><s><%= p.getPrice()%>원</s></b></h7>
 	                                    <% } %>	                                   
 	                                    <div class="icon d-flex justify-content-end">
 	                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
@@ -169,21 +170,21 @@
 	                        <% if(pi.getCurrentPage() == 1) { %>
 	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/jlist.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
 	                        <% } %>
 	                        
 	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
 	                            <% if(p == pi.getCurrentPage()) { %>
 	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                            <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= p %>"><%= p %></a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/jlist.pr?page=<%= p %>"><%= p %></a></li>
 	                            <% } %>
 	                        <% } %>
 	                            
 							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
 	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/list.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/jlist.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
 	                        <% } %>
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
@@ -242,10 +243,10 @@
           })
           
           $("#search_btn").click(function(){
-        	  location.href = "<%=contextPath%>/slist.pr?search=" + $("#search").val() + "&page=1";
+        	  location.href = "<%=contextPath%>/sjlist.pr?search=" + $("#search").val() + "&page=1";
           })
           
-         
+       
   
         })	
     </script>

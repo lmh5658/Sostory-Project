@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.ProductRecipe;
 import com.sos.product.model.vo.ProductReview;
@@ -405,10 +406,93 @@ public class ProductDao {
 		String sql = prop.getProperty("insertQna");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			p
+			pstmt.setInt(1, productNo);
+			pstmt.setInt(2, userNo);
+			pstmt.setString(3, title);
+			pstmt.setString(4, content);
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
+		return result;
+	}
+	
+	public int insertQnaFiles(Connection conn, AttachmentProduct ap, int productNo) {
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertQnaFiles");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ap.getFileName());
+			pstmt.setString(2, ap.getFileChangeName());
+			pstmt.setString(3, ap.getFileRoute());
+			pstmt.setInt(4, productNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;		
+	}
+	
+	public int selectJangListCount(Connection conn) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectJangListCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return count;
+	}
+	
+	public List<Product> selectProductJang(Connection conn, PageInfo pi){
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductJang");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}	
+		return list;
 	}
 	
 
