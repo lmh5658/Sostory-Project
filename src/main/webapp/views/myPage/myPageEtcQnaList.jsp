@@ -53,8 +53,8 @@
 		          <div class="side_menu">
 		              <button class="list">고객문의</button>
 		              <div>
-		              <a href="<%= contextPath %>/proQna.me?page=1" style="color:white; text-decoration-line:none;">상품문의</a><br>
-		              <a href="<%= contextPath %>/etcQna.me?page=1" style="color:white; text-decoration-line:none;">1:1 문의</a>
+		              <a href="<%= contextPath %>/qna.me?type=1&page=1" style="color:white; text-decoration-line:none;">상품문의</a><br>
+		              <a href="<%= contextPath %>/qna.me?type=2&page=1" style="color:white; text-decoration-line:none;">1:1 문의</a>
 		              </div>
 		          </div>
 		
@@ -169,10 +169,10 @@
 
                     <!-- 필터링 드롭다운 영역 start -->
                     <div class="dropdown my-3">
-                        <a href="<%= contextPath %>/etcQna.me?page=1" class="btn dropdown-toggle px-5" data-toggle="dropdown">전체</a>
+                        <a href="<%= contextPath %>/qna.me?type=2&page=1" class="btn dropdown-toggle px-5" data-toggle="dropdown">전체</a>
                         <div class="dropdown-menu">
-                          <a href="<%= contextPath %>/etcQna.me?page=1&status=on" class="dropdown-item">진행중</a>
-                          <a href="<%= contextPath %>/etcQna.me?page=1&status=off" class="dropdown-item">답변완료</a>
+                          <a href="<%= contextPath %>/qna.me?type=2&page=1&status=on" class="dropdown-item">진행중</a>
+                          <a href="<%= contextPath %>/qna.me?type=2&page=1&status=off" class="dropdown-item">답변완료</a>
                         </div>
                     </div>
                     <!-- 필터링 드롭다운 영역 end -->
@@ -236,7 +236,7 @@
 	                    	function deleteQna(no){
 	                    		
 	                    		if(confirm("문의내역 삭제시 복구가 불가합니다. 해당 문의내역을 삭제하시겠습니까?")){
-	                    			location.href = "<%= contextPath %>/deleteQna.me?qNo=" + no;
+	                    			location.href = "<%= contextPath %>/deleteQna.me?type=2&qNo=" + no;
 	                    		}
 	                    		
 	                    	}
@@ -305,32 +305,21 @@
 	                            <!-- 문의작성 팝업창 body -->
 	                            <div class="modal-body">
 	
-	                                <form action="" method="" class="form-group">
+	                                <form action="<%= contextPath %>/insertEq.me" method="post" enctype="multipart/form-data" class="form-group">
 	
 	                                    <div class="d-flex form-field">
 	                                        <label for="qna-title" class="mr-sm-2">제목</label>
-	                                        <input type="text" class="form-control qna-title" id="qna-title" placeholder="내용을 입력해주세요/20자">
-	                                    </div>
-	
-	                                    <div class="d-flex form-field">
-	                                        <label for="qna-category" class="mr-sm-2">종류</label>
-	                                        <select name="" id="qna-category" class="form-control">
-	                                            <option value="">취소/환불/교환</option>
-	                                            <option value="">배송관련</option>
-	                                            <option value="">홈페이지</option>
-	                                            <option value="">레시피</option>
-	                                            <option value="">기타</option>
-	                                        </select>
+	                                        <input type="text" class="form-control qna-title" id="qna-title" placeholder="내용을 입력해주세요/20자" name="answerTitle">
 	                                    </div>
 	
 	                                    <div class="d-flex form-field">
 	                                        <label for="qna-attachment" class="mr-sm-2">첨부파일</label>
-	                                        <input type="file" class="form-control" id="qna-attachment">
+	                                        <input type="file" class="form-control" id="qna-attachment" name="uploadFile">
 	                                    </div>
 	
 	                                    <div class="d-flex form-field">
 	                                        <label for="qna-content" class="mr-sm-2">내용</label>
-	                                        <textarea id="qna-content" class="form-control qna-content" cols="30" rows="10" maxlength="500" style="resize: none; text-align: justify;" placeholder="내용을 입력해주세요 / 500자"></textarea>
+	                                        <textarea id="qna-content" class="form-control qna-content" cols="30" rows="10" maxlength="500" style="resize: none; text-align: justify;" placeholder="내용을 입력해주세요 / 500자" name="answerContent"></textarea>
 	                                        <div class="count-text-area">
 	                                            <label class="count-text"></label>/500
 	                                        </div>
@@ -338,7 +327,7 @@
 	
 	                                    <div class="modal-button">
 	                                        <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">뒤로가기</button>
-	                                        <button type="submit" class="btn btn-danger me-3 px-4">수정</button>
+	                                        <button type="submit" class="btn btn-danger me-3 px-4">등록</button>
 	                                    </div>
 	
 	                                </form>
@@ -360,7 +349,7 @@
 	                            <% if(pi.getCurrentPage() == 1) { %>
                                 	<li class="page-item disabled"><a class="page-link">Previous</a></li>
                                 <% } else { %>
-                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/etcQna.me?page=<%= (pi.getCurrentPage() - 1) %>">Previous</a></li>
+                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/qna.me?type=2&page=<%= (pi.getCurrentPage() - 1) %>">Previous</a></li>
                                 <% } %>
                                 <!-- 페이지 번호버튼 활성화여부
                                 	 case 01) 비활성화 : 해당페이지 == 현재페이지
@@ -370,7 +359,7 @@
                                 	<%if(pi.getCurrentPage() == p) { %>
                                 		<li class="page-item active"><a class="page-link"><%= p %></a></li>
                                 	<% } else { %>
-                                		 <li class="page-item"><a class="page-link" href="<%= contextPath %>/etcQna.me?page=<%= p %>"><%= p %></a></li>
+                                		 <li class="page-item"><a class="page-link" href="<%= contextPath %>/qna.me?type=2&page=<%= p %>"><%= p %></a></li>
                                 	<% } %>
                                 <% } %>
                                 <!-- 이후페이지 이동버튼 활성화여부
@@ -380,7 +369,7 @@
                                 <% if(pi.getCurrentPage() == pi.getMaxPage() || pi.getMaxPage() == 0) { %>
                                 	<li class="page-item disabled"><a class="page-link">Next</a></li>
                                 <% } else { %>
-                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/etcQna.me?page=<%= (pi.getCurrentPage() + 1) %>">Next</a></li>
+                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/qna.me?type=2&page=<%= (pi.getCurrentPage() + 1) %>">Next</a></li>
                                 <% } %>
                             </ul>
                         </div>

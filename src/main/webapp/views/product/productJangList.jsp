@@ -108,7 +108,8 @@
                  <!-- 상품 정렬 Select start -->
             <div class="select-product d-flex justify-content-end">
                 <select class="selectpicker" style="width: 120px;">
-                    <option >좋아요순</option>
+                	<opiton>정렬방식</opiton>
+                    <option>좋아요순</option>
                     <option>판매순</option>
                     <option>낮은가격순</option>
                     <option>높은가격순</option>

@@ -13,6 +13,7 @@ import java.util.List;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.dao.MyPageDao;
 import com.sos.myPage.model.vo.Address;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Qna;
 
 public class MyPageService {
@@ -327,18 +328,37 @@ public class MyPageService {
 	}
 	
 	/**
-	 * 사용자가 마이페이지에서 문의삭제 요청시 실행될 메소드
+	 * 사용자가 마이페이지에서 1:1문의 등록요청시 실행될 메소드
 	 * 
-	 * @param answerNo : 삭제할 문의번호
-	 * @return : 해당번호 문의삭제 요청처리 결과행 수
+	 * case 01) 첨부파일이 있는 1:1문의글
+	 *          (1) 1:1문의글 등록요청 (부모, 참조되는 컬럼있음)
+	 * 			(2) 첨부파일 등록요청 (자식, 참조하는 컬럼있음)
+	 * 
+	 * case 02) 첨부파일이 없는 1:1문의글
+	 *          (1) 1:1문의글 등록요청
+	 * 
+	 * @param q : 등록할 1:1문의글 정보가 담긴 문의객체
+	 * @param ap : 등록할 문의글 첨부파일 정보가 담긴 첨부파일객체 (null | 파일정보)
+	 * @return : 1:1문의 & 첨부파일 등록요청 처리결과 행 수
 	 */
-	public int deleteQna(int answerNo) {
+	public int insertQna(Qna q, AttachmentProduct ap) {
 		
 		Connection conn = getConnection();
 		
-		int result = mpDao.deleteQna(conn, answerNo);
+		// (1) 문의글 등록요청
+		int resultQna = mpDao.insertQna(conn, q);
 		
-		if(result > 0) {
+		int resultAtt = 1;	// 첨부파일 등록요청 처리결과를 담을 변수
+		
+		if(resultQna > 0) {
+			// (2) 첨부파일 등록요청 (첨부파일이 있는 게시글일 경우)
+			if(ap != null) {
+				resultAtt = mpDao.insertAttachment(conn, ap);
+			}
+		}
+		
+		
+		if(resultQna * resultAtt > 0) {
 			commit(conn);
 		}else {
 			rollback(conn);
@@ -346,7 +366,64 @@ public class MyPageService {
 		
 		close(conn);
 		
+		return resultAtt * resultQna;
+		
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 문의삭제 요청시 실행될 메소드
+	 * 
+	 * case 01) 첨부파일이 존재하는 문의글일 경우
+	 *          (1) 첨부파일 삭제 (문의글을 참조하는 == 자식)
+	 *          (2)  문의글 삭제 (첨부파일에 참조되는 == 부모)
+	 *          
+	 * case 02) 첨부파일이 존재하지 않는 문의글일 경우
+	 *          (1) 문의글 삭제
+	 * 
+	 * @param answerNo : 삭제할 문의번호
+	 * @return : 해당번호 문의삭제 요청처리 결과, 삭제할 첨부파일(저장경로+수정파일명) 정보를 담은 객체
+	 */
+	public HashMap<String, Object> deleteQna(int answerNo) {
+		
+		Connection conn = getConnection();
+		
+		// 1. 문의글 첨부파일 유무조회 (1 == 첨부파일이 있는 문의글 | 0 == 첨부파일이 없는 문의글)
+		String file = mpDao.attachmentYn(conn, answerNo);
+	
+		int resultAtt = 1;		// 첨부파일 삭제처리 결과를 담을변수 초기화
+		int resultQna = 1;		//  문의글 삭제처리 결과를 담을변수 초기화
+		
+		// 2. 문의글 & 첨부파일 삭제요청
+		if(file != null) { // 1-1. 첨부파일이 있는 문의글
+			// (1) 첨부파일 삭제요청
+			resultAtt = mpDao.deleteAttachment(conn, answerNo);
+			
+			if(resultAtt > 0) { // 첨부파일 삭제성공
+				// (2) 문의글 삭제요청
+				resultQna = mpDao.deleteQna(conn, answerNo);
+			}
+			
+		}else { // 1-2. 첨부파일이 없는 문의글
+			resultQna = mpDao.deleteQna(conn, answerNo);
+		}
+		
+		// 3. 트랜잭션처리
+		if(resultAtt * resultQna > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		// 처리결과, 삭제할파일(저장경로+수정명) 정보를 담을 객체
+		HashMap<String, Object> result = new HashMap<>();
+		result.put("result", resultAtt * resultQna);
+		result.put("file", file);
+		
 		return result;
+		
 	}
 	
 }

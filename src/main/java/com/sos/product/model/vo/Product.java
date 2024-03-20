@@ -32,17 +32,15 @@ public class Product {
 		this.path = path;
 	}
 
-
-
-	public Product(int productNo, String categoryNo, String productName, int price, String path) {
+	public Product(int productNo, String categoryNo, String productName, int price, int discountPrice, String path) {
 		super();
 		this.productNo = productNo;
 		this.categoryNo = categoryNo;
 		this.productName = productName;
 		this.price = price;
+		this.discountPrice = discountPrice;
 		this.path = path;
 	}
-
 
 
 	public int getProductNo() {

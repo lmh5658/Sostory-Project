@@ -52,7 +52,12 @@ public class ProductSearchController extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		request.setAttribute("search", search);
-		request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);
+		if(list.isEmpty()) {
+			request.getRequestDispatcher("/views/product/productNotListAll.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);			
+		}
+		
 		
 		
 		

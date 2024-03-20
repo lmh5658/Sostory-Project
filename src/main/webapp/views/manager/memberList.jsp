@@ -256,10 +256,12 @@
                     </div>
 
                     <!-- 회원목록 Content start -->
+                    
+                    <!-- 회원검색 -->
                     <div class="mem_search">
                     	<form action="searchMember.ma">
                         <div class="pro_name">회원ID</div>&nbsp;
-                        <div><input type="text" class="form-control"></div>
+                        <div><input type="text" name="keyword" class="form-control"></div>
                         <div><button>조회</button></div>
                         </form>
                     </div>

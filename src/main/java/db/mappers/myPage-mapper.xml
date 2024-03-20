@@ -153,11 +153,11 @@
 		                     ,ANSWER_TITLE
 		                     ,ANSWER_STATUS
 		                  FROM TB_QNA_REPLY
-		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                  LEFT JOIN TB_PRODUCT USING (PRODUCT_NO)
 		                 WHERE USER_NO = ?
 		                   AND ANSWER_TYPE = ?
 		                 ORDER BY ANSWER_DATE DESC
-		                         ,ANSWER_NO
+		                         ,ANSWER_NO DESC
 		                ) A
 		        ) B
 		 WHERE RNUM BETWEEN ? AND ?
@@ -176,15 +176,74 @@
 		                     ,ANSWER_TITLE
 		                     ,ANSWER_STATUS
 		                  FROM TB_QNA_REPLY
-		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                  LEFT JOIN TB_PRODUCT USING (PRODUCT_NO)
 		                 WHERE USER_NO = ?
 		                   AND ANSWER_TYPE = ?
 		                   AND ANSWER_STATUS = ?
 		                 ORDER BY ANSWER_DATE DESC
-		                         ,ANSWER_NO
+		                         ,ANSWER_NO DESC
 		                ) A
 		        ) B
 		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 문의 등록요청 -->
+	<entry key="insertQna">
+		INSERT
+		    INTO TB_QNA_REPLY
+		        (
+		         ANSWER_NO
+		        ,USER_NO
+		        ,ANSWER_TITLE
+		        ,ANSWER_CONTENT
+		        ,ANSWER_TYPE
+		        )
+		    VALUES
+		        (
+		         SEQ_QNO.NEXTVAL
+		        ,?
+		        ,?
+		        ,?
+		        ,2
+		        )
+	</entry>
+	
+	<!-- 첨부파일 등록요청 -->
+	<entry key="insertAttachment">
+		INSERT
+		    INTO TB_ATTACHMENT_PRODUCT
+		        (
+		         PRO_FILE_NO
+		        ,FILE_NAME
+		        ,FILE_CHANGENAME
+		        ,FILE_ROUTE
+		        ,REF_NO
+		        ,TYPE
+		        )
+		    VALUES
+		        (
+		         SEQ_FNO.NEXTVAL
+		        ,?
+		        ,?
+		        ,?
+		        ,SEQ_QNO.CURRVAL
+		        ,'Q'
+		        )
+	</entry>
+	
+	<!-- 문의 첨부파일 유무조회 -->
+	<entry key="attachmentYn">
+		SELECT FILE_ROUTE || FILE_CHANGENAME FILE
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+	</entry>
+	
+	<!-- 첨부파일 삭제요청 -->
+	<entry key="deleteAttachment">
+		DELETE
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
 	</entry>
 	
 	<!-- 문의 삭제요청 -->
@@ -193,5 +252,7 @@
 		  FROM TB_QNA_REPLY
 		 WHERE ANSWER_NO = ?
 	</entry>
+	
+	
 
 </properties>
