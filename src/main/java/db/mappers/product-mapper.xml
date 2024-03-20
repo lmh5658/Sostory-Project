@@ -178,6 +178,111 @@
 		WHERE WRITER_NO = ?
 	</entry>
 	
+	<entry key="searchCountList">
+		SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		 WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="selectSearchList">
+		SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH 
+			FROM TB_PRODUCT
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+			  AND STATUS = 'Y'
+			ORDER
+			   BY ENROLL_DATE DESC
+			) A
+			) WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="insertQna">
+		  INSERT 
+		    INTO TB_QNA_REPLY
+		    (
+		      ANSWER_NO
+		    , PRODUCT_NO
+		    , USER_NO
+		    , ANSWER_TITLE
+		    , ANSWER_CONTENT
+		    , ANSWER_TYPE
+		     )
+		     VALUES
+		     (
+		      SEQ_QNO.NEXTVAL
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , 1
+		     )
+	</entry>
+	
+	<entry key="insertQnaFiles">
+	     INSERT
+         INTO TB_ATTACHMENT_PRODUCT
+         (
+           PRO_FILE_NO
+         , FILE_NAME
+         , FILE_CHANGENAME
+         , FILE_ROUTE
+         , STATUS
+         , REF_NO
+         , TYPE
+         )
+         VALUES
+         (
+          SEQ_FNO.NEXTVAL
+        , ?
+        , ?
+        , ?
+        , 'Y'
+        , ? <!-- 넘어오는 상품번호 --> 
+        , 'P'
+         )
+	</entry>
+	
+	
+	<entry key="selectJangListCount">
+		SELECT COUNT(*) COUNT
+		 FROM TB_PRODUCT
+		 JOIN TB_CATEGORY USING(CATEGORY_NO)
+		 WHERE CATEGORY_NAME = '장류'
+	</entry>
+	
+	
+	<entry key="selectProductJang">
+	SELECT * FROM(
+		SELECT ROWNUM RNUM, A.* 
+		FROM
+		(
+		SELECT 
+		  PRODUCT_NO
+		, CATEGORY_NAME
+		, PRODUCT_NAME
+		, PRICE
+		, DISCOUNT_PRICE
+		, PATH
+		FROM TB_PRODUCT
+		JOIN TB_CATEGORY USING(CATEGORY_NO)
+		WHERE CATEGORY_NAME = '장류'
+		 AND STATUS = 'Y'
+		ORDER BY ENROLL_DATE DESC
+		) A
+		) WHERE RNUM BETWEEN ? AND ?
+	</entry>
+     
+
 	
 
 </properties>

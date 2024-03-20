@@ -24,17 +24,24 @@
 		 WHERE USER_NO = ?
 	</entry>
 	
+	<!-- 회원 탈퇴요청 -->
+	<entry key="deleteMember">
+		UPDATE TB_MEMBER
+		   SET USER_STATUS = 'N'
+		 WHERE USER_NO = ?
+	</entry>
+	
+	
 	<!-- 배송지리스트 조회요청 -->
 	<entry key="selectAddressList">
 		SELECT 
 		       ADDRESS_NO
 		      ,ADDRESS_LOCAL
-		      ,USER_NAME
+		      ,ADDRESS_NAME
 		      ,ADDRESS_ADDRESS || ' ' || ADDRESS_DETAIL ADDRESS
 		      ,ADDRESS_PHONE
 		      ,ADDRESS_TYPE
 		  FROM TB_ADDRESS
-		  JOIN TB_MEMBER USING (USER_NO)
 		 WHERE USER_NO = ?
 		   AND ADDRESS_STATUS = 'Y'
 		 ORDER BY ADDRESS_TYPE DESC
@@ -116,6 +123,75 @@
 		      ,ADDRESS_PHONE = ?
 		      ,ADDRESS_TYPE = ?
 		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<!-- 배송지 삭제요청 -->
+	<entry key="deleteAddress">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_STATUS = 'N'
+		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<!-- 총 문의수 계산 -->
+	<entry key="totalQna">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_TYPE = ?
+		   AND USER_NO = ?
+	</entry>
+	
+	<!-- 전체상태 문의 목록조회 -->
+	<entry key="selectAllQnaList">
+		SELECT B.*
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT 
+		                      ANSWER_NO
+		                     ,PRODUCT_NAME
+		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
+		                     ,ANSWER_TITLE
+		                     ,ANSWER_STATUS
+		                  FROM TB_QNA_REPLY
+		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE USER_NO = ?
+		                   AND ANSWER_TYPE = ?
+		                 ORDER BY ANSWER_DATE DESC
+		                         ,ANSWER_NO
+		                ) A
+		        ) B
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 답변상태별 문의 목록조회 -->
+	<entry key="selectQnaList">
+		SELECT B.*
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT 
+		                      ANSWER_NO
+		                     ,PRODUCT_NAME
+		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
+		                     ,ANSWER_TITLE
+		                     ,ANSWER_STATUS
+		                  FROM TB_QNA_REPLY
+		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE USER_NO = ?
+		                   AND ANSWER_TYPE = ?
+		                   AND ANSWER_STATUS = ?
+		                 ORDER BY ANSWER_DATE DESC
+		                         ,ANSWER_NO
+		                ) A
+		        ) B
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 문의 삭제요청 -->
+	<entry key="deleteQna">
+		DELETE
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
 	</entry>
 
 </properties>

@@ -144,7 +144,7 @@
 	                            <% for(Address addr : list) { %>
 	                                <tr>
 	                                    <td><%= addr.getAddressLocal() %></td>
-	                                    <td><%= addr.getAddressWriter() %></td>
+	                                    <td><%= addr.getAddressName() %></td>
 	                                    <td class="address-size-limit">
 	                                    	<label class="text-primary"><%= addr.getAddressType().equals("Y") ? "[기본배송지]" : "" %></label>
 	                                   		<%= addr.getAddress() %>
@@ -153,7 +153,7 @@
 	                                    <td>
 	                                        <button class="btn text-primary" data-toggle="modal" data-target="#updateAddr" onclick="selectAddress(<%= addr.getAddressNo() %>);">수정</button> 
 	                                        | 
-	                                        <a href="" class="btn text-danger">삭제</a>
+	                                        <a href="<%= contextPath %>/deleteAddr.me?addressNo=<%= addr.getAddressNo() %>" class="btn text-danger">삭제</a>
 	                                    </td>
 	                                </tr>
 								<% } %>

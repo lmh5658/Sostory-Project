@@ -56,6 +56,17 @@ public class Member {
 		this.addressDetail = addressDetail;
 		this.gender = gender;
 	}
+	public Member(int userNo, String userId, String userName, String nickName, String phone, String email,
+			String address) {
+		super();
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+	}
 
 	public int getUserNo() {
 		return userNo;

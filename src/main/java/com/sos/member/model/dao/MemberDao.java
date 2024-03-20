@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import static com.sos.common.template.JDBCTemplate.*;
@@ -124,9 +126,32 @@ public class MemberDao {
 		
 		return result;
 	}
+	
+	public int insertAddress(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "배송지");
+			pstmt.setString(2, m.getUserName());
+			pstmt.setString(3, m.getAddress());
+			pstmt.setString(4, m.getAddressDetail());
+			pstmt.setString(5, m.getPhone());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		System.out.println(result);
+		return result;
+	}
 
-	public String findIdByEmail(Connection conn, Member m) {
-		String userId = null;
+	public List<Member> findIdByEmail(Connection conn, Member m) {
+		List<Member> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("findIdByEmail");
@@ -136,8 +161,11 @@ public class MemberDao {
 			pstmt.setString(1, m.getUserName());
 			pstmt.setString(2, m.getEmail());
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				userId = rset.getString("user_id");
+			while(rset.next()) {
+				Member member = new Member();
+				member.setUserId(rset.getString("user_id"));
+				member.setEnrollDate(rset.getString("enroll_date"));
+				list.add(member);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -145,7 +173,33 @@ public class MemberDao {
 			close(pstmt);
 		}
 		
-		return userId;
+		return list;
 	}
+
+	public String findPwdByEmail(Connection conn, Member m) {
+		String userPwd = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findPwdByEmail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getUserName());
+			pstmt.setString(2, m.getEmail());
+			pstmt.setString(3, m.getUserId());
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				userPwd = rset.getString("user_pwd");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userPwd;
+	}
+
 	
 }

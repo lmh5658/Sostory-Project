@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>회원 찾기</title>
     <style>
     /* Section 영역관련 스타일 */
     .main-content{display: flex; flex-direction: column;}
@@ -104,7 +104,7 @@
                             <th width="180px"><a class="find_pwd" href="#">비밀번호 찾기</a></th>
                         </tr>
                         <tr>
-                            <td id="email-text" colspan="2">이메일로 아이디 찾기</td>
+                            <td id="email-text" colspan="2">아이디 찾기</td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -134,21 +134,21 @@
                             <th width="180px"><a class="find_pwd" href="#">비밀번호 찾기</a></th>
                         </tr>
                         <tr>
-                            <td id="email-text" colspan="2">이메일로 비밀번호 찾기</td>
+                            <td id="email-text" colspan="2">비밀번호 찾기</td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                            	<input class="form-control" type="text" style="width: 100%;" placeholder="이름을 입력해주세요" required>
+                            	<input class="form-control" name="userName" type="text" style="width: 100%;" placeholder="이름을 입력해주세요" required>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                            	<input class="form-control" type="text" style="width: 100%;" placeholder="아이디를 입력해주세요" required>
+                            	<input class="form-control" name="userId" type="text" style="width: 100%;" placeholder="아이디를 입력해주세요" required>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="padding-bottom: 20px;">
-                                <input class="form-control" type="email" placeholder="이메일을 입력해주세요" style="width: 100%;" required>
+                                <input class="form-control" name="email" type="email" placeholder="이메일을 입력해주세요" style="width: 100%;" required>
                             </td>
                         </tr>
                         <tr>
@@ -166,18 +166,6 @@
 
     </div>
 
-
-    <script>
-        $(".find_id").click(function () {
-            $("#find-id-section").show();
-            $("#find-password-section").hide();
-        });
-
-        $(".find_pwd").click(function () {
-            $("#find-password-section").show();
-            $("#find-id-section").hide();
-        });
-    </script>
 
     <script>
         $(".find_id").click(function () {

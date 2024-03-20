@@ -38,23 +38,10 @@ public class CartListController extends HttpServlet {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
 		
-//		int listCount = new CartService().pageCount(userNo);// 총 장바구니 상품갯수
-//		int currentPage = Integer.parseInt(request.getParameter("page")); 
-//		int pageLimit = 5;
-//		int productLimit = 5;
-//		int maxPage = (int)Math.ceil((double)listCount / productLimit);
-//		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
-//		int endPage= startPage + pageLimit - 1;
-//		if(endPage > maxPage) {
-//			endPage = maxPage;
-//		}
-//		
-//		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, productLimit, maxPage, startPage, endPage);
 		
 		// 회원번호, 상품번호, 상품이미지경로, 상품이름, 가격, 할인가격, 수량 ==> 장바구니 테이블에서 조회
 		List<Cart> list =  new CartService().selectCart(userNo);
 	
-		
 		
 		// 장바구니 목록 리스트 페이지 요청
 		if(list.isEmpty()) { // 장바구니에 상품이 없을 경우 : 장바구니 x 목록페이지으로 이동
@@ -62,11 +49,21 @@ public class CartListController extends HttpServlet {
 			request.getRequestDispatcher("/views/cart/cartEmptyList.jsp").forward(request, response);
 		
 			
+			
 		}else { // 장바구니에 상품이 있을 경우 : 장바구니 목록페이지로 이동
 			
-//			request.setAttribute("pi", pi);
-			request.setAttribute("list", list);
+			// list에 담겨있는 모든행들의 가격, 할인가격을 더한 값을 구해서 넘겨주기
+//			int price =0; // 총 상품금액
+//			int discountPrice = 0; // 상품 할인금액
+//			
+//			for(int i=0; i<list.size(); i++) {
+//				price += list.get(i).getPrice();
+//				discountPrice += list.get(i).getDiscountPrice();
+//			}
 			
+			request.setAttribute("list", list);
+//			request.setAttribute("price", price);
+//			request.setAttribute("discountPrice", discountPrice);
 			request.getRequestDispatcher("/views/cart/cartList.jsp").forward(request, response);
 		}
 		

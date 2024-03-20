@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.vo.Address;
+import com.sos.product.model.vo.Qna;
 
 public class MyPageDao {
 	
@@ -100,6 +102,37 @@ public class MyPageDao {
 	}
 	
 	/**
+	 * 마이페이지에서 사용자가 회원탈퇴 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 탈퇴할 회원번호
+	 * @return : 회원탈퇴(USER_STATUS = 'N') 요청처리 결과 행 수
+	 */
+	public int deleteMember(Connection conn, int userNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
 	 * 마이페이지에서 사용자가 배송지관리페이지 요청시 실행될 메소드 (배송지리스트 조회)
 	 * 
 	 * @param conn
@@ -126,7 +159,7 @@ public class MyPageDao {
 				
 				addr.setAddressNo(rset.getInt("address_no"));
 				addr.setAddressLocal(rset.getString("address_local"));
-				addr.setAddressWriter(rset.getString("user_name"));
+				addr.setAddressName(rset.getString("address_name"));
 				addr.setAddress(rset.getString("address"));
 				addr.setAddressPhone(rset.getString("address_phone"));
 				addr.setAddressType(rset.getString("address_type"));	// Y(기본배송지) | N(기타배송지)
@@ -192,11 +225,39 @@ public class MyPageDao {
 	 * @param userNo
 	 * @return
 	 */
-	/*
-	public int updateMemberModifyDate(Connection conn, int userNoqoth) {
+	
+	
+	/**
+	 * 해당회원의 정보가 새롭게 수정|등록 되었을 경우 회원정보 수정일 수정시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 수정일 정보를 수정할 회원번호
+	 * @return : 회원정보 수정요청 처리결과 행 수
+	 */
+	public int updateMemberModifyDate(Connection conn, String userNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateMemberModifyDate");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 		
 	}
-	*/
+	
 	/**
 	 * 배송지등록 | 배송지수정 요청시 해당 사용자의 기본배송지 유무조회시 실행될 메소드
 	 * 
@@ -338,7 +399,242 @@ public class MyPageDao {
 		
 	}
 	
+	/**
+	 * 사용자가 마이페이지에서 배송지 삭제요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param addressNo : 삭제할 배송지번호
+	 * @return : 배송지 삭제요청 처리결과 행 수
+	 */
+	public int deleteAddress(Connection conn, int addressNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, addressNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
 	
+	/**
+	 * 사용자가 지정한 상품 or 1:1문의 총문의수 조회요청시 실행될 메소드
+	 * 
+	 * case 01) 1:1문의 총문의수 조회요청 ==> ANSWER_TYPE = "2"
+	 *          case 01-1)  전체 1:1문의수 조회 ==> ANSWER_STATUS = null 
+	 *          case 01-2) 처리된 1:1문의수 조회 ==> ANSWER_STATUS = "처리"
+	 *          case 01-3) 미처리 1:1문의수 조회 ==> ANSWER_STATUS = "미처리"
+	 *          
+	 * case 02) 상품문의 총문의수 조회요청 : ANSWER_TYPE ="1"
+	 *          case 02-1)  전체 상품문의수 조회 ==> ANSWER_STATUS = null
+	 *          case 02-2) 처리된 상품문의수 조회 ==> ANSWER_STATUS = "처리"
+	 *          case 02-3) 미처리 상품문의수 조회 ==> ANSWER_STATUS = "미처리"
+	 * 
+	 * @param conn
+	 * @param q : 문의유형(상품 | 1:1), 문의진행상태(처리 | 미처리), 회원번호 정보가담긴 문의객체
+	 * @return : 조회된 해당조건의 총문의수
+	 */
+	public int totalQna(Connection conn, Qna q) {
+		
+		int total = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("totalQna");
+		
+		/* 
+		 * case 01)  null : 전체총문의수 (처리 + 미처리)
+		 * case 02)  "처리" : 처리상태의 총문의수
+		 * case 02) "미처리" : 미처리상태의 총문의수
+		 * 
+		 */
+		String status = q.getAnswerStatus();
+		
+		if(status != null) { sql += " AND ANSWER_STATUS = ?"; }
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getAnswerType());
+			pstmt.setString(2, q.getUserNo());
+			
+			if(status != null) { pstmt.setString(3, status); }
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				total = rset.getInt("total");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return total;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 1:1문의 or 상품문의 전체목록페이지 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param info : 페이징바객체(페이징정보), 문의객체(회원번호, 문의유형) 정보가 담긴 객체
+	 * @return : 조회된 문의객체 리스트
+	 */
+	public List<Qna> selectAllQnaList(Connection conn, HashMap<String, Object> info){
+		
+		List<Qna> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAllQnaList");
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			Qna qa = (Qna)info.get("qna");
+			pstmt.setString(1, qa.getUserNo());
+			pstmt.setString(2, qa.getAnswerType());
+			
+			PageInfo pi = (PageInfo)info.get("pageInfo");
+			int lastNo = pi.getCurrentPage() * pi.getBoardLimit();
+			int firstNo = lastNo - (pi.getBoardLimit() - 1);
+			
+			pstmt.setInt(3, firstNo);
+			pstmt.setInt(4, lastNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Qna q = new Qna();
+				
+				q.setAnswerNo(rset.getInt("answer_no"));
+				q.setProductNo(rset.getString("product_name"));
+				q.setAnswerDate(rset.getString("answer_date"));
+				q.setAnswerTitle(rset.getString("answer_title"));
+				q.setAnswerStatus(rset.getString("answer_status"));
+				
+				list.add(q);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 답변상태별 1:1문의 or 상품문의 목록페이지 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param info : 페이징바객체(페이징정보), 문의객체(회원번호, 문의유형, 문의상태) 정보가 담긴 객체
+	 * @return : 조회된 문의객체 리스트
+	 */
+	public List<Qna> selectQnaList(Connection conn, HashMap<String, Object> info){
+		
+		List<Qna> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectQnaList");
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			Qna qa = (Qna)info.get("qna");
+			pstmt.setString(1, qa.getUserNo());
+			pstmt.setString(2, qa.getAnswerType());
+			pstmt.setString(3, qa.getAnswerStatus());
+			
+			PageInfo pi = (PageInfo)info.get("pageInfo");
+			int lastNo = pi.getCurrentPage() * pi.getBoardLimit();
+			int firstNo = lastNo - (pi.getBoardLimit() - 1);
+			
+			pstmt.setInt(4, firstNo);
+			pstmt.setInt(5, lastNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Qna q = new Qna();
+				
+				q.setAnswerNo(rset.getInt("answer_no"));
+				q.setProductNo(rset.getString("product_name"));
+				q.setAnswerDate(rset.getString("answer_date"));
+				q.setAnswerTitle(rset.getString("answer_title"));
+				q.setAnswerStatus(rset.getString("answer_status"));
+				
+				list.add(q);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 문의삭제 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param answerNo : 삭제할 문의번호
+	 * @return : 해당번호 문의삭제 요청처리 결과행 수
+	 */
+	public int deleteQna(Connection conn, int answerNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteQna");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
 	
 
 }

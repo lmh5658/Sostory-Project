@@ -2,6 +2,7 @@ package com.sos.member.model.service;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.sos.common.template.JDBCTemplate.*;
 import com.sos.member.model.dao.MemberDao;
@@ -32,24 +33,31 @@ public class MemberService {
 	public int insertMember(Member m) {
 		Connection conn = getConnection();
 		
-		int result = mDao.insertMember(conn, m);
+		int result1 = mDao.insertMember(conn, m);
+		int result2 = mDao.insertAddress(conn, m);
 		
-		if(result > 0) {
+		if(result1 > 0 && result2 > 0) {
 			commit(conn);
 		}else {
 			rollback(conn);
 		}
 		close(conn);
 		
-		return result;
+		return result1 * result2;
 	}
 
-	public String findIdByEmail(Member m) {
+	public List<Member> findIdByEmail(Member m) {
 		Connection conn = getConnection();
-		String userId = mDao.findIdByEmail(conn, m);
+		List<Member> list = mDao.findIdByEmail(conn, m);
 		close(conn);
-		return userId;
+		return list;
 	}
-	
+
+	public String findPwdByEmail(Member m) {
+		Connection conn = getConnection();
+		String userPwd = mDao.findPwdByEmail(conn, m);
+		close(conn);
+		return userPwd;
+	}
 	
 }

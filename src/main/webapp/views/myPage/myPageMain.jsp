@@ -35,7 +35,7 @@
 				        <div><a href="" id="updateMemInfo" class="" style="color:white; text-decoration-line:none;">회원정보 변경</a></div>
 				        <div><a href="<%= contextPath %>/updatePwdForm.me" style="color:white; text-decoration-line:none;">비밀변호 변경</a></div>
 				        <div><a href="<%= contextPath %>/address.me" style="color:white; text-decoration-line:none;">배송지관리</a></div>
-				        <div><a href="" style="color:white; text-decoration-line:none;">회원탈퇴</a></div>
+				        <div><a href="" id="deleteAccount" style="color:white; text-decoration-line:none;">회원탈퇴</a></div>
 				    </div>
 				
 				    <div class="side_menu">
@@ -50,7 +50,7 @@
 				        <button class="list">고객문의</button>
 				        <div>
 				        <a href="" style="color:white; text-decoration-line:none;">상품문의</a><br>
-				        <a href="" style="color:white; text-decoration-line:none;">1:1 문의</a>
+				        <a href="<%= contextPath %>/etcQna.me?page=1" style="color:white; text-decoration-line:none;">1:1 문의</a>
 				        </div>
 				    </div>
 				
@@ -62,11 +62,40 @@
 				
 				<script>
 				   $(function(){
+					    // 회원탈퇴페이지 요청시 실행될 함수
+					    $("#deleteAccount").click(function(e){
+					    	
+					    	// 회원탈퇴페이지 진입이후 동일페이지 재요청할 경우 : 비밀번호확인 x
+					    	if(location.href.indexOf("<%= contextPath %>/deleteForm.me") == -1){
+					    		
+					    		let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+					    		
+					    		if("<%= loginUser.getUserPwd() %>" == userPwd){
+					    			/* 
+									    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
+									   	* ==> 회원탈퇴페이지 이동
+									   */
+									   $(this).attr("href", "<%= contextPath %>/deleteForm.me");
+					    		}
+					    		
+					    		 if("<%= loginUser.getUserPwd() %>" != userPwd){
+									   /*
+									    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
+									    * ==> alert("실패메세지")
+									   */
+									   alert("비밀번호가 일치하지 않습니다.");
+							   } 
+					    	}
+					    })
+					   
 						// 회원정보변경페이지 요청시 실행될 함수
-					   $("#updateMemInfo").click(function(e){
+					    $("#updateMemInfo").click(function(e){
+					    	
 						  // 회원정보변경페이지 진입이후 동일페이지를 재요청할 경우 : 비밀번호확인 x
 						   if(location.href.indexOf("<%= contextPath %>/updateForm.me") == -1){
+							   
 							   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+							   
 							   if("<%= loginUser.getUserPwd() %>" == userPwd){
 									   /* 
 									    * 로그인한 회원(정보변경을 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우

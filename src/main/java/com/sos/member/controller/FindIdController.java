@@ -1,6 +1,7 @@
 package com.sos.member.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,16 +35,10 @@ public class FindIdController extends HttpServlet {
 		m.setUserName(request.getParameter("userName"));
 		m.setEmail(request.getParameter("email"));
 		
-		String userId = new MemberService().findIdByEmail(m);
+		List<Member> list = new MemberService().findIdByEmail(m);
 		
-		if(userId != null) {
-			request.setAttribute("userId", userId);
-			request.setAttribute("userName", m.getUserName());
-			request.getRequestDispatcher("/views/member/findIdSuccess.jsp").forward(request, response);
-		} else {
-			request.getSession().setAttribute("alertMsg", "아이디를 찾지 못했습니다.");
-			response.sendRedirect(request.getContextPath());
-		}
+		request.setAttribute("findMemberList", list);
+		request.getRequestDispatcher("/views/member/findIdSuccess.jsp").forward(request, response);
 	}
 
 	/**
