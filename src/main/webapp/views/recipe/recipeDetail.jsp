@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ page import="com.sos.recipe.model.vo.Recipe"%>
+ <%@ page import= "java.util.List"%>
+ 
+ <% Recipe r = (Recipe)request.getAttribute("detailRecipe");
+// int count = request.getAttribute("selectIngridientCount");
+Recipe step = (Recipe)request.getAttribute("step");//step
+List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,7 +136,7 @@
 	    <!-- Section start -->
 		<section class="main-content">
 			<div class="detail_head">
-				<span>홈  >  장류  >  간장</span>
+				<span>홈  > <%=r.getCategoryName() %></span>
 				<button type="button" class="btn" style="background-color: rgb(231, 76, 60); color: white;">수정하기</button>
 			</div>
 			<!-- 대표사진 -->
@@ -149,9 +159,9 @@
 							<td>난이도</td>
 						</tr>
 						<tr class="info_mid">
-							<td>60</td>
-							<td>2</td>
-							<td>상</td>
+							<td><%=r.getCookingTime() %></td>
+							<td><%=r.getServing() %></td>
+							<td><%=r.getDifficulty() %></td>
 						</tr>
 						<tr class="info_btm">
 							<td>분</td>
@@ -161,7 +171,7 @@
 					</table>
 				</div>
 				<div>
-					<h1 style="display: inline;"><b>고추장 불고기</b></h1>
+					<h1 style="display: inline;"><b><%=r.getRecipeTitle() %></b></h1>
 					<!-- 내가 찜하지 않은 레시피인 경우 -->
 					<span class="recipe_like" style="font-size: 20px;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart like" viewBox="0 0 16 16">
@@ -180,9 +190,9 @@
 				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary">칼로리 제로 고추장을 사용한 불고기 레시피!</div>
 				<div>
 					<div class="recipe_tag">
+							<!-- 태그도 int형 변환하는 법 물어보고 하기 . 재료 총 갯수만큼 돌리고 재료명 나오게  -->
 						<span>#고추장</span>
-						<span>#불고기</span>
-						<span>#칼로리</span>
+						
 					</div>
 				</div>
 			</div>
@@ -192,48 +202,40 @@
 				<!-- 조리 방법 영역 -->
 				<div class="content_detail">
 					<div style="font-size: 30px; font-weight: bold; margin-bottom: 20px;">조리방법</div>
+					    
+					    <% for(int i = 0; i < step.getStepCount(); i++) { %> 
+					        <div class="recipe_step">Step <%= i + 1 %>.</div>
+					      
+					        <%if(step.getStepContent() != null) {%>
+					        	<div class="step_content"><%= step.getStepContent() %></div>
+					        <% }else{ %>
+					       		 <div class="step_content"></div>
+					        <% } %>
+					        
+					         <%if(step.getStepAttachmentUrl() != null) {%>
+					       	 <div class="thumbnail"><img src="" alt=""></div>
+					        <% }else{ %>
+					       	 <div class="thumbnail"></div>
+					        <% } %>
+					      
+					    <% } %>
 
-					<div class="recipe_step">Step 1.</div>
-					<div class="step_content">조리 방법 설명 내용</div>
-					<div class="step_img">
-						<img src="" alt="">
-					</div>
 
-					<div class="recipe_step">Step 2.</div>
-					<div class="step_content">조리 방법 설명 내용</div>
-					<div class="step_img">
-						<img src="" alt="">
-					</div>
-
-					<div class="recipe_step">Step 3.</div>
-					<div class="step_content">조리 방법 설명 내용</div>
-					<div class="step_img">
-						<img src="" alt="">
-					</div>
-				</div>
-
-				<!-- 레시피 부가 내용 -->
+				
+				<!-- 레시피 부가 내용 하나만 값 채워넣고 FOR문으로 길이만큼 돌리게?  -->
 				<div class="content_etc">
 					<div class="ingredient_info">
 						<div>재료 정보</div>
 						<table width="80%" class="table">
-							<tr>
-								<th>재료명</th>
-								<th>수량</th>
-							</tr>
-							<tr>
-								<td>돼지고기</td>
-								<td>500g</td>
-							</tr>
-							<tr>
-								<td>고추장</td>
-								<td>100g</td>
-							</tr>
-							<tr>
-								<td>물</td>
-								<td>200ml</td>
-							</tr>
-						</table>
+								
+								<% for(int i = 0; i < list.getIngedientCount(); i++) { %>
+					                <tr>
+					                    <th><%= list.get(i).getIngredientName() %></th>
+					                    <td><%= list.get(i).getIngredientAmount() != null ? list.get(i).getIngredientAmount() : "" %></td>
+					                </tr>
+					            <% } %>
+					        </table>
+					    </div>
 					</div>
 
 					<!-- 상품 썸네일 start -->

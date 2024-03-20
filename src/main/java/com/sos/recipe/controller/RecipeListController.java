@@ -55,21 +55,9 @@ public class RecipeListController extends HttpServlet {
 		}
 		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		System.out.println(pi);
 		
 		List<Recipe> list = new RecipeService().selectRecipeList(pi);
 		
-		String categoryName = request.getParameter("category");
-	        
-		//카테고리명으로 필터링
-	     List<Recipe> categorylist;
-	     if (categoryName != null && !categoryName.isEmpty()) {
-	    	 categorylist = new RecipeService().selectCategoryRecipe(categoryName);
-	     } else {
-	    	 categorylist = new RecipeService().selectRecipeList(pi);
-	     }
-
-		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		

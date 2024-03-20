@@ -6,8 +6,7 @@
 <% 
 PageInfo pi = (PageInfo)request.getAttribute("pi");
 List<Recipe> list = (List<Recipe>)request.getAttribute("list");
-String search = (String)request.getAttribute("search");
-String categoryNoSt = request.getParameter("no"); 
+List<Recipe> categoryList = (List<Recipe>)request.getAttribute("categoryList");
 
 %>
 <!DOCTYPE html>
@@ -158,10 +157,10 @@ String categoryNoSt = request.getParameter("no");
 	
 	        <!-- 카테고리 -->
 	        <div class="category_wrap">
-	            <div class="category_button" value="0">전체</div>
-	            <div class="category_button" value="1">장류</div>
-				<div class="category_button" value="2">드레싱</div>
-	            <div class="category_button" value="3">기타</div>
+	            <div class="category_button" value="전체">전체</div>
+	            <div class="category_button" value="장류">장류</div>
+	            <div class="category_button" value="드레싱">드레싱</div>
+	            <div class="category_button" value="기타">기타</div>
 				<button data-toggle="collapse" data-target="#search" style="border: none; background: none;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
 						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -170,22 +169,20 @@ String categoryNoSt = request.getParameter("no");
 	        </div>
 			<script>
 			$(".category_button").click(function() {
-			    let categoryNo = $(this).attr("value");
-			    if (categoryNo === "0") {
-			        location.href = "<%= request.getContextPath() %>/list.re?page=1";
-			    } else {
-			        location.href = "<%= request.getContextPath() %>/category.re?no=" + parseInt(categoryNo);				 
+			    let categoryName = $(this).text();
+			    if (categoryName == "장류") {
+			        location.href="<%=contextPath%>/category.re?page=1?name=" + categoryName;
+			        
 			    }
 			});
-		        
 			</script>
+	
 	
 	
 	        <!-- 검색바 -->
 			<div class="recipe_search collapse" id="search">
-				<form action="<%=contextPath%>/search.re">
-				<input type="hidden" name="page" value=1> 
-					<input type="text" placeholder="검색어를 입력해주세요." name="search">
+				<form action="">
+					<input type="text" placeholder="검색어를 입력해주세요.">
 					<input type="submit" hidden>
 				</form>
 			</div>
@@ -212,7 +209,7 @@ String categoryNoSt = request.getParameter("no");
 			<%}else{ %>
   			    <% for (Recipe r : list) { %>
 			<!-- 가로로 세 개 둬야함 현재 세로로 9개  -->  	
-	            <div class="recipe" recipeNo="<%= r.getRecipeNo() %>">
+	            <div class="recipe">
 	                <div class="recipe_thumbnail">
 	                    <img src=<%=r.getThumbnailUrl()%>>
 	                </div>
@@ -243,32 +240,23 @@ String categoryNoSt = request.getParameter("no");
 	                    </div>
 						 -->
 	                </div>
-	                <div class="recipe_product" >
+	                <div class="recipe_product">
 	                    <div class="product_img">
 	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
 	                    </div>
-	                	 <div class="product_name" style="display: flex; flex-direction: column;">
-	                        <%=r.getProductName()%>
-
 	                    <div class="product_etc">
 		                   <!-- 할인하고 있지 않을 때 -->
 	                       <% if(r.getDiscountPrice() != 0) { %> 
-                           <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s></div>                        
+                           <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s></div>   -->                           
                            <%}else if(r.getDiscountPrice() == 0){ %>
 	                       <!-- 할인하고 있을 때 -->
                            <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%></div>
                            <% } %>
                            </div>
-                        </div>
 	                </div>
 	            </div>
 	    	  <% } %>
-	    	  
-	    	 <script>
-			    $(".recipe_wrap > div").click(function(){
-			        location.href = "<%= contextPath %>/detail.re?no=" + $(this).attr("recipeNo"); //레시피 번호와 같이 넘기기 경로 넘길때
-			    });
-	    	  </script>
+        </div>
 			<br><br>
 			<!--<ul class="pagination">
 			
@@ -281,14 +269,10 @@ String categoryNoSt = request.getParameter("no");
 	
 		 -->
 		 <ul class="pagination">
-		 
-		  
-		 <!-- search 검색의 경우 , 카테고리도 추가해줘야함 --> 
-		 <%if(search == null && categoryNoSt == null) {%>
-				 <% if(pi.getCurrentPage() == 1) { %>
+		 <% if(pi.getCurrentPage() == 1) { %>
                     <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                     <% }else { %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.re?page=<%=pi.getCurrentPage()-1%>">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%=pi.getCurrentPage()-1%>">Previous</a></li>
                     <% } %>
                     
                     
@@ -297,7 +281,7 @@ String categoryNoSt = request.getParameter("no");
 	                    <% if(p == pi.getCurrentPage()) { %>
 	                    <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                    <% }else{ %>
-	                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.re?page=<%= p %>"><%= p %></a></li>
+	                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= p %>"><%= p %></a></li>
                     	<% } %>
                     	
                     <% } %>
@@ -305,62 +289,9 @@ String categoryNoSt = request.getParameter("no");
                     <% if(pi.getCurrentPage() == pi.getMaxPage()){ %>
                     <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                     <% }else{ %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.re?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
                     <% } %>
-                
-          
-         <%}else if(search != null){ %>
-         
-		 <!-- search 검색의 경우 , 카테고리도 추가해줘야함 --> 
-				 <% if(pi.getCurrentPage() == 1) { %>
-                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    <% }else { %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/search.re?no=<%=pi.getCurrentPage()-1%>&search=<%=search%>">Previous</a></li>
-                    <% } %>
-                    
-                    
-                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++){ %>
-                    
-	                    <% if(p == pi.getCurrentPage()) { %>
-	                    <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
-	                    <% }else{ %>
-	                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/search.re?no=<%= p %>&search=<%=search%>"><%= p %></a></li>
-                    	<% } %>
-                    	
-                    <% } %>
-                    
-                    <% if(pi.getCurrentPage() == pi.getMaxPage()){ %>
-                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                    <% }else{ %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/search.re?no=<%= pi.getCurrentPage() + 1 %>&search=<%=search%>">Next</a></li>
-                    <% } %>
-                
-       
-            
-          <%}else if(categoryNoSt =="1"||categoryNoSt == "2" ||categoryNoSt == "3"){ %>
-          
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    <% }else { %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%=pi.getCurrentPage()-1%>&categoryNo=<%=categoryNoSt%>">Previous</a></li>
-                    <% } %>
-                    
-                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++){ %>
-                    
-                       <% if(p == pi.getCurrentPage()) { %>
-                       <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
-                       <% }else{ %>
-                       <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= p %>&categoryNo=<%=categoryNoSt%>"><%= p %></a></li>
-                       <% } %>
-                       
-                    <% } %>
-                    
-                    <% if(pi.getCurrentPage() == pi.getMaxPage()){ %>
-                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                    <% }else{ %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= pi.getCurrentPage() + 1 %>&categoryNo=<%=categoryNoSt%>">Next</a></li>
-                    <% } %>
-                <%} %>
-         
+                <% } %>
 	     </section>
 	     <!-- Section end -->
 	     

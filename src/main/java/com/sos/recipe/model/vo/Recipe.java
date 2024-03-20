@@ -32,10 +32,30 @@ public class Recipe {
 	private int discountPrice;
 	private String path;
 	
-	public Recipe() {
-		
-	}
+	//RECIPE_INGREDIENT
+	private String ingredientName;
+	private String ingredientAmount;
+	private int ingredientCount;
+
 	
+	//STEP
+	private int stepNo;
+	private String stepContent;
+	private String stepAttachmentUrl;
+	private int stepCount; //이렇게 하는거 맞dk..?
+
+	
+	
+
+	public Recipe(int recipeNo, int userNo, int productNo, String recipeTitle, String thumbnailUrl, String recipeIntro,
+			String difficulty, int serving, int cookingTime, Date postDate, String status, String categoryName,
+			int categoryNo, String userName, String userPath, int likeRefno, String productName, int price,
+			int discountPrice, String path, String ingredientName, String ingredientAmount, int ingredientCount,
+			int stepNo, String stepContent, String stepAttachmentUrl, int stepCount) {
+		super();
+	}
+
+
 	public Recipe(int recipeNo, String categoryName, String recipeTitle, String thumbnailUrl, String recipeIntro,
 			String userName, String userPath, int likeRefno, String productName, int price, int discountPrice,
 			String path) {
@@ -66,9 +86,6 @@ public class Recipe {
 		this.recipeTitle = recipeTitle;
 		this.thumbnailUrl = thumbnailUrl;
 		this.recipeIntro = recipeIntro;
-		this.difficulty = difficulty;
-		this.serving = serving;
-		this.cookingTime = cookingTime;
 		this.postDate = postDate;
 		this.status = status;
 		this.categoryName = categoryName;
@@ -82,8 +99,123 @@ public class Recipe {
 		this.path = path;
 	}
 
+	//레시피 상세
+	public Recipe(int recipeNo, String categoryName, String recipeTitle, String thumbnailUrl, String recipeIntro, String difficulty, int serving, int cookingTime,
+			String userName, String userPath, int likeRefno, String productName, int price, int discountPrice,
+			String path) {
+		super();
+		this.recipeNo = recipeNo;
+		this.categoryName = categoryName;
+		this.recipeTitle = recipeTitle;
+		this.thumbnailUrl = thumbnailUrl;
+		this.recipeIntro = recipeIntro;
+		this.difficulty = difficulty;
+		this.serving = serving;
+		this.cookingTime = cookingTime;
+		this.userName = userName;
+		this.userPath = userPath;
+		this.likeRefno = likeRefno;
+		this.productName = productName;
+		this.price = price;
+		this.discountPrice = discountPrice;
+		this.path = path;
+		
+	}
+
+	
+	//레시피 상세 - step
+	public Recipe(int recipeNo, int stepNo, String stepContent, String stepAttachmentUrl, int stepCount) {
+		super();
+		this.recipeNo = recipeNo;
+		this.stepNo = stepNo;
+		this.stepContent = stepContent;
+		this.stepAttachmentUrl = stepAttachmentUrl;
+		this.stepCount = stepCount;
+
+	}	
+	
+	//레시피 재료
+	public Recipe(int recipeNo, String ingredientName, String ingredientAmount, int ingredientCount) {
+		super();
+		this.recipeNo = recipeNo;
+		this.ingredientName = ingredientName;
+		this.ingredientAmount = ingredientAmount;
+		this.ingredientCount = ingredientCount;
+	}
+
+	public int getStepCount() {
+		return stepCount;
+	}
 
 
+	public String getIngredientName() {
+		return ingredientName;
+	}
+
+
+	public void setIngredientName(String ingredientName) {
+		this.ingredientName = ingredientName;
+	}
+
+
+	public String getIngredientAmount() {
+		return ingredientAmount;
+	}
+
+
+	public void setIngredientAmount(String ingredientAmount) {
+		this.ingredientAmount = ingredientAmount;
+	}
+
+
+	public int getIngredientCount() {
+		return ingredientCount;
+	}
+
+
+	public void setIngredientCount(int ingredientCount) {
+		this.ingredientCount = ingredientCount;
+	}
+
+
+
+	public void setStepCount(int stepCount) {
+		this.stepCount = stepCount;
+	}
+
+
+	public int getStepNo() {
+		return stepNo;
+	}
+
+
+
+	public void setStepNo(int stepNo) {
+		this.stepNo = stepNo;
+	}
+
+
+	public String getStepContent() {
+		return stepContent;
+	}
+
+
+	public void setStepContent(String stepContent) {
+		this.stepContent = stepContent;
+	}
+
+
+	public String getStepAttachmentUrl() {
+		return stepAttachmentUrl;
+	}
+
+
+	public void setStepAttachmentUrl(String stepAttachmentUrl) {
+		this.stepAttachmentUrl = stepAttachmentUrl;
+	}
+
+
+	
 
 	public int getRecipeNo() {
 		return recipeNo;
@@ -285,6 +417,16 @@ public class Recipe {
 	}
 
 
+	public String getIngridientName() {
+		return ingredientName;
+	}
+
+
+	public void setIngridientName(String ingridientName) {
+		this.ingredientName = ingridientName;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Recipe [recipeNo=" + recipeNo + ", userNo=" + userNo + ", productNo=" + productNo + ", recipeTitle="
@@ -292,8 +434,12 @@ public class Recipe {
 				+ difficulty + ", serving=" + serving + ", cookingTime=" + cookingTime + ", postDate=" + postDate
 				+ ", status=" + status + ", categoryName=" + categoryName + ", categoryNo=" + categoryNo + ", userName="
 				+ userName + ", userPath=" + userPath + ", likeRefno=" + likeRefno + ", productName=" + productName
-				+ ", price=" + price + ", discountPrice=" + discountPrice + ", path=" + path + "]";
+				+ ", price=" + price + ", discountPrice=" + discountPrice + ", path=" + path + ", ingredientName="
+				+ ingredientName + ", ingredientAmount=" + ingredientAmount + ", ingredientCount=" + ingredientCount
+				+ ", stepNo=" + stepNo + ", stepContent=" + stepContent + ", stepAttachmentUrl=" + stepAttachmentUrl
+				+ ", stepCount=" + stepCount + "]";
 	}
 
-	
+
+
 }

@@ -29,12 +29,56 @@ public class RecipeService {
 		return list;
 	}
 
-	public List<Recipe> selectCategoryRecipe(String categoryName) {
+	public List<Recipe> selectCategoryList(PageInfo pi, int categoryNo) {
 		Connection conn = getConnection();
-		List<Recipe> categorylist= rDao.selectRecipeList(conn, categoryName);
+		List<Recipe> categoryList= rDao.selectCategoryList(pi, conn, categoryNo);
 		close(conn);
-		return categorylist;
+		return categoryList;
+	}
+
+	public List<Recipe> selectSearchList(PageInfo pi, String search) {
+		Connection conn = getConnection();
+		List<Recipe> searchList= rDao.selectSearchList(pi, conn, search);
+		close(conn);
+		return searchList;
+	}
+
+	public int selectCategoryListCount(int categoryNo) {
+		Connection conn = getConnection();
+		int categoryListCount= rDao.selectListCount(conn);
+		close(conn);
+		return categoryListCount;
+	}
+
+	//레시피상세 조회
+	public Recipe selectDetailRecipe(int recipeNo) {
+		Connection conn = getConnection();
+		Recipe detailRecipe= rDao.selectDetailRecipe(conn, recipeNo);
+		close(conn);
+		return detailRecipe;
+	
+	}
+	
+	//레시피 재료
+	public List<Recipe> selectIngridient(int recipeNo) {
+		Connection conn = getConnection();
+		List<Recipe> ingredient = rDao.selectIngridient(conn, recipeNo);
+		close(conn);
+		return ingredient;
+		
+	}
+
+	public Recipe selectStep(int recipeNo) {
+		Connection conn = getConnection();
+		Recipe step= rDao.selectStep(conn, recipeNo);
+		close(conn);
+		return step;
+
+	}
+
+	
+
+	
 	}
 
 
-}
