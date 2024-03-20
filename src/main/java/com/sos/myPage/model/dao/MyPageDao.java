@@ -16,6 +16,7 @@ import java.util.Properties;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.vo.Address;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Qna;
 
 public class MyPageDao {
@@ -606,7 +607,142 @@ public class MyPageDao {
 	}
 	
 	/**
-	 * 사용자가 마이페이지에서 문의삭제 요청시 실행될 메소드
+	 * 마이페이지에서 사용자가 1:1문의 등록요청시 문의글 등록요청 메소드
+	 * 
+	 * @param conn
+	 * @param q : 등록할 문의글 정보가 담긴 문의객체
+	 * @return : 문의글 등록처리 결과행 수
+	 */
+	public int insertQna(Connection conn, Qna q) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertQna");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getUserNo());
+			pstmt.setString(2, q.getAnswerTitle());
+			pstmt.setString(3, q.getAnswerContent());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+
+		return result;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 1:1문의 등록시 첨부파일 있을경우 첨부파일 등록요청시 실행될 메소드
+	 * 
+	 * @param con
+	 * @param ap : 등록할 첨부파일 정보가 담긴 첨부파일객체
+	 * @return : 첨부파일 등록요청 처리결과 행 수
+	 */
+	public int insertAttachment(Connection conn, AttachmentProduct ap) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ap.getFileName());
+			pstmt.setString(2, ap.getFileChangeName());
+			pstmt.setString(3, ap.getFileRoute());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+
+		return result;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 문의삭제 요청시 문의글의 첨부파일 유무확인시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param answerNo : 첨부파일이 참조하는 문의글번호
+	 * @return : 조회된 문의글번호의 첨부파일 저장경로 + 수정파일명 문자열 (문자열 | null)
+	 */
+	public String attachmentYn(Connection conn, int answerNo) {
+		
+		String file = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("attachmentYn");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				file = rset.getString("file");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return file;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 문의삭제 요청시 해당문의 첨부파일이 있을경우 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param answerNo : 삭제할 첨부파일의 참조글번호
+	 * @return : 첨부파일삭제 요청처리 결과행 수
+	 */
+	public int deleteAttachment(Connection conn, int answerNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 문의삭제 요청시 문의글삭제 요청시 실행될 메소드
 	 * 
 	 * @param conn
 	 * @param answerNo : 삭제할 문의번호
@@ -635,6 +771,5 @@ public class MyPageDao {
 		return result;
 		
 	}
-	
 
 }

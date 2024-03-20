@@ -45,7 +45,7 @@ public class MyPageUpdateMemberInfoController extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			
 			// 사용자 프로필 URL 저장경로
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/uploadFiles");
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/");
 			// 프로필 첨부파일 제한용량 (10Mbyte)
 			int maxSize = 10 * 1024 * 1024;
 			
