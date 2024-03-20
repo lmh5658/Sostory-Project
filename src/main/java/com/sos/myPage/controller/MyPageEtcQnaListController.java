@@ -18,7 +18,7 @@ import com.sos.product.model.vo.Qna;
 /**
  * Servlet implementation class MyPageEtcQnaListController
  */
-@WebServlet("/etcQna.me")
+@WebServlet("/qna.me")
 public class MyPageEtcQnaListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -64,11 +64,11 @@ public class MyPageEtcQnaListController extends HttpServlet {
 			// 총문의수 조회요청을 위한 값담기
 			int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 			
-			Qna q = new Qna();						// 총문의수 조회요청시 전달할 문의정보객체
-			q.setAnswerType("2");					// 문의유형 (1:1문의)
-			q.setUserNo(String.valueOf(userNo));	// 조회요청 사용자번호
+			Qna q = new Qna();								// 총문의수 조회요청시 전달할 문의정보객체
+			q.setAnswerType(request.getParameter("type"));	// 문의유형 (2 == 1:1문의 | 1 == 상품문의)
+			q.setUserNo(String.valueOf(userNo));			// 조회요청 사용자번호
 			
-			// 특정조건(처리 | 미처리)의 문의조회 요청시
+			// 답변상태별(처리 | 미처리) 문의조회 요청시
 			if(status != null) {
 				if(status.equals("on")){
 					 q.setAnswerStatus("미처리");
@@ -98,10 +98,22 @@ public class MyPageEtcQnaListController extends HttpServlet {
 			
 			// 1:1문의목록 조회요청 결과리스트
 			List<Qna> list = new MyPageService().selectQnaList(info);
-			System.out.println(list.size());
+			
 			request.setAttribute("qnaList", list);
 			request.setAttribute("pageInfo", pi);
-			request.getRequestDispatcher("/views/myPage/myPageEtcQnaList.jsp").forward(request, response);
+			
+			/* 문의유형별 응답화면
+			 * 
+			 * case 01) 1:1문의 목록페이지 : views/myPage/myPageEtcQnaList.jsp
+			 * case 02) 상품문의 목록페이지 : 
+			 * 
+			 */
+			if(Integer.parseInt(q.getAnswerType()) == 2) { // 1:1문의
+				request.getRequestDispatcher("/views/myPage/myPageEtcQnaList.jsp").forward(request, response);				
+			}else{ // 상품문의
+				
+			}
+			
 			
 		}
 		
