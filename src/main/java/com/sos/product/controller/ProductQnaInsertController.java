@@ -1,5 +1,6 @@
 package com.sos.product.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ public class ProductQnaInsertController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
-			System.out.println(3);
+			
 			int fileSize = 10 * 1024 * 1024;
 			
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/");
@@ -46,8 +47,10 @@ public class ProductQnaInsertController extends HttpServlet {
 			
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
-			int userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();
+			int userNo = Integer.parseInt(multiRequest.getParameter("userNo"));
 			int proNo = Integer.parseInt(multiRequest.getParameter("proNo"));
+			System.out.println(content);
+			System.out.println(title);
 
 			AttachmentProduct ap = null;
 			if(multiRequest.getOriginalFileName("upfiles") != null) {
@@ -58,6 +61,21 @@ public class ProductQnaInsertController extends HttpServlet {
 			}
 			
 			int result = new ProductService().insertQna(title, content, userNo, proNo, ap);
+
+			
+			if(result > 0) {
+				request.getSession().setAttribute("alertMsg", "문의등록이 완료되었습니다.");	
+			}else {
+				if(ap != null) {
+					new File(savePath + ap.getFileChangeName()).delete();
+				}else {
+					request.getSession().setAttribute("alertMsg", "문의등록을 실패하였습니다.");
+				}
+			}
+			
+			response.sendRedirect(request.getContextPath() + "/detail.pr?no="+ proNo);
+			
+			
 			
 			
 		}

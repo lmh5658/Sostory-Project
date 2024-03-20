@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.common.model.vo.PageInfo
+				, java.util.List
+				, com.sos.product.model.vo.Qna" %>
+<%
+	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
+	List<Qna> list = (List<Qna>)request.getAttribute("qnaList");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,8 +53,8 @@
 		          <div class="side_menu">
 		              <button class="list">고객문의</button>
 		              <div>
-		              <a href="" style="color:white; text-decoration-line:none;">상품문의</a><br>
-		              <a href="" style="color:white; text-decoration-line:none;">1:1 문의</a>
+		              <a href="<%= contextPath %>/proQna.me?page=1" style="color:white; text-decoration-line:none;">상품문의</a><br>
+		              <a href="<%= contextPath %>/etcQna.me?page=1" style="color:white; text-decoration-line:none;">1:1 문의</a>
 		              </div>
 		          </div>
 		
@@ -162,10 +169,10 @@
 
                     <!-- 필터링 드롭다운 영역 start -->
                     <div class="dropdown my-3">
-                        <a href="" class="btn dropdown-toggle px-5" data-toggle="dropdown">전체</a>
+                        <a href="<%= contextPath %>/etcQna.me?page=1" class="btn dropdown-toggle px-5" data-toggle="dropdown">전체</a>
                         <div class="dropdown-menu">
-                          <a href="#" class="dropdown-item">진행중</a>
-                          <a href="#" class="dropdown-item">답변완료</a>
+                          <a href="<%= contextPath %>/etcQna.me?page=1&status=on" class="dropdown-item">진행중</a>
+                          <a href="<%= contextPath %>/etcQna.me?page=1&status=off" class="dropdown-item">답변완료</a>
                         </div>
                     </div>
                     <!-- 필터링 드롭다운 영역 end -->
@@ -194,281 +201,187 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>212325</td>
-                                    <td>2024-02-26</td>
-                                    <!-- 
-                                        기능설명 : 제목 클릭시, 상세페이지이동
-                                        기능구현 : 아래 스크립트에 URL 넣어주면됨
-                                    -->
-                                    <td id="qna-title">환불관련</td>
-                                    <td>답변완료</td>
-                                    <td>
-                                        <!--
-                                            기능설명 : 수정버튼 클릭시 팝업창으로 문의수정창 띄워주기
-                                            기능구현 : 
-                                        -->
-                                        <button type="button" class="btn text-primary" data-toggle="modal" data-target="#update-qna">수정</button>
-                                        | 
-                                        <!-- 
-                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제진행 
-                                            기능구현 : 아래 삭제여부 확인용 팝업창(모달)있음
-                                        -->
-                                        <button type="button" class="btn text-danger" data-toggle="modal" data-target="#delete-qna">삭제</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>212325</td>
-                                    <td>2024-02-26</td>
-                                    <!-- 
-                                        기능설명 : 제목 클릭시, 상세페이지이동
-                                        기능구현 : 아래 스크립트에 URL 넣어주면됨
-                                     -->
-                                    <td id="qna-title">환불관련</td>
-                                    <td>답변완료</td>
-                                    <td>
-                                        <!--
-                                            기능설명 : 수정버튼 클릭시 팝업창으로 문의수정창 띄워주기
-                                            기능구현 : 
-                                        -->
-                                        <button type="button" class="btn text-primary" data-toggle="modal" data-target="#update-qna">수정</button>
-                                        | 
-                                        <!-- 
-                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제진행 
-                                            기능구현 : 아래 삭제여부 확인용 팝업창(모달)있음
-                                        -->
-                                        <button type="button" class="btn text-danger" data-toggle="modal" data-target="#delete-qna">삭제</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>212325</td>
-                                    <td>2024-02-26</td>
-                                    <!-- 
-                                        기능설명 : 제목 클릭시, 상세페이지이동
-                                        기능구현 : 아래 스크립트에 URL 넣어주면됨
-                                     -->
-                                    <td id="qna-title">환불관련</td>
-                                    <td>답변완료</td>
-                                    <td>
-                                        <!--
-                                            기능설명 : 수정버튼 클릭시 팝업창으로 문의수정창 띄워주기
-                                            기능구현 : 
-                                        -->
-                                        <button type="button" class="btn text-primary" data-toggle="modal" data-target="#update-qna">수정</button>
-                                        | 
-                                        <!-- 
-                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제진행 
-                                            기능구현 : 아래 삭제여부 확인용 팝업창(모달)있음
-                                        -->
-                                        <button type="button" class="btn text-danger" data-toggle="modal" data-target="#delete-qna">삭제</button>
-                                    </td>
-                                </tr>
+                            <% if(list != null) { %>
+	                            <% for(Qna q : list) { %>
+	                                <tr>
+	                                    <td><%= q.getAnswerNo() %></td>
+	                                    <td><%= q.getAnswerDate() %></td>
+	                                    <!-- 
+	                                        기능설명 : 제목 클릭시, 상세페이지이동
+	                                        기능구현 : 아래 스크립트에 URL 넣어주면됨
+	                                    -->
+	                                    <td id="qna-title"><%= q.getAnswerTitle() %></td>
+	                                    <td><%= q.getAnswerStatus().equals("처리") ? "답변완료" : "진행중" %></td>
+	                                    <td>
+	                                        <!-- 
+	                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제진행 
+	                                            기능구현 : 아래 삭제여부 확인용 팝업창(모달)있음
+	                                        -->
+	                                        <button type="button" class="btn text-danger" onclick="deleteQna(<%= q.getAnswerNo() %>);">삭제</button>
+	                                    </td>
+	                                </tr>
+								<% } %>
+                            <% } else if(list.size() == 0) { %>
+                            	<tr>
+                            		<td colspan="5">문의 내역이 존재하지 않습니다.</td>
+                            	</tr>
+                            <% } %>
                             </tbody>
                         </table>
                         <!-- 1:1 문의목록 테이블 영역 end -->
 
-                        <!-- 문의수정 팝업창(수정버튼 클릭시 팝업창뜸) start -->
-                        <div class="modal" id="update-qna">
-                        <div class="modal-dialog modal-lg">
-                        <div class="modal-content px-3" style="border: 1px solid;">
-                        
-                            <!-- 문의수정 팝업창 Header -->
-                            <div class="modal-header modal-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                                </svg>
-                                <h4><b>1 : 1 문의 > 수정하기</b></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            
-                            <!-- 문의수정 팝업창 body -->
-                            <div class="modal-body">
 
-                                <form action="" method="" class="form-group">
+	                    <script>
+		                 	// 문의삭제 클릭시, 삭제여부 재확인후 삭제요청 진행하는 함수
+	                    	function deleteQna(no){
+	                    		
+	                    		if(confirm("문의내역 삭제시 복구가 불가합니다. 해당 문의내역을 삭제하시겠습니까?")){
+	                    			location.href = "<%= contextPath %>/deleteQna.me?qNo=" + no;
+	                    		}
+	                    		
+	                    	}
+		                 	
+	                        $(function(){
 
-                                    <div class="d-flex form-field">
-                                        <label for="qna-title" class="mr-sm-2">제목</label>
-                                        <input type="text" class="form-control qna-title" id="qna-title" value="기존 문의제목">
-                                    </div>
+	                            // 문의제목 클릭시, 해당문의 상세페이지로 이동하는 함수
+	                            $(".qna-list>.table>tbody").on("click", "#qna-title", function(){
+	                                location.href="해당문의 상세페이지 이동URL";
+	                            })
+	
+	                            // 1:1 문의수정, 문의작성 모달창 문의제목 입력글자수 제한함수
+	                            $(".qna-title").each(function(idx, element){
+	                                // 최대 글자수 20자일때 계속 입력하고자 할시 입력제한 알림
+	                                $(element).keyup(function(){
+	                                    if($(element).val().length >= 20){
+	                                        alert("최대 20자까지 입력 가능합니다.");
+	                                    }
+	                                })
+	                            })
+	
+	                            // 1:1 문의수정, 문의작성 모달창 문의내용 textarea 입력글자수 세주는 함수
+	                            $(".qna-content").each(function(idx, element){
+	                                $(element).keyup(function(){
+	                                    // 실시간 글자수 세주는 함수
+	                                    if($(element).val().length == 0){
+	                                        $(element).next().children(".count-text").text(0);
+	                                    }else{
+	                                        $(element).next().children(".count-text").text($(element).val().length);
+	                                    }
+	
+	                                    // 최대 글자수 입력시 입자수 입력제한 알림
+	                                    if($(element).val().length >= 500){
+	                                        alert("최대 500자까지 입력 가능합니다.");
+	                                    }
+	
+	
+	                                })
+	                            })
+	                            
+	                        })
+	                    </script>
 
-                                    <div class="d-flex form-field">
-                                        <label for="qna-attachment" class="mr-sm-2">첨부파일</label>
-                                        <input type="file" class="form-control" id="qna-attachment">
-                                    </div>
-
-                                    <div class="d-flex form-field">
-                                        <label for="qna-content" class="mr-sm-2">내용</label>
-                                        <textarea id="qna-content" class="form-control qna-content" cols="30" rows="10" maxlength="500" style="resize: none; text-align: justify;" placeholder="내용을 입력해주세요 / 500자"></textarea>
-                                        <div class="count-text-area">
-                                            <label class="count-text"></label>/500
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-button">
-                                        <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">뒤로가기</button>
-                                        <button type="submit" class="btn btn-danger me-3 px-4">수정</button>
-                                    </div>
-
-                                </form>
-
-                            </div>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    <!-- 문의수정 팝업창 end -->
-
-
-                    <!-- 문의삭제 여부 확인 팝업창 start -->
-                    <div class="modal" id="delete-qna">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                        
-                            <!-- Modal body -->
-                            <div class="modal-body my-4" style="font-size: 20px;">
-                                문의내역을 정말 삭제하시겠습니까?
-                            </div>
-                            
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <div class="d-flex">
-                                    <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">취소</button>
-                                    <!-- 확인버튼 클릭시 삭제진행 -->
-                                    <a href="삭제요청URL" class="btn btn-danger px-4" data-dismiss="modal">확인</a>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    <!-- 문의삭제 여부 확인 팝업창 end -->
-
-                    <script>
-                        $(function(){
-                            // 문의제목 클릭시, 해당문의 상세페이지로 이동하는 함수
-                            $(".qna-list>.table>tbody").on("click", "#qna-title", function(){
-                                location.href="해당문의 상세페이지 이동URL";
-                            })
-
-                            // 1:1 문의수정, 문의작성 모달창 문의제목 입력글자수 제한함수
-                            $(".qna-title").each(function(idx, element){
-                                // 최대 글자수 20자일때 계속 입력하고자 할시 입력제한 알림
-                                $(element).keyup(function(){
-                                    if($(element).val().length >= 20){
-                                        alert("최대 20자까지 입력 가능합니다.");
-                                    }
-                                })
-                            })
-
-                            // 1:1 문의수정, 문의작성 모달창 문의내용 textarea 입력글자수 세주는 함수
-                            $(".qna-content").each(function(idx, element){
-                                $(element).keyup(function(){
-                                    // 실시간 글자수 세주는 함수
-                                    if($(element).val().length == 0){
-                                        $(element).next().children(".count-text").text(0);
-                                    }else{
-                                        $(element).next().children(".count-text").text($(element).val().length);
-                                    }
-
-                                    // 최대 글자수 입력시 입자수 입력제한 알림
-                                    if($(element).val().length >= 500){
-                                        alert("최대 500자까지 입력 가능합니다.");
-                                    }
-
-
-                                })
-                            })
-                            
-                        })
-                    </script>
-
-                    <div class="qna-button">
-                        <!--
-                            기능설명 : 문의하기 버튼 클릭시, 문의작성 페이지로 이동
-                            기능구현 : X
-                        -->
-                        <button type="button" class="btn btn-danger px-4" data-toggle="modal" data-target="#insert-qna">문의하기</button>
-                    </div>
-
-                    <!-- 문의작성 팝업창(수정버튼 클릭시 팝업창뜸) start -->
-                    <div class="modal" id="insert-qna">
-                        <div class="modal-dialog modal-lg">
-                        <div class="modal-content px-3" style="border: 1px solid;">
-                        
-                            <!-- 문의작성 팝업창 Header -->
-                            <div class="modal-header modal-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                                </svg>
-                                <h4><b>1 : 1 문의 > 문의하기</b></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            
-                            <!-- 문의작성 팝업창 body -->
-                            <div class="modal-body">
-
-                                <form action="" method="" class="form-group">
-
-                                    <div class="d-flex form-field">
-                                        <label for="qna-title" class="mr-sm-2">제목</label>
-                                        <input type="text" class="form-control qna-title" id="qna-title" placeholder="내용을 입력해주세요/20자">
-                                    </div>
-
-                                    <div class="d-flex form-field">
-                                        <label for="qna-category" class="mr-sm-2">종류</label>
-                                        <select name="" id="qna-category" class="form-control">
-                                            <option value="">취소/환불/교환</option>
-                                            <option value="">배송관련</option>
-                                            <option value="">홈페이지</option>
-                                            <option value="">레시피</option>
-                                            <option value="">기타</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="d-flex form-field">
-                                        <label for="qna-attachment" class="mr-sm-2">첨부파일</label>
-                                        <input type="file" class="form-control" id="qna-attachment">
-                                    </div>
-
-                                    <div class="d-flex form-field">
-                                        <label for="qna-content" class="mr-sm-2">내용</label>
-                                        <textarea id="qna-content" class="form-control qna-content" cols="30" rows="10" maxlength="500" style="resize: none; text-align: justify;" placeholder="내용을 입력해주세요 / 500자"></textarea>
-                                        <div class="count-text-area">
-                                            <label class="count-text"></label>/500
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-button">
-                                        <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">뒤로가기</button>
-                                        <button type="submit" class="btn btn-danger me-3 px-4">수정</button>
-                                    </div>
-
-                                </form>
-
-                            </div>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    <!-- 문의작성 팝업창 end -->
+	                    <div class="qna-button">
+	                        <!--
+	                            기능설명 : 문의하기 버튼 클릭시, 문의작성 페이지로 이동
+	                            기능구현 : X
+	                        -->
+	                        <button type="button" class="btn btn-danger px-4" data-toggle="modal" data-target="#insert-qna">문의하기</button>
+	                    </div>
+	
+	                    <!-- 문의작성 팝업창(문의하기 클릭시 팝업창뜸) start -->
+	                    <div class="modal" id="insert-qna">
+	                        <div class="modal-dialog modal-lg">
+	                        <div class="modal-content px-3" style="border: 1px solid;">
+	                        
+	                            <!-- 문의작성 팝업창 Header -->
+	                            <div class="modal-header modal-title">
+	                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
+	                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+	                                </svg>
+	                                <h4><b>1 : 1 문의 > 문의하기</b></h4>
+	                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                            </div>
+	                            
+	                            <!-- 문의작성 팝업창 body -->
+	                            <div class="modal-body">
+	
+	                                <form action="" method="" class="form-group">
+	
+	                                    <div class="d-flex form-field">
+	                                        <label for="qna-title" class="mr-sm-2">제목</label>
+	                                        <input type="text" class="form-control qna-title" id="qna-title" placeholder="내용을 입력해주세요/20자">
+	                                    </div>
+	
+	                                    <div class="d-flex form-field">
+	                                        <label for="qna-category" class="mr-sm-2">종류</label>
+	                                        <select name="" id="qna-category" class="form-control">
+	                                            <option value="">취소/환불/교환</option>
+	                                            <option value="">배송관련</option>
+	                                            <option value="">홈페이지</option>
+	                                            <option value="">레시피</option>
+	                                            <option value="">기타</option>
+	                                        </select>
+	                                    </div>
+	
+	                                    <div class="d-flex form-field">
+	                                        <label for="qna-attachment" class="mr-sm-2">첨부파일</label>
+	                                        <input type="file" class="form-control" id="qna-attachment">
+	                                    </div>
+	
+	                                    <div class="d-flex form-field">
+	                                        <label for="qna-content" class="mr-sm-2">내용</label>
+	                                        <textarea id="qna-content" class="form-control qna-content" cols="30" rows="10" maxlength="500" style="resize: none; text-align: justify;" placeholder="내용을 입력해주세요 / 500자"></textarea>
+	                                        <div class="count-text-area">
+	                                            <label class="count-text"></label>/500
+	                                        </div>
+	                                    </div>
+	
+	                                    <div class="modal-button">
+	                                        <button type="reset" class="btn btn-secondary me-3 px-4" data-dismiss="modal">뒤로가기</button>
+	                                        <button type="submit" class="btn btn-danger me-3 px-4">수정</button>
+	                                    </div>
+	
+	                                </form>
+	
+	                            </div>
+	                            
+	                        </div>
+	                        </div>
+	                    </div>
+	                    <!-- 문의작성 팝업창 end -->
                         
                         <!-- 기능 : 10개 단위 페이징처리 -->
                         <div class="center">
                             <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                                <li class="page-item"><a class="page-link" href="#">8</a></li>
-                                <li class="page-item"><a class="page-link" href="#">9</a></li>
-                                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+	                            <!-- 이전페이지 이동버튼 활성화여부 
+	                            	 case 01) 비활성화 : 현재페이지 == 1페이지
+	                            	 case 02)  활성화 : 현재페이지 != 1페이지 ==> (현재페이지 - 1)페이지이동 URL요청
+	                             -->
+	                            <% if(pi.getCurrentPage() == 1) { %>
+                                	<li class="page-item disabled"><a class="page-link">Previous</a></li>
+                                <% } else { %>
+                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/etcQna.me?page=<%= (pi.getCurrentPage() - 1) %>">Previous</a></li>
+                                <% } %>
+                                <!-- 페이지 번호버튼 활성화여부
+                                	 case 01) 비활성화 : 해당페이지 == 현재페이지
+                                	 case 02)  활성화 : 해당페이지 != 현재페이지 ==> 해당페이지이동 URL요청
+                                 -->
+                                <% for(int p=pi.getStartPage() ; p<=pi.getEndPage() ; p++) { %>
+                                	<%if(pi.getCurrentPage() == p) { %>
+                                		<li class="page-item active"><a class="page-link"><%= p %></a></li>
+                                	<% } else { %>
+                                		 <li class="page-item"><a class="page-link" href="<%= contextPath %>/etcQna.me?page=<%= p %>"><%= p %></a></li>
+                                	<% } %>
+                                <% } %>
+                                <!-- 이후페이지 이동버튼 활성화여부
+                                	 case 01) 비활성화 : 현재페이지 == 최대페이지 || 문의목록 존재하지 않을때
+                                	 case 02)  활성화 : 현재페이지 != 최대페이지 ==> (현재페이지 + 1) 페이지이동 URL요청
+                                 -->
+                                <% if(pi.getCurrentPage() == pi.getMaxPage() || pi.getMaxPage() == 0) { %>
+                                	<li class="page-item disabled"><a class="page-link">Next</a></li>
+                                <% } else { %>
+                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/etcQna.me?page=<%= (pi.getCurrentPage() + 1) %>">Next</a></li>
+                                <% } %>
                             </ul>
                         </div>
 

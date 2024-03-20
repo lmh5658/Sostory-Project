@@ -431,11 +431,71 @@ public class MyPageDao {
 	}
 	
 	/**
-	 * 마이페이지에서 사용자가 1:1문의 전체목록페이지 요청시 실행될 메소드
+	 * 사용자가 지정한 상품 or 1:1문의 총문의수 조회요청시 실행될 메소드
+	 * 
+	 * case 01) 1:1문의 총문의수 조회요청 ==> ANSWER_TYPE = "2"
+	 *          case 01-1)  전체 1:1문의수 조회 ==> ANSWER_STATUS = null 
+	 *          case 01-2) 처리된 1:1문의수 조회 ==> ANSWER_STATUS = "처리"
+	 *          case 01-3) 미처리 1:1문의수 조회 ==> ANSWER_STATUS = "미처리"
+	 *          
+	 * case 02) 상품문의 총문의수 조회요청 : ANSWER_TYPE ="1"
+	 *          case 02-1)  전체 상품문의수 조회 ==> ANSWER_STATUS = null
+	 *          case 02-2) 처리된 상품문의수 조회 ==> ANSWER_STATUS = "처리"
+	 *          case 02-3) 미처리 상품문의수 조회 ==> ANSWER_STATUS = "미처리"
 	 * 
 	 * @param conn
-	 * @param info : 페이징 정보를 담은 페이징바 객체, 문의 리스트조회 회원번호를 담은 객체
-	 * @return : 조회된 전체 1:1문의 객체 리스트
+	 * @param q : 문의유형(상품 | 1:1), 문의진행상태(처리 | 미처리), 회원번호 정보가담긴 문의객체
+	 * @return : 조회된 해당조건의 총문의수
+	 */
+	public int totalQna(Connection conn, Qna q) {
+		
+		int total = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("totalQna");
+		
+		/* 
+		 * case 01)  null : 전체총문의수 (처리 + 미처리)
+		 * case 02)  "처리" : 처리상태의 총문의수
+		 * case 02) "미처리" : 미처리상태의 총문의수
+		 * 
+		 */
+		String status = q.getAnswerStatus();
+		
+		if(status != null) { sql += " AND ANSWER_STATUS = ?"; }
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getAnswerType());
+			pstmt.setString(2, q.getUserNo());
+			
+			if(status != null) { pstmt.setString(3, status); }
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				total = rset.getInt("total");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return total;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 1:1문의 or 상품문의 전체목록페이지 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param info : 페이징바객체(페이징정보), 문의객체(회원번호, 문의유형) 정보가 담긴 객체
+	 * @return : 조회된 문의객체 리스트
 	 */
 	public List<Qna> selectAllQnaList(Connection conn, HashMap<String, Object> info){
 		
@@ -446,34 +506,135 @@ public class MyPageDao {
 		
 		String sql = prop.getProperty("selectAllQnaList");
 		
-		/*
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt((String)info.get("userNo")));
+			
+			Qna qa = (Qna)info.get("qna");
+			pstmt.setString(1, qa.getUserNo());
+			pstmt.setString(2, qa.getAnswerType());
 			
 			PageInfo pi = (PageInfo)info.get("pageInfo");
 			int lastNo = pi.getCurrentPage() * pi.getBoardLimit();
 			int firstNo = lastNo - (pi.getBoardLimit() - 1);
 			
-			pstmt.setInt(2, firstNo);
-			pstmt.setInt(3, lastNo);
+			pstmt.setInt(3, firstNo);
+			pstmt.setInt(4, lastNo);
 			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
+				
 				Qna q = new Qna();
 				
 				q.setAnswerNo(rset.getInt("answer_no"));
+				q.setProductNo(rset.getString("product_name"));
 				q.setAnswerDate(rset.getString("answer_date"));
+				q.setAnswerTitle(rset.getString("answer_title"));
+				q.setAnswerStatus(rset.getString("answer_status"));
+				
+				list.add(q);
 			}
 			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
 		}
-		*/
 		
 		return list;
 		
 	}
 	
+	/**
+	 * 마이페이지에서 사용자가 답변상태별 1:1문의 or 상품문의 목록페이지 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param info : 페이징바객체(페이징정보), 문의객체(회원번호, 문의유형, 문의상태) 정보가 담긴 객체
+	 * @return : 조회된 문의객체 리스트
+	 */
+	public List<Qna> selectQnaList(Connection conn, HashMap<String, Object> info){
+		
+		List<Qna> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectQnaList");
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			Qna qa = (Qna)info.get("qna");
+			pstmt.setString(1, qa.getUserNo());
+			pstmt.setString(2, qa.getAnswerType());
+			pstmt.setString(3, qa.getAnswerStatus());
+			
+			PageInfo pi = (PageInfo)info.get("pageInfo");
+			int lastNo = pi.getCurrentPage() * pi.getBoardLimit();
+			int firstNo = lastNo - (pi.getBoardLimit() - 1);
+			
+			pstmt.setInt(4, firstNo);
+			pstmt.setInt(5, lastNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Qna q = new Qna();
+				
+				q.setAnswerNo(rset.getInt("answer_no"));
+				q.setProductNo(rset.getString("product_name"));
+				q.setAnswerDate(rset.getString("answer_date"));
+				q.setAnswerTitle(rset.getString("answer_title"));
+				q.setAnswerStatus(rset.getString("answer_status"));
+				
+				list.add(q);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 문의삭제 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param answerNo : 삭제할 문의번호
+	 * @return : 해당번호 문의삭제 요청처리 결과행 수
+	 */
+	public int deleteQna(Connection conn, int answerNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteQna");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
 	
 
 }
