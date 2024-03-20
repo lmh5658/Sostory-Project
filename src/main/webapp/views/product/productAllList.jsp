@@ -133,7 +133,7 @@
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
 	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
-	                                    <% if(p.getDiscountPrice() == 0) { System.out.println(p.getDiscountPrice());%>
+	                                    <% if(p.getDiscountPrice() == 0) { %>
 	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
 	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
