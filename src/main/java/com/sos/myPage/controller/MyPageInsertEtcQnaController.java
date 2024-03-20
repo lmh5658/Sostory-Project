@@ -63,7 +63,6 @@ public class MyPageInsertEtcQnaController extends HttpServlet {
 			
 			// 등록할 문의글정보를 담을 문의객체
 			Qna q = new Qna();
-			System.out.println(request.getSession().getAttribute("loginUser"));
 			int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 			q.setUserNo(String.valueOf(userNo));
 			q.setAnswerTitle(multiRequest.getParameter("answerTitle"));

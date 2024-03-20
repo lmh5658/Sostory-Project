@@ -1,193 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지_찜목록_상품</title>
+<meta charset="UTF-8">
+<title>찜상품</title>
 
-    <!-- 부트스트랩 기능을 위한 CDN 방식 연결 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ---------------------------------- -->
+<!-- 마이페이지(찜상품목록페이지) css 파일 링크연결 -->
+<link href="<%= request.getContextPath() %>/resources/css/myPage/myPageLikeProductList.css" rel="stylesheet">
 
-    <!-- 마이페이지(MyTree) css 파일 링크연결 -->
-    <link href="/src/main/webapp/resources/css/myPage/myPageChangePwd.css" rel="stylesheet">
-
-    <style>
-    /* 레이아웃 관련 스타일 */
-    .wrap{width: 1200px; margin: auto;}
-    .wrap, .wrap * {box-sizing: border-box;}
-    .header{height: 150px; z-index: 2; padding-top: 10px;}
-    .main-content{min-height: 800px; padding-top: 130px;}
-    .footer{height: 200px;}
-    .center{display: flex; justify-content: center; align-items: center;}
-
-    /* Header 영역관련 스타일 */
-    .header{display: flex; width: 1200px; position: fixed; top: 0; background-color: white;}
-    .header-left-logo{width: 25%; display: flex;}
-    .header-left-logo>img{height: 100%;}
-    .header-right{width: 75%; display: flex; flex-direction: column;}
-    .header-right-top{height: 30%;}
-    .header-user>svg:hover{cursor: pointer;}
-    .header-right-bottom{height: 70%;}
-
-    /* Footer 영역관련 스타일 */
-    .footer{display: flex;}
-    .footer-logo{width: 30%;}
-    .footer-company{width: 40%;}
-    .footer-company>ul{list-style-type: "- "}
-    .footer-business-time{width: 30%;}
-    .footer-business-time>ul{list-style: none;}
-    
-    /* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
-.main-wrap{
-    margin: auto;
-    width: 100%;
-    margin-top: 50px;
-    max-width: 1200px;
-    min-height: 1200px;
-    display: flex;
-}
-
-.menu_wrap{
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    padding-top: 30px;
-    font-size: 20px;
-    width: 15%;
-    align-items: center;    
-    background-color: rgb(238, 67, 67);
-}
-
-.side_menu>button{
-    width: 100%;
-    height: 70px;
-    background-color: rgb(238, 67, 67);
-    
-    }
-
-.side_menu div{
-    display:none;
-    font-size: 17px;
-}
-
-.list{
-    border: none;
-    color: white;
-    font-weight: bolder;
-}
-
-.side_menu a{
-    color: white;
-}
-
-a{
-    text-decoration-line: none;
-    color: black        
-}
-
-.side_menu a:hover{
-    opacity: 0.8;
-    text-decoration-line: none;
-}
-
-.main-page{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-left: 20px;
-}
-
-/* 마이페이지 1:1문의에서만 필요한 style */
-.page-title{
-    align-items: center;
-    display: flex;
-    padding-top: 15px;
-    margin-bottom: 10px;
-    width: 300px;
-    border-bottom: 1px solid lightslategray;
-}
-
-h3>label{
-    font-size: 13px;
-    font-weight: bold;
-    margin-left: 13px;
-}
-
-/* 마이페이지_찜목록_상품페이지 관련 */
-.main-content{display: flex; flex-direction: column;}
-.content-product-list{display: flex; flex-direction: column;}
-.product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
-.product{margin: 20px;}
-.category{margin-left:10px; font-size:20px;}
-.categoryBtn{padding-bottom: 0px;}
-
-    </style>
 
 </head>
 <body>
-    <div class="wrap">
+<div class="wrap">
       
-        <!-- Header start -->
-        <header class="header border-bottom border-2">
-
-
-            <!-- Header 왼쪽(로고) 영역 start -->
-            <div class="header-left-logo center">
-                <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지">
-            </div>
-            <!-- Header 왼쪽(로고) 영역 end -->
-
-
-            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) start -->
-            <div class="header-right">
-
-                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 start -->
-                <div class="header-right-top">
-                    <div class="header-user d-flex justify-content-end center">
-                        <!-- 로그인 x  -->
-                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">login</a>
-                        <!-- 로그인 o 
-                        <span><b>xxx님</b></span>
-                        -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="user mx-2" viewBox="0 0 16 16">
-                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                        </svg>
-
-                        <!-- 로그인 되어있을 경우에만 보여짐 
-                        <a class="btn btn-outline-secondary btn-sm mx-2 py-0">logout</a>
-                        -->
-                        
-                    </div>
-                </div>
-                <!-- Header 오른쪽-상단(로그인, 마이페이지, 장바구니) 영역 end -->
-
-                <!-- Header 오른쪽-하단(nav바) 영역 start -->
-                <div class="header-right-bottom">
-                    <div class="header-nav py-4 mb-3">
-                        <nav class="nav nav-underline justify-content-between">
-                            <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">전체상품</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
-                            <a class="nav-item nav-link link-body-emphasis" href="#">소스트리</a>
-                        </nav>
-                    </div>
-                </div>
-                <!-- Header 오른쪽-하단(nav바) 영역 start -->
-            </div>
-            <!-- Header 오른쪽 영역(상단: 유저관련 | 하단: nav바) end -->
-        </header>
-        <!-- Header end -->
+        <%@ include file="/views/common/header.jsp" %>
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -196,56 +23,125 @@ h3>label{
 
             <div class="main-wrap">
 
-                <!-- 사이드 nav바 start -->
-                <div class="menu_wrap" >
+<!-- =========================================================================================================================== -->
 
-                    <div class="side_menu">
-                        <button class="list">회원정보</button>
-                        <div><a href="" class="">회원정보 변경</a></div>
-                        <div><a href="">비밀변호 변경</a></div>
-                        <div><a href="">배송지관리</a></div>
-                        <div><a href="">회원탈퇴</a></div>
-                    </div>
+              <!-- 사이드 nav바 start -->
+		      <div class="menu_wrap" >
+		
+		          <div class="side_menu">
+		              <button class="list">회원정보</button>
+		              <div><a href="" id="updateMemInfo" style="color:white; text-decoration-line:none;">회원정보 변경</a></div>
+		              <div><a href="<%= contextPath %>/updatePwdForm.me" style="color:white; text-decoration-line:none;">비밀변호 변경</a></div>
+		              <div><a href="<%= contextPath %>/address.me" style="color:white; text-decoration-line:none;">배송지관리</a></div>
+		              <div><a href="" id="deleteMember" style="color:white; text-decoration-line:none;">회원탈퇴</a></div>
+		          </div>
+		
+		          <div class="side_menu">
+		              <button class="list">My Tree</button>
+		          </div>
+		
+		          <div class="side_menu">
+		              <a href="<%= contextPath %>/like.me?type=p&page=1" class="list">찜목록</a>
+		          </div>
+		
+		          <div class="side_menu">
+		              <button class="list">고객문의</button>
+		              <div>
+		              <a href="<%= contextPath %>/qna.me?type=1&page=1" style="color:white; text-decoration-line:none;">상품문의</a><br>
+		              <a href="<%= contextPath %>/qna.me?type=2&page=1" style="color:white; text-decoration-line:none;">1:1 문의</a>
+		              </div>
+		          </div>
+		
+		          <div class="side_menu">
+		              <button class="list">주문조회</button>
+		          </div>
+		
+		      </div>
+		
+			   <!-- 네비메뉴바 스크립트 -->
+		       <script>
+			   $(function(){
+				   // 회원탈퇴페이지 요청시 실행될 함수
+				   $("#deleteMember").click(function(e){
+					   
+					  /* 
+					   * case 01) 회원탈퇴페이지 진입이후 동일페이지를 재요청할 경우 : 비밀번호확인 x
+					   * case 02) 이외페이지에서 회원탈퇴페이지 요청할 경우 : 비밀번호확인
+					  */
+					   if(location.href.indexOf("<%= contextPath %>/deleteForm.me") == -1){
+						   
+						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+						   
+						   if("<%= loginUser.getUserPwd() %>" == userPwd){
+								   /* 
+								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
+								   	* ==> 회원탈퇴페이지 이동
+								   */
+								   $(this).attr("href", "<%= contextPath %>/deleteForm.me");
+							   }
+						   
+						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+								   /*
+								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
+								    * ==> alert("실패메세지")
+								   */
+								   alert("비밀번호가 일치하지 않습니다.");
+						   } 
+					   }
+					   
+					   
+				   })
+				   
+				   // 회원정보변경페이지 요청시 실행될 함수
+				   $("#updateMemInfo").click(function(e){
+					   
+					   /* 
+					    * case 01) 회원정보변경페이지 진입이후 동일페이지를 재요청할 경우 : 비밀번호확인 x
+					    * case 02) 이외페이지에서 회원정보변경페이지 요청할 경우 : 비밀번호확인
+					    */
+					   if(location.href.indexOf("<%= contextPath %>/updateForm.me") == -1){
+						   
+						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+						   
+						   if("<%= loginUser.getUserPwd() %>" == userPwd){
+								   /* 
+								    * 로그인한 회원(정보변경을 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
+								   	* ==> 회원정보변경 페이지 이동
+								   */
+								   $(this).attr("href", "<%= contextPath %>/updateForm.me");
+							   }
+						   
+						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+								   /*
+								    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
+								    * ==> alert("실패메세지")
+								   */
+								   alert("비밀번호가 일치하지 않습니다.");
+						   } 
+					   }
+					   
+					   
+				   })
+				   
+					// 마이페이지 nav메뉴바 목록 슬라이딩 처리용 함수
+			        $(".side_menu>button").click(function(){       
+			            const $b = $(this).nextAll();
+			
+			            if($b.css("display") == "none") {          
+			                $(".list").siblings("div").slideUp();
+			                $b.slideDown();         
+			            }else{
+			                $b.slideUp();
+			            }
+		
+		        	})
+		        	
+			    })
+				</script>	
+		      	<!-- 사이드 nav바 end -->
 
-                    <div class="side_menu">
-                        <button class="list">My Tree</button>
-                    </div>
+<!-- =========================================================================================================================== -->
 
-                    <div class="side_menu">
-                        <button class="list">찜목록</button>
-                    </div>
-
-                    <div class="side_menu">
-                        <button class="list">고객문의</button>
-                        <div>
-                        <a href="">상품문의</a><br>
-                        <a href="">1:1 문의</a>
-                        </div>
-                    </div>
-
-                    <div class="side_menu">
-                        <button class="list">주문조회</button>
-                    </div>
-
-                </div>
-
-
-                <script>
-                   $(function(){
-                        $(".side_menu>button").click(function(){       
-                            const $b = $(this).nextAll();
-            
-                            if($b.css("display") == "none") {          
-                                $(".list").siblings("div").slideUp();
-                                $b.slideDown();         
-                            }else{
-                                $b.slideUp();
-                            }
-            
-                        })
-                    })
-                </script>
-                <!-- 사이드 nav바 end -->
 
                 <!-- 찜목록 영역 start -->
                 <div class="main-page">
@@ -475,28 +371,7 @@ h3>label{
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
-        <!-- Footer start -->
-        <footer class="footer pt-3 border-top border-2">
-            <div class="footer-logo">
-                <img src="<%= request.getContextPath() %>/resources/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
-            </div>
-            <div class="footer-company center">
-                <ul>
-                    <li class="mb-4">상호명 : So's tory</li>
-                    <li class="mb-4">개발자 : team sos</li>
-                    <li>깃허브 : jsj@goodee.co.kr(깃허브 주소로 변경)</li>
-                </ul>
-            </div>
-            <div class="footer-business-time center">
-                <ul>
-                    <li class="border-bottom mb-3"><b>Business Time</b></li>
-                    <li class="mb-3">Monday - Friday : 08:00am ~ 05:00pm</li>
-                    <li class="mb-3">Staturday : 10:00am ~ 08:00pm</li>
-                    <li>Sunday: Closed</li>
-                </ul>
-            </div>
-        </footer>
-        <!-- Footer end -->
+        <%@ include file="/views/common/footer.jsp" %>
         
     </div>
 </body>

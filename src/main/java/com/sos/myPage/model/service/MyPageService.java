@@ -328,6 +328,45 @@ public class MyPageService {
 	}
 	
 	/**
+	 * 사용자가 마이페이지에서 특정 1:1문의 상세조회 요청시 실행될 메소드
+	 * 
+	 * case 01) 첨부파일이 있는 1:1문의 조회요청시
+	 *          (1) 1:1문의 조회요청 (필수)
+	 *          (2) 첨부파일 조회요청 (선택)
+	 *          
+	 * case 02) 첨부파일이 없는 1:1문의 조회요청시
+	 * 			(1) 1:1문의 조회요청 (필수)
+	 * 
+	 * @param answerNo : 조회할 1:1문의번호
+	 * @return : 조회된 문의정보를 담은 문의객체 및 해당 문의의 첨부파일정보가 담긴 첨부파일객체를 담은 객체
+	 */
+	public HashMap<String, Object> selectQna(String answerNo){
+		
+		Connection conn = getConnection();
+		
+		// 1:1문의 정보조회 결과변수 (필수)
+		Qna q = mpDao.selectQna(conn, answerNo);
+		
+		// 첨부파일 정보조회 결과변수 (선택)
+		AttachmentProduct ap = null;
+		
+		// 첨부파일 유무확인 (해당 문의의 첨부파일이 존재할경우)
+		if(mpDao.attachmentYn(conn, Integer.parseInt(answerNo)) != null) {
+			ap = mpDao.selectAttachment(conn, answerNo);
+		}
+		
+		// 조회결과 객체(Qna, AttachmentProduct)를 담을 HashMap객체
+		HashMap<String, Object> info = new HashMap<>();
+		info.put("qna", q);
+		info.put("file", ap);
+		
+		close(conn);
+		
+		return info;
+		
+	}
+	
+	/**
 	 * 사용자가 마이페이지에서 1:1문의 등록요청시 실행될 메소드
 	 * 
 	 * case 01) 첨부파일이 있는 1:1문의글
@@ -346,19 +385,17 @@ public class MyPageService {
 		Connection conn = getConnection();
 		
 		// (1) 문의글 등록요청
-		int resultQna = mpDao.insertQna(conn, q);
+		int result= mpDao.insertQna(conn, q);
 		
-		int resultAtt = 1;	// 첨부파일 등록요청 처리결과를 담을 변수
-		
-		if(resultQna > 0) {
+		if(result > 0) {
 			// (2) 첨부파일 등록요청 (첨부파일이 있는 게시글일 경우)
 			if(ap != null) {
-				resultAtt = mpDao.insertAttachment(conn, ap);
+				result = mpDao.insertAttachment(conn, ap);
 			}
 		}
 		
 		
-		if(resultQna * resultAtt > 0) {
+		if(result > 0) {
 			commit(conn);
 		}else {
 			rollback(conn);
@@ -366,7 +403,7 @@ public class MyPageService {
 		
 		close(conn);
 		
-		return resultAtt * resultQna;
+		return result;
 		
 		
 	}
@@ -382,7 +419,7 @@ public class MyPageService {
 	 *          (1) 문의글 삭제
 	 * 
 	 * @param answerNo : 삭제할 문의번호
-	 * @return : 해당번호 문의삭제 요청처리 결과, 삭제할 첨부파일(저장경로+수정파일명) 정보를 담은 객체
+	 * @return : 해당번호 문의삭제 요청처리 결과, 삭제할 첨부파일 수정파일명 정보를 담은 객체
 	 */
 	public HashMap<String, Object> deleteQna(int answerNo) {
 		

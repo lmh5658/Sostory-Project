@@ -17,6 +17,7 @@ import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.vo.Address;
 import com.sos.product.model.vo.AttachmentProduct;
+import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
 
 public class MyPageDao {
@@ -607,6 +608,88 @@ public class MyPageDao {
 	}
 	
 	/**
+	 * 마이페이지에서 사용자가 특정 1:1문의 상세조회 요청시 문의정보 조회 메소드
+	 * 
+	 * @param conn
+	 * @param answerNo : 조회할 1:1문의번호
+	 * @return : 조회된 문의정보를 담은 문의객체
+	 */
+	public Qna selectQna(Connection conn, String answerNo) {
+		
+		Qna q = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectQna");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, answerNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				q = new Qna();
+				q.setAnswerNo(rset.getInt("answer_no"));
+				q.setAnswerTitle(rset.getString("answer_title"));
+				q.setAnswerContent(rset.getString("answer_content"));
+				q.setAnswerDate(rset.getString("answer_date"));
+				q.setReply(rset.getString("reply"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return q;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 요청한 1:1문의글의 첨부파일이 있을경우 첨부파일 정보조회 메소드
+	 * 
+	 * @param conn
+	 * @param answerNo : 조회할 첨부파일의 참조게시글 번호
+	 * @return : 조회된 첨부파일 정보를 담은 첨부파일객체
+	 */
+	public AttachmentProduct selectAttachment(Connection conn, String answerNo) {
+	
+		AttachmentProduct ap = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, answerNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ap = new AttachmentProduct();
+				ap.setProFileNo(rset.getInt("pro_file_no"));
+				ap.setFileName(rset.getString("file_name"));
+				ap.setFileUrl(rset.getString("file_url"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return ap;
+		
+	}
+
+	/**
 	 * 마이페이지에서 사용자가 1:1문의 등록요청시 문의글 등록요청 메소드
 	 * 
 	 * @param conn
@@ -678,7 +761,7 @@ public class MyPageDao {
 	 * 
 	 * @param conn
 	 * @param answerNo : 첨부파일이 참조하는 문의글번호
-	 * @return : 조회된 문의글번호의 첨부파일 저장경로 + 수정파일명 문자열 (문자열 | null)
+	 * @return : 삭제할 첨부파일 수정명파일명 (문자열 | null)
 	 */
 	public String attachmentYn(Connection conn, int answerNo) {
 		
@@ -696,7 +779,7 @@ public class MyPageDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				file = rset.getString("file");
+				file = rset.getString("file_changename");
 			}
 			
 		}catch(SQLException e) {
@@ -769,6 +852,54 @@ public class MyPageDao {
 		}
 		
 		return result;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 찜한상품 목록조회 요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 목록조회 요청 회원번호
+	 * @return : 조회된 찜한 상품객체 리스트
+	 */
+	public List<Product> selectLikedProductList(Connection conn, int userNo) {
+		
+		List<Product> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectLikedProductList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				
+				p.setLikeNo(rset.getInt("like_no"));
+				p.setProductNo(rset.getInt("product_no"));
+				p.setCategoryName(rset.getString("category_name"));
+				p.setProductName(rset.getString("product_name"));
+				p.setPrice(rset.getInt("price"));
+				p.setDiscountPrice(rset.getInt("discount_price"));
+				p.setPath(rset.getString("paht"));
+				
+				list.add(p);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
 		
 	}
 

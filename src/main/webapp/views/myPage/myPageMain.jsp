@@ -43,7 +43,7 @@
 				    </div>
 				
 				    <div class="side_menu">
-				        <button class="list">찜목록</button>
+				        <a href="<%= contextPath %>/like.me?type=p&page=1" class="list">찜목록</a>
 				    </div>
 				
 				    <div class="side_menu">

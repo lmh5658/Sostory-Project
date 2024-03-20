@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Product {
 	private int productNo;
 	private String categoryNo;
+	private String categoryName;
 	private String productName;
 	private int price;
 	private String inventory; 
@@ -13,6 +14,7 @@ public class Product {
 	private String status;
 	private int discountPrice;
 	private String path;
+	private int likeNo;
 	
 	public Product() {}
 
@@ -65,6 +67,14 @@ public class Product {
 		this.categoryNo = categoryNo;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 
 
 	public String getProductName() {
@@ -161,6 +171,14 @@ public class Product {
 		this.path = path;
 	}
 
+	public int getLikeNo() {
+		return likeNo;
+	}
+
+
+	public void setLikeNo(int likeNo) {
+		this.likeNo = likeNo;
+	}
 
 
 	@Override

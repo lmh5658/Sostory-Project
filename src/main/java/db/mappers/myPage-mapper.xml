@@ -187,6 +187,30 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<!-- 1:1문의 조회요청 -->
+	<entry key="selectQna">
+		SELECT 
+		      ANSWER_NO
+		     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE 
+		     ,ANSWER_TITLE
+		     ,ANSWER_CONTENT
+		     ,REPLY
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<!-- 첨부파일 조회요청 -->
+	<entry key="selectAttachment">
+		SELECT
+		      PRO_FILE_NO
+		     ,FILE_NAME
+		     ,FILE_ROUTE || FILE_CHANGENAME "FILE_URL"
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
+		   AND STATUS = 'Y'
+	</entry>
+	
 	<!-- 문의 등록요청 -->
 	<entry key="insertQna">
 		INSERT
@@ -233,7 +257,7 @@
 	
 	<!-- 문의 첨부파일 유무조회 -->
 	<entry key="attachmentYn">
-		SELECT FILE_ROUTE || FILE_CHANGENAME FILE
+		SELECT FILE_CHANGENAME
 		  FROM TB_ATTACHMENT_PRODUCT
 		 WHERE REF_NO = ?
 	</entry>
@@ -251,6 +275,25 @@
 		DELETE
 		  FROM TB_QNA_REPLY
 		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<!-- 찜한상품 목록조회 -->
+	<entry key="selectLikedProductList">
+		SELECT
+		      LIKE_NO
+		     ,PRODUCT_NO
+		     ,CATEGORY_NAME
+		     ,PRODUCT_NAME
+		     ,PRICE
+		     ,DISCOUNT_PRICE
+		     ,PATH
+		  FROM TB_LIKE
+		  JOIN TB_PRODUCT ON (LIKE_REFNO = PRODUCT_NO)
+		  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		 WHERE USER_NO = ?
+		   AND LIKE_TYPE = 'P'
+		   AND STATUS = 'Y'
+		 ORDER BY LIKE_DATE DESC
 	</entry>
 	
 	

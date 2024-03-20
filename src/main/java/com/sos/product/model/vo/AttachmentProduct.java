@@ -4,6 +4,7 @@ public class AttachmentProduct {
 	private int proFileNo;
 	private String fileName;
 	private String fileChangeName;
+	private String fileUrl;
 	private String fileRoute;
 	private String status;
 	private int refNo;
@@ -53,6 +54,14 @@ public class AttachmentProduct {
 
 	public void setFileRoute(String fileRoute) {
 		this.fileRoute = fileRoute;
+	}
+
+	public String getFileUrl() {
+		return fileUrl;
+	}
+
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
 	}
 
 	public String getStatus() {

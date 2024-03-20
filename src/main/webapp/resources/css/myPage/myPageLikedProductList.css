@@ -1,0 +1,85 @@
+@charset "UTF-8";
+   
+/* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
+.main-wrap{
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    max-width: 1200px;
+    min-height: 1200px;
+    display: flex;
+}
+
+.menu_wrap{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    font-size: 20px;
+    width: 15%;
+    align-items: center;    
+    background-color: rgb(238, 67, 67);
+}
+
+.side_menu>button{
+    width: 100%;
+    height: 70px;
+    background-color: rgb(238, 67, 67);
+    
+    }
+
+.side_menu div{
+    display:none;
+    font-size: 17px;
+}
+
+.list{
+    border: none;
+    color: white;
+    font-weight: bolder;
+}
+
+.side_menu a{
+    color: white;
+}
+
+a{
+    text-decoration-line: none;
+    color: black        
+}
+
+.side_menu a:hover{
+    opacity: 0.8;
+    text-decoration-line: none;
+}
+
+.main-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 20px;
+}
+
+/* 마이페이지 1:1문의에서만 필요한 style */
+.page-title{
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    width: 300px;
+    border-bottom: 1px solid lightslategray;
+}
+
+h3>label{
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 13px;
+}
+
+/* 마이페이지_찜목록_상품페이지 관련 */
+.main-content{display: flex; flex-direction: column;}
+.content-product-list{display: flex; flex-direction: column;}
+.product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
+.product{margin: 20px;}
+.category{margin-left:10px; font-size:20px;}
+.categoryBtn{padding-bottom: 0px;}
