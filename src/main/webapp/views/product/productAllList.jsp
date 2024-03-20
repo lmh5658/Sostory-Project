@@ -63,7 +63,7 @@
                     <div class="product-category my-5 w-100 d-flex justify-content-evenly">
                         <a href="<%= contextPath %>/alist.pr" class="btn btn-outline-danger btn-sm py-1 px-3">전체</a>
                         <a href="<%= contextPath %>/jlist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">장류</a>
-                        <a href="#" class="btn btn-outline-danger btn-sm py-1 px-3">드레싱</a>
+                        <a href="<%= contextPath %>/dlist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">드레싱</a>
                         <a href="#" class="btn btn-outline-danger btn-sm py-1 px-3">기타</a>
                         <!-- 검색 영역-->
                         
@@ -133,11 +133,11 @@
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
 	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
-	                                    <% if(p.getDiscountPrice() == 0) { %>
-	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice() + p.getDiscountPrice() %>원</b></h7>
+	                                    <% if(p.getDiscountPrice() == 0) { System.out.println(p.getDiscountPrice());%>
+	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
-	                                    <h7 class="product-price d-block my-4"><b><%= p.getDiscountPrice() - p.getPrice() %>원</b></h7>
-	                                    <h7 class="product-price d-block my-4"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
+	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
 	                                    <% } %>	                                   
 	                                    <div class="icon d-flex justify-content-end">
 	                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
@@ -242,8 +242,10 @@
           })
           
           $("#search_btn").click(function(){
-        	  location.href = "<%=contextPath%>/slist.pr?search=" + $("#search").val() + "&page=1";
+        	  location.href = "<%=contextPath%>/sjlist.pr?search=" + $("#search").val() + "&page=1";
           })
+          
+          
           
          
   
