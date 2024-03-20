@@ -64,7 +64,7 @@
                         <a href="<%= contextPath %>/alist.pr" class="btn btn-outline-danger btn-sm py-1 px-3">전체</a>
                         <a href="<%= contextPath %>/jlist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">장류</a>
                         <a href="<%= contextPath %>/dlist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">드레싱</a>
-                        <a href="#" class="btn btn-outline-danger btn-sm py-1 px-3">기타</a>
+                        <a href="<%= contextPath %>/elist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">기타</a>
                         <!-- 검색 영역-->
                         
                       

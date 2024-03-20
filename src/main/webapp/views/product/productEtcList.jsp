@@ -109,15 +109,24 @@
                 </div>
                 
                  <!-- 상품 정렬 Select start -->
-            <div class="select-product d-flex justify-content-end">
-                <select class="selectpicker" style="width: 120px;">
-                    <option >좋아요순</option>
-                    <option>판매순</option>
-                    <option>낮은가격순</option>
-                    <option>높은가격순</option>
+            <div class="select-product d-flex justify-content-end" id="option_div">
+                <select class="selectpicker" style="width: 120px;" name="select" id="option">
+                    <option value="like" id="like" class="select">좋아요순</option>
+                    <option value="sale" id="sale" class="select">판매순</option>
+                    <option value="rowPrice" id="rowPrice" class="select">낮은가격순</option>
                 </select>
             </div>
             <!-- 상품 정렬 Select end -->
+            
+            <script>
+            	$(function(){
+            		$("#option").change(function(){	
+            			if($(this).val() == "sale"){
+            				location.href = "<%=contextPath%>/lilist.pr?page=1&select=" + $(this).val();
+            			}			
+            		})
+            	})
+            </script>
                 
                 <!-- 상품 페이지 상단 영역 end -->
 
@@ -200,21 +209,21 @@
 	                        <% if(pi.getCurrentPage() == 1) { %>
 	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sdlist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/selist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
 	                        <% } %>
 	                        
 	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
 	                            <% if(p == pi.getCurrentPage()) { %>
 	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                            <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sdlist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/selist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
 	                            <% } %>
 	                        <% } %>
 	                            
 							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
 	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/sdlist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/selist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
 	                        <% } %>
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
@@ -245,7 +254,7 @@
           })
           
           $("#search_btn").click(function(){
-        	  location.href = "<%=contextPath%>/sdlist.pr?search=" + $("#search").val() + "&page=1";
+        	  location.href = "<%=contextPath%>/selist.pr?search=" + $("#search").val() + "&page=1";
           })
           
         })	

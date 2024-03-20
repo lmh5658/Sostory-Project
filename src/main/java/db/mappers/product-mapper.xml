@@ -12,6 +12,7 @@
 			       , CATEGORY_NAME
 			       , PRODUCT_NAME
 			       , PRICE
+				   , DISCOUNT_PRICE
 			       , PATH
 			    FROM TB_PRODUCT
 			    JOIN TB_CATEGORY USING(CATEGORY_NO)
@@ -22,9 +23,9 @@
 	</entry>
 	
 	<entry key="selectListCount">
-		SELECT 
-			   COUNT(*) COUNT
+		SELECT COUNT(*) COUNT
 		  FROM TB_PRODUCT
+		 WHERE STATUS = 'Y'
 	</entry>
 	
 	<entry key="selectProduct">
@@ -38,6 +39,7 @@
 		FROM TB_PRODUCT
 		JOIN TB_CATEGORY USING(CATEGORY_NO)
 		WHERE PRODUCT_NO = ?
+		 AND STATUS = 'Y'
 	</entry>
 	
 	<entry key="selectPaymentUser">
@@ -124,6 +126,7 @@
 	<entry key="selectReviewCount">
 		SELECT COUNT(*) COUNT
 		  FROM TB_REVIEW
+		 WHERE PRODUCT_NO = ?
 	</entry>
 	
 	<entry key="selectReviewList">
@@ -182,6 +185,7 @@
 		SELECT COUNT(*) COUNT
 		  FROM TB_PRODUCT
 		 WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+		  AND STATUS = 'Y'
 	</entry>
 	
 	<entry key="selectSearchList">
@@ -248,7 +252,7 @@
         , ?
         , 'Y'
         , ? <!-- 넘어오는 상품번호 --> 
-        , 'P'
+        , 'Q'
          )
 	</entry>
 	
@@ -258,6 +262,7 @@
 		 FROM TB_PRODUCT
 		 JOIN TB_CATEGORY USING(CATEGORY_NO)
 		 WHERE CATEGORY_NAME = '장류'
+		   AND STATUS = 'Y'
 	</entry>
 	
 	
@@ -281,8 +286,202 @@
 		) A
 		) WHERE RNUM BETWEEN ? AND ?
 	</entry>
-     
-
 	
+	<entry key="countListJang">
+		SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		  JOIN TB_CATEGORY USING(CATEGORY_NO)
+		 WHERE CATEGORY_NAME = '장류'
+		   AND STATUS = 'Y'
+		   AND PRODUCT_NAME LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="searchProductJangList">
+		SELECT * FROM(
+		SELECT ROWNUM RNUM, A.* 
+		FROM
+		(
+		SELECT 
+		  PRODUCT_NO
+		, CATEGORY_NAME
+		, PRODUCT_NAME
+		, PRICE
+		, DISCOUNT_PRICE
+		, PATH
+		FROM TB_PRODUCT
+		JOIN TB_CATEGORY USING(CATEGORY_NO)
+		WHERE CATEGORY_NAME = '장류'
+		 AND STATUS = 'Y'
+         AND PRODUCT_NAME LIKE '%' || ? || '%'
+		ORDER BY ENROLL_DATE DESC
+		) A
+		) WHERE RNUM BETWEEN ? AND ?	
+	</entry>
+	
+	<entry key="countListDressing">
+		SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		  JOIN TB_CATEGORY USING(CATEGORY_NO)
+		 WHERE CATEGORY_NAME = '드레싱'
+		 AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectDressingList">
+		SELECT * FROM(
+		SELECT ROWNUM RNUM, A.* 
+		FROM
+		(
+		SELECT 
+		  PRODUCT_NO
+		, CATEGORY_NAME
+		, PRODUCT_NAME
+		, PRICE
+		, DISCOUNT_PRICE
+		, PATH
+		FROM TB_PRODUCT
+		JOIN TB_CATEGORY USING(CATEGORY_NO)
+		WHERE CATEGORY_NAME = '드레싱'
+		 AND STATUS = 'Y'
+		ORDER BY ENROLL_DATE DESC
+		) A
+		) WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="countSearchList">
+	SELECT COUNT(*) COUNT
+	  FROM TB_PRODUCT
+	  JOIN TB_CATEGORY USING(CATEGORY_NO)
+	 WHERE CATEGORY_NAME = '드레싱'
+	   AND PRODUCT_NAME LIKE '%' || ? || '%'
+	   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="searchProductDressingList">
+		 SELECT * FROM(
+			SELECT ROWNUM RNUM, A.* 
+			FROM
+			(
+			SELECT 
+			  PRODUCT_NO
+			, CATEGORY_NAME
+			, PRODUCT_NAME
+			, PRICE
+			, DISCOUNT_PRICE
+			, PATH
+			FROM TB_PRODUCT
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NAME = '드레싱'
+			 AND STATUS = 'Y'
+		        AND PRODUCT_NAME LIKE '%' || ? || '%'
+			ORDER BY ENROLL_DATE DESC
+			) A
+			) WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="countListEtc">
+		SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		  JOIN TB_CATEGORY USING(CATEGORY_NO)
+		 WHERE CATEGORY_NAME = '기타'
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectEtcProductList">
+		 SELECT * FROM(
+			SELECT ROWNUM RNUM, A.* 
+			FROM
+			(
+			SELECT 
+			  PRODUCT_NO
+			, CATEGORY_NAME
+			, PRODUCT_NAME
+			, PRICE
+			, DISCOUNT_PRICE
+			, PATH
+			FROM TB_PRODUCT
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NAME = '기타'
+			 AND STATUS = 'Y'
+			ORDER BY ENROLL_DATE DESC
+			) A
+			) WHERE RNUM BETWEEN ? AND ?
+	</entry>
+     
+     <entry key="countEtcProduct">
+     	SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		  JOIN TB_CATEGORY USING(CATEGORY_NO)
+		 WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+		   AND CATEGORY_NAME = '기타'
+		   AND STATUS = 'Y'
+     </entry>
+     
+     <entry key="searchProductEtcList">
+     	 SELECT * FROM(
+			SELECT ROWNUM RNUM, A.* 
+			FROM
+			(
+			SELECT 
+			  PRODUCT_NO
+			, CATEGORY_NAME
+			, PRODUCT_NAME
+			, PRICE
+			, DISCOUNT_PRICE
+			, PATH
+			FROM TB_PRODUCT
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NAME = '기타'
+			  AND STATUS = 'Y'
+	          AND PRODUCT_NAME LIKE '%' || ? || '%'
+			ORDER BY ENROLL_DATE DESC
+			) A
+			) WHERE RNUM BETWEEN ? AND ?
+     </entry>
+     
+	<entry>
+	 SELECT B.* 
+ FROM(
+		SELECT ROWNUM RNUM, A.* 
+		FROM
+		(
+		SELECT 
+		  PRODUCT_NO
+		, CATEGORY_NAME
+		, PRODUCT_NAME
+		, PRICE
+		, DISCOUNT_PRICE
+		, PATH
+        ,(SELECT COUNT(*)
+         FROM TB_LIKE
+         JOIN TB_CATEGORY ON(LIKE_REFNO = CATEGORY_NO)
+         WHERE LIKE_TYPE = 'P'
+           AND CATEGORY_NO = 3
+         GROUP BY LIKE_REFNO ) COUNT
+		FROM TB_PRODUCT
+		LEFT JOIN TB_CATEGORY USING(CATEGORY_NO)
+        LEFT JOIN TB_LIKE ON(LIKE_REFNO = PRODUCT_NO)
+        WHERE LIKE_TYPE = 'P'
+		 AND CATEGORY_NAME = '기타'    
+		 AND STATUS = 'Y' 
+		ORDER BY COUNT DESC
+		) A
+		) B
+        WHERE RNUM BETWEEN 1 AND 14;
+ 
+SELECT 
+      PRODUCT_NO
+    , PRODUCT_NAME
+    , PRICE
+    , DISCOUNT_PRICE
+    , PATH
+    ,(SELECT COUNT(*)
+     FROM TB_LIKE
+     WHERE LIKE_REFNO = PRODUCT_NO 
+       AND LIKE_TYPE = 'P') COUNT
+    FROM TB_PRODUCT
+    WHERE CATEGORY_NO= 1  
+     AND STATUS = 'Y' 
+    ORDER BY COUNT DESC
+	</entry>
 
 </properties>

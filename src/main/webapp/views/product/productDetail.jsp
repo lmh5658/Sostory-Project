@@ -526,7 +526,7 @@
                     <div class="main_bottom_rev d-flex flex-column">
 
                         <div>
-                            <span><b style="font-size: 30px;">상품문의</b></span>
+                            <span><b style="font-size: 30px;" id="proQna">상품문의</b></span>
 						</div>
                             <!-- 현재 로그인된 상태일 경우 보여지는 요소 -->
                          <% if(loginUser != null) { %>

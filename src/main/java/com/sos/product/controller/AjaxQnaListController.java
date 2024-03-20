@@ -52,7 +52,7 @@ public class AjaxQnaListController extends HttpServlet {
 		List<Qna> qlist = new ProductService().selectQnaList(productNo, pi);
 		
 		HashMap<String, Object> hmap = new HashMap();
-		if(hmap != null) {
+		if(!qlist.isEmpty()) {
 			hmap.put("qlist", qlist);
 			hmap.put("pi", pi);			
 		}

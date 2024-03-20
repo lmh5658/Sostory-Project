@@ -73,9 +73,9 @@ public class ProductService {
 		return rlist;
 	}
 	
-	public int selectReviewCount() {
+	public int selectReviewCount(int productNo) {
 		Connection conn = getConnection();
-		int count = pDao.selectReviewCount(conn);
+		int count = pDao.selectReviewCount(conn, productNo);
 		close(conn);
 		return count;
 	}
@@ -143,5 +143,79 @@ public class ProductService {
 		return list;
 	}
 	
+	public int countListJang(String search) {
+		Connection conn = getConnection();
+		int count = pDao.countListJang(conn, search);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> searchProductJangList(PageInfo pi, String search){
+		Connection conn = getConnection();
+		List<Product> list = pDao.searchProductJangList(conn, pi, search);
+		close(conn);
+		return list;
+	}
+	
+	public int countListDressing() {
+		Connection conn = getConnection();
+		int count = pDao.countListDressing(conn);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> selectDressingList(PageInfo pi){
+		Connection conn = getConnection();
+		List<Product> list = pDao.selectDressingList(conn, pi);
+		close(conn);
+		return list;
+	}
+	
+	public int countSearchList(String search) {
+		Connection conn = getConnection();
+		int count = pDao.countSearchList(conn, search);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> searchProductDressingList(PageInfo pi, String search){
+		Connection conn = getConnection();
+		List<Product> list = pDao.searchProductDressingList(conn, pi, search);
+		close(conn);
+		return list;
+	}
+	
+	public int countListEtc() {
+		Connection conn = getConnection();
+		int count = pDao.countListEtc(conn);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> selectEtcProductList(PageInfo pi){
+		Connection conn = getConnection();
+		List<Product> list = pDao.selectEtcProductList(conn, pi);
+		close(conn);
+		return list;
+	}
+	
+	public int countEtcProduct(String search) {
+		Connection conn = getConnection();
+		int count = pDao.countEtcProduct(conn, search);
+		close(conn);
+		return count;
+		
+	}
+	
+	public List<Product> searchProductEtcList(String search, PageInfo pi){
+		Connection conn = getConnection();
+		List<Product> list = pDao.searchProductEtcList(conn, search, pi);
+		close(conn);
+		return list;
+	}
+	
+	
+	
+
 
 }

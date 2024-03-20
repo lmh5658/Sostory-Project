@@ -16,7 +16,7 @@ import com.sos.product.model.vo.Product;
 /**
  * Servlet implementation class ProductgListController
  */
-@WebServlet("/glist.pr")
+@WebServlet("/elist.pr")
 public class ProductEtcListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -52,11 +52,6 @@ public class ProductEtcListController extends HttpServlet {
 		request.setAttribute("pi", pi);
 		
 		request.getRequestDispatcher("/views/product/productEtcList.jsp").forward(request, response);;
-		
-		
-		
-		
-		
 		
 	}
 
