@@ -3,9 +3,12 @@
 <%@ page import="com.sos.common.model.vo.PageInfo" %>
 <%@ page import="com.sos.recipe.model.vo.Recipe"%>
 <%@ page import="java.util.List" %>
+
 <% 
 PageInfo pi = (PageInfo)request.getAttribute("pi");
 List<Recipe> list = (List<Recipe>)request.getAttribute("list");
+List<Recipe> categorylist = (List<Recipe>)request.getAttribute("categorylist");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -155,7 +158,7 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	
 	        <!-- 카테고리 -->
 	        <div class="category_wrap">
-	            <div class="category_button">전체</div>
+	           <div class="category_button">전체</div> 
 	            <div class="category_button">장류</div>
 	            <div class="category_button">드레싱</div>
 	            <div class="category_button">기타</div>
@@ -165,7 +168,20 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 					</svg>
 				</button>
 	        </div>
-	
+	       <script>
+	        // $(document).ready(function() {
+	    	  //  $(".category_button").click(function() {
+	    	   //     let categoryName = $(this).text();
+	    	        //if (categoryName == "장류") {
+	    	        //	for(Rcipe categorylist : categorylist)){
+	    	    		//
+	    	    	//	}
+	    	   		// }
+	    	      //  }
+	    	        	
+	    	      //  }
+	       </script>
+
 	        <!-- 검색바 -->
 			<div class="recipe_search collapse" id="search">
 				<form action="">
@@ -183,9 +199,7 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	        </div>
 	
 	        <!-- 레시피 컨텐츠 -->
-	
-	   
-					    	
+    	
 	        <!-- 레시피가 있는 경우 -->
 	        <div class="recipe_wrap ">
 	             <!-- 레시피가 없을 경우 -->
@@ -200,7 +214,10 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	                <div class="recipe_thumbnail">
 	                    <img src=<%=r.getThumbnailUrl()%>>
 	                </div>
-	                <div class="recipe_category">분류>전통장/장류</div>
+	                
+	                
+	                <div class="recipe_category">분류><%=r.getCategoryName()%></div>
+	      
 	                <div class="recipe_name" style="font-weight: bolder;"><%=r.getRecipeTitle()%></div>
 	                <div class="recipe_detail">
 	                    <%=r.getRecipeIntro()%>
@@ -210,37 +227,51 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	                        <img src=<%=r.getUserPath()%> alt="프로필" height="15px">
 	                        <%=r.getUserName()%>
 	                    </div>
-	                    <!-- 내가 찜하지 않은 레시피인 경우 -->
+	                    
+	                    
+	                    
+						<% if(loginUser == null || r.getLikeRefno() != r.getProductNo()) { %> 
+	                    <!-- 로그인하지 않았거나 내가 찜하지 않은 레시피인 경우 loginUSer는 멤버로그인 컨트롤러에 있는 세션저장값 -->
 	                    <div class="recipe_like">
 	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
 							  	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 							</svg>
-	                        <%=r.getLikeRefno()%>
+	                        <%=r.getLikeRefno() %>
 	                    </div>
-	                    <!-- 내가 찜한 레시피인 경우 -->
-	                    <!-- 
+	                    
+	                    <%}else if(loginUser != null && r.getLikeRefno() == r.getProductNo() ) {%>
+	                    <!--로그인을 하고, 내가 찜한 레시피인 경우 -->
+	                    
 						<div class="recipe_like">
 	                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 								<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 							</svg>
-	                        (2000)
+	                         <%=r.getLikeRefno()%>
 	                    </div>
-						 -->
+						 <script>
+						 	$function()
+						 </script>
+						 <% } %>
+						 
 	                </div>
+	                
+	                
+	                
 	                <div class="recipe_product">
 	                    <div class="product_img">
 	                        <img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
 	                    </div>
 	                    <div class="product_etc">
 	                        <label style="color: grey; margin:0;"><%=r.getProductName()%></label>
-	                        <!-- 할인하고 있지 않을 때 -->
-	                        <!-- 8,000원 -->
-	                        <!-- 할인하고 있을 때 -->
-	                        <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getDiscountPrice()%></div>
+	                        
+	                        
+	                        
+	                 
+	                    	 
+	                    	 
 	                    </div>
 	                </div>
 	            </div>
-	            
 	    	  <% } %>
         </div>
 			<br><br>

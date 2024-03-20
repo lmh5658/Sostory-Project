@@ -6,6 +6,9 @@
 	// 상품번호, 카테고리이름, 상품이름, 가격, 사진경로
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
+	System.out.println(list.size());
+	System.out.println(pi);
+	
 	String search = (String)request.getAttribute("search"); // null | 검색단어
 %>
 <!DOCTYPE html>
@@ -61,7 +64,7 @@
 
                     <!-- 상품 카테고리 영역 start -->
                     <div class="product-category my-5 w-100 d-flex justify-content-evenly">
-                       <a href="<%= contextPath %>/alist.pr" class="btn btn-outline-danger btn-sm py-1 px-3">전체</a>
+                        <a href="<%= contextPath %>/alist.pr" class="btn btn-outline-danger btn-sm py-1 px-3">전체</a>
                         <a href="<%= contextPath %>/jlist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">장류</a>
                         <a href="<%= contextPath %>/dlist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">드레싱</a>
                         <a href="<%= contextPath %>/elist.pr?page=1" class="btn btn-outline-danger btn-sm py-1 px-3">기타</a>
@@ -133,7 +136,6 @@
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
 	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
-	                                    
 	                                    <% if(p.getDiscountPrice() == 0) { System.out.println(p.getDiscountPrice());%>
 	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
@@ -170,21 +172,21 @@
 	                        <% if(pi.getCurrentPage() == 1) { %>
 	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/jlist.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/dlist.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
 	                        <% } %>
 	                        
 	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
 	                            <% if(p == pi.getCurrentPage()) { %>
 	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                            <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/jlist.pr?page=<%= p %>"><%= p %></a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/dlist.pr?page=<%= p %>"><%= p %></a></li>
 	                            <% } %>
 	                        <% } %>
 	                            
 							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
 	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/jlist.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/dlist.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
 	                        <% } %>
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
@@ -198,21 +200,21 @@
 	                        <% if(pi.getCurrentPage() == 1) { %>
 	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sjlist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sdlist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
 	                        <% } %>
 	                        
 	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
 	                            <% if(p == pi.getCurrentPage()) { %>
 	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                            <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sjlist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sdlist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
 	                            <% } %>
 	                        <% } %>
 	                            
 							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
 	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/sjlist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/sdlist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
 	                        <% } %>
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
@@ -220,11 +222,16 @@
 	                   </div> 
                    
                    <% } %> 
+                    
+                    
+                   
+                    
+					
+                   
+                 
 
         </section>
         <!-- Section end -->
-        
-        
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
 
@@ -238,11 +245,9 @@
           })
           
           $("#search_btn").click(function(){
-        	  location.href = "<%=contextPath%>/sjlist.pr?search=" + $("#search").val() + "&page=1";
+        	  location.href = "<%=contextPath%>/sdlist.pr?search=" + $("#search").val() + "&page=1";
           })
           
-       
-  
         })	
     </script>
     
