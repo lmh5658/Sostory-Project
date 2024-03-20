@@ -108,7 +108,8 @@
                  <!-- 상품 정렬 Select start -->
             <div class="select-product d-flex justify-content-end">
                 <select class="selectpicker" style="width: 120px;">
-                    <option >좋아요순</option>
+                	<option>정렬방식</option>
+                    <option>좋아요순</option>
                     <option>판매순</option>
                     <option>낮은가격순</option>
                     <option>높은가격순</option>
@@ -219,13 +220,7 @@
 	                   </div> 
                    
                    <% } %> 
-                    
-                    
                    
-                    
-					
-                   
-                 
 
         </section>
         <!-- Section end -->
@@ -242,7 +237,7 @@
           })
           
           $("#search_btn").click(function(){
-        	  location.href = "<%=contextPath%>/sjlist.pr?search=" + $("#search").val() + "&page=1";
+        	  location.href = "<%=contextPath%>/slist.pr?search=" + $("#search").val() + "&page=1";
           })
           
           

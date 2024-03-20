@@ -38,7 +38,7 @@ public class ProductEtcSearchController extends HttpServlet {
 		int currentPage = Integer.parseInt(request.getParameter("page"));
 		int pageLimit = 5;
 		int boardLimit = 9;
-		int maxPage = (int)Math.ceil((double)(countList / boardLimit));
+		int maxPage = (int)Math.ceil((double)countList / boardLimit);
 		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		int endPage = startPage + pageLimit - 1;
 		if(endPage > maxPage) {
@@ -52,8 +52,12 @@ public class ProductEtcSearchController extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		request.setAttribute("search", search);
-
-		request.getRequestDispatcher("/views/product/productEtcList.jsp").forward(request, response);
+		
+		if(list.isEmpty()) {
+			request.getRequestDispatcher("/views/product/productNotListEtc.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("/views/product/productEtcList.jsp").forward(request, response);			
+		}
 		
 	}
 

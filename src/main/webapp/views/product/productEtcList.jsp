@@ -111,6 +111,7 @@
                  <!-- 상품 정렬 Select start -->
             <div class="select-product d-flex justify-content-end" id="option_div">
                 <select class="selectpicker" style="width: 120px;" name="select" id="option">
+                	<opiton>정렬방식</opiton>
                     <option value="like" id="like" class="select">좋아요순</option>
                     <option value="sale" id="sale" class="select">판매순</option>
                     <option value="rowPrice" id="rowPrice" class="select">낮은가격순</option>
