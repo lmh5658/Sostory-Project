@@ -7,8 +7,9 @@
 PageInfo pi = (PageInfo)request.getAttribute("pi");
 List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 String search = (String)request.getAttribute("search");
-String categoryNoSt = request.getParameter("no"); 
+String categoryNoSt = request.getParameter("no");
 
+ 
 %>
 <!DOCTYPE html>
 <html>

@@ -124,13 +124,13 @@ public class Recipe {
 
 	
 	//레시피 상세 - step
-	public Recipe(int recipeNo, int stepNo, String stepContent, String stepAttachmentUrl, int stepCount) {
+	public Recipe(int recipeNo, int stepNo, int stepCount, String stepContent, String stepAttachmentUrl) {
 		super();
 		this.recipeNo = recipeNo;
 		this.stepNo = stepNo;
+		this.stepCount = stepCount;
 		this.stepContent = stepContent;
 		this.stepAttachmentUrl = stepAttachmentUrl;
-		this.stepCount = stepCount;
 
 	}	
 	
@@ -439,6 +439,9 @@ public class Recipe {
 				+ ", stepNo=" + stepNo + ", stepContent=" + stepContent + ", stepAttachmentUrl=" + stepAttachmentUrl
 				+ ", stepCount=" + stepCount + "]";
 	}
+
+
+
 
 
 
