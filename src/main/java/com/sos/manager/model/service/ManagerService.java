@@ -40,4 +40,19 @@ public class ManagerService {
 		return result;
 	}
 
+	public int selectCountSearchList(String keyword) {
+		Connection conn = getConnection();
+		int result = mDao.selectCountSearchList(conn, keyword);
+		close(conn);
+		return result;
+	}
+	
+	public List<Member> selectMemberByKeyword(String keyword, PageInfo pi) {
+		Connection conn = getConnection();
+		List<Member> list = mDao.selectMemberByKeyword(conn, keyword, pi);
+		close(conn);
+		return list;
+	}
+
+
 }
