@@ -89,6 +89,7 @@ public class MyPageLikeListController extends HttpServlet {
 			
 			// 조회결과별 응답화면 및 응답데이터(실패메세지)
 			request.setAttribute("pageInfo", pi);	// 페이징바 객체는 공통적으로 반환
+			
 			if(list == null) { // 조회결과 없을경우
 				
 				if(type.equals("p")) {

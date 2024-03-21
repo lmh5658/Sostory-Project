@@ -6,9 +6,7 @@
 	// 상품번호, 카테고리이름, 상품이름, 가격, 사진경로
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
-	System.out.println(list.size());
-	System.out.println(pi);
-	
+	String select = (String)request.getAttribute("select");
 	String search = (String)request.getAttribute("search"); // null | 검색단어
 %>
 <!DOCTYPE html>
@@ -109,18 +107,24 @@
                 </div>
                 
                  <!-- 상품 정렬 Select start -->
-            <div class="select-product d-flex justify-content-end">
-                <select class="selectpicker" style="width: 120px;">
-                	<opiton>정렬방식</opiton>
-                    <option >좋아요순</option>
-                    <option>판매순</option>
-                    <option>낮은가격순</option>
-                    <option>높은가격순</option>
+                 <!-- 상품 정렬 Select start -->
+            <div class="select-product d-flex justify-content-end" id="option_div">
+                <select class="selectpicker" style="width: 120px;" name="select" id="option">
+                	<option>정렬방식</option>
+                    <option value="like" id="like" class="select">좋아요순</option>
+                    <option value="sale" id="sale" class="select">판매순</option>
+                    <option value="rowPrice" id="rowPrice" class="select">낮은가격순</option>
                 </select>
             </div>
             <!-- 상품 정렬 Select end -->
-                
-                <!-- 상품 페이지 상단 영역 end -->
+            
+            <script>
+            	$(function(){
+            		$("#option").change(function(){	
+            			location.href = "<%=contextPath%>/sddlist.pr?page=1&select=" + $(this).val();			
+            		})
+            	})
+            </script>
 
 
                     <!-- 상품 리스트 start -->
@@ -165,7 +169,7 @@
                        <% } %>
                     <!-- 상품 리스트 end--> 
                     </div>
-                   <% if(search == null) { %>
+                   <% if(search == null && select == null) { %>
 	                   <div style="display: flex; justify-content: center; align-items: center;">
 						
 						  <!-- 페이징바 영역 start -->
@@ -173,27 +177,27 @@
 	                        <% if(pi.getCurrentPage() == 1) { %>
 	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/dlist.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
 	                        <% } %>
 	                        
 	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
 	                            <% if(p == pi.getCurrentPage()) { %>
 	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                            <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/dlist.pr?page=<%= p %>"><%= p %></a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/list.pr?page=<%= p %>"><%= p %></a></li>
 	                            <% } %>
 	                        <% } %>
 	                            
 							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
 	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/dlist.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/list.pr?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
 	                        <% } %>
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
 	                    
 	                   </div>                  
-                   <% }else{ %>
+                   <% }else if(search != null && select == null){ %>
                     <div style="display: flex; justify-content: center; align-items: center;">
 						
 						  <!-- 페이징바 영역 start -->
@@ -201,27 +205,52 @@
 	                        <% if(pi.getCurrentPage() == 1) { %>
 	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sdlist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/slist.pr?page=<%= pi.getCurrentPage() - 1%>&search=<%= search %>">Previous</a></li>
 	                        <% } %>
 	                        
 	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
 	                            <% if(p == pi.getCurrentPage()) { %>
 	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
 	                            <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sdlist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/slist.pr?page=<%= p %>&search=<%= search %>"><%= p %></a></li>
 	                            <% } %>
 	                        <% } %>
 	                            
 							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
 	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
 	                        <% } else { %>
-	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/sdlist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/slist.pr?page=<%= pi.getCurrentPage() + 1 %>&search=<%= search %>">Next</a></li>
 	                        <% } %>
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
-	                    
-	                   </div> 
-                   
+	                   </div>   
+                   <% } else if(search == null && select != null){ %>
+                   	 <div style="display: flex; justify-content: center; align-items: center;">
+						
+						  <!-- 페이징바 영역 start -->
+	                        <ul class="pagination justify-content center">
+	                        <% if(pi.getCurrentPage() == 1) { %>
+	                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	                        <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sddlist.pr?page=<%= pi.getCurrentPage() - 1%>&select=<%= select %>">Previous</a></li>
+	                        <% } %>
+	                        
+	                        <% for(int p = pi.getStartPage(); p<=pi.getEndPage(); p++) {  %>
+	                            <% if(p == pi.getCurrentPage()) { %>
+	                            <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
+	                            <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath %>/sddlist.pr?page=<%= p %>&select=<%= select %>"><%= p %></a></li>
+	                            <% } %>
+	                        <% } %>
+	                            
+							<% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+	                         	<li class="page-item disalbed"><a class="page-link" href="#">Next</a></li>
+	                        <% } else { %>
+	                            <li class="page-item"><a class="page-link" href="<%= contextPath%>/sddlist.pr?page=<%= pi.getCurrentPage() + 1 %>&select=<%= select %>">Next</a></li>
+	                        <% } %>
+	                        </ul>
+	                        <!-- 페이징바 영역 end -->
+	                   </div>   
                    <% } %> 
                     
                     

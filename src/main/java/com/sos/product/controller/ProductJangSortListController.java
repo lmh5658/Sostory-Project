@@ -1,6 +1,7 @@
 package com.sos.product.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.product.model.service.ProductService;
+import com.sos.product.model.vo.Product;
 
 /**
- * Servlet implementation class ProducteLikeListController
+ * Servlet implementation class ProductJangSortListController
  */
-@WebServlet("/lklist.pr")
-public class ProducteLikeListController extends HttpServlet {
+@WebServlet("/sjjlist.pr")
+public class ProductJangSortListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProducteLikeListController() {
+    public ProductJangSortListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,10 +35,10 @@ public class ProducteLikeListController extends HttpServlet {
 		
 		String select = request.getParameter("select");
 		int currentPage = Integer.parseInt(request.getParameter("page"));
-		int countList = new ProductService().countListEtc();
+		int countList = new ProductService().selectJangListCount();
 		int pageLimit = 5;
 		int boardLimit = 9;
-		int maxPage = (int)Math.ceil((double)currentPage / boardLimit);
+		int maxPage = (int)Math.ceil((double)countList / boardLimit);
 		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		int endPage = startPage + pageLimit - 1;
 		if(endPage > maxPage) {
@@ -45,8 +47,13 @@ public class ProducteLikeListController extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(countList, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-
+		List<Product> list = new ProductService().sortJangList(select, pi);
 		
+		request.setAttribute("list", list);
+		request.setAttribute("pi", pi);
+		request.setAttribute("select", select);
+		
+		request.getRequestDispatcher("/views/product/productJangList.jsp").forward(request, response);
 		
 	}
 

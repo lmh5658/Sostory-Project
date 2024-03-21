@@ -750,19 +750,18 @@ public class ProductDao {
 		return count;
 	}
 	
-	public List<Product> searchProductEtcList(Connection conn, String search, PageInfo pi){
+	public List<Product> sortLikeAllList(Connection conn, PageInfo pi){
 		
 		List<Product> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("searchProductEtcList");
+		String sql = prop.getProperty("sortLikeAllList");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, search);
 			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
 			int endRow = startRow + pi.getBoardLimit() - 1; 
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -786,30 +785,443 @@ public class ProductDao {
 		return list;
 	}
 	
-	public int countLikeList(Connection conn) {
-		int count = 0;
+	
+	
+	public List<Product> sortSaleAllList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("countLikeList");
+		String sql = prop.getProperty("sortSaleAllList");
 		try {
 			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
-				count = rset.getInt("COUNT");
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		return count;
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	
+	public List<Product> sortrowPriceAllList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortrowPriceAllList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	
+	
+	public List<Product> sortLikeJangList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortLikeJangList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	
+	public List<Product> sortSaleJangList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortSaleJangList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	public List<Product> sortrowPriceJangList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortrowPriceJangList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	public List<Product> sortLikeDressingList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortLikeDressingList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	public List<Product> sortSaleDressingList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortSaleDressingList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	public List<Product> sortrowPriceDressingList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortrowPriceDressingList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	public List<Product> searchProductEtcList(Connection conn, PageInfo pi, String search){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchProductEtcList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pr = new Product();
+				pr.setProductNo(rset.getInt("PRODUCT_NO"));
+				pr.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pr.setProductName(rset.getString("PRODUCT_NAME"));
+				pr.setPrice(rset.getInt("PRICE"));
+				pr.setPrice(rset.getInt("DISCOUNT_PRICE"));
+				pr.setPath(rset.getString("PATH"));
+				
+				list.add(pr);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 		
 	}
 	
 	
+	public List<Product> sortLikeEtcList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortLikeEtcList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	public List<Product> sortSaleEtcList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortSaleEtcList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	public List<Product> sortrowPriceEtcList(Connection conn, PageInfo pi){
+		
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("sortrowPriceEtcList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		System.out.println(list);
+		return list;
+	}
 	
 	
 
