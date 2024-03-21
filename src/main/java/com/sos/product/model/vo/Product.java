@@ -8,7 +8,7 @@ public class Product {
 	private String categoryName;
 	private String productName;
 	private int price;
-	private String inventory; 
+	private String inventory;
 	private Date enrollDate;
 	private Date modifyDate;
 	private String status;
@@ -42,6 +42,18 @@ public class Product {
 		this.price = price;
 		this.discountPrice = discountPrice;
 		this.path = path;
+	}
+	
+
+
+	public Product(int productNo, String productName, int price, String inventory, String status, int discountPrice) {
+		super();
+		this.productNo = productNo;
+		this.productName = productName;
+		this.price = price;
+		this.inventory = inventory;
+		this.status = status;
+		this.discountPrice = discountPrice;
 	}
 
 

@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
+import com.sos.product.model.vo.Product;
 
 import static com.sos.common.template.JDBCTemplate.*;
 
@@ -118,6 +119,9 @@ public class ManagerDao {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 		
 		return list;
@@ -138,6 +142,9 @@ public class ManagerDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 		
 		return result;
@@ -170,9 +177,90 @@ public class ManagerDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 		
 		return list;
+	}
+
+	public int selectCountProductList(Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCountProductList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public List<Product> selectProductList(Connection conn, PageInfo pi) {
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Product(rset.getInt("product_no"),
+									 rset.getString("product_name"),
+									 rset.getInt("price"),
+									 rset.getString("inventory"),
+									 rset.getString("status"),
+									 rset.getInt("discount_price")
+									 ));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public int deleteProduct(Connection conn, int[] productNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteProduct");
+		sql += "WHERE PRODUCT_NO IN (";
+		
+		// 동적 쿼리
+		for(int i=0; i<productNo.length-1; i++) {
+			sql += i + ",";
+		}
+		sql += productNo[productNo.length-1] + ")";
+		System.out.println(sql);
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

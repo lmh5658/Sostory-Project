@@ -77,5 +77,36 @@
 		        )
   		  WHERE RN BETWEEN ? AND ?
 	</entry>
+	<entry key="selectCountProductList">
+		SELECT
+			   COUNT(*) COUNT
+		  FROM TB_PRODUCT
+	</entry>
+	
+	<entry key="selectProductList">
+		SELECT * 
+		  FROM (
+		        SELECT ROWNUM RN, A.*
+		          FROM (
+		                SELECT
+		                       PRODUCT_NO
+						     , PRODUCT_NAME
+						     , PRICE
+						     , INVENTORY
+						     , STATUS
+						     , DISCOUNT_PRICE
+		                  FROM TB_PRODUCT
+		                 ORDER
+		                    BY ENROLL_DATE DESC
+		                ) A
+		        )
+  		  WHERE RN BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="deleteProduct">
+		UPDATE
+		       TB_PRODUCT
+		   SET STATUS = 'N'
+	</entry>
 
 </properties>

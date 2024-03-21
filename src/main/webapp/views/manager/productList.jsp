@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.common.model.vo.PageInfo, java.util.List" %>
+<%@ page import="com.sos.product.model.vo.Product" %>
+<%
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	List<Product> list = (List<Product>)request.getAttribute("list");
+	String keyword = (String)request.getAttribute("keyword");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -125,14 +132,16 @@
                     <path d="m13.158 9.608-.043-.148c-.181-.613-1.049-.613-1.23 0l-.043.148a.64.64 0 0 1-.921.382l-.136-.074c-.561-.306-1.175.308-.87.869l.075.136a.64.64 0 0 1-.382.92l-.148.045c-.613.18-.613 1.048 0 1.229l.148.043a.64.64 0 0 1 .382.921l-.074.136c-.306.561.308 1.175.869.87l.136-.075a.64.64 0 0 1 .92.382l.045.149c.18.612 1.048.612 1.229 0l.043-.15a.64.64 0 0 1 .921-.38l.136.074c.561.305 1.175-.309.87-.87l-.075-.136a.64.64 0 0 1 .382-.92l.149-.044c.612-.181.612-1.049 0-1.23l-.15-.043a.64.64 0 0 1-.38-.921l.074-.136c.305-.561-.309-1.175-.87-.87l-.136.075a.64.64 0 0 1-.92-.382ZM12.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                 </svg>상품관리><b>상품조회</b>
             </div>
-            <div class="mem_search">
-                <div class="pro_name">상품명</div>
-                <div><input type="text" class="form-control"></div>
-                <div><button>조회</button></div>
-            </div>
+            <form>
+	            <div class="mem_search">
+	                <div class="pro_name">상품명</div>
+	                <div><input type="text" class="form-control" name="keyword"></div>
+	                <div><button>조회</button></div>
+	            </div>
+            </form>
             <div class="mem_del">
                 <button style="background-color: rgb(0, 0, 113);">상품등록</button>
-                <button onclick="return confirm('상품을 삭제하시겠습니까?')">상품삭제</button>
+                <button onclick="deleteProduct();">상품삭제</button>
             </div>
             <div class="table_d">
                 <div>
@@ -140,106 +149,105 @@
                         <thead>
                             <tr class="table_title">
                                 <th><input type="checkbox" id="cbx_chkAll"></th>
-                                <th>번호</th>
-                                <th>상품코드</th>
-                                <th>업체명</th>
+                                <th>상품번호</th>
                                 <th>상품명</th>
-                                <th>재고수량</th>
-                                <th>가격</th>
+                                <th>가격(원)</th>
                                 <th>할인가</th>
                                 <th>재고수량</th>
                                 <th>상품노출</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>B3</td>
-                                <td>구디</td>
-                                <td>오리엔탈드레싱</td>
-                                <td>100</td>
-                                <td>20,000</td>
-                                <td>18,000</td>
-                                <td>80</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>B3</td>
-                                <td>구디</td>
-                                <td>오리엔탈드레싱</td>
-                                <td>100</td>
-                                <td>20,000</td>
-                                <td>18,000</td>
-                                <td>80</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>B3</td>
-                                <td>구디</td>
-                                <td>오리엔탈드레싱</td>
-                                <td>100</td>
-                                <td>20,000</td>
-                                <td>18,000</td>
-                                <td>80</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>B3</td>
-                                <td>구디</td>
-                                <td>오리엔탈드레싱</td>
-                                <td>100</td>
-                                <td>20,000</td>
-                                <td>18,000</td>
-                                <td>80</td>
-                                <td>정상</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>B3</td>
-                                <td>구디</td>
-                                <td>오리엔탈드레싱</td>
-                                <td>100</td>
-                                <td>20,000</td>
-                                <td>18,000</td>
-                                <td>80</td>
-                                <td>품절</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>B3</td>
-                                <td>구디</td>
-                                <td>오리엔탈드레싱</td>
-                                <td>100</td>
-                                <td>20,000</td>
-                                <td>18,000</td>
-                                <td>80</td>
-                                <td>품절</td>
-                            </tr>                         
+                        	<% if(list.isEmpty()) { %>
+                        	<tr>
+                        		<td colspan="7" align="center">상품이 존재하지 않습니다.</td>
+                        	</tr>
+                        	<% } else { %>
+                        		<% for(Product p : list) { %>
+	                            <tr class="table_title">
+	                                <td><input type="checkbox" name="typArr"></td>
+	                                <td><%= p.getProductNo() %></td>
+	                                <td><%= p.getProductName() %></td>
+	                                <td><%= p.getPrice() %></td>
+	                                <td><%= p.getPrice() - p.getDiscountPrice() %></td>
+	                                <td><%= p.getInventory() %></td>
+	                                <td><%= p.getStatus().equals("Y") ? "정상" : p.getStatus().equals("S") ? "품절" : "삭제" %></td>
+	                            </tr>
+	                            <% } %>
+                            <% } %>
                         </tbody>
                     </table>     
                 </div>
                     <div>
-                        총 상품 수 : <label style="color: red;">6</label>
+                        총 상품 수 : <label style="color: red;"><%= pi.getListCount() %></label>
                     </div>                  
             </div>
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-              </ul>
+            
+            <script>
+	            function deleteProduct(){
+	            	const $deleteProduct = $("input[name=typArr]:checked");
+	            	
+	            	if($deleteProduct != 0){
+						if(confirm($deleteProduct.length + "개의 상품을 삭제하시겠습니까?")){
+							let addValues = "";
+							for(let i=0; i<$deleteProduct.length-1; i++){
+								addValues += "productNo=" + $deleteProduct.eq(i).parent().next().text() + "&";
+							}
+							addValues += "productNo=" + $deleteProduct.eq($deleteProduct.length - 1).parent().next().text();
+							
+							location.href="<%=contextPath%>/deleteProduct.ma?" + addValues;
+						}
+	        		} else {
+	        			alert("삭제할 상품을 선택해주세요.");
+	        		}
+	            }
+            </script>
+            <!-- 페이징 -->
+			<% if(keyword == null) { %>
+                  <ul class="pagination">
+                  	<% if(pi.getCurrentPage() == 1) { %>
+                      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                      <% } else { %>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() - 1 %>" >Previous</a></li>
+                      <% } %>
+                      
+                      <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
+                      	<% if(i == pi.getCurrentPage())	{ %>
+                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
+                      	<% } else {%>
+                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
+                      	<% } %>
+                      <% } %>
+                      
+                      <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+                      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                      <% } else { %>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() + 1 %>" >Next</a></li>
+                      <% } %>
+                  </ul>
+                  <% } else { %>
+                  <ul class="pagination">
+                  	<% if(pi.getCurrentPage() == 1) { %>
+                      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                      <% } else { %>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() - 1 %>&keyword=<%= keyword %>" >Previous</a></li>
+                      <% } %>
+                      
+                      <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
+                      	<% if(i == pi.getCurrentPage())	{ %>
+                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                      	<% } else {%>
+                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                      	<% } %>
+                      <% } %>
+                      
+                      <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+                      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                      <% } else { %>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Next</a></li>
+                      <% } %>
+                  </ul>
+                  <% } %>
             <script>
 
                 $(function(){
@@ -264,7 +272,7 @@
                     });
 
                     $(".table_title>td").each(function(){
-                        if($(this).text() == "품절"){
+                        if($(this).text() == "품절" || $(this).text() == "삭제"){
                             $(this).css("color", "red");
                         }else{
                             $(this).css("color", "black");

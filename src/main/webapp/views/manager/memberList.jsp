@@ -343,16 +343,9 @@
                         
                         // 회원 삭제
                         function deleteMember(){
-                        	let isChecked = false;
+                        	const $deleteMember = $("input[name=typArr]:checked");
                         	
-                        	$("input[name=typArr]").each(function(){
-                        		if($(this).is(":checked")){
-                        			isChecked = true;
-                        		}
-                        	})
-                        	
-                        	if(isChecked){
-                        		const $deleteMember = $("input[name=typArr]:checked");
+                        	if($deleteMember != 0){
 								if(confirm($deleteMember.length + "명의 회원을 삭제하시겠습니까?")){
 									let addValues = "";
 									for(let i=0; i<$deleteMember.length-1; i++){
@@ -411,7 +404,7 @@
                         <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
                         <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                         <% } else { %>
-                        <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchMember.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchMember.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Next</a></li>
                         <% } %>
                     </ul>
                     <% } %>

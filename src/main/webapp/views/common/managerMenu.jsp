@@ -12,7 +12,7 @@
             min-height: 1300px;
             height: 800px;
             display: flex;
-         }	
+         }
 	.menu_wrap{text-align: center;display: flex;flex-direction: column;background-color: gray; padding-top: 30px;}
     .menu_wrap{font-size: 20px; width: 15%; align-items: center;}
     .side_menu>button{width: 100%; height: 70px; background-color: gray;}      
