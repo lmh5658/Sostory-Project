@@ -80,7 +80,7 @@
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input class="form-control" type="text" placeholder="레시피 제목을 입력해주세요" required>레시피 제목</td>
+                        <td><input class="form-control" type="text" placeholder="레시피 제목을 입력해주세요" required></td>
                     </tr>
                     <tr>
                         <td>대표사진</td>
