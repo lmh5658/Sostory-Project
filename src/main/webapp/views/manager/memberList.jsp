@@ -3,6 +3,7 @@
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	List<Member> list = (List<Member>)request.getAttribute("list");
+	String keyword = (String)request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
 <html>
@@ -258,13 +259,14 @@
                     <!-- 회원목록 Content start -->
                     
                     <!-- 회원검색 -->
-                    <div class="mem_search">
-                    	<form action="searchMember.ma">
-                        <div class="pro_name">회원ID</div>&nbsp;
-                        <div><input type="text" name="keyword" class="form-control"></div>
-                        <div><button>조회</button></div>
-                        </form>
-                    </div>
+                   	<form action="<%= request.getContextPath() %>/searchMember.ma">
+	                   <div class="mem_search">
+	                       <div class="pro_name">회원ID</div>&nbsp;
+	                       <div><input type="text" name="keyword" class="form-control"></div>
+	                       <div><input type="hidden" name="page" value="1"></div>
+	                       <div><button>조회</button></div>
+	                   </div>
+                    </form>
                     <div class="mem_del">
 
                         <button class="mem_del_btn2" onclick="deleteMember();">회원삭제</button>
@@ -359,7 +361,6 @@
 									addValues += "userNo=" + $deleteMember.eq($deleteMember.length - 1).parent().next().text();
 									
 									location.href="<%=contextPath%>/deleteMember.ma?" + addValues;
-									
 								}
                     		} else {
                     			alert("삭제할 회원을 선택해주세요.");
@@ -369,6 +370,7 @@
                     </script>
                     
 					<!-- 페이징 -->
+					<% if(keyword == null) { %>
                     <ul class="pagination">
                     	<% if(pi.getCurrentPage() == 1) { %>
                         <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
@@ -390,6 +392,29 @@
                         <li class="page-item"><a class="page-link" href="<%= contextPath %>/memberList.ma?page=<%= pi.getCurrentPage() + 1 %>" >Previous</a></li>
                         <% } %>
                     </ul>
+                    <% } else { %>
+                    <ul class="pagination">
+                    	<% if(pi.getCurrentPage() == 1) { %>
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <% } else { %>
+                        <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchMember.ma?page=<%= pi.getCurrentPage() - 1 %>&keyword=<%= keyword %>" >Previous</a></li>
+                        <% } %>
+                        
+                        <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
+                        	<% if(i == pi.getCurrentPage())	{ %>
+                        	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/searchMember.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                        	<% } else {%>
+                        	<li class="page-item"><a class="page-link" href="<%= contextPath %>/searchMember.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                        	<% } %>
+                        <% } %>
+                        
+                        <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+                        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                        <% } else { %>
+                        <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchMember.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Previous</a></li>
+                        <% } %>
+                    </ul>
+                    <% } %>
                     
                 </div>
             </div>

@@ -7,7 +7,18 @@
 		  FROM TB_MEMBER
 		  JOIN TB_ADDRESS USING (USER_NO)
 		 WHERE USER_TYPE = 'Y'
+		   AND USER_STATUS = 'Y'
 		   AND ADDRESS_TYPE = 'Y'
+	</entry>
+	
+	<entry key="selectCountSearchList">
+		SELECT COUNT(*) COUNT
+		  FROM TB_MEMBER
+		  JOIN TB_ADDRESS USING (USER_NO)
+		 WHERE USER_TYPE = 'Y'
+		   AND ADDRESS_TYPE = 'Y'
+		   AND USER_STATUS = 'Y'
+		   AND USER_ID LIKE ?
 	</entry>
 
 	<entry key="selectMemberList">
@@ -39,6 +50,32 @@
 		UPDATE
 		       TB_MEMBER
 		   SET USER_STATUS = 'N'
+	</entry>
+	
+	<entry key="selectMemberByKeyword">
+		SELECT * 
+		  FROM (
+		        SELECT ROWNUM RN, A.*
+		          FROM (
+		                SELECT
+		                       USER_NO
+		                     , USER_ID
+		                     , NICKNAME
+		                     , USER_NAME
+		                     , PHONE
+		                     , EMAIL
+		                     , ADDRESS_ADDRESS
+		                  FROM TB_MEMBER
+		                  JOIN TB_ADDRESS USING (USER_NO)
+		                 WHERE USER_TYPE = 'Y'
+		                   AND ADDRESS_TYPE = 'Y'
+		                   AND USER_STATUS = 'Y'
+		                   AND USER_ID LIKE ?
+		                 ORDER
+		                    BY ENROLL_DATE DESC
+		                ) A
+		        )
+  		  WHERE RN BETWEEN ? AND ?
 	</entry>
 
 </properties>
