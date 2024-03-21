@@ -2,10 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.sos.myPage.model.vo.Liked" %>
 <%@ page import="com.sos.common.model.vo.*" %>
+<%@ page import="com.sos.cart.model.vo.Cart" %>
     
 <%
 	// 찜한 상품목록 리스트
-	List<Liked> list = (List<Liked>)request.getAttribute("list");
+	List<Liked> likedList = (List<Liked>)request.getAttribute("likedList");
+	// 장바구니 상품번호 리스트
+	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
+	// 페이징바 객체
 	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
 %>
 <!DOCTYPE html>
@@ -192,31 +196,39 @@
                         <!-- 상품리스트 영역 start -->
 	                    <div class="product-thumbnail-list d-flex flex-wrap w-100">
 	                    
-	                    	<% for(Liked li : list) { %>
+	                    	<% for(Liked li : likedList) { %>
 	                    	<!-- 상품 썸네일 한개 start -->
-	                    	
-                            <div class="product img-thumbnail p-2 liked" style="width:300px; heigth:500px;">
-                                <img class="product-img" src="<%= contextPath + "/" + li.getProductThumbnailUrl() %>" alt="Card image" style="width:100%; height:300px;">
-                                <div class="product-body">
-                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= li.getCategoryName() %></small>
-                                    <h7 class="product-title"><b><%= li.getProductName() %></b></h7>
-                                    <!-- 할인상품이 맞을경우 -->
-                                    <% if(li.getDiscountPrice() != 0){ %>
-                                    	<h7 class="product-price d-block mt-4"><s><b class="text-secondary"><%= li.getPrice() %></b></s></h7>
-                                    	<h7 class="product-price d-block mt-1"><b><%= li.getPrice() - li.getDiscountPrice() %></b></h7>
-                                    <% } else { %>
-                                    <!-- 할인상품이 아닐경우 -->
-                                    	<h7 class="product-price d-block mt-4"><b><%= li.getPrice() %></b></h7>
-                                    <% } %>
-                                    <div class="icon d-flex justify-content-end">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                        </svg>
-                                    </div>
+                            <div class="product img-thumbnail p-2" style="width:300px; heigth:500px;">
+                            	<div class="item">
+		                    		<input type="hidden" class="pNo" value="<%= li.getProductNo() %>">
+	                                <img class="product-img" src="<%= contextPath + "/" + li.getProductThumbnailUrl() %>" alt="Card image" style="width:100%; height:300px;">
+	                                <div class="product-body">
+	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= li.getCategoryName() %></small>
+	                                    <h7 class="product-title"><b><%= li.getProductName() %></b></h7>
+	                                    <!-- 할인상품이 맞을경우 -->
+	                                    <% if(li.getDiscountPrice() != 0){ %>
+	                                    	<h7 class="product-price d-block mt-4"><s><b class="text-secondary"><%= li.getPrice() %></b></s></h7>
+	                                    	<h7 class="product-price d-block mt-1"><b><%= li.getPrice() - li.getDiscountPrice() %></b></h7>
+	                                    <% } else { %>
+	                                    <!-- 할인상품이 아닐경우 -->
+	                                    	<h7 class="product-price d-block mt-4"><b><%= li.getPrice() %></b></h7>
+	                                    	<h7 class="product-price d-block mt-1" style="color:white;">영역</h7>
+	                                    <% } %>
+	                                </div>
                                 </div>
+                                    <div class="icon d-flex justify-content-end">
+                                    	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="like me-4" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+										</svg>
+	                                <!-- 장바구니 아이콘 컬러구분
+	                                	case 01) 찜한상품 & 장바구니에 이미담긴 상품
+	                                	case 02) 찜한상품 & 장바구니에 담지않은 상품
+	                                -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16">
+                                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                       	</svg>
+                                        
+                                    </div>
                             </div>
                             <!-- 상품 썸네일 한개 end -->
                             <% } %>
@@ -228,12 +240,82 @@
                     <!-- 찜한상품(동적으로 생성된 요소) 관련 스크립트 -->
                     <script>
                     	$(function(){
-                    		// 찜한상품 클릭시 ==> 해당상품 상세페이지로 이동시키는 함수
-                    		$(".product-thumbnail-list").on("click", function(e){
+
+                    		// 찜한상품이 장바구니에 담긴상품인지 구분하여 아이콘컬러를 구분하는 함수(페이지로드 즉시실행)
+                    		$(".product").each(function(){
                     			
-                    			// 찜한상품
-                    			const $product = $(e.target);
-                    			console.log($product);
+                    			const pNoList = <%= pNoList %>;				// 사용자가 장바구니에 담은상품의 상품번호 배열
+                    			const $pNo = $(this).find(".pNo").val();	// 찜한상품 상품번호
+                    			const $cart = $(this).find(".cart");		// 장바구니 아이콘태그
+                    			
+                    			for(let i=0 ; i<pNoList.length ; i++){
+                    				// 장바구니에 담긴상품일 경우 ==> 아이콘컬러 : 파란색
+                    				if(pNoList[i] == $pNo){	
+                    					$cart.attr("fill", "blue");
+                    				}
+                    			}
+                    		})
+                    		
+                    		
+                    		/* 찜한상품 장바구니 클릭시 실행될 함수
+                    		 * 
+                    		 * case 01) 아이콘색(검정색)일경우 클릭시 ==> 장바구니추가 요청
+                    		 *          (1) 장바구니 추가요청
+                    		 *          (2) 삭제성공시 : "해당상품이 장바구니에 추가되었습니다." ==> 아이콘색 변경(파랑)
+                    		 *              삭제실패시 : "장바구니에 추가하지 못했습니다. 다시 시도해주세요."
+                    		 * 
+                    		 * case 02) 아이콘색(파랑색)일경우 클릭시 ==> 장바구니삭제 요청
+                    		 *          (1) 장바구니 삭제요청
+                    		 *          (2) 삭제성공시 : "해당상품이 장바구니에서 삭제되었습니다." ==> 아이콘색 변경(검정)
+                    		*/
+                    		$(".cart").on("click", function(e){
+                    			
+                    			const $cart = $(this);											// 장바구니 아이콘태그
+                    			const $pNo = $(this).parent().prev().children(".pNo").val();	// 찜한 상품번호
+                    			const userNo = <%= loginUser.getUserNo() %>;					// 찜한 회원번호
+                    			
+                    			// 아이콘색(검정색) == 장바구니 추가요청
+                    			if($cart.attr("fill") != 'blue'){
+                    				// case 01) 해당상품 장바구니 추가요청 ajax통신
+                        			$.ajax({
+                        				url:"<%= contextPath %>/add.ca",
+                        				data:{
+                        					"userNo" : userNo,
+                        					"productNo" : $pNo,
+                        					"cart_amount" : 1
+                        				},success:function(result){
+                        					if(result > 0){
+                        						$cart.attr("fill", "blue");
+                        					}
+                        				}
+                        			})
+                    			}else{
+                    				// case 02) 아이콘색(파란색) == 장바구니 삭제요청
+                    				$.ajax({
+                        				url:"<%= contextPath %>/del.ca",
+                        				data:{
+                        					"userNo" : userNo,
+                        					"productNo" : $pNo
+                        				},success:function(result){
+                        					if(result > 0){
+                        						$cart.attr("fill", "black");
+                        					}
+                        				}
+                        			})
+                    			}
+                    			
+                    			
+                    		})
+                    		
+                    		
+                    		// 찜한상품 클릭시 ==> 해당상품 상세페이지로 이동시키는 함수
+                    		$(".item").on("click", function(e){
+                    			
+                    			// 찜한 상품번호
+                    			const $pNo = $(this).children(".pNo").val();
+                    			
+                    			// 해당상품 상세페이지 이동요청
+                    			location.href = "<%= contextPath %>/detail.pr?no=" + $pNo;
                     			
                     		})
                     		
