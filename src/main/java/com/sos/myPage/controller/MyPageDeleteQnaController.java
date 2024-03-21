@@ -68,7 +68,7 @@ public class MyPageDeleteQnaController extends HttpServlet {
 		 *   
 		 */
 		
-		int delResult = Integer.parseInt((String)result.get("result"));
+		int delResult = Integer.parseInt(result.get("result").toString());
 		String file = (String)result.get("file");
 		
 		if(delResult > 0) {
@@ -76,7 +76,8 @@ public class MyPageDeleteQnaController extends HttpServlet {
 			request.getSession().setAttribute("alertMsg", "문의가 삭제되었습니다.");
 			
 			//  첨부파일삭제
-			new File(file).delete();
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/");
+			new File(savePath + file).delete();
 			
 			if(answerType == 1) { // 상품문의 삭제응답페이지
 				

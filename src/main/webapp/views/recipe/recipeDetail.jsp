@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ page import="com.sos.recipe.model.vo.Recipe"%>
+ <%@ page import= "java.util.List"%>
+ 
+ <% Recipe r = (Recipe)request.getAttribute("detailRecipe"); //레시피 상세에 들어갈 데이터들
+ List<Recipe> step = (List<Recipe>)request.getAttribute("step");//step
+List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,10 +51,10 @@
 		width: 350px;
 		height: 200px;
 		background-color: rgb(231, 76, 60);
-		position: absolute;
 		top: 700px;
 		right: 630px;
 		display: flex;
+		margin-left: 162%;
 		flex-direction: column;
 		align-items: center;
 		box-shadow: 5px 5px 3px grey;
@@ -126,7 +135,7 @@
 	    <!-- Section start -->
 		<section class="main-content">
 			<div class="detail_head">
-				<span>홈  >  장류  >  간장</span>
+				<span>홈  > <%=r.getCategoryName() %></span>
 				<button type="button" class="btn" style="background-color: rgb(231, 76, 60); color: white;">수정하기</button>
 			</div>
 			<!-- 대표사진 -->
@@ -149,9 +158,9 @@
 							<td>난이도</td>
 						</tr>
 						<tr class="info_mid">
-							<td>60</td>
-							<td>2</td>
-							<td>상</td>
+							<td><%=r.getCookingTime() %></td>
+							<td><%=r.getServing() %></td>
+							<td><%=r.getDifficulty() %></td>
 						</tr>
 						<tr class="info_btm">
 							<td>분</td>
@@ -161,7 +170,7 @@
 					</table>
 				</div>
 				<div>
-					<h1 style="display: inline;"><b>고추장 불고기</b></h1>
+					<h1 style="display: inline;"><b><%=r.getRecipeTitle() %></b></h1>
 					<!-- 내가 찜하지 않은 레시피인 경우 -->
 					<span class="recipe_like" style="font-size: 20px;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart like" viewBox="0 0 16 16">
@@ -180,9 +189,9 @@
 				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary">칼로리 제로 고추장을 사용한 불고기 레시피!</div>
 				<div>
 					<div class="recipe_tag">
-						<span>#고추장</span>
-						<span>#불고기</span>
-						<span>#칼로리</span>
+						<%for(Recipe in : list) { %>
+							<span>#<%=in.getIngredientName() %></span>
+						<%} %>
 					</div>
 				</div>
 			</div>
@@ -192,57 +201,63 @@
 				<!-- 조리 방법 영역 -->
 				<div class="content_detail">
 					<div style="font-size: 30px; font-weight: bold; margin-bottom: 20px;">조리방법</div>
-
-					<div class="recipe_step">Step 1.</div>
-					<div class="step_content">조리 방법 설명 내용</div>
-					<div class="step_img">
-						<img src="" alt="">
+					    
+					    <%int i = 0; %>
+					    <% for(Recipe st : step) { %> 
+					        <div class="recipe_step">Step <%= i + 1 %></div>
+					      
+					        <%if(st.getStepContent() != null) {%>
+					        	<div class="step_content"><%= st.getStepContent() %></div>
+					        <% }else{ %>
+					       		 <div class="step_content"></div>
+					        <% } %>
+					        
+					         <%if(st.getStepAttachmentUrl() != null) {%>
+					       	 <div class="thumbnail"><img src="" alt=""></div>
+					        <% }else{ %>
+					       	 <div class="thumbnail"></div>
+					        <% } %>
+					      <%i++; %>
+					    <% } %>
 					</div>
-
-					<div class="recipe_step">Step 2.</div>
-					<div class="step_content">조리 방법 설명 내용</div>
-					<div class="step_img">
-						<img src="" alt="">
-					</div>
-
-					<div class="recipe_step">Step 3.</div>
-					<div class="step_content">조리 방법 설명 내용</div>
-					<div class="step_img">
-						<img src="" alt="">
-					</div>
-				</div>
-
-				<!-- 레시피 부가 내용 -->
+ 
+				
+				<!-- 레시피 부가 내용 하나만 값 채워넣고 FOR문으로 길이만큼 돌리게?  -->
 				<div class="content_etc">
 					<div class="ingredient_info">
 						<div>재료 정보</div>
 						<table width="80%" class="table">
 							<tr>
-								<th>재료명</th>
-								<th>수량</th>
+								<td>재료명</td>
+								<td>수량</td>								
 							</tr>
-							<tr>
-								<td>돼지고기</td>
-								<td>500g</td>
-							</tr>
-							<tr>
-								<td>고추장</td>
-								<td>100g</td>
-							</tr>
-							<tr>
-								<td>물</td>
-								<td>200ml</td>
-							</tr>
-						</table>
-					</div>
+							<%for(Recipe in : list) { %>
+					            <tr>
+					                 <th><%= in.getIngredientName() %></th>
+					                 <td><%= in.getIngredientAmount() %></td>
+					            </tr>
+					           <% } %>
+					       </table>
+					    </div>
+					
 
 					<!-- 상품 썸네일 start -->
 					<div class="product img-thumbnail p-2" style="width:300px">
-						<img class="product-img" src="<%=contextPath %>/resources/images/이미지1.jpg" alt="Card image" style="width:100%">
+						<img class="product-img" src="<%=r.getPath()%>" alt="Card image" style="width:100%">
 						<div class="product-body">
-							<small class="product-category text-secondary d-block mb-3 mt-2">카테고리명</small>
-							<h7 class="product-title"><b><b class="text-danger">[HOT] </b>칼로리 zero 머스타드</b></h7>
-							<h7 class="product-price d-block my-4"><b>8,000원</b></h7>
+							<small class="product-category text-secondary d-block mb-3 mt-2">분류><%=r.getCategoryName() %></small>
+							<h6 class="product-title"><b class="text"><%=r.getProductName() %></b></h6>
+							<h6 class="product-price d-block my-4">
+
+									<% if(r.getDiscountPrice() != 0) { %> 
+		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s></div>                        
+		                           <%}else if(r.getDiscountPrice() == 0){ %>
+			                       <!-- 할인하고 있을 때 -->
+		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%></div>
+		                           <% } %>	
+
+							</h6>
+
 							<div class="icon d-flex justify-content-end">
 								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
 									<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>

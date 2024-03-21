@@ -204,13 +204,13 @@
                             <% if(list != null) { %>
 	                            <% for(Qna q : list) { %>
 	                                <tr>
-	                                    <td><%= q.getAnswerNo() %></td>
+	                                    <td class="qNo"><%= q.getAnswerNo() %></td>
 	                                    <td><%= q.getAnswerDate() %></td>
 	                                    <!-- 
 	                                        기능설명 : 제목 클릭시, 상세페이지이동
 	                                        기능구현 : 아래 스크립트에 URL 넣어주면됨
 	                                    -->
-	                                    <td id="qna-title"><%= q.getAnswerTitle() %></td>
+	                                    <td class="qna-title"><%= q.getAnswerTitle() %></td>
 	                                    <td><%= q.getAnswerStatus().equals("처리") ? "답변완료" : "진행중" %></td>
 	                                    <td>
 	                                        <!-- 
@@ -244,8 +244,9 @@
 	                        $(function(){
 
 	                            // 문의제목 클릭시, 해당문의 상세페이지로 이동하는 함수
-	                            $(".qna-list>.table>tbody").on("click", "#qna-title", function(){
-	                                location.href="해당문의 상세페이지 이동URL";
+	                            $(".qna-list>.table>tbody tr>.qna-title").click(function(){
+									const qNo = $(this).siblings(".qNo").text();
+									location.href = "<%= contextPath %>/detailQna.me?qNo=" + qNo;
 	                            })
 	
 	                            // 1:1 문의수정, 문의작성 모달창 문의제목 입력글자수 제한함수

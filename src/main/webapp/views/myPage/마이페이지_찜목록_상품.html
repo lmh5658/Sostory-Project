@@ -100,7 +100,7 @@ a{
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-left: 40px;
+    margin-left: 20px;
 }
 
 /* 마이페이지 1:1문의에서만 필요한 style */
@@ -109,7 +109,7 @@ a{
     display: flex;
     padding-top: 15px;
     margin-bottom: 10px;
-    width: 700px;
+    width: 300px;
     border-bottom: 1px solid lightslategray;
 }
 
@@ -123,6 +123,9 @@ h3>label{
 .main-content{display: flex; flex-direction: column;}
 .content-product-list{display: flex; flex-direction: column;}
 .product-thumbnail-list .product:hover, .recipe:hover, .recipe-product:hover{cursor: pointer; opacity: 0.8;}
+.product{margin: 20px;}
+.category{margin-left:10px; font-size:20px;}
+.categoryBtn{padding-bottom: 0px;}
 
     </style>
 
@@ -254,9 +257,9 @@ h3>label{
                         </svg>
                         <h3><b>찜목록</b></h3>
                     </div>
-                    <div>
-                        <label>상품</label>&nbsp;&nbsp;&nbsp;
-                        <label>레시피</label>
+                    <div style="margin-left: 20px; width:970px; border-bottom:1px solid lightgray;">
+                        <h4 class="btn categoryBtn"><b class="category">상품</b></h4>
+                        <h4 class="btn categoryBtn"><b class="category">레시피</b></h4>
                     </div>
                     <!-- 페이지 제목 영역 end -->
 

@@ -187,6 +187,30 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<!-- 1:1문의 조회요청 -->
+	<entry key="selectQna">
+		SELECT 
+		      ANSWER_NO
+		     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE 
+		     ,ANSWER_TITLE
+		     ,ANSWER_CONTENT
+		     ,REPLY
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<!-- 첨부파일 조회요청 -->
+	<entry key="selectAttachment">
+		SELECT
+		      PRO_FILE_NO
+		     ,FILE_NAME
+		     ,FILE_ROUTE || FILE_CHANGENAME "FILE_URL"
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
+		   AND STATUS = 'Y'
+	</entry>
+	
 	<!-- 문의 등록요청 -->
 	<entry key="insertQna">
 		INSERT
@@ -233,7 +257,7 @@
 	
 	<!-- 문의 첨부파일 유무조회 -->
 	<entry key="attachmentYn">
-		SELECT FILE_ROUTE || FILE_CHANGENAME FILE
+		SELECT FILE_CHANGENAME
 		  FROM TB_ATTACHMENT_PRODUCT
 		 WHERE REF_NO = ?
 	</entry>
@@ -253,6 +277,138 @@
 		 WHERE ANSWER_NO = ?
 	</entry>
 	
+	<!-- 찜한상품 갯수조회 -->
+	<entry key="selectTotalLikedProduct">
+		SELECT COUNT(*) TOTAL
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                      LIKE_NO
+		                     ,PRODUCT_NO
+		                     ,CATEGORY_NAME
+		                     ,PRODUCT_NAME
+		                     ,PRICE
+		                     ,DISCOUNT_PRICE
+		                     ,PATH PRODUCT_URL
+		                  FROM TB_LIKE
+		                  JOIN TB_PRODUCT ON (LIKE_REFNO = PRODUCT_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                 WHERE USER_NO = ?
+		                   AND LIKE_TYPE = 'P'
+		                   AND STATUS = 'Y'
+		                 ORDER BY LIKE_DATE DESC
+		                ) R
+		        ) T
+	</entry>
+	
+	<!-- 찜한상품 목록조회 -->
+	<entry key="selectLikedProductList">
+		SELECT T.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                      LIKE_NO
+		                     ,PRODUCT_NO
+		                     ,CATEGORY_NAME
+		                     ,PRODUCT_NAME
+		                     ,PRICE
+		                     ,DISCOUNT_PRICE
+		                     ,PATH PRODUCT_URL
+		                  FROM TB_LIKE
+		                  JOIN TB_PRODUCT ON (LIKE_REFNO = PRODUCT_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                 WHERE USER_NO = ?
+		                   AND LIKE_TYPE = 'P'
+		                   AND STATUS = 'Y'
+		                 ORDER BY LIKE_DATE DESC
+		                ) R
+		        ) T
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 찜한레시피 갯수조회 -->
+	<entry key="selectTotalLikedRecipe">
+		SELECT COUNT(*) TOTAL
+		  FROM (
+		         SELECT ROWNUM RNUM, R.*
+		           FROM (
+		                 SELECT 
+		                        USER_LIKED.*
+		                       ,CATEGORY_NAME
+		                       ,USER_ID
+		                       ,RECIPE_TITLE
+		                       ,RECIPE_INTRO
+		                       ,THUMBNAIL_URL
+		                       ,TB_RECIPE.PRODUCT_NO PRODUCT_NO
+		                       ,PRODUCT_NAME
+		                       ,PRICE
+		                       ,DISCOUNT_PRICE
+		                       ,(
+		                         SELECT ROUND(AVG(NVL(RATING, 0)), 1) RATING
+		                           FROM TB_REVIEW
+		                          WHERE PRODUCT_NO = TB_PRODUCT.PRODUCT_NO
+		                        ) RATING
+		                  FROM (
+		                        SELECT
+		                               LIKE_NO
+		                              ,LIKE_REFNO RECIPE_NO
+		                          FROM TB_LIKE
+		                         WHERE USER_NO = ?
+		                           AND LIKE_TYPE = 'R'
+		                         ORDER BY LIKE_DATE DESC
+		                        ) USER_LIKED
+		                  JOIN TB_RECIPE ON (USER_LIKED.RECIPE_NO = TB_RECIPE.RECIPE_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                  JOIN TB_MEMBER USING (USER_NO)
+		                  JOIN TB_PRODUCT ON (TB_RECIPE.PRODUCT_NO = TB_PRODUCT.PRODUCT_NO)
+		                  JOIN TB_REVIEW ON (TB_PRODUCT.PRODUCT_NO = TB_REVIEW.PRODUCT_NO)
+		                ) R
+		        ) T
+	</entry>
+	
+	<!-- 찜한레시피 목록조회 -->
+	<entry key="selectLikedRecipeList">
+		SELECT T.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                 SELECT 
+		                        USER_LIKED.*
+		                       ,CATEGORY_NAME
+		                       ,USER_ID
+		                       ,RECIPE_TITLE
+		                       ,RECIPE_INTRO
+		                       ,THUMBNAIL_URL
+		                       ,TB_RECIPE.PRODUCT_NO PRODUCT_NO
+		                       ,PRODUCT_NAME
+		                       ,PRICE
+		                       ,DISCOUNT_PRICE
+		                       ,(
+		                         SELECT ROUND(AVG(NVL(RATING, 0)), 1) RATING
+		                           FROM TB_REVIEW
+		                          WHERE PRODUCT_NO = TB_PRODUCT.PRODUCT_NO
+		                        ) RATING
+		                       ,PATH PRODUCT_URL
+		                  FROM (
+		                        SELECT
+		                               LIKE_NO
+		                              ,LIKE_REFNO RECIPE_NO
+		                          FROM TB_LIKE
+		                         WHERE USER_NO = ?
+		                           AND LIKE_TYPE = 'R'
+		                         ORDER BY LIKE_DATE DESC
+		                        ) USER_LIKED
+		                  JOIN TB_RECIPE ON (USER_LIKED.RECIPE_NO = TB_RECIPE.RECIPE_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                  JOIN TB_MEMBER USING (USER_NO)
+		                  JOIN TB_PRODUCT ON (TB_RECIPE.PRODUCT_NO = TB_PRODUCT.PRODUCT_NO)
+		                  JOIN TB_REVIEW ON (TB_PRODUCT.PRODUCT_NO = TB_REVIEW.PRODUCT_NO)
+		                ) R
+		        ) T
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
 	
 
 </properties>

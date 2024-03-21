@@ -285,32 +285,31 @@
                         </div>
 
                         <br>
+
                       
                         <div class="d-flex" style="border: 1px solid black; border-radius: 10px; height: 200px;">
                             <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2 style="margin-left: 10px;">평점</h2>
 								
-                                <select class="form-control" style="width: 100px; margin-left: 10px;" id="category">
-                                <% for(int i=1; i<=5; i++) { %>
-                                    <option value="<%= i %>"><%= i %></option>
+                               <select class="form-control" style="width: 100px; margin-left: 10px;" id="category">
+                               <% for(int i=1; i<=5; i++) { %>
+                                   <option value="<%= i %>"><%= i %></option>
                                 <% } %>
                                 </select>         
                                     
                             </div>
-                                
                              <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2>리뷰내용</h2>
-                                <textarea rows="3" class="form-control" style="resize: none; width: 600px;" id="reply_content" name="content"></textarea>
-                                
+                                	<textarea rows="3" class="form-control" style="resize: none; width: 600px;" id="reply_content" name="content"></textarea>
+
                             </div>
-                            
+                           
                         </div>
                                 
 						
 						
                         <hr>
                         <div class="rev_content" id="tableReview">
-                           
                             <table class="table"> <!-- 부트스트랩 테이블에 줄넣어주기 -->
                                 <thead>
                                     <tr>
@@ -346,7 +345,7 @@
                        		selectQna(1);
                        		
                        		$("#prod_btn").click(function(){
-                       			alert("로그인 먼저 해주세요");
+                       			alert("로그인 하셔야 이용 할 수 있는 메뉴입니다.");
                        		})
                        	})
                        	
@@ -526,7 +525,7 @@
                     <div class="main_bottom_rev d-flex flex-column">
 
                         <div>
-                            <span><b style="font-size: 30px;">상품문의</b></span>
+                            <span><b style="font-size: 30px;" id="proQna">상품문의</b></span>
 						</div>
                             <!-- 현재 로그인된 상태일 경우 보여지는 요소 -->
                          <% if(loginUser != null) { %>
