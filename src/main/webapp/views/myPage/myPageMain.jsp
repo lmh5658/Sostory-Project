@@ -43,7 +43,7 @@
 				    </div>
 				
 				    <div class="side_menu">
-				        <a href="<%= contextPath %>/like.me?type=p&page=1" class="list">찜목록</a>
+				        <button type="button" id="likeList" class="list">찜목록</button>
 				    </div>
 				
 				    <div class="side_menu">
@@ -62,6 +62,11 @@
 				
 				<script>
 				   $(function(){
+					   	// 사이드메뉴-찜목록 이동요청 버튼클릭시 실행될 함수
+					    $("#likeList").click(function(){
+					    	location.href="<%= contextPath %>/like.me?type=p&page=1";
+					    })	
+					   
 					    // 회원탈퇴페이지 요청시 실행될 함수
 					    $("#deleteAccount").click(function(e){
 					    	
