@@ -3,6 +3,7 @@ package com.sos.myPage.model.vo;
 public class Liked {
 
 	private int likedNo;
+	private int likedTotal;
 	private String categoryName;
 	private int productNo;
 	private String productName;
@@ -15,14 +16,16 @@ public class Liked {
 	private String recipeIntro;
 	private String recipeThumbnailUrl;
 	private double rating;
+	private String userProfileUrl;
 	
 	public Liked() {}
 
-	public Liked(int likedNo, String categoryName, int productNo, String productName, int price, int discountPrice,
-			String productThumbnailUrl, int recipeNo, String recipeWriter, String recipeTitle, String recipeIntro,
-			String recipeThumbnailUrl, double rating) {
+	public Liked(int likedNo, int likedTotal, String categoryName, int productNo, String productName, int price,
+			int discountPrice, String productThumbnailUrl, int recipeNo, String recipeWriter, String recipeTitle,
+			String recipeIntro, String recipeThumbnailUrl, double rating, String userProfileUrl) {
 		super();
 		this.likedNo = likedNo;
+		this.likedTotal = likedTotal;
 		this.categoryName = categoryName;
 		this.productNo = productNo;
 		this.productName = productName;
@@ -35,6 +38,7 @@ public class Liked {
 		this.recipeIntro = recipeIntro;
 		this.recipeThumbnailUrl = recipeThumbnailUrl;
 		this.rating = rating;
+		this.userProfileUrl = userProfileUrl;
 	}
 
 	public int getLikedNo() {
@@ -43,6 +47,14 @@ public class Liked {
 
 	public void setLikedNo(int likedNo) {
 		this.likedNo = likedNo;
+	}
+
+	public int getLikedTotal() {
+		return likedTotal;
+	}
+
+	public void setLikedTotal(int likedTotal) {
+		this.likedTotal = likedTotal;
 	}
 
 	public String getCategoryName() {
@@ -140,6 +152,14 @@ public class Liked {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
+	
+	public String getUserProfileUrl() {
+		return userProfileUrl;
+	}
+
+	public void setUserProfileUrl(String userProfileUrl) {
+		this.userProfileUrl = userProfileUrl;
+	}
 
 	@Override
 	public String toString() {
@@ -147,7 +167,8 @@ public class Liked {
 				+ ", productName=" + productName + ", price=" + price + ", discountPrice=" + discountPrice
 				+ ", productThumbnailUrl=" + productThumbnailUrl + ", recipeNo=" + recipeNo + ", recipeWriter="
 				+ recipeWriter + ", recipeTitle=" + recipeTitle + ", recipeIntro=" + recipeIntro
-				+ ", recipeThumbnailUrl=" + recipeThumbnailUrl + ", rating=" + rating + "]";
+				+ ", recipeThumbnailUrl=" + recipeThumbnailUrl + ", rating=" + rating + ", userProfileUrl="
+				+ userProfileUrl + "]";
 	}
 	
 }

@@ -975,9 +975,11 @@ public class MyPageDao {
 					li.setRecipeNo(rset.getInt("recipe_no"));
 					li.setCategoryName(rset.getString("category_name"));
 					li.setRecipeWriter(rset.getString("user_id"));
+					li.setUserProfileUrl(rset.getString("user_profile_url"));
 					li.setRecipeTitle(rset.getString("recipe_title"));
 					li.setRecipeIntro(rset.getString("recipe_intro"));
 					li.setRecipeThumbnailUrl(rset.getString("thumbnail_url"));
+					li.setLikedTotal(rset.getInt("liked_total"));
 					li.setProductNo(rset.getInt("product_no"));
 					li.setProductName(rset.getString("product_name"));
 					li.setPrice(rset.getInt("price"));

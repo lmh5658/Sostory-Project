@@ -1,6 +1,7 @@
 package com.sos.myPage.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.cart.model.service.CartService;
+import com.sos.cart.model.vo.Cart;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.service.MyPageService;
@@ -85,32 +88,40 @@ public class MyPageLikeListController extends HttpServlet {
 			
 			// 리스트 조회요청
 			info.put("pageInfo", pi);
-			List<Liked> list = mpService.selectLikedList(info);
+			List<Liked> likedList = mpService.selectLikedList(info);
 			
-			// 조회결과별 응답화면 및 응답데이터(실패메세지)
-			request.setAttribute("pageInfo", pi);	// 페이징바 객체는 공통적으로 반환
+			// 사용자가 장바구니에 담은상품번호 리스트 (장바구니 담김여부 표시를 위함)
+			List<Cart> cartList =  new CartService().selectCart(userNo);
+			ArrayList<Integer> pNoList = new ArrayList<>();
+			for(Cart ca : cartList) {
+				pNoList.add(ca.getProductNo());
+			}
 			
-			if(list == null) { // 조회결과 없을경우
+			// 응답데이터
+			request.setAttribute("pageInfo", pi);
+			request.setAttribute("likedList", likedList);
+			request.setAttribute("pNoList", pNoList);
+			
+			// 조회결과 없을경우 : 찜유형별 실패메세지
+			if(likedList == null) {
 				
 				if(type.equals("p")) {
 					// case 01) 찜상품 목록조회 요청시
 					request.getSession().setAttribute("alertMsg", "찜한 상품내역이 없습니다.");
 				}else {
 					// case 02) 찜레시피 목록조회 요청시
-					request.getSession().setAttribute("alertMsg", "찜한 레시피내역이 없습니다.");				}
-
-				
-			}else { // 조회결과 있을경우
-				
-				request.setAttribute("list", list);
-				
-				if(type.equals("p")) {
-					// case 01) 찜상품 목록조회 요청시 ==> 찜상품 목록페이지반환
-					request.getRequestDispatcher("/views/myPage/myPageLikedProductList.jsp").forward(request, response);
-				}else {
-					// case 02) 찜레시피 목록조회 요청시 ==> 찜레시피 목록페이지반환
-					request.getRequestDispatcher("/views/myPage/myPageLikedRecipeList.jsp").forward(request, response);
+					request.getSession().setAttribute("alertMsg", "찜한 레시피내역이 없습니다.");				
 				}
+
+			}
+			
+			// 찜유형별 응답화면
+			if(type.equals("p")) {
+				// case 01) 찜상품 목록조회 요청시 ==> 찜상품 목록페이지반환
+				request.getRequestDispatcher("/views/myPage/myPageLikedProductList.jsp").forward(request, response);
+			}else {
+				// case 02) 찜레시피 목록조회 요청시 ==> 찜레시피 목록페이지반환
+				request.getRequestDispatcher("/views/myPage/myPageLikedRecipeList.jsp").forward(request, response);
 			}
 		}
 		

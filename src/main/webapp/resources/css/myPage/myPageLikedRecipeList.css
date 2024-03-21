@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+/* 레이아웃 관련 스타일 */
+.wrap{width: 1200px; margin: auto;}
+.wrap, .wrap * {box-sizing: border-box;}
+.header{height: 150px; z-index: 2; padding-top: 10px;}
+.main-content{min-height: 800px; padding-top: 130px;}
+.footer{height: 200px;}
+.center{display: flex; justify-content: center; align-items: center;}
+
+/* Header 영역관련 스타일 */
+.header{display: flex; width: 1200px; position: fixed; top: 0; background-color: white;}
+.header-left-logo{width: 25%; display: flex;}
+.header-left-logo>img{height: 100%;}
+.header-right{width: 75%; display: flex; flex-direction: column;}
+.header-right-top{height: 30%;}
+.header-user>svg:hover{cursor: pointer;}
+.header-right-bottom{height: 70%;}
+
+/* Footer 영역관련 스타일 */
+.footer{display: flex;}
+.footer-logo{width: 30%;}
+.footer-company{width: 40%;}
+.footer-company>ul{list-style-type: "- "}
+.footer-business-time{width: 30%;}
+.footer-business-time>ul{list-style: none;}
+
+/* 마이페이지에서 공통으로 필요한 style (nav, 페이지제목) */
+.main-wrap{
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    max-width: 1200px;
+    min-height: 1200px;
+    display: flex;
+}
+
+.menu_wrap{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    font-size: 20px;
+    width: 15%;
+    align-items: center;    
+    background-color: rgb(238, 67, 67);
+}
+
+.side_menu>button{
+    width: 100%;
+    height: 70px;
+    background-color: rgb(238, 67, 67);
+    
+    }
+
+.side_menu div{
+    display:none;
+    font-size: 17px;
+}
+
+.list{
+    border: none;
+    color: white;
+    font-weight: bolder;
+}
+
+.side_menu a{
+    color: white;
+}
+
+a{
+    text-decoration-line: none;
+    color: black        
+}
+
+.side_menu a:hover{
+    opacity: 0.8;
+    text-decoration-line: none;
+}
+
+.main-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 40px;
+}
+
+/* 마이페이지 1:1문의에서만 필요한 style */
+.page-title{
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    width: 700px;
+    border-bottom: 1px solid lightslategray;
+}
+
+h3>label{
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 13px;
+}
+
+/* 레시피 찜목록 전용 style */
+.recipe_wrap{
+       width: 99%;
+       background-color: rgb(248, 243, 236);
+       display: flex;
+       flex-wrap: wrap;
+       padding: 30px 15px;
+       margin-top: 30px;
+       margin-left:20px;
+   }
+.recipe{
+       width: 33%;
+       height: 450px;
+       padding: 20px;
+       flex-shrink: 0;
+}
+
+.recipe:hover{
+       cursor: pointer;
+       background-color: antiquewhite;
+}
+
+.recipe_thumbnail{
+       width: 100%;
+       height: 45%;
+       background-color: white;
+       border-radius: 40px;
+}
+.recipe_thumbnail>img{
+	width: 100%;
+	height: 100%;
+       border-radius: 40px;
+}
+.recipe_category{
+       font-size: 12px;
+       margin-top: 15px;
+}
+.recipe_detail{color: grey;}
+.recipe_etc{
+       display: flex;
+       padding: 10px 0px;
+       border-bottom: 1px solid grey;
+       justify-content: space-between;
+}
+.recipe_etc div{
+       font-size: small;
+       font-weight: bold;
+}
+.recipe_product{
+       border-top: 1px solid grey;
+       margin-top: 5px;
+       padding: 10px 0px;
+       display: flex;
+}
+.product_img{margin-right: 10px;}
+.product_img>img{
+   	width: 100%;
+   	height: 100%;
+}
+.recipe_product>.product_img{
+       width: 40%;
+       height: 20%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+}
+
+.category{margin-left:10px; font-size:20px;}
+.categoryBtn{padding-bottom: 0px;}
+.cart:hover, .like:hover{cursor:pointer;}
