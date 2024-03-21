@@ -934,11 +934,13 @@ public class MyPageDao {
 		
 		String sql = null; 	// 찜유형별 다른쿼리
 		
-		if(info.get("type").toString().equals("p")) {
-			// 찜유형 == "p" : 찜상품 목록 조회쿼리
+		String type = info.get("type").toString();	// 찜유형
+		
+		if(type.equals("p")) {
+			// case 01) 찜유형 == "p" : 찜상품 목록 조회쿼리
 			sql = prop.getProperty("selectLikedProductList");
 		}else { 
-			// 찜유형 == "r" : 찜레시피 목록 조회쿼리
+			// case 02) 찜유형 == "r" : 찜레시피 목록 조회쿼리
 			sql = prop.getProperty("selectLikedRecipeList");
 		}
 		
@@ -958,19 +960,31 @@ public class MyPageDao {
 			while(rset.next()) {
 				Liked li = new Liked();
 				
-				li.setLikedNo(rset.getInt("liked_no"));
-				li.setRecipeNo(rset.getInt("recipe_no"));
-				li.setCategoryName(rset.getString("category_name"));
-				li.setRecipeWriter(rset.getString("user_id"));
-				li.setRecipeTitle(rset.getString("recipe_title"));
-				li.setRecipeIntro(rset.getString("recipe_intro"));
-				li.setRecipeThumbnailUrl(rset.getString("thumbnail_url"));
-				li.setProductNo(rset.getInt("product_no"));
-				li.setProductName(rset.getString("product_name"));
-				li.setPrice(rset.getInt("price"));
-				li.setDiscountPrice(rset.getInt("discount_price"));
-				li.setRating(rset.getDouble("rating"));
-				li.setProductThumbnailUrl(rset.getString("product_url"));
+				if(type.equals("p")) {
+					// case 01) 찜유형 == "p" : 찜상품 목록
+					li.setLikedNo(rset.getInt("like_no"));
+					li.setProductNo(rset.getInt("product_no"));
+					li.setCategoryName(rset.getString("category_name"));
+					li.setProductName(rset.getString("product_name"));
+					li.setPrice(rset.getInt("price"));
+					li.setDiscountPrice(rset.getInt("discount_price"));
+					li.setProductThumbnailUrl(rset.getString("product_url"));
+				}else {
+					// case 01) 찜유형 == "r" : 찜레시피 목록
+					li.setLikedNo(rset.getInt("like_no"));
+					li.setRecipeNo(rset.getInt("recipe_no"));
+					li.setCategoryName(rset.getString("category_name"));
+					li.setRecipeWriter(rset.getString("user_id"));
+					li.setRecipeTitle(rset.getString("recipe_title"));
+					li.setRecipeIntro(rset.getString("recipe_intro"));
+					li.setRecipeThumbnailUrl(rset.getString("thumbnail_url"));
+					li.setProductNo(rset.getInt("product_no"));
+					li.setProductName(rset.getString("product_name"));
+					li.setPrice(rset.getInt("price"));
+					li.setDiscountPrice(rset.getInt("discount_price"));
+					li.setRating(rset.getDouble("rating"));
+					li.setProductThumbnailUrl(rset.getString("product_url"));
+				}
 				
 				list.add(li);
 			}

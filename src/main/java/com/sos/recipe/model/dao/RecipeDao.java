@@ -240,7 +240,7 @@ public class RecipeDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				detailRecipe =  new Recipe( rset.getInt("RECIPE_NO"), 
+				detailRecipe  =  new Recipe( rset.getInt("RECIPE_NO"), 
 											rset.getString("CATEGORY_NAME"), 
 											rset.getString("RECIPE_TITLE"),
 											rset.getString("THUMBNAIL_URL"),
@@ -271,42 +271,42 @@ public class RecipeDao {
 	
 	//레시피 재료 
 	public List<Recipe> selectIngridient(Connection conn, int recipeNo) {
-	    List<Recipe> ingredients = new ArrayList<>();
-	    
-	    PreparedStatement pstmt = null;
-	    ResultSet rset = null;
-	    String sql = prop.getProperty("selectIngridient");
-	    
-	    try {
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setInt(1, recipeNo);
-	        rset = pstmt.executeQuery();
-	        
-	        while (rset.next()) {
-	            Recipe ingredient = new Recipe(
-	                rset.getInt("RECIPE_NO"),
-	                rset.getString("INGREDIENT_NAME"),
-	                rset.getString("INGREDIENT_AMOUNT"),
-	                rset.getInt("INGREDIENT_COUNT")
-	            );
-	            ingredients.add(ingredient);
-	        }
-	        
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        close(rset);
-	        close(pstmt);
-	    }
-	    
-	    return ingredients;
+		List<Recipe> ingredients = new ArrayList<>();	
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectIngridient");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, recipeNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ingredients.add(new Recipe( rset.getInt("RECIPE_NO"), 
+									rset.getString("INGREDIENT_NAME"),
+									rset.getString("INGREDIENT_AMOUNT"),
+									rset.getInt("INGREDIENT_COUNT")
+								  ));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return ingredients;
+		
 	}
 		
 		
-	//레시피 상세 step 목록들
-	public Recipe selectStep(Connection conn, int recipeNo) {
 		
-		Recipe step = null;	
+	//레시피 상세 step 목록들
+	public List<Recipe> selectStep(Connection conn, int recipeNo) {
+		List<Recipe> step = new ArrayList<>() ;	
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -318,13 +318,12 @@ public class RecipeDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				step = new Recipe( rset.getInt("STEP_COUNT"), 
+				step.add(new Recipe( rset.getInt("RECIPE_NO"),
 									 rset.getInt("STEP_NO"), 
+									 rset.getInt("STEP_COUNT"), 
 									 rset.getString("STEP_CONTENT"),
-									 rset.getString("STEP_ATTACHMENT_URL"),
-									 rset.getInt("STEP_COUNT")
-
-								  );
+									 rset.getString("STEP_ATTACHMENT_URL")
+								  ));
 			}
 			
 			

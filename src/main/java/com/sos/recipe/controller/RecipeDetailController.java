@@ -39,13 +39,13 @@ public class RecipeDetailController extends HttpServlet {
 		int recipeNo = Integer.parseInt(request.getParameter("no"));
 		
 		Recipe detailRecipe = new RecipeService().selectDetailRecipe(recipeNo); //상세에 들어갈 것들
-		List<Recipe> ingredient = new RecipeService().selectIngridient(recipeNo);//재료 총 수 
-		Recipe step = new RecipeService().selectStep(recipeNo);//step
- System.out.println(ingredient);
-		//Attachment at = new RecipeService().selectAttachment(reciprNo);
+		List<Recipe> ingredient = new RecipeService().selectIngridient(recipeNo);//재료 
+		List<Recipe> step = new RecipeService().selectStep(recipeNo);//step
+        //Attachment at = new RecipeService().selectAttachment(reciprNo);
+		System.out.println(step);
 		
 		request.setAttribute("step", step);//step
-		request.setAttribute("list", ingredient); //재료 -= 카테고리도 int일 때 넘기는 법 물어보기 ->jsp에서 안돼
+		request.setAttribute("ingredient", ingredient); //재료 -= 카테고리도 int일 때 넘기는 법 물어보기 ->jsp에서 안돼
 		request.setAttribute("detailRecipe", detailRecipe);
 		//request.setAttribute("at", at);
 		

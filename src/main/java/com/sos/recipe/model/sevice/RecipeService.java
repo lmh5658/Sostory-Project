@@ -53,7 +53,7 @@ public class RecipeService {
 	//레시피상세 조회
 	public Recipe selectDetailRecipe(int recipeNo) {
 		Connection conn = getConnection();
-		Recipe detailRecipe= rDao.selectDetailRecipe(conn, recipeNo);
+		Recipe detailRecipe = rDao.selectDetailRecipe(conn, recipeNo);
 		close(conn);
 		return detailRecipe;
 	
@@ -68,9 +68,9 @@ public class RecipeService {
 		
 	}
 
-	public Recipe selectStep(int recipeNo) {
+	public List<Recipe> selectStep(int recipeNo) {
 		Connection conn = getConnection();
-		Recipe step= rDao.selectStep(conn, recipeNo);
+		List<Recipe> step= rDao.selectStep(conn, recipeNo);
 		close(conn);
 		return step;
 

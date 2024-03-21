@@ -172,14 +172,11 @@
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
 		            P.PATH
-		            ,RI.INGREDIENT_NAME,
-		             RI.INGREDIENT_AMOUNT 
 		        FROM TB_RECIPE R
 		       left JOIN TB_MEMBER M ON R.USER_NO = M.USER_NO
       		   left JOIN TB_PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
                left JOIN TB_LIKE L ON R.USER_NO = L.USER_NO
                left JOIN TB_CATEGORY C ON C.CATEGORY_NO = R.CATEGORY_NO
-               JOIN TB_RECIPE_INGREDIENT RI ON RI.RECIPE_NO = R.RECIPE_NO
 		        WHERE R.RECIPE_STATUS = 'Y'
 		        GROUP BY 
 		            R.RECIPE_NO,
@@ -195,10 +192,7 @@
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
 		            P.PATH,
-		            M.USER_PATH,
-		            RI.INGREDIENT_NAME,
-		             RI.INGREDIENT_AMOUNT 
-		            
+		            M.USER_PATH
 			    ) A
    		 WHERE RECIPE_NO = ?
     </entry>
@@ -206,11 +200,16 @@
     <!-- 레시피 상세 재료 ->총수로 SIZR값 가져와서 FOR문 돌리기? -->
     <entry key="selectIngridient">
 
-		    SELECT COUNT(*) AS INGREDIENT_COUNT
-		    FROM TB_RECIPE_INGREDIENT RI
-		    JOIN TB_RECIPE R ON RI.RECIPE_NO = R.RECIPE_NO
-		    WHERE R.RECIPE_STATUS = 'Y' AND R.RECIPE_NO = ?
-		    GROUP BY R.RECIPE_NO 
+		      SELECT R.RECIPE_NO, RI.INGREDIENT_NAME, RI.INGREDIENT_AMOUNT, A.INGREDIENT_COUNT
+			      FROM (
+			          SELECT R.RECIPE_NO, COUNT(*) AS INGREDIENT_COUNT
+			          FROM TB_RECIPE_INGREDIENT RI
+			          JOIN TB_RECIPE R ON RI.RECIPE_NO = R.RECIPE_NO
+			          WHERE R.RECIPE_STATUS = 'Y' AND R.RECIPE_NO = ?
+			          GROUP BY R.RECIPE_NO 
+			      ) A
+			      JOIN TB_RECIPE R ON R.RECIPE_NO = A.RECIPE_NO
+			      JOIN TB_RECIPE_INGREDIENT RI ON RI.RECIPE_NO = A.RECIPE_NO
 		
     </entry>
     
