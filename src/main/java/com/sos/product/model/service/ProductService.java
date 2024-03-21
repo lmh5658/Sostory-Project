@@ -6,6 +6,7 @@ import static com.sos.common.template.JDBCTemplate.getConnection;
 import static com.sos.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sos.common.model.vo.PageInfo;
@@ -207,14 +208,74 @@ public class ProductService {
 		
 	}
 	
+	public List<Product> sortAllList(String select, PageInfo pi){
+		
+		Connection conn = getConnection();
+		List<Product> list = new ArrayList<>();
+		if(select.equals("like")) {
+			list = pDao.sortLikeAllList(conn, pi);
+		}else if(select.equals("sale")) {
+			list = pDao.sortSaleAllList(conn, pi);
+		}else if(select.equals("rowPrice")){
+			list = pDao.sortrowPriceAllList(conn, pi);
+		}
+		close(conn);
+		return list;
+	}
+	
+	public List<Product> sortJangList(String select, PageInfo pi){
+		
+		Connection conn = getConnection();
+		List<Product> list = new ArrayList<>();
+		if(select.equals("like")) {
+			list = pDao.sortLikeJangList(conn, pi);
+		}else if(select.equals("sale")) {
+			list = pDao.sortSaleJangList(conn, pi);
+		}else if(select.equals("rowPrice")){
+			list = pDao.sortrowPriceJangList(conn, pi);
+		}
+		close(conn);
+		return list;
+	}	
+	
+	public List<Product> sortDressingList(String select, PageInfo pi){
+		
+		Connection conn = getConnection();
+		List<Product> list = new ArrayList<>();
+		if(select.equals("like")) {
+			list = pDao.sortLikeDressingList(conn, pi);
+		}else if(select.equals("sale")) {
+			list = pDao.sortSaleDressingList(conn, pi);
+		}else if(select.equals("rowPrice")){
+			list = pDao.sortrowPriceDressingList(conn, pi);
+		}
+		close(conn);
+		return list;
+	}
+	
 	public List<Product> searchProductEtcList(String search, PageInfo pi){
 		Connection conn = getConnection();
-		List<Product> list = pDao.searchProductEtcList(conn, search, pi);
+		List<Product> list = pDao.searchProductEtcList(conn, pi, search);
 		close(conn);
 		return list;
 	}
 	
 	
+	
+	public List<Product> sortEtcList(String select, PageInfo pi){
+		
+		Connection conn = getConnection();
+		List<Product> list = new ArrayList<>();
+		if(select.equals("like")) {
+			list = pDao.sortLikeEtcList(conn, pi);
+		}else if(select.equals("sale")) {
+			list = pDao.sortSaleEtcList(conn, pi);
+		}else if(select.equals("rowPrice")){
+			list = pDao.sortrowPriceEtcList(conn, pi);
+		}
+		close(conn);
+		return list;
+	}
 	
 
 

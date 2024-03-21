@@ -13,6 +13,7 @@ import java.util.List;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.dao.MyPageDao;
 import com.sos.myPage.model.vo.Address;
+import com.sos.myPage.model.vo.Liked;
 import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Qna;
 
@@ -460,6 +461,61 @@ public class MyPageService {
 		result.put("file", file);
 		
 		return result;
+		
+	}
+	
+	/**
+	 * 사용자가 찜목록 조회요청시 찜한상품 or 찜한레시피 갯수조회시 실행될 메소드
+	 * 
+	 * @param info : 찜유형(상품|레시피), 서비스요청 회원번호 정보가 담긴 객체
+	 * case 01) 찜한상품 갯수조회
+	 *            "type" == "p"
+	 *          "userNo" == xx
+	 * 
+	 * case 02) 찜한레시피 갯수조회
+	 *            "type" == "r"
+	 *          "userNo" == xx
+	 * 
+	 * @return : 조회된 찜한상품 or 찜한레시피 총수
+	 */
+	public int selectTotalLiked(HashMap<String, Object> info) {
+		
+		Connection conn = getConnection();
+		
+		int total = mpDao.selectTotalLiked(conn, info);
+		
+		close(conn);
+		
+		return total;
+		
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 찜목록 조회요청시 찜한상품 or 찜한레시피 목록조회 요청시 실행될 메소드
+	 * 
+	 * @param info : 찜유형(상품|레시피), 서비스요청 회원번호, 페이징바 정보가 담긴 객체
+	 * case 01) 찜한상품 갯수조회
+	 *              "type" == "p"
+	 *            "userNo" == xx
+	 *          "pageInfo" == pi
+	 * 
+	 * case 02) 찜한레시피 갯수조회
+	 *              "type" == "r"
+	 *            "userNo" == xx
+	 *          "pageInfo" == pi
+	 * 
+	 * @return : 조회된 찜한상품 or 찜한레시피 찜객체 리스트
+	 */
+	public List<Liked> selectLikedList(HashMap<String, Object> info){
+		
+		Connection conn = getConnection();
+		
+		List<Liked> list = mpDao.selectLikedList(conn, info);
+		
+		close(conn);
+		
+		return list;
+		
 		
 	}
 	

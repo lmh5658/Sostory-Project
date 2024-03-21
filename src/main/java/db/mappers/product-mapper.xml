@@ -438,29 +438,281 @@
 			) WHERE RNUM BETWEEN ? AND ?
      </entry>
      
-	<entry key="">
+	<entry key="sortLikeAllList">
 	SELECT * FROM(
-		SELECT ROWNUM RNUM, A.*
-		FROM(
-		SELECT 
-		      PRODUCT_NO
-		    , CATEGORY_NAME
-		    , PRODUCT_NAME
-		    , PRICE
-		    , DISCOUNT_PRICE
-		    , PATH
-		    ,(SELECT COUNT(*)
-		     FROM TB_LIKE
-		     WHERE LIKE_REFNO = PRODUCT_NO
-		       AND LIKE_TYPE = 'P') COUNT
-		    FROM TB_PRODUCT
-		     JOIN TB_CATEGORY USING(CATEGORY_NO)
-		    WHERE CATEGORY_NO = 3
-		     AND STATUS = 'Y' 
-		    ORDER BY COUNT DESC
-		) A
-		)WHERE RNUM BETWEEN ? AND ?
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+                ,(SELECT COUNT(*)
+			     FROM TB_LIKE
+			     WHERE LIKE_REFNO = PRODUCT_NO
+			       AND LIKE_TYPE = 'P') COUNT
+			    FROM TB_PRODUCT
+			     JOIN TB_CATEGORY USING(CATEGORY_NO)
+			     WHERE STATUS = 'Y' 
+			    ORDER BY COUNT DESC
+			) A
+			)WHERE RNUM BETWEEN ? AND ?
 
 	</entry>
-
+	
+	<entry key="sortSaleAllList">
+	SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+			    ,(SELECT COUNT(*) 
+			        FROM TB_ORDER_PRODUCT
+			       WHERE PRODUCT_NO = P.PRODUCT_NO ) COUNT
+			FROM TB_PRODUCT P
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+            WHERE STATUS = 'Y' 
+			ORDER BY COUNT DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortrowPriceAllList">
+		SELECT * FROM(
+        SELECT ROWNUM RNUM, A.*
+        FROM(
+        SELECT 
+              PRODUCT_NO
+            , CATEGORY_NAME
+            , PRODUCT_NAME
+            , PRICE
+            , DISCOUNT_PRICE
+            , PATH
+            FROM TB_PRODUCT
+             JOIN TB_CATEGORY USING(CATEGORY_NO)
+             WHERE STATUS = 'Y' 
+            ORDER BY (PRICE - DISCOUNT_PRICE) ASC
+        ) A
+        )WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortLikeJangList">	        
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+                ,(SELECT COUNT(*)
+			     FROM TB_LIKE
+			     WHERE LIKE_REFNO = PRODUCT_NO
+			       AND LIKE_TYPE = 'P') COUNT
+			    FROM TB_PRODUCT
+			     JOIN TB_CATEGORY USING(CATEGORY_NO)
+                 WHERE CATEGORY_NO = 1
+			     AND STATUS = 'Y' 
+			    ORDER BY COUNT DESC
+			) A
+			)WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortSaleJangList">
+		SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+			    ,(SELECT COUNT(*) 
+			        FROM TB_ORDER_PRODUCT
+			       WHERE PRODUCT_NO = P.PRODUCT_NO ) COUNT
+			FROM TB_PRODUCT P
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NO = 1
+			  AND STATUS = 'Y' 
+			ORDER BY COUNT DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortrowPriceJangList">
+		SELECT * FROM(
+        SELECT ROWNUM RNUM, A.*
+        FROM(
+        SELECT 
+              PRODUCT_NO
+            , CATEGORY_NAME
+            , PRODUCT_NAME
+            , PRICE
+            , DISCOUNT_PRICE
+            , PATH
+            FROM TB_PRODUCT
+             JOIN TB_CATEGORY USING(CATEGORY_NO)
+            WHERE CATEGORY_NO = 1
+             AND STATUS = 'Y' 
+            ORDER BY (PRICE - DISCOUNT_PRICE) ASC
+        ) A
+        )WHERE RNUM BETWEEN ? AND ?
+	
+	</entry>
+	
+	<entry key="sortLikeDressingList">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+                ,(SELECT COUNT(*)
+			     FROM TB_LIKE
+			     WHERE LIKE_REFNO = PRODUCT_NO
+			       AND LIKE_TYPE = 'P') COUNT
+			    FROM TB_PRODUCT
+			     JOIN TB_CATEGORY USING(CATEGORY_NO)
+                 WHERE CATEGORY_NO = 2
+			     AND STATUS = 'Y' 
+			    ORDER BY COUNT DESC
+			) A
+			)WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortSaleDressingList">
+		SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+			    ,(SELECT COUNT(*) 
+			        FROM TB_ORDER_PRODUCT
+			       WHERE PRODUCT_NO = P.PRODUCT_NO ) COUNT
+			FROM TB_PRODUCT P
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NO = 2
+			  AND STATUS = 'Y' 
+			ORDER BY COUNT DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortrowPriceDressingList">
+		SELECT * FROM(
+        SELECT ROWNUM RNUM, A.*
+        FROM(
+        SELECT 
+              PRODUCT_NO
+            , CATEGORY_NAME
+            , PRODUCT_NAME
+            , PRICE
+            , DISCOUNT_PRICE
+            , PATH
+            FROM TB_PRODUCT
+             JOIN TB_CATEGORY USING(CATEGORY_NO)
+            WHERE CATEGORY_NO = 2
+             AND STATUS = 'Y' 
+            ORDER BY (PRICE - DISCOUNT_PRICE) ASC
+        ) A
+        )WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	<entry key="sortLikeEtcList">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+                ,(SELECT COUNT(*)
+			     FROM TB_LIKE
+			     WHERE LIKE_REFNO = PRODUCT_NO
+			       AND LIKE_TYPE = 'P') COUNT
+			    FROM TB_PRODUCT
+			     JOIN TB_CATEGORY USING(CATEGORY_NO)
+                 WHERE CATEGORY_NO = 3
+			     AND STATUS = 'Y' 
+			    ORDER BY COUNT DESC
+			) A
+			)WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortSaleEtcList">
+		SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+			    ,(SELECT COUNT(*) 
+			        FROM TB_ORDER_PRODUCT
+			       WHERE PRODUCT_NO = P.PRODUCT_NO ) COUNT
+			FROM TB_PRODUCT P
+			JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NO = 3
+			  AND STATUS = 'Y' 
+			ORDER BY COUNT DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="sortrowPriceEtcList">
+		SELECT * FROM(
+        SELECT ROWNUM RNUM, A.*
+        FROM(
+        SELECT 
+              PRODUCT_NO
+            , CATEGORY_NAME
+            , PRODUCT_NAME
+            , PRICE
+            , DISCOUNT_PRICE
+            , PATH
+            FROM TB_PRODUCT
+             JOIN TB_CATEGORY USING(CATEGORY_NO)
+            WHERE CATEGORY_NO = 3
+             AND STATUS = 'Y' 
+            ORDER BY (PRICE - DISCOUNT_PRICE) ASC
+        ) A
+        )WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	
+	
+	
 </properties>

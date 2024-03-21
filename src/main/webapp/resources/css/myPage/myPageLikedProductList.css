@@ -39,7 +39,7 @@
     font-weight: bolder;
 }
 
-.side_menu a{
+.side_menu a, .side_menu>a{
     color: white;
 }
 
@@ -48,7 +48,7 @@ a{
     color: black        
 }
 
-.side_menu a:hover{
+.side_menu a:hover, .side_menu>a:hover{
     opacity: 0.8;
     text-decoration-line: none;
 }

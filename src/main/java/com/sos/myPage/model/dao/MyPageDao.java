@@ -16,6 +16,7 @@ import java.util.Properties;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.vo.Address;
+import com.sos.myPage.model.vo.Liked;
 import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
@@ -856,39 +857,122 @@ public class MyPageDao {
 	}
 	
 	/**
-	 * 사용자가 마이페이지에서 찜한상품 목록조회 요청시 실행될 메소드
+	 * 사용자가 찜목록 조회요청시 찜한상품 or 찜한레시피 갯수조회시 실행될 메소드
+	 * 
+	 * @param info : 찜유형(상품|레시피), 서비스요청 회원번호 정보가 담긴 객체
+	 * case 01) 찜한상품 갯수조회
+	 *            "type" == "p"
+	 *          "userNo" == xx
+	 * 
+	 * case 02) 찜한레시피 갯수조회
+	 *            "type" == "r"
+	 *          "userNo" == xx
 	 * 
 	 * @param conn
-	 * @param userNo : 목록조회 요청 회원번호
-	 * @return : 조회된 찜한 상품객체 리스트
+	 * @return : 조회된 찜한상품 or 찜한레시피 총수
 	 */
-	public List<Product> selectLikedProductList(Connection conn, int userNo) {
+	public int selectTotalLiked(Connection conn, HashMap<String, Object> info) {
 		
-		List<Product> list = new ArrayList<>();
+		int total = 0;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectLikedProductList");
+		String sql = null;	// 찜유형별 다른쿼리
+		
+		if(info.get("type").toString().equals("p")) {
+			// 찜유형 == "p" : 찜상품 갯수 조회쿼리
+			sql = prop.getProperty("selectTotalLikedProduct");
+		}else { 
+			// 찜유형 == "r" : 찜레시피 갯수 조회쿼리
+			sql = prop.getProperty("selectTotalLikedRecipe");
+		}
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
+			pstmt.setInt(1, Integer.parseInt(info.get("userNo").toString()));
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				total = rset.getInt("total");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return total;
+	}
+	
+	/**
+	 * 사용자가 마이페이지에서 찜목록 조회요청시 찜한상품 or 찜한레시피 목록조회 요청시 실행될 메소드
+	 * 
+	 * @param info : 찜유형(상품|레시피), 서비스요청 회원번호, 페이징바 정보가 담긴 객체
+	 * case 01) 찜한상품 갯수조회
+	 *              "type" == "p"
+	 *            "userNo" == xx
+	 *          "pageInfo" == pi
+	 * 
+	 * case 02) 찜한레시피 갯수조회
+	 *              "type" == "r"
+	 *            "userNo" == xx
+	 *          "pageInfo" == pi
+	 * 
+	 * @param conn
+	 * @return : 조회된 찜한상품 or 찜한레시피 찜객체 리스트
+	 */
+	public List<Liked> selectLikedList(Connection conn, HashMap<String, Object> info) {
+		
+		List<Liked> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = null; 	// 찜유형별 다른쿼리
+		
+		if(info.get("type").toString().equals("p")) {
+			// 찜유형 == "p" : 찜상품 목록 조회쿼리
+			sql = prop.getProperty("selectLikedProductList");
+		}else { 
+			// 찜유형 == "r" : 찜레시피 목록 조회쿼리
+			sql = prop.getProperty("selectLikedRecipeList");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(info.get("userNo").toString()));
+			
+			PageInfo pi = (PageInfo)info.get("pageInfo");
+			int endNo = pi.getCurrentPage() * pi.getBoardLimit();
+			int startNo = endNo - (pi.getBoardLimit() - 1);
+			
+			pstmt.setInt(2, startNo);
+			pstmt.setInt(3, endNo);
 			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				Product p = new Product();
+				Liked li = new Liked();
 				
-				p.setLikeNo(rset.getInt("like_no"));
-				p.setProductNo(rset.getInt("product_no"));
-				p.setCategoryName(rset.getString("category_name"));
-				p.setProductName(rset.getString("product_name"));
-				p.setPrice(rset.getInt("price"));
-				p.setDiscountPrice(rset.getInt("discount_price"));
-				p.setPath(rset.getString("paht"));
+				li.setLikedNo(rset.getInt("liked_no"));
+				li.setRecipeNo(rset.getInt("recipe_no"));
+				li.setCategoryName(rset.getString("category_name"));
+				li.setRecipeWriter(rset.getString("user_id"));
+				li.setRecipeTitle(rset.getString("recipe_title"));
+				li.setRecipeIntro(rset.getString("recipe_intro"));
+				li.setRecipeThumbnailUrl(rset.getString("thumbnail_url"));
+				li.setProductNo(rset.getInt("product_no"));
+				li.setProductName(rset.getString("product_name"));
+				li.setPrice(rset.getInt("price"));
+				li.setDiscountPrice(rset.getInt("discount_price"));
+				li.setRating(rset.getDouble("rating"));
+				li.setProductThumbnailUrl(rset.getString("product_url"));
 				
-				list.add(p);
+				list.add(li);
 			}
 			
 		}catch(SQLException e) {
@@ -900,7 +984,7 @@ public class MyPageDao {
 		
 		return list;
 		
-		
 	}
+	
 
 }
