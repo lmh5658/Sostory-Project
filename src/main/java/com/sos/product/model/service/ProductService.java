@@ -277,6 +277,29 @@ public class ProductService {
 		return list;
 	}
 	
-
+	public int insertLikeProduct(int productNo, int userNo) {
+		Connection conn = getConnection();
+		int result = pDao.insertLikeProduct(conn, productNo, userNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;	
+	}
+	
+	
+	public int insertLikeDeleteProduct(int productNo, int userNo) {
+		Connection conn = getConnection();
+		int result = pDao.insertLikeDeleteProduct(conn, productNo, userNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;	
+	}
 
 }

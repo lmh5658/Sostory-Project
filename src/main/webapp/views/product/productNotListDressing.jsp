@@ -150,8 +150,8 @@
             $("#search_btn").click(function(){
           	  location.href = "<%=contextPath%>/sdlist.pr?search=" + $("#search").val() + "&page=1";
             })
-  
-  
+            
+
         })	
     </script>
   

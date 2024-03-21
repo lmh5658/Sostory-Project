@@ -712,6 +712,29 @@
         )WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<entry key="insertLikeProduct">
+		INSERT
+		   INTO TB_LIKE
+		   (
+		     LIKE_NO
+		   , USER_NO
+		   , LIKE_TYPE
+		   , LIKE_REFNO
+		   )
+		   VALUES
+		   (
+		    SEQ_LNO.NEXTVAL
+		   , ?
+		   , 'P'
+		   , ?
+		   )
+	</entry>
+	
+	<entry key="insertLikeDeleteProduct">
+		DELETE FROM TB_LIKE
+		WHERE USER_NO = ? AND LIKE_REFNO = ?;
+	</entry>
+	
 	
 	
 	

@@ -8,6 +8,7 @@
 	// 결제 여부 확인 리스트 회원번호, 회원아이디
 	List<ProductRecipe> rlist =(List<ProductRecipe>)request.getAttribute("rlist");
 	// 레시피번호, 사용자아이디, 상품이름, 카테고리이름, 레시피제목, 파일경로, 레시피설명, 레시피좋아요수 COUNT
+	System.out.println(pro);
 %>
 <!DOCTYPE html>
 <html>
@@ -95,6 +96,12 @@
 		    right: 40px;
 		    color: rgb(186, 181, 181);
 		}
+		#heart:hover {
+            fill: red; /* 호버 시 색상 변경 */
+            cursor: pointer; /* 호버 시 커서 모양 변경 */
+        }
+        
+        
 
 
 </style>
@@ -125,10 +132,10 @@
                                     <div class="main_right_top">
                                         <h1><b><%= pro.getProductName() %></b></h1>
                                          <% if(pro.getDiscountPrice() == 0){ %>
-                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()+ pro.getDiscountPrice() %>원</b></h1></span>
+                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1></span>
                                         <% }else{ %>
                                         <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1></span>
-                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice()+ pro.getDiscountPrice() %>원</del></h4>
+                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() %>원</del></h4>
                                         <hr>
                                         <% } %>
                                         
@@ -145,9 +152,9 @@
                                             <div class="amount">
                                                 
                                                 <button type="button" class="btn btn-outline-dark">수량선택</button>
-                                                <input type="button" value="-" style="width: 30px;" onclick= id="minus">
+                                                <button type="button" value="-" style="width: 30px;" id="minus">-</button>
                                                 <div id="result">0</div>
-                                                <input type="button" value="+" style="width: 30px;" id="plus">
+                                                <button type="button" type="button" value="+" style="width: 30px;" id="plus">+</button>
         
                                             </div>
                                             <hr>
@@ -168,12 +175,15 @@
 
                                             <div class="main_right_bottom_bottom d-flex flex-direction ">
 
-
+												
+																						
                                                 <div class="my-5 w-100 center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-                                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                                    <svg onclick="heart();" id="heart" style="color:black;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16">
+                                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/ style="pointer-events: visible;">
                                                     </svg>
+                                                    
                                                 </div>
+												
                                                 <div class="my-5 w-100 center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
                                                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
@@ -184,9 +194,59 @@
                                                 </div>
 
                                             </div>
-
+                                           
                                     </div>
-
+                                    
+                                    <script>
+                                     
+                                    <% if(loginUser != null) {%>
+                                    	function heart(){
+                                    		$("#heart").css("color", "red");
+                                    			$.ajax({
+	                                    			url:"<%= contextPath%>/heart.pr",
+	                                    			data:{
+	                                    				proNo:<%=pro.getProductNo() %>,
+	                                    				userNo:<%= loginUser.getUserNo() %>
+	                                    			},
+	                                    			type:"post",
+	                                    			success:function(result){
+	                                    				if(result > 0){
+	                                    					alert("상품 좋아요");
+	                                    				}else{
+	                                    					alert("로그인부터 진행해주세요..");
+	                                    				}
+	                                    			}
+	                                    		})
+                                    		}
+                                    	}
+                                     
+                                   
+                                     
+	                                    if($("#heart").attr("color") == "red"){
+	                                    	function heart(){
+	                                    			$("#heart").css("color", "black");
+			                                   		$.ajax({
+			                                   			url:"<%= contextPath%>/dheart.pr",
+			                                   			data:{
+			                                   				proNo:<%=pro.getProductNo() %>,
+			                                   				userNo:<%= loginUser.getUserNo() %>
+			                                   			},
+			                                   			type:"post",
+			                                   			success:function(result){
+			                                   				if(result > 0){
+			                                   					alert("상품 좋아를 취소했습니다.");
+			                                   				}else{
+			                                   					alert("로그인부터 진행해주세요..");
+			                                   				}
+			                                   			}
+			                                   		})
+	                                    	}
+	                                    }	
+	                                    
+	                                    
+	                                    <% } %>
+									
+                                    </script>
 
 
 
@@ -300,7 +360,7 @@
                             </div>
                              <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2>리뷰내용</h2>
-                                	<textarea rows="3" class="form-control" style="resize: none; width: 600px;" id="reply_content" name="content"></textarea>
+                                	<textarea rows="3" class="form-control" style="resize: none; width: 600px;" id="reply_content" name="content" placeholder="상품을 구매하신 고객만이 리뷰작성이 가능합니다."></textarea>
 
                             </div>
                            
@@ -360,9 +420,11 @@
                         		},
                         		type:"post",
                         		success:function(result){
+                        			
                         			if(result > 0){
                         				selectReview(1);
                         			}
+                        			
                         		}
 	                        })
                        		
@@ -637,14 +699,7 @@
 
                 </section>
                 <!-- Section end -->
-
-
-
-
-
-
-        
-
+ 										
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
 
         <!-- Footer start -->
