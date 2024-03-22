@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.sos.common.model.vo.Category;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.vo.Product;
@@ -261,6 +262,84 @@ public class ManagerDao {
 		}
 		
 		return result;
+	}
+
+	public int selectCountSearchProductList(Connection conn, String keyword) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCountSearchProductList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + keyword + "%");
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public List<Product> selectProductByKeyword(Connection conn, PageInfo pi, String keyword) {
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductByKeyword");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + keyword + "%");
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Product(rset.getInt("product_no"),
+						 rset.getString("product_name"),
+						 rset.getInt("price"),
+						 rset.getString("inventory"),
+						 rset.getString("status"),
+						 rset.getInt("discount_price")
+						 ));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public List<Category> selectCategory(Connection conn) {
+		List<Category> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategory");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Category(rset.getInt("category_no"), rset.getString("category_name")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 
 }

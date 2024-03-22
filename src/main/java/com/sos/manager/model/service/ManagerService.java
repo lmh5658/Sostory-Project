@@ -8,6 +8,7 @@ import static com.sos.common.template.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.List;
 
+import com.sos.common.model.vo.Category;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.manager.model.dao.ManagerDao;
 import com.sos.member.model.vo.Member;
@@ -83,6 +84,27 @@ public class ManagerService {
 		close(conn);
 		
 		return result;
+	}
+
+	public int selectCountSearchProductList(String keyword) {
+		Connection conn = getConnection();
+		int result = mDao.selectCountSearchProductList(conn, keyword);
+		close(conn);
+		return result;
+	}
+
+	public List<Product> selectProductByKeyword(String keyword, PageInfo pi) {
+		Connection conn = getConnection();
+		List<Product> list = mDao.selectProductByKeyword(conn, pi, keyword);
+		close(conn);
+		return list;
+	}
+
+	public List<Category> selectCategory() {
+		Connection conn = getConnection();
+		List<Category> list = mDao.selectCategory(conn);
+		close(conn);
+		return list;
 	}
 
 

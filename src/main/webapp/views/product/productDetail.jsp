@@ -8,7 +8,12 @@
 	// 결제 여부 확인 리스트 회원번호, 회원아이디
 	List<ProductRecipe> rlist =(List<ProductRecipe>)request.getAttribute("rlist");
 	// 레시피번호, 사용자아이디, 상품이름, 카테고리이름, 레시피제목, 파일경로, 레시피설명, 레시피좋아요수 COUNT
-	System.out.println(pro);
+	List<ProductLike> likeUser = (List<ProductLike>)request.getAttribute("likeUser");
+	System.out.println(likeUser);
+	// 찜하기 기능
+	List<Integer> likedProductNo = (List<Integer>)request.getAttribute("likedProductNo");
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -175,14 +180,79 @@
 
                                             <div class="main_right_bottom_bottom d-flex flex-direction ">
 
-												
-																						
-                                                <div class="my-5 w-100 center">
-                                                    <svg onclick="heart();" id="heart" style="color:black;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16">
-                                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/ style="pointer-events: visible;">
-                                                    </svg>
-                                                    
-                                                </div>
+											
+	                                           <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+												<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+											   </svg>
+	                                         
+	                                         <script>
+	                                         	$(function(){
+	                                         		let productNo = <%= pro.getProductNo()%>;	// 상품상세페이지 상품번호
+	                                         		let likedProductNo = <%= likedProductNo %>;				
+	                                         		
+	                                         		for(let i=0 ; i<likedProductNo.length ; i++){
+	                                         			if(likedProductNo[i] == productNo){
+	                                         				$("#heart").attr("fill", "red");  
+	                                         			}
+	                                         		}
+	                                         		
+	                                         		
+	                                         			
+	                                         		
+		                                         		$("#heart").click(function(){
+		                                         			
+		                                         			if(<%=loginUser == null%>){
+		                                         				alert("로그인후에 사용가능합니다.");
+		                                         			}
+		                                         			
+			                                         		if($(this).attr("fill") == "red"){
+			                                         			$(this).attr("fill", "black");
+			                                         			
+			                                         			$.ajax({
+			                                         				url:"<%=contextPath%>/dheart.pr",
+			                                         				data:{
+			                                         					proNo:<%=pro.getProductNo()%>
+			                                         				},
+			                                         				type:"post",
+			                                         				success:function(result){
+			                                         					console.log(result);
+			                                         					if(result > 0){
+			                                         						alert("찜해제");
+			                                         					}
+			                                         				}
+			                                         			})
+			                                         			
+			                                         		}else{
+			                                         			$(this).attr("fill", "red");
+			                                         			
+			                                         			$.ajax({
+			                                         				url:"<%=contextPath%>/heart.pr",
+			                                         				data:{
+			                                         					proNo:<%=pro.getProductNo()%>
+			                                         				},
+			                                         				type:"post",
+			                                         				success:function(result){
+			                                         					if(result > 0){
+			                                         						alert("찜하기성공");
+			                                         					}
+			                                         				}
+			                                         				
+			                                         			})
+			                                         		}
+		                                         		})
+	                                         			
+	                                         		
+	                                         		
+
+	                                         		
+	                                         	})
+	                                         			
+	                                         		
+	                                         </script>
+                                                
+                                                 	
+                                               
+                                        
 												
                                                 <div class="my-5 w-100 center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
@@ -197,56 +267,7 @@
                                            
                                     </div>
                                     
-                                    <script>
-                                     
-                                    <% if(loginUser != null) {%>
-                                    	function heart(){
-                                    		$("#heart").css("color", "red");
-                                    			$.ajax({
-	                                    			url:"<%= contextPath%>/heart.pr",
-	                                    			data:{
-	                                    				proNo:<%=pro.getProductNo() %>,
-	                                    				userNo:<%= loginUser.getUserNo() %>
-	                                    			},
-	                                    			type:"post",
-	                                    			success:function(result){
-	                                    				if(result > 0){
-	                                    					alert("상품 좋아요");
-	                                    				}else{
-	                                    					alert("로그인부터 진행해주세요..");
-	                                    				}
-	                                    			}
-	                                    		})
-                                    		}
-                                    	}
-                                     
-                                   
-                                     
-	                                    if($("#heart").attr("color") == "red"){
-	                                    	function heart(){
-	                                    			$("#heart").css("color", "black");
-			                                   		$.ajax({
-			                                   			url:"<%= contextPath%>/dheart.pr",
-			                                   			data:{
-			                                   				proNo:<%=pro.getProductNo() %>,
-			                                   				userNo:<%= loginUser.getUserNo() %>
-			                                   			},
-			                                   			type:"post",
-			                                   			success:function(result){
-			                                   				if(result > 0){
-			                                   					alert("상품 좋아를 취소했습니다.");
-			                                   				}else{
-			                                   					alert("로그인부터 진행해주세요..");
-			                                   				}
-			                                   			}
-			                                   		})
-	                                    	}
-	                                    }	
-	                                    
-	                                    
-	                                    <% } %>
-									
-                                    </script>
+                                    
 
 
 

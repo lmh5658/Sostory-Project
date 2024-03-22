@@ -35,7 +35,7 @@
 			<button class="list">상품관리</button>
 			<div>
 				<a href="<%= request.getContextPath() %>/productList.ma?page=1">상품조회</a><br> 
-				<a href="<%= request.getContextPath() %>/enrollProduct.ma">상품등록</a><br> 
+				<a href="<%= request.getContextPath() %>/enrollProductForm.ma">상품등록</a><br> 
 				<a href="<%= request.getContextPath() %>/updateProduct.ma">상품수정</a><br>
 				<a href="">TimeSale</a>
 			</div>

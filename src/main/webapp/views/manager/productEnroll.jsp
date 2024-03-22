@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List, com.sos.common.model.vo.Category" %>
+<% List<Category> categoryList = (List<Category>)request.getAttribute("categoryList"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +31,13 @@
 <div class="wrap">
 
         <%@ include file="/views/common/header.jsp" %> 
+        
+        <% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+		  <script>
+		     alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+		     location.href="<%=contextPath%>"
+		  </script>
+		<% } %>
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         
@@ -47,95 +56,60 @@
             </div>
 
             <div>
-                <form action="">
+                <form action="<%=contextPath%>/enrollProduct.ma" method="post" enctype="multipart/form-data">
                     <table class="table">
                         <tr>
                             <th>카테고리</th>
                             <td>
-                                <select name="" id="" class="form-control" style="width: 200px;">
-                                    <option value="">1차카테고리</option>
-                                    <option value="">장류</option>
-                                    <option value="">드레싱</option>
-                                </select>
-                                <br>
-                                <select name="" id="" class="form-control" style="width: 200px;">
-                                    <option value="">2차카테고리</option>
-                                    <option value="">고추장</option>
-                                    <option value="">쌈장</option>
+                                <select name="categoryNo" id="category" class="form-control" style="width: 200px;">
+                                	<option disabled selected>카테고리</option>
+                                	<% for(Category c : categoryList) { %>
+                                    <option value="<%=c.getCategoryNo()%>"><%= c.getCategoryName() %></option>
+                                    <% } %>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>상품명</th>
-                            <td><input type="text" placeholder="상품명을 입력하세요" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <th>상품코드</th>
-                            <td><input type="text" placeholder="상품 등록 시 자동부여" class="form-control"></td>
+                            <td><input type="text" name="productName" placeholder="상품명을 입력하세요" class="form-control" required></td>
                         </tr>
                         <tr>
                             <th>썸네일 이미지</th>
-                            <td><input type="file"  class="form-control"></td>
+                            <td><input type="file" name="productThumbnail" class="form-control" required></td>
                         </tr>
                         <tr>
                             <th>상품상세 이미지</th>
-                            <td><input type="file" class="form-control"></td>
+                            <td><input type="file" name="productDetail" class="form-control" required></td>
                         </tr>
                         <tr>
                             <th>판매가</th>
-                            <td><input type="number" class="form-control"style="width: 200px;"></td>
+                            <td><input type="number" name="price" class="form-control"style="width: 200px;" min="0" value="0" required></td>
                         </tr>
                         <tr>
                             <th>할인가</th>
-                            <td><input type="number" class="form-control"style="width: 200px;"></td>
-                        </tr>
-                        <tr>
-                            <th>업체명</th>
-                            <td><input type="text" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <th>수량</th>
-                            <td><input type="number" min="0" max="1000" step="1" value="0" style="width: 80px;"  class="form-control"></td>
-                        </tr>               
+                            <td><input type="number" name="discountPrice" class="form-control" style="width: 200px;" min="0" value="0" required></td>
+                        </tr>             
                     </table>
                     <div class="btn">
-                        <button onclick="return confirm('상품을 등록하시겠습니까?')">상품등록</button>
+                        <button onclick="return enrollProduct();">상품등록</button>
                     </div>
                 </form>
             </div>
         </div>   
        
             <script>
-
-                $(function(){
-                        // 전체 선택 / 해제
-                    $("#cbx_chkAll").click(function(){
-                        if($("#cbx_chkAll").is(":checked")){
-                        $("input[name=typArr]").prop("checked", true);
-                        }else {
-                        $("input[name=typArr]").prop("checked", false);
-                        }
-                    });
-                    
-                    $("input[name=typArr]").click(function(){
-                        var totalArr = $("input[name=typArr]").length;
-                        var checked = $("input[name=typArr]:checked").length;
-                        
-                        if(totalArr != ckecked){
-                        $("#cbx_chkAll").prop("checked", false);
-                        }else{
-                        $("#cbx_chkAll").prop("checked", true);
-                        }
-                    });
-
-                    $(".table_title>td").each(function(){
-                        if($(this).text() == "품절"){
-                            $(this).css("color", "red");
-                        }else{
-                            $(this).css("color", "black");
-                        }
-                    })
-                })
+                
+                function enrollProduct(){
+                    	console.log("log");
+                		if(!confirm("상품을 등록하시겠습니까?")){
+                			return false;
+                		} else {
+                			if($("#category>option").eq(0).is(":selected")){
+                				alert("카테고리를 선택해주세요");
+                				return false;
+                			}
+                		}
+                	}
                 
               </script>
 

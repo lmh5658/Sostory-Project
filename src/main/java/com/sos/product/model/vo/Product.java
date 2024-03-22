@@ -14,6 +14,7 @@ public class Product {
 	private String status;
 	private int discountPrice;
 	private String path;
+	private String contentPath;
 	private int likeNo;
 	
 	public Product() {}
@@ -187,9 +188,16 @@ public class Product {
 		return likeNo;
 	}
 
-
 	public void setLikeNo(int likeNo) {
 		this.likeNo = likeNo;
+	}
+
+	public String getContentPath() {
+		return contentPath;
+	}
+
+	public void setContentPath(String contentPath) {
+		this.contentPath = contentPath;
 	}
 
 

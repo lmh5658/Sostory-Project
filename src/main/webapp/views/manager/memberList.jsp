@@ -245,6 +245,13 @@
                 
                 <%@ include file="/views/common/managerMenu.jsp" %>
                 
+                <% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+				  <script>
+				     alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+				     location.href="<%=contextPath%>"
+				  </script>
+				<% } %>
+                
                 <!-- 사이드메뉴바 클릭시 바뀌는 화면-->
                 <div class="section_right">
                     <div class="section_title" style="border-bottom: 2px solid gray">
