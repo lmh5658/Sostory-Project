@@ -195,16 +195,26 @@
 			        <!-- 레시피가 있는 경우 -->
 			        <div class="recipe_wrap">
 			       	<% for(Liked li : likedList) { %>
+			       		<!-- 레시피 한개 start -->
 			            <div class="recipe">
-			                <div class="recipe_thumbnail">
-			                    <img src="<%= contextPath + "/" + li.getRecipeThumbnailUrl() %>">
-			                </div>
-			                <div class="recipe_category"><%= li.getCategoryName() %></div>
-			                <div class="recipe_name" style="font-weight: bolder;"><%= li.getRecipeTitle() %></div>
-			                <div class="recipe_detail">
-			                    <%= li.getRecipeIntro() %>
-			                </div>
+			            
+			            	<!-- 레시피 썸네일영역 start -->
+				            <div class="recipe-item">
+				            	<input type="hidden" class="rNo" value="<%= li.getRecipeNo() %>">
+				                <div class="recipe_thumbnail">
+				                    <img src="<%= contextPath + "/" + li.getRecipeThumbnailUrl() %>" alt="레시피썸네일이미지" style="width:280px; height:190px;">
+				                </div>
+				                <div class="recipe_category"><%= li.getCategoryName() %></div>
+				                <div class="recipe_name" style="font-weight: bolder;"><%= li.getRecipeTitle() %></div>
+				                <div class="recipe_detail">
+				                    <%= li.getRecipeIntro() %>
+				                </div>
+				             </div>
+			                <!-- 레시피 썸네일영역 end -->
+			                
+			             	<!-- 레시피 찜하기영역 start -->
 			                <div class="recipe_etc">
+			                	<input type="hidden" class="rNo" value="<%= li.getRecipeNo() %>">
 			                    <div class="recipe_userProfile">
 			                        <img src="<%= contextPath + "/" + li.getUserProfileUrl() %>" alt="프로필" height="15px">
 			                        <%= li.getRecipeWriter() %>
@@ -216,24 +226,62 @@
 			                        (<%= li.getLikedTotal() %>)
 			                    </div>
 			                </div>
-			                <div class="recipe_product">
-			                    <div class="product_img">
-			                        <img src="<%= contextPath + "/" + li.getProductThumbnailUrl() %>" alt="상품" style="width:106px; height:70px;">
-			                    </div>
-			                    <div class="product_etc ms-4">
-			                        <div style="color: grey; margin:0;"><%= li.getProductName() %></div>
-			                        <!-- 할인하고 있지 않을 때 -->
-			                        <% if(li.getDiscountPrice() == 0) { %>
-			                         	<div class="d-block"><%= li.getPrice() %>원</div>
-			                        <% } else { %>
-			                        <!-- 할인하고 있을 때 -->
-			                        	<div class="product_price"><s style="color:grey; font-size:14px"><%= li.getPrice() %>원</s>&nbsp;<%= li.getPrice() - li.getDiscountPrice() %>원</div>
-			                        <% } %>
-			                        <div class="product_star">별(<%= li.getRating() %>)</div>
-			                    </div>
-			                </div>
+			             	<!-- 레시피 찜하기영역 end -->  
+			             	
+				             <!-- 레시피 관련상품 영역 start --> 
+				             <div class="product-item">
+				             	<input type="hidden" class="pNo" value="<%= li.getProductNo() %>">
+				                <div class="recipe_product">
+				                    <div class="product_img">
+				                        <img src="<%= contextPath + "/" + li.getProductThumbnailUrl() %>" alt="상품" style="width:106px; height:70px;">
+				                    </div>
+				                    <div class="product_etc ms-2">
+				                        <div style="color: grey; margin:0;"><%= li.getProductName() %></div>
+				                        <!-- 할인하고 있지 않을 때 -->
+				                        <% if(li.getDiscountPrice() == 0) { %>
+				                         	<div class="d-block"><%= li.getPrice() %>원</div>
+				                        <% } else { %>
+				                        <!-- 할인하고 있을 때 -->
+				                        	<div class="product_price"><s style="color:grey; font-size:14px"><%= li.getPrice() %>원</s>&nbsp;<%= li.getPrice() - li.getDiscountPrice() %>원</div>
+				                        <% } %>
+				                        <div class="product_star">별(<%= li.getRating() %>)</div>
+				                    </div>
+				                </div>
+				              </div>
+				              <!-- 레시피 관련상품 영역 end --> 
+			              
 			            </div>
+			            <!-- 레시피 한개 end -->
 			        <% } %>
+			        
+			        <!-- 레시피 리스트관련 스크립트 start -->
+			        <script>
+			        	$(function(){
+			        		// 레시피상세페이지 이동요청시 실행될 함수 (레시피썸네일영역 클릭시)
+			        		$(".recipe-item").on("click", function(){
+			        			const $rNo = $(this).children(".rNo").val();	// 레시피번호
+			        			// 레시피 상세페이지 이동요청
+			        			location.href = "<%= contextPath %>/detail.re?no=" + $rNo;
+			        		})
+			        		
+			        		// 레시피 관련상품상세페이지 이동요청시 실행될 함수 (레시피관련상품영역 클릭시)
+			        		$(".product-item").on("click", function(){
+			        			const $pNo = $(this).children(".pNo").val();	// 관련상품번호
+			        			// 관련상품상세페이지 이동요청
+			        			location.href = "<%= contextPath %>/detail.pr?no=" + $pNo;
+			        		})
+			        		
+			        		// 레시피찜 취소시 실행될 함수
+			        		$(".recipe_like>svg").on("click", function(){
+			        			const $rNo = $(this).parents(".recipe_etc").children(".rNo").val();		// 레시피번호
+			        			// 레시피찜 취소요청
+			        			
+			        		})
+			        		
+			        		
+			        	})
+			        </script>
+			        <!-- 레시피 리스트관련 스크립트 end -->
 			            
 			        </div>   
 		            <!-- 찜목록 영역 end -->

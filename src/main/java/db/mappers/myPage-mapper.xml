@@ -148,6 +148,7 @@
 		          FROM (
 		                SELECT 
 		                      ANSWER_NO
+		                     ,PRODUCT_NO
 		                     ,PRODUCT_NAME
 		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
 		                     ,ANSWER_TITLE
@@ -171,6 +172,7 @@
 		          FROM (
 		                SELECT 
 		                      ANSWER_NO
+		                     ,PRODUCT_NO
 		                     ,PRODUCT_NAME
 		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
 		                     ,ANSWER_TITLE
