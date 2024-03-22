@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.ProductLike;
 
 /**
  * Servlet implementation class ProductListController
@@ -44,14 +46,22 @@ public class ProductListController extends HttpServlet {
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();			
+		}
+		
 		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 전체상품게시글 데이터 조회
 		List<Product> list = new ProductService().selectProductList(pi);
+		List<ProductLike> likeList = new ProductService().likeProductAll(userNo);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
+		request.setAttribute("likeList", likeList);
+		
 		request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);
 		
 		

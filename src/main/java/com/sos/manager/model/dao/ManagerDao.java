@@ -342,4 +342,29 @@ public class ManagerDao {
 		return list;
 	}
 
+	public int insertProduct(Connection conn, Product p) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, p.getCategoryNo());
+			pstmt.setString(2, p.getProductName());
+			pstmt.setInt(3, p.getPrice());
+			pstmt.setString(4, p.getInventory());
+			pstmt.setInt(5, p.getDiscountPrice());
+			pstmt.setString(6, p.getPath());
+			pstmt.setString(7, p.getContentPath());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }

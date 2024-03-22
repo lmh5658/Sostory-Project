@@ -56,7 +56,7 @@
             </div>
 
             <div>
-                <form action="<%=contextPath%>/enrollProduct.ma" method="post" enctype="multipart/form-data">
+                <form action="<%=contextPath%>/insertProduct.ma" method="post" enctype="multipart/form-data">
                     <table class="table">
                         <tr>
                             <th>카테고리</th>
@@ -79,7 +79,7 @@
                         </tr>
                         <tr>
                             <th>상품상세 이미지</th>
-                            <td><input type="file" name="productDetail" class="form-control" required></td>
+                            <td><input type="file" name="productContent" class="form-control" required></td>
                         </tr>
                         <tr>
                             <th>판매가</th>
@@ -88,9 +88,13 @@
                         <tr>
                             <th>할인가</th>
                             <td><input type="number" name="discountPrice" class="form-control" style="width: 200px;" min="0" value="0" required></td>
-                        </tr>             
+                        </tr>
+                        <tr>
+                            <th>재고수량</th>
+                            <td><input type="number" name="inventory" class="form-control" style="width: 200px;" min="0" value="0" required></td>
+                        </tr>
                     </table>
-                    <div class="btn">
+                    <div class="btn center">
                         <button onclick="return enrollProduct();">상품등록</button>
                     </div>
                 </form>
@@ -100,7 +104,6 @@
             <script>
                 
                 function enrollProduct(){
-                    	console.log("log");
                 		if(!confirm("상품을 등록하시겠습니까?")){
                 			return false;
                 		} else {

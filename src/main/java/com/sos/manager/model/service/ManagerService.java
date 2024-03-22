@@ -107,5 +107,11 @@ public class ManagerService {
 		return list;
 	}
 
+	public int insertProduct(Product p) {
+		Connection conn = getConnection();
+		int result = mDao.insertProduct(conn, p);
+		close(conn);
+		return result;
+	}
 
 }
