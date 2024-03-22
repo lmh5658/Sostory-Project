@@ -192,7 +192,7 @@ public class Product {
 		this.likeNo = likeNo;
 	}
 
-	public String getDetailPath() {
+	public String getContentPath() {
 		return contentPath;
 	}
 
