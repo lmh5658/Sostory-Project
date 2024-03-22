@@ -116,6 +116,13 @@
 <div class="wrap">
 
         <%@ include file="/views/common/header.jsp" %>
+        
+        <% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+		  <script>
+		     alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+		     location.href="<%=contextPath%>"
+		  </script>
+		<% } %>
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         
@@ -132,15 +139,18 @@
                     <path d="m13.158 9.608-.043-.148c-.181-.613-1.049-.613-1.23 0l-.043.148a.64.64 0 0 1-.921.382l-.136-.074c-.561-.306-1.175.308-.87.869l.075.136a.64.64 0 0 1-.382.92l-.148.045c-.613.18-.613 1.048 0 1.229l.148.043a.64.64 0 0 1 .382.921l-.074.136c-.306.561.308 1.175.869.87l.136-.075a.64.64 0 0 1 .92.382l.045.149c.18.612 1.048.612 1.229 0l.043-.15a.64.64 0 0 1 .921-.38l.136.074c.561.305 1.175-.309.87-.87l-.075-.136a.64.64 0 0 1 .382-.92l.149-.044c.612-.181.612-1.049 0-1.23l-.15-.043a.64.64 0 0 1-.38-.921l.074-.136c.305-.561-.309-1.175-.87-.87l-.136.075a.64.64 0 0 1-.92-.382ZM12.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                 </svg>상품관리><b>상품조회</b>
             </div>
-            <form>
+            
+            <!-- 상품검색 -->
+            <form action="<%= contextPath %>/searchProduct.ma">
 	            <div class="mem_search">
 	                <div class="pro_name">상품명</div>
 	                <div><input type="text" class="form-control" name="keyword"></div>
+	                <input type="hidden" name="page" value="1">
 	                <div><button>조회</button></div>
 	            </div>
             </form>
             <div class="mem_del">
-                <button style="background-color: rgb(0, 0, 113);">상품등록</button>
+                <button onclick='location.href="<%= contextPath %>/enrollProduct.ma"' style="background-color: rgb(0, 0, 113);">상품등록</button>
                 <button onclick="deleteProduct();">상품삭제</button>
             </div>
             <div class="table_d">
@@ -284,7 +294,7 @@
 
         </div>
 
-            
+        
         </section>
         <!-- Section end -->
 

@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.manager.model.service.ManagerService;
-import com.sos.member.model.vo.Member;
+import com.sos.product.model.vo.Product;
 
 /**
- * Servlet implementation class managerProductSearchController
+ * Servlet implementation class MemberSearchController
  */
-@WebServlet("/searchMember.ma")
-public class MemberSearchController extends HttpServlet {
+@WebServlet("/searchProduct.ma")
+public class ProductSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberSearchController() {
+    public ProductSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,10 +32,9 @@ public class MemberSearchController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String keyword = request.getParameter("keyword");
 		
-		int listCount = new ManagerService().selectCountSearchList(keyword);
+		int listCount = new ManagerService().selectCountSearchProductList(keyword);
 		int currentPage = Integer.parseInt(request.getParameter("page"));
 		int pageLimit = 5;
 		int boardLimit = 10;
@@ -47,13 +46,12 @@ public class MemberSearchController extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		List<Member> list = new ManagerService().selectMemberByKeyword(keyword, pi);
+		List<Product> list = new ManagerService().selectProductByKeyword(keyword, pi);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		request.setAttribute("keyword", keyword);
-		request.getRequestDispatcher("/views/manager/memberList.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/views/manager/productList.jsp").forward(request, response);
 	}
 
 	/**

@@ -108,5 +108,39 @@
 		       TB_PRODUCT
 		   SET STATUS = 'N'
 	</entry>
+	
+	<entry key="selectCountSearchProductList">
+		SELECT COUNT(*) COUNT
+		  FROM TB_PRODUCT
+		 WHERE PRODUCT_NAME LIKE ?
+	</entry>
+	
+	<entry key="selectProductByKeyword">
+		SELECT * 
+		  FROM (
+		        SELECT ROWNUM RN, A.*
+		          FROM (
+		                SELECT
+		                       PRODUCT_NO
+						     , PRODUCT_NAME
+						     , PRICE
+						     , INVENTORY
+						     , STATUS
+						     , DISCOUNT_PRICE
+		                  FROM TB_PRODUCT
+		                 WHERE PRODUCT_NAME LIKE ?
+		                 ORDER
+		                    BY ENROLL_DATE DESC
+		                ) A
+		        )
+  		  WHERE RN BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectCategory">
+		SELECT 
+			   CATEGORY_NO
+			 , CATEGORY_NAME
+		  FROM TB_CATEGORY
+	</entry>
 
 </properties>
