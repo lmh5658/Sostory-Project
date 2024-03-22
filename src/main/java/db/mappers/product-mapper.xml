@@ -746,6 +746,13 @@
 		WHERE LIKE_TYPE = 'P'
          AND USER_NO = ?
 	</entry>
+	 
+	<entry key="likeProductAll">
+	  SELECT LIKE_REFNO
+		FROM TB_LIKE
+		WHERE USER_NO = ?
+		  AND LIKE_TYPE = 'P'
+	</entry>
 	
 	
 	

@@ -310,4 +310,11 @@ public class ProductService {
 		close(conn);
 		return list;
 	}
+	
+	public List<ProductLike> likeProductAll(int userNo){
+		Connection conn = getConnection();
+		List<ProductLike> list = pDao.likeProductAll(conn, userNo);
+		close(conn);
+		return list;
+	}
 }
