@@ -55,6 +55,12 @@
 	
 	</entry>
 	
+	<entry key="cartListDelete">
+		DELETE FROM TB_CART
+		WHERE USER_NO = ? 
+	
+	</entry>
+	
 	
 	
 
