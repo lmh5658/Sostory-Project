@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.recipe.model.vo.Recipe"%>
+<%@ page import="com.sos.recipe.model.vo.OrderProduct"%>
+
+<%@ page import="java.util.List" %>
+<% 
+List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("orderProduct");
+String search = (String)request.getAttribute("search");
+String categoryNoSt = request.getParameter("no");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,10 +79,14 @@
                     <tr>
                         <td width="150px">상품명</td>
                         <td width="400px">
-                            <select class="product_name" name="" required>
-                                <option hidden>상품을 선택하세요</option>
-                                <option name="productName" value="" selected><%= %></option>
-                            </select>
+                          <select class="product_name" name="selectedProductName" required>
+						    <option hidden>상품을 선택하세요</option>
+						    <% if (list != null && !list.isEmpty()) { %>
+						        <% for (OrderProduct o : list) { %>
+						            <option value="<%= o.getProductName() %>"><%= o.getProductName() %></option>
+						        <% } %>
+						    <% } %>
+						</select>
                         </td>
                     </tr>
                     <tr>
@@ -112,10 +125,10 @@
                             <input class="ingredient" type="number" style="width: 120px;" placeholder="수량" required>
                             <select class="ingredient" name="" style="width: 70px;" required>
                                 <option selected hidden>단위</option>
-                                <option value="">g</option>
-                                <option value="">kg</option>
-                                <option value="">ml</option>
-                                <option value="">L</option>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="L">L</option>
                             </select>
                         </td>
                     </tr>

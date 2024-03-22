@@ -226,4 +226,15 @@
 		JOIN TB_RECIPE R ON R.RECIPE_NO = A.RECIPE_NO
 		JOIN TB_RECIPE_STEP RS ON RS.RECIPE_NO = R.RECIPE_NO
     </entry>
+    
+    
+    <!-- 레시피 등록 - 구매확정 상품목록 가져오는 쿼리문 -->
+      <entry key="selectOrderProduct">
+      SELECT P.PRODUCT_NAME
+		FROM TB_PRODUCT P
+		JOIN TB_ORDER_PRODUCT OP ON (OP.PRODUCT_NO = P.PRODUCT_NO)
+		JOIN TB_ORDER O ON (O.ORDER_NO = OP.ORDER_NO)
+	 WHERE ORDER_STATUS = 4 AND USER_NO = ?
+      </entry>
+
 </properties>

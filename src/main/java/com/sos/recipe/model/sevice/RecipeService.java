@@ -3,6 +3,7 @@ package com.sos.recipe.model.sevice;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.recipe.model.dao.RecipeDao;
+import com.sos.recipe.model.vo.OrderProduct;
 import com.sos.recipe.model.vo.Recipe;
 
 import static com.sos.common.template.JDBCTemplate.*;
@@ -75,7 +76,15 @@ public class RecipeService {
 		return step;
 
 	}
+	
+	
+	public List<OrderProduct> selectOrderProduct(int userNo) {
+		Connection conn = getConnection();
+		List<OrderProduct> orderProduct= rDao.selectOrderProduct(conn, userNo);
+		close(conn);
+		return orderProduct;
 
+	}
 	
 
 	

@@ -195,10 +195,15 @@ String categoryNoSt = request.getParameter("no");
 	            <select name="">
 	                <option value="">인기순</option>
 	                <option value="">낮은 인기순</option>
-	            </select>
-	            <a href="'<%=contextPath %>/inser.re?no=' + <%=loginUser.getUserNo() %>" class="btn btn-secondary">글쓰기</a>
-	        	
+	            </select>   
+	            
+	            <% if (loginUser != null) { %>
+    				<a href="<%=contextPath %>/enroll.re?no=<%=loginUser.getUserNo() %>" class="btn btn-secondary">글쓰기</a>
+				<% }else{ %>
+					<a href="<%=contextPath %>/loginForm.me" class="btn btn-secondary">글쓰기</a>
+				<%} %> 	
 	        </div>
+	          	    	
 	
 	        <!-- 레시피 컨텐츠 -->
 	

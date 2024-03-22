@@ -52,7 +52,7 @@ public class Recipe {
 			int categoryNo, String userName, String userPath, int likeRefno, String productName, int price,
 			int discountPrice, String path, String ingredientName, String ingredientAmount, int ingredientCount,
 			int stepNo, String stepContent, String stepAttachmentUrl, int stepCount) {
-		super();
+		
 	}
 
 
@@ -142,6 +142,24 @@ public class Recipe {
 		this.ingredientAmount = ingredientAmount;
 		this.ingredientCount = ingredientCount;
 	}
+
+
+	public Recipe(String productName,String recipeTitle, String thumbnailUrl, String recipeIntro, String difficulty, int serving,
+			int cookingTime) {
+		super();
+		this.productName = productName;
+		this.recipeTitle = recipeTitle;
+		this.thumbnailUrl = thumbnailUrl;
+		this.recipeIntro = recipeIntro;
+		this.difficulty = difficulty;
+		this.serving = serving;
+		this.cookingTime = cookingTime;
+	}
+
+
+
+
+
 
 	public int getStepCount() {
 		return stepCount;

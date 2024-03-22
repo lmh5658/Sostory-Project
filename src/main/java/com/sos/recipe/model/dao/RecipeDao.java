@@ -14,6 +14,8 @@ import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.recipe.model.vo.Recipe;
+import com.sos.recipe.model.vo.OrderProduct;
+
 import static com.sos.common.template.JDBCTemplate.*;
 
 public class RecipeDao {
@@ -335,6 +337,37 @@ public class RecipeDao {
 		}
 		
 		return step;
+		
+	}
+	
+	//등로페이지 - 구매확정 상품 
+	public List<OrderProduct> selectOrderProduct(Connection conn, int userNo) {
+		List<OrderProduct> orderProduct = new ArrayList<>() ;	
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectOrderProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				orderProduct.add(new OrderProduct( rset.getString("PRODUCT_NAME")
+													
+								  ));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return orderProduct;
 		
 	}
 }
