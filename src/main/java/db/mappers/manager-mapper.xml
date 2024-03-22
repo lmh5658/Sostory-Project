@@ -143,4 +143,28 @@
 		  FROM TB_CATEGORY
 	</entry>
 
+	<entry key="insertProduct">
+		INSERT 
+		  INTO TB_PRODUCT
+		  	   (
+		  	   PRODUCT_NO
+		  	 , CATEGORY_NO
+		  	 , PRODUCT_NAME
+		  	 , PRICE
+		  	 , INVENTORY
+		  	 , DISCOUNT_PRICE
+		  	 , PATH
+		  	 , CONTENT_PATH
+		  	   )
+		VALUES (
+		  	   SEQ_PNO.NEXTVAL
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	   )
+	</entry>
 </properties>

@@ -13,12 +13,13 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.sos.common.template.MyFileRenamePolicy;
+import com.sos.manager.model.service.ManagerService;
 import com.sos.product.model.vo.Product;
 
 /**
  * Servlet implementation class EnrollProduct
  */
-@WebServlet("/enrollProduct.ma")
+@WebServlet("/insertProduct.ma")
 public class ProductInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -48,9 +49,21 @@ public class ProductInsertController extends HttpServlet {
 			p.setProductName(muliRequest.getParameter("productName"));
 			p.setPrice(Integer.parseInt(muliRequest.getParameter("price")));
 			p.setDiscountPrice(Integer.parseInt(muliRequest.getParameter("discountPrice")));
+			p.setInventory(muliRequest.getParameter("inventory"));
 			
-			p.setPath("" + muliRequest.getFilesystemName("productThumbnail"));
-			p.("" + muliRequest.getFilesystemName("productThumbnail"));
+			p.setPath("resources/uploadFiles/" + muliRequest.getFilesystemName("productThumbnail"));
+			p.setContentPath("resources/uploadFiles/" + muliRequest.getFilesystemName("productContent"));
+			
+			int result = new ManagerService().insertProduct(p);
+			
+			if(result > 0) {
+				session.setAttribute("alertMsg", "상품이 등록되었습니다.");
+				response.sendRedirect(request.getContextPath() + "/productList.ma?page=1");
+			} else {
+				session.setAttribute("alertMsg", "상품이 등록되었습니다.");
+				response.sendRedirect(request.getContextPath() + "/productList.ma?page=1");
+			}
+			
 		}
 		
 		
