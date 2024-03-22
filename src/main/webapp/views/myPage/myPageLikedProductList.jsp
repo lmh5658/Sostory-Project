@@ -286,6 +286,10 @@
                         				},success:function(result){
                         					if(result > 0){
                         						$cart.attr("fill", "blue");
+                        						
+                        						setTimeout(function(){
+                        							alert("상품이 장바구니에 추가되었습니다.")
+                        						}, 1000);
                         					}
                         				}
                         			})
@@ -299,6 +303,10 @@
                         				},success:function(result){
                         					if(result > 0){
                         						$cart.attr("fill", "black");
+                        						
+                        						setTimeout(function(){
+                        							alert("상품이 장바구니에서 삭제되었습니다.")
+                        						}, 1000);
                         					}
                         				}
                         			})
@@ -306,6 +314,32 @@
                     			
                     			
                     		})
+                    		
+                    		// 찜한상품 찜취소 요청 (찜하기버튼 클릭)
+                    		$(".like").on("click", function(){
+                    			
+                    			const $pNo = $(this).parent().prev().children(".pNo").val();	// 찜한 상품번호
+                    			const userNo = <%= loginUser.getUserNo() %>;					// 찜한 회원번호
+                    			
+                    			$.ajax({
+                    				url :"<%= contextPath %>/dheart.pr",
+                    				data : {
+                    					"proNo" : $pNo 
+                    				},success:function(result){
+                    					if(result>0){
+                    						setTimeout(function(){
+                    							alert("상품이 짐목록에서 삭제되었습니다.");
+                    						}, 1000)
+                    						
+                    						location.reload();
+                    					}
+                    				}
+                    			})
+                    			
+                    			
+                    			
+                    		})
+                    		
                     		
                     		
                     		// 찜한상품 클릭시 ==> 해당상품 상세페이지로 이동시키는 함수
