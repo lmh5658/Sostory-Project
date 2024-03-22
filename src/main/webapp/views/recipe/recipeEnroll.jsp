@@ -72,38 +72,36 @@
                         <td width="400px">
                             <select class="product_name" name="" required>
                                 <option hidden>상품을 선택하세요</option>
-                                <option value="" selected >칼로리 zero 마요네즈</option>
-                                <option value="">케찹 떡볶이 밀키트</option>
-                                <option value="">칼로리 zero 고추장</option>
+                                <option name="productName" value="" selected><%= %></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input class="form-control" type="text" placeholder="레시피 제목을 입력해주세요" required></td>
+                        <td><input class="form-control" type="text" name="recipeName" placeholder="레시피 제목을 입력해주세요" required></td>
                     </tr>
                     <tr>
                         <td>대표사진</td>
                         <td>
-                            <div class="thumbnail_img">대표사진 선택하기</div>
+                            <div class="thumbnail_img"><input type="file" name="thumbnailUrl" >대표사진 선택하기</div>
                         </td>
                     </tr>
                     <tr>
                         <td>간단소개</td>
-                        <td><textarea class="form-control" name="" rows="2" placeholder="레시피 소개를 작성해주세요" style="resize: none;"></textarea></td>
+                        <td><textarea class="form-control" name="recipeIntro" rows="2" placeholder="레시피 소개를 작성해주세요" style="resize: none;"></textarea></td>
                     </tr>
                     <tr>
                         <td>요리정보</td>
                         <td>
-                        <input type="number" class="recipe_info" minlength="0" maxlength="20" name="" placeholder="인원수" style="width: 70px;">
+                        <input type="number" class="recipe_info" minlength="0" maxlength="20" name="serving" placeholder="인원수" style="width: 70px;">
                         </input>인분&nbsp;&nbsp;&nbsp;
-                        <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" style="width: 90px;">
+                        <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" name="cookingTime" style="width: 90px;">
                         </input>분&nbsp;&nbsp;&nbsp;
                         <select class="recipe_info" name="" style="width: 80px;">
                             <option selected hidden>난이도</option>
-                            <option value="">상</option>
-                            <option value="">중</option>
-                            <option value="">하</option>
+                            <option name="difficulty" value="상">상</option>
+                            <option name="difficulty" value="중">중</option>
+                            <option name="difficulty" value="하">하</option>
                         </select>
                         </td>
                     </tr>
