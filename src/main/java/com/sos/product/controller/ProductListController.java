@@ -1,6 +1,7 @@
 package com.sos.product.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -46,6 +47,7 @@ public class ProductListController extends HttpServlet {
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
+		
 		int userNo = 0;
 		if(request.getSession().getAttribute("loginUser") != null) {
 			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();			
@@ -56,11 +58,22 @@ public class ProductListController extends HttpServlet {
 		
 		// 전체상품게시글 데이터 조회
 		List<Product> list = new ProductService().selectProductList(pi);
+		// 좋아요한 상품데이터
 		List<ProductLike> likeList = new ProductService().likeProductAll(userNo);
+		
+		List<Integer> proNo = new ArrayList<>();
+		
+		
+		for(ProductLike pl : likeList) {
+			proNo.add(pl.getLikeRefNo());
+		}
+		
+		System.out.println(proNo);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		request.setAttribute("likeList", likeList);
+		request.setAttribute("proNo", proNo);
+		
 		
 		request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);
 		

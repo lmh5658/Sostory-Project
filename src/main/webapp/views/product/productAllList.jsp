@@ -10,8 +10,8 @@
 	
 	String select = (String)request.getAttribute("select");
 	
-	List<ProductLike> likeList = (List<ProductLike>)request.getAttribute("likeList");
-	System.out.println(likeList);
+	List<ProductLike> proNo = (List<ProductLike>)request.getAttribute("proNo");
+	
 	//로그인한 회원이 찜한 상품번호
 %>
 <!DOCTYPE html>
@@ -176,24 +176,7 @@
                        </div>
                        <% } %>
                        
-                       <script>
-                       	$(function(){
-                       		let list = [];
-                       		<% 
-                       			for(int i=0; i<likeList.size(); i++){
-                       			list = likeList.get(i).getLikeRefNo();
-                       			
-                       			
-                       			for(int i=0; i<list.size(); i++){
-                       				if(list[i] == )
-                       			}
-                       		}
-                       		%>
-                       		
-                       		
-                       	})
-                       		
-                       </script>
+                       
                     <!-- 상품 리스트 end--> 
                     </div>
                    <% if(search == null && select == null) { %>
@@ -224,7 +207,7 @@
 	                        <!-- 페이징바 영역 end -->
 	                    
 	                   </div>                  
-                   <% }else if(search != null && select == null){ %>
+                   <% }else if(search != null){ %>
                     <div style="display: flex; justify-content: center; align-items: center;">
 						
 						  <!-- 페이징바 영역 start -->
@@ -251,7 +234,7 @@
 	                        </ul>
 	                        <!-- 페이징바 영역 end -->
 	                   </div>   
-                   <% } else if(select != null && search == null){ %>
+                   <% } else if(select != null){ %>
                    	 <div style="display: flex; justify-content: center; align-items: center;">
 						
 						  <!-- 페이징바 영역 start -->

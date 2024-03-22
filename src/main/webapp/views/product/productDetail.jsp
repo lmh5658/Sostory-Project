@@ -140,7 +140,7 @@
                                         <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1></span>
                                         <% }else{ %>
                                         <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1></span>
-                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() %>원</del></h4>
+                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() + pro.getDiscountPrice() %>원</del></h4>
                                         <hr>
                                         <% } %>
                                         
@@ -200,7 +200,7 @@
 	                                         			
 	                                         		
 		                                         		$("#heart").click(function(){
-		                                         			
+		                                         			$("#heart").attr("fill", "black");		                                         			
 		                                         			if(<%=loginUser == null%>){
 		                                         				alert("로그인후에 사용가능합니다.");
 		                                         			}
