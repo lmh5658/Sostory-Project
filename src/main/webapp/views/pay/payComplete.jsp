@@ -1,35 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.pay.model.vo.Pay, java.util.List, com.sos.cart.model.vo.Order"%>
+
+ <%
+ 	List<Pay> list = (List<Pay>)request.getAttribute("list");
+ 	Order o = (Order)request.getAttribute("o");
+ 	Order or = (Order)request.getAttribute("or");
+ 	
+ 	
+ %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-	  /*주문안내 스타일 start*/
-    .order_success{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid lightgrey;
-        border-radius: 10cqi;
-        white-space: nowrap;
-    }
+<title>결제완료페이지</title>
 
+<style>
+	/* 결제완료페이지 필요한 스타일 */
     .order_success h6 {
         margin: 3% 3% 3% 3%;
     }
 
     .order-num h6 {
         margin-right: 10px; 
-        font-size: small;
+        
         color: darkgray;
     }
 
     .order-num span, .order-date {
         font-weight: bold;
-        font-size: small;
-        color: darkgray;
+        color: gray;
     }
       /*주문안내 스타일 end*/
 
@@ -41,11 +41,12 @@
     }
 
     .order_list th{
+        font-size: 25px;
         color: rgb(100, 135, 31);
     }
 
     .product-name{
-        font-size: small;
+        
         margin-left: 10%;
     }
 
@@ -69,7 +70,7 @@
         text-align: start;
         white-space: nowrap;
         color: rgb(78, 78, 78);
-        font-size: small;
+        
     }
 
      /*결제정보 스타일_언더바*/
@@ -88,253 +89,146 @@
         width: 20%;
         margin-bottom: 3%;
     }
+    .flex-table {
+        display: flex;
+        width: 100%;
+    }
+    .flex-table th {
+        flex: 1;
+    }
+
 
 
 </style>
 
 
+
 </head>
+
+
 <body>
+
+
 	<div class="wrap container p-3">
+		
+      <%@ include file="/views/common/header.jsp" %>
 
-       <%@ include file="/views/common/header.jsp" %>
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-        
         <!-- Section start -->
-        <section class="content">
-        <!-- 결제 페이지 시작-->
-        <div class="section_main">
-            <br>
-            <h2><b>주문결제</b></h2>
-            <div>
-                <form action="" method="">
-                    <table>
-                        <tr>
-                            <br><br>
-                            <th colspan="3" style="border-bottom: 1px solid rgb(158, 158, 158);"><h5><b>주문자정보</b></h5></th>
-                        </tr>
-                        <tr>
-                            <th colspan="2"><input type="checkbox" class="ch_box">&nbsp;&nbsp;주문자 정보 동일</th>
-                            <th style="text-align: right;"><label style="color: red;">*&nbsp;&nbsp;</label><b>필수입력사항</b>&nbsp;&nbsp;</th>
-                        </tr>
-                        <tr>
-                            <th><label style="color: red;">*&nbsp;&nbsp;</label>받는분</th>
-                            <td><input type="text" class="form-control" placeholder="이름을 입력하세요"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th><label style="color: red;">*&nbsp;&nbsp;</label>휴대폰번호</th>
-                            <td><input type="tel" class="form-control" placeholder="휴대폰번호를 입력하세요 (숫자만)"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th><label style="color: red;">*&nbsp;&nbsp;</label>이메일</th>
-                            <td><input type="email" class="form-control" placeholder="이메일을 입력하세요"></td>
-                            <td></td>
-                        </tr>
-                    </table>
-            </div>
-            <div style="border-top: 3px solid grey; display: flex; justify-content: center;">
-                <table>
-                    <tr style="border-bottom: 1px solid gray;">
-                        <th colspan="4" style="border-bottom: 1px solid rgb(158, 158, 158);"><h5><b>배송정보</b></h5></th>
-                    </tr>
-                    <tr>                      
-                        <th><input type="checkbox" class="ch_box">&nbsp;&nbsp;기본 배송지</th>
-                        <th colspan="2">
-                            <select name="" id="" class="form-control">
-                                <option value="">배송지를 선택하세요</option>
-                                <option value="">마이페이지에있는 주소 끌어오기</option>
-                            </select>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th><label style="color: red;">*&nbsp;&nbsp;</label>주소</th>
-                        <th><input type="text" class="form-control" placeholder="우편번호"></th>
-                        <th></th>
-                        <th><input type="text" class="form-control" placeholder="기본주소"></th>
-                        <th><button type="button" class="btn btn-secondary">우편번호 찾기</button></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th colspan="3"><input type="text" class="form-control" placeholder="상세주소를 입력하세요"></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th><label style="color: red;">*&nbsp;&nbsp;</label>배송시 입력사항</th>
-                        <th colspan="3">
-                            <input list="post_i" class="form-control">
-                            <datalist name="" id="post_i">
-                                <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
-                                <option value="택배함에 놔주세요">택배함에 놔주세요</option>
-                                <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
-                            </datalist>
-                        </th>
-                        <th></th>
-                    </tr>
-                </table>
-            </div>
-            <div style="border-top: 3px solid grey; display: flex; justify-content: center;">
-                <table class="order_pro">
-                    <tr>
-                        <th colspan="4" style="border-bottom: 1px solid rgb(158, 158, 158); text-align: left; height: 40px;">
-                            <h5><b>주문상품</b></h5>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th style="width: 50px;">
-                            <img src="resourcces/images/이미지1.jpg" alt="" width="130px" height="130px">
-                        </th>
-                        <th>칼로리Zero마요네즈</th>
-                        <th>9,000원</th>
-                        <th>1</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <img src="resourcces/images/이미지1.jpg" alt="" width="130px" height="130px">
-                        </th>
-                        <th>칼로리Zero마요네즈</th>
-                        <th>9,000원</th>
-                        <th>1</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <img src="resourcces/images/이미지1.jpg" alt="" width="130px" height="130px">
-                        </th>
-                        <th>칼로리Zero마요네즈</th>
-                        <th>9,000원</th>
-                        <th>1</th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div style="border-top: 3px solid grey; display: flex; flex-direction: column; justify-content: right;">
-            <div style="display: flex; justify-content: left; width: 100%; border-bottom: 1px solid gray; height: 40px;">
-                <h5><b>결제금액</b></h5>
-            </div>
-            <table class="table" style="width: 100%; text-align: right;">
-                <tr>
-                    <th></th><th></th>
-                    <th>상품금액</th>
-                    <th>31,000원</th>
-                </tr>
-                <tr>
-                    <th></th><th></th>
-                    <th>배송비</th>
-                    <th>0원</th>
-                </tr>
-                <tr>
-                    <th></th><th></th>
-                    <th>할인금액</th>
-                    <th>4,000원</th>
-                </tr>
-                <tr>
-                    <th></th><th></th>
-                    <th>총 결제 금액</th>
-                    <th>29,000원</th>
-                </tr>
-            </table>
-        </div>
-        <div style="border-top: 3px solid grey; display: flex; display: flex; flex-direction: column; align-items: center;">
-            <div style="display: flex; justify-content: left; width: 100%; border-bottom: 1px solid gray; height: 40px;">
-                <h5><b>결제방법</b></h5>
-            </div>
-            <div>
-                    <table class="table" border="1">
-                        <tr>
-                            <th colspan="2" style="text-align: center;"><h5><b>무통장입금</b></h5></th>
-                        </tr>
-                        <tr>
-                            <th>예금주명</th>
-                            <td><input type=""  class="form-control" placeholder="이름을 입력하세요"></td>
-                        </tr>
-                        <tr>
-                            <th>은행명</th>
-                            <td><input type=""  class="form-control" placeholder="예)농협"></td>
-                        </tr>
-                        <tr>
-                            <th>계좌번호</th>
-                            <td><input type=""  class="form-control" placeholder="숫자만 입력하세요"></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" style="color: red;">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
-                                  </svg>
-                                <b>!주의사항! 예금주명 / 은행명 / 계좌번호를 정확히 입력하세요</b>
-                            </th>
-                        </tr>
-                        <tr style="text-align: center;">
-                            <th colspan="2">입금은행명 : 농협 <br>
-                                입금은행계좌명 : 234234-234234-234
-                            </th>
-                        </tr>
-                    </table>
-                   
-            </div>
-            <div style="border-bottom: 2px; border-top: 3px solid grey; display: flex; display: flex; flex-direction: column; align-items: center; width: 100%;">
-                <table>
-                    <tr>
-                        <th colspan="2"><input type="checkbox" class="ch_box" id="checking" required><b>&nbsp;&nbsp;주문내용 확인 및 결제 동의</b></th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
-                            </svg>(필수) 개인정보 수집 이용 동의
-                        </th>
-                        <th><u>보기</u></th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
-                            </svg>(필수) 개인정보 제3자 정보 제공 동의
-                        </th>
-                        <th><u>보기</u></th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
-                            </svg>(필수) 결제대행 서비스 이용약관 동의
-                        </th>
-                        <th><u>보기</u></th>
-                    </tr>
-                </table>
-            </div>
-                <div style="margin: 50px;">
-                    <button type="button" class="btn btn-danger disabled" id="btn_success">결제하기</button>
+        <section class="main-content">
+
+            <div class="main-wrap">
+				<br><br>
+                <div class="center" style="margin-top: 30px;">
+                       		<h1><b>결제완료</b></h1>
+                 </div>
+            <br><br>
+
+                <div class="d-flex flex-column" style="border: 3px solid black; border-radius: 10px; height: 300px;">
+					
+                    <div class="center" style="margin-top: 30px;">
+                        <h3><b>주문/결제가 정상적으로 완료되었습니다.</b></h3>
+                    </div>
+                    <div class="center" style="padding: 10px;">
+                        <h4><b>주문번호</b></h4>
+                        &nbsp;&nbsp;<h3><span id="order-num" style="color:  green;"><%=or.getOrderNo() %></span></h3>
+                    </div>
+                    <div class="center" style="padding: 10px;">
+                        <h5><b class="order-date">배송일자는 주문날짜로부터 2~3일 내에 상품이 도착할 예정입니다.</b></h5>
+                    </div>
+                    <div class="center" style="padding: 10px; margin-top: 30px;">
+                        <h2><b><span style="color: green;" >So's tory</span>를 이용해주셔서 감사합니다.</b></h2>
+                    </div>
+
                 </div>
-            </form> 
-            <script>
-                $(function(){
-                    $("#checking").click(function(){
-
-                        if(this.checked){
-                            $("#btn_success").removeClass("disabled");
-                        }else{
-                            $("#btn_success").addClass("disabled");
-                        }
-                })
+           
+                <!--결제상품 테이블-->
+                <table class="table order_list flex-table" style="margin-top: 7%;">
                     
+                    <tr>
+                        <th  colspan="2">상품 정보</th>
+                        <th>금액</th>
+                        <th>수량</th>
+                    </tr>
                     
-                })
-            </script>
+                    <!--  반복문 뿌려줄 구문 -->
+                       <% for(Pay p : list) { %>
+                    <tr>
+                        <td colspan="2">  
+                            <div class="product-info">
+                                <img class="product-img" src="<%=p.getPath()%>">
+                                <b class="product-name"><%=p.getProductName()%></b>
+                            </div>
+                        </td>
+                        <%if(p.getDiscountPrice().equals("0")){ %>
+                        
+                        <td class="order-price" style="padding-top: 4%;"><b><%=p.getPrice() %></b></td>
+                        
+                        <%}else{ %>
+                        
+                        <td class="order-price" style="padding-top: 4%;">
+		                    
+						        <span style="font-size:20px"><b><%=p.getPriceMinusDcprice() %></b></span>
+						        <span>&nbsp</span>
+						        <span style="color:gray; font-size:20px"><b><s><%=p.getPrice() %></s></b></span>
+						   
+                        </td>
+                        <%} %>
+                        <td class="order-qty" style="padding-top: 4%;"><b><%=p.getCount() %></b></td>
+                    </tr>
+                    <%} %>
+                 
+                   
+                   
+                 
+                   
+                </table>                
+               
+                 <!--결제정보-->
+                 <div style="margin-top: 7%;" class="line"><h2><b>결제 정보</b></h2></div>
+               
+                 <div style="display: flex; justify-content: center; align-items: center;">
+                     <div class="order_infomation">
+                         <div class="order-info">
+                             <b>결제수단&nbsp; :&nbsp;</b>
+                             <b>무통장 입금</b>
+                         </div>
+                         <div class="order-info">
+                             <b>결제금액&nbsp; :&nbsp;</b>
+                             <b><%=o.getPay() %>원</b>
+                         </div>
+                         <div class="order-info">
+                             <b>결제일시&nbsp; :&nbsp;</b>
+                             <b><%=or.getPayDate() %></b>
+                          
+                         </div>
+                         <div class="order-info">
+                              <b>입금자명 : <%=o.getAccountHolder() %> / 입금은행명 : <%=o.getBankName() %> / 입금은행계좌 : <%=o.getAccountNumber() %></b>
+                         </div>
+                     </div>
+             </div>
+             </div>
+ 
+         </section>
+         <!-- Section end -->
 
-            
-        </div>
-        <!-- 결제 페이지 끝-->
-
-            
-        </section>
-        <!-- Section end -->
-       </div>
-
-<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
        <%@ include file="/views/common/footer.jsp" %>
+	     
+	 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,30 +47,21 @@
         margin: 10% 0% 10% 0%;
     }
 
-      /*주문안내 스타일 start*/
-    .order_success{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid lightgrey;
-        border-radius: 10cqi;
-        white-space: nowrap;
-    }
-
+    
+    /* 결제완료페이지 필요한 스타일 */
     .order_success h6 {
         margin: 3% 3% 3% 3%;
     }
 
     .order-num h6 {
         margin-right: 10px; 
-        font-size: small;
+        
         color: darkgray;
     }
 
     .order-num span, .order-date {
         font-weight: bold;
-        font-size: small;
-        color: darkgray;
+        color: gray;
     }
       /*주문안내 스타일 end*/
 
@@ -81,11 +73,12 @@
     }
 
     .order_list th{
+        font-size: 30px;
         color: rgb(100, 135, 31);
     }
 
     .product-name{
-        font-size: small;
+        
         margin-left: 10%;
     }
 
@@ -109,7 +102,7 @@
         text-align: start;
         white-space: nowrap;
         color: rgb(78, 78, 78);
-        font-size: small;
+        
     }
 
      /*결제정보 스타일_언더바*/
@@ -140,7 +133,7 @@
 
 </head>
 <body>
-    <div class="wrap">
+    <div class="wrap container p-3">
 		
         <!-- Header start -->
         <header class="header border-bottom border-2">
@@ -204,28 +197,28 @@
         <section class="main-content">
 
             <div class="main-wrap">
-                
-                <h4 ><b>결제완료</b></h4>
+
+                <h1><b>결제완료</b></h1>
                 <br><br>
 
-                <!--결제완료 안내-->
-                <div class="order_success">
-                    <h6><b>주문/결제가 정상적으로 완료되었습니다.</b></h6>
+                <div class="d-flex flex-column" style="border: 3px solid black; border-radius: 10px; height: 300px;">
 
-                    <!-- 주문번호 -->
-                    <div class="order-num center" >
-                        <h6><b>주문번호</b></h6>
-                        <span id="order-num" style="color: gray;">123123</span>
+                    <div class="center" style="margin-top: 30px;">
+                        <h3><b>주문/결제가 정상적으로 완료되었습니다.</b></h3>
                     </div>
-                    <br>
+                    <div class="center" style="padding: 10px;">
+                        <h4><b>주문번호</b></h4>
+                        &nbsp;&nbsp;<h3><span id="order-num" style="color:  green;">123123</span></h3>
+                    </div>
+                    <div class="center" style="padding: 10px;">
+                        <h5><b class="order-date">배송일자는 주문날짜로부터 2~3일 내에 상품이 도착할 예정입니다.</b></h5>
+                    </div>
+                    <div class="center" style="padding: 10px; margin-top: 30px;">
+                        <h2><b><span style="color: green;" >So's tory</span>를 이용해주셔서 감사합니다.</b></h2>
+                    </div>
 
-                    <b class="order-date">배송일자는 주문날짜로부터 2~3일 내에 상품이 도착할 예정입니다.</b>
-                    <br>
-
-                    <h6><b><span style="color: green;" >So's tory</span>를 이용해주셔서 감사합니다.</b></h6>
                 </div>
-
-
+           
                 <!--결제상품 테이블-->
                 <table class="table order_list" style="margin-top: 7%;">
                     <!-- 주문조회 테이블 header -->
@@ -269,7 +262,7 @@
                 </table>                
                
                  <!--결제정보-->
-                 <div style="margin-top: 7%;" class="line"><h4><b>결제 정보</b></h4></div>
+                 <div style="margin-top: 7%;" class="line"><h2><b>결제 정보</b></h2></div>
                
                  <div style="display: flex; justify-content: center; align-items: center;">
                      <div class="order_infomation">
