@@ -16,6 +16,7 @@ import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.ProductLike;
 import com.sos.product.model.vo.ProductRecipe;
 import com.sos.product.model.vo.ProductReview;
 import com.sos.product.model.vo.Qna;
@@ -1098,7 +1099,7 @@ public class ProductDao {
 				pr.setCategoryNo(rset.getString("CATEGORY_NAME"));
 				pr.setProductName(rset.getString("PRODUCT_NAME"));
 				pr.setPrice(rset.getInt("PRICE"));
-				pr.setPrice(rset.getInt("DISCOUNT_PRICE"));
+				pr.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
 				pr.setPath(rset.getString("PATH"));
 				
 				list.add(pr);
@@ -1242,10 +1243,10 @@ public class ProductDao {
 	}
 	
 	
-	public int insertLikeDeleteProduct(Connection conn, int productNo, int userNo) {
+	public int deleteLikeProduct(Connection conn, int productNo, int userNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertLikeDeleteProduct");
+		String sql = prop.getProperty("deleteLikeProduct");
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
@@ -1259,5 +1260,37 @@ public class ProductDao {
 		}
 		return result;
 	}
+	
+	
 
+	public List<ProductLike> likeUserNo(Connection conn, int userNo){
+		
+		List<ProductLike> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("likeUserNo");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ProductLike pl = new ProductLike();
+				pl.setLikeNo(rset.getInt("LIKE_NO"));
+				pl.setUserNo(rset.getInt("USER_NO"));
+				pl.setLikeRefNo(rset.getInt("LIKE_REFNO"));
+				list.add(pl);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
 }

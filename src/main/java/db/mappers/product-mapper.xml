@@ -730,11 +730,22 @@
 		   )
 	</entry>
 	
-	<entry key="insertLikeDeleteProduct">
+	<entry key="deleteLikeProduct">
 		DELETE FROM TB_LIKE
-		WHERE USER_NO = ? AND LIKE_REFNO = ?;
+		WHERE USER_NO = ?
+		  AND LIKE_REFNO = ?
+          AND LIKE_TYPE = 'P'
 	</entry>
 	
+	<entry key="likeUserNo">
+	 SELECT
+		  LIKE_NO
+		, USER_NO
+		, LIKE_REFNO
+		FROM TB_LIKE
+		WHERE LIKE_TYPE = 'P'
+         AND USER_NO = ?
+	</entry>
 	
 	
 	

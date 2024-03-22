@@ -1,6 +1,7 @@
 package com.sos.product.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.ProductLike;
 import com.sos.product.model.vo.ProductRecipe;
 
 /**
@@ -39,10 +41,30 @@ public class ProductDetailController extends HttpServlet {
 		Product pro = new ProductService().selectProduct(productNo);
 		List<Member> list = new ProductService().selectPaymentUser();
 		List<ProductRecipe> rlist = new ProductService().selectRecipeList(productNo);
-				
+		
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();			
+		}
+		
+		
+		List<ProductLike> likeUser = new ProductService().likeUserNo(userNo);				
+		
+		
+		List<Integer> likedProductNo = new ArrayList<>();  // 상품번호 배열
+		for(ProductLike pl : likeUser) {
+			likedProductNo.add(pl.getLikeRefNo());
+			
+		}
+		
 		request.setAttribute("list", list);
 		request.setAttribute("pro", pro);
 		request.setAttribute("rlist", rlist);
+		request.setAttribute("likeUser", likeUser);
+		request.setAttribute("likedProductNo", likedProductNo);
+		
+		
+		
 		request.getRequestDispatcher("/views/product/productDetail.jsp").forward(request, response);			
 	
 		

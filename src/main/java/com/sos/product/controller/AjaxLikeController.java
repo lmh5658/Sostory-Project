@@ -1,6 +1,7 @@
 package com.sos.product.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 
 /**
@@ -31,13 +33,17 @@ public class AjaxLikeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int productNo = Integer.parseInt(request.getParameter("proNo"));
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		System.out.println(productNo);
-		System.out.println(userNo);
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();	
+			
+		}
+		
 		int result = new ProductService().insertLikeProduct(productNo, userNo);
 		
 		response.setContentType("application/json, charset=utf-8");
 		new Gson().toJson(result, response.getWriter());
+		
 	}
 
 	/**
