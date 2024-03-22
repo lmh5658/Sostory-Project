@@ -56,7 +56,7 @@
             </div>
 
             <div>
-                <form action="">
+                <form action="<%=contextPath%>/enrollProduct.ma" method="post" enctype="multipart/form-data">
                     <table class="table">
                         <tr>
                             <th>카테고리</th>

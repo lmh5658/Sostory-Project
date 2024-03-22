@@ -15,7 +15,7 @@ import com.sos.manager.model.service.ManagerService;
 /**
  * Servlet implementation class EnrollProductForm
  */
-@WebServlet("/enrollProduct.ma")
+@WebServlet("/enrollProductForm.ma")
 public class EnrollProductForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -196,7 +196,7 @@ public class Product {
 		return contentPath;
 	}
 
-	public void setDetailPath(String contentPath) {
+	public void setContentPath(String contentPath) {
 		this.contentPath = contentPath;
 	}
 

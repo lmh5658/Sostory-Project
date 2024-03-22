@@ -150,7 +150,7 @@
 	            </div>
             </form>
             <div class="mem_del">
-                <button onclick='location.href="<%= contextPath %>/enrollProduct.ma"' style="background-color: rgb(0, 0, 113);">상품등록</button>
+                <button onclick='location.href="<%= contextPath %>/enrollProductForm.ma"' style="background-color: rgb(0, 0, 113);">상품등록</button>
                 <button onclick="deleteProduct();">상품삭제</button>
             </div>
             <div class="table_d">
