@@ -3,6 +3,7 @@ package com.sos.product.model.vo;
 public class Qna {
 	private int answerNo;
 	private String productNo;
+	private String productName;
 	private String userNo;
 	private String adminNo;
 	private String answerDate;
@@ -45,6 +46,14 @@ public class Qna {
 
 	public void setProductNo(String productNo) {
 		this.productNo = productNo;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	public String getUserNo() {
@@ -121,14 +130,11 @@ public class Qna {
 
 	@Override
 	public String toString() {
-		return "Qna [answerNo=" + answerNo + ", productNo=" + productNo + ", userNo=" + userNo + ", adminNo=" + adminNo
-				+ ", answerDate=" + answerDate + ", answerTitle=" + answerTitle + ", answerContent=" + answerContent
-				+ ", answerType=" + answerType + ", answerStatus=" + answerStatus + ", reply=" + reply + ", replyDate="
-				+ replyDate + "]";
+		return "Qna [answerNo=" + answerNo + ", productNo=" + productNo + ", productName=" + productName + ", userNo="
+				+ userNo + ", adminNo=" + adminNo + ", answerDate=" + answerDate + ", answerTitle=" + answerTitle
+				+ ", answerContent=" + answerContent + ", answerType=" + answerType + ", answerStatus=" + answerStatus
+				+ ", reply=" + reply + ", replyDate=" + replyDate + "]";
 	}
 
-	
-	
-	
-	
+
 }

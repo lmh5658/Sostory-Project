@@ -531,7 +531,8 @@ public class MyPageDao {
 				Qna q = new Qna();
 				
 				q.setAnswerNo(rset.getInt("answer_no"));
-				q.setProductNo(rset.getString("product_name"));
+				q.setProductNo(String.valueOf(rset.getInt("product_no")));
+				q.setProductName(rset.getString("product_name"));
 				q.setAnswerDate(rset.getString("answer_date"));
 				q.setAnswerTitle(rset.getString("answer_title"));
 				q.setAnswerStatus(rset.getString("answer_status"));
@@ -589,7 +590,8 @@ public class MyPageDao {
 				Qna q = new Qna();
 				
 				q.setAnswerNo(rset.getInt("answer_no"));
-				q.setProductNo(rset.getString("product_name"));
+				q.setProductNo(String.valueOf(rset.getInt("product_no")));
+				q.setProductName(rset.getString("product_name"));
 				q.setAnswerDate(rset.getString("answer_date"));
 				q.setAnswerTitle(rset.getString("answer_title"));
 				q.setAnswerStatus(rset.getString("answer_status"));

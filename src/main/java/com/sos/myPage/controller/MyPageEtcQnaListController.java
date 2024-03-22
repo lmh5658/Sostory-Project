@@ -105,13 +105,14 @@ public class MyPageEtcQnaListController extends HttpServlet {
 			/* 문의유형별 응답화면
 			 * 
 			 * case 01) 1:1문의 목록페이지 : views/myPage/myPageEtcQnaList.jsp
-			 * case 02) 상품문의 목록페이지 : 
+			 * case 02) 상품문의 목록페이지 : views/myPage/myPageProductQnaList.jsp
 			 * 
 			 */
 			if(Integer.parseInt(q.getAnswerType()) == 2) { // 1:1문의
 				request.getRequestDispatcher("/views/myPage/myPageEtcQnaList.jsp").forward(request, response);				
 			}else{ // 상품문의
 				
+				request.getRequestDispatcher("/views/myPage/myPageProductQnaList.jsp").forward(request, response);
 			}
 			
 			

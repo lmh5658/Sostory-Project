@@ -14,6 +14,7 @@ import com.sos.member.model.vo.Member;
 import com.sos.product.model.dao.ProductDao;
 import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.ProductLike;
 import com.sos.product.model.vo.ProductRecipe;
 import com.sos.product.model.vo.ProductReview;
 import com.sos.product.model.vo.Qna;
@@ -290,9 +291,9 @@ public class ProductService {
 	}
 	
 	
-	public int insertLikeDeleteProduct(int productNo, int userNo) {
+	public int deleteLikeProduct(int productNo, int userNo) {
 		Connection conn = getConnection();
-		int result = pDao.insertLikeDeleteProduct(conn, productNo, userNo);
+		int result = pDao.deleteLikeProduct(conn, productNo, userNo);
 		if(result > 0) {
 			commit(conn);
 		}else {
@@ -302,4 +303,11 @@ public class ProductService {
 		return result;	
 	}
 
+	
+	public List<ProductLike> likeUserNo(int userNo) {
+		Connection conn = getConnection();
+		List<ProductLike> list = pDao.likeUserNo(conn, userNo);
+		close(conn);
+		return list;
+	}
 }

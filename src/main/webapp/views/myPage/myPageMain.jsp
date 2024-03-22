@@ -49,7 +49,7 @@
 				    <div class="side_menu">
 				        <button class="list">고객문의</button>
 				        <div>
-				        <a href="" style="color:white; text-decoration-line:none;">상품문의</a><br>
+				        <a href="<%= contextPath %>/qna.me?type=1&page=1" style="color:white; text-decoration-line:none;">상품문의</a><br>
 				        <a href="<%= contextPath %>/qna.me?type=2&page=1" style="color:white; text-decoration-line:none;">1:1 문의</a>
 				        </div>
 				    </div>

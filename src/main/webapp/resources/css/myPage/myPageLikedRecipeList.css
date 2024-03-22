@@ -118,9 +118,9 @@ h3>label{
        flex-shrink: 0;
 }
 
-.recipe:hover{
-       cursor: pointer;
-       background-color: antiquewhite;
+.recipe-item:hover, .product-item:hover{
+	cursor: pointer;
+	opacity: 0.8;
 }
 
 .recipe_thumbnail{
