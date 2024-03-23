@@ -9,6 +9,9 @@
 	String select = (String)request.getAttribute("select");
 	
 	String search = (String)request.getAttribute("search"); // null | 검색단어
+	
+	// 장바구니 상품번호 리스트
+	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
 %>
 <!DOCTYPE html>
 <html>
@@ -39,6 +42,9 @@
         
        
         .product-thumbnail-list d-flex flex-column w-100{display: flex; flex-wrap: wrap; max-height: 900px;}
+         .cart{
+    	cursor: pointer;
+    	}
     
 </style>
 <body>
@@ -136,32 +142,34 @@
                             <div class="product img-thumbnail p-2 " style="width:300px">
                             	<div id="thumb">
                                		<img class="product-img thumbnail1" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%; height:300px">                            	
-                           			<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
-                            	</div>                       	
+	                            	<input type="hidden" class="pNo" value="<%= p.getProductNo() %>">                    	
+                            	</div>       
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
 	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
-	                                    
-	                                    <% if(p.getDiscountPrice() == 0) { System.out.println(p.getDiscountPrice());%>
+	                                    <% if(p.getDiscountPrice() == 0) { %>
 	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
 	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
 	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
-	                                    <% } %>	                                   
+	                                    <% } %>	 
+	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
-	                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-	                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-	                                        </svg>
+		                                        <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+												  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+												</svg>
+                           						<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
+	                                   
 	                                        <% if(loginUser != null) { %>
-								                    <a href="javascript:cartMe(<%=p.getProductNo()%>)"><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+								                    <svg onclick="cartMe(this);"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
 								                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-								                    </svg></a>
+								                    </svg>
 												<%}else{ %>
-													 <a onclick="alert('로그인을 해주세요.')"><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+													 <svg onclick="alert('로그인을 해주세요.')"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
 								                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-								                    </svg></a>
+								                    </svg>
 												<%} %>
-	                                        
+	                                         
 	                                        
 	                                	</div>
 	                               </div>
@@ -277,63 +285,81 @@
        
   
         })	
-    </script>
-    
-    <script>
-    function cartMe(productNo){
-		<%
-		int userNo = 0;
-		if(loginUser != null){
-			userNo = loginUser.getUserNo();
-		}
-		%>
-		
-		var userNo = <%= userNo %>;
-		//장바구니 테이블에 해당 상품,유저가 존재하는지 중복체크
-		$.ajax({
-			url:"<%=contextPath%>/count.ca",
-			data:{
-				productNo:productNo,
-				userNo:userNo,
-			},
-			type:"post",
-			success:function(count){ 
-				if(count > 0){ // 장바구니 테이블에 같은상품이 존재
-				alert("이미 장바구니에 존재하는 상품입니다.");
-				}else{
-					$.ajax({
-						url:"<%=contextPath%>/add.ca",
-						data:{
-							productNo:productNo,
-							userNo:userNo,
-							cart_amount:1 // 장바구니 상품등록 기본수량 1
-							
-						},
-						type:"post",
-						success:function(result){
-							if(result>0){ // 장바구니 상품등록 성공
-							alert("상품을 장바구니에 담았습니다.");
-							}
-						},error:function(){
-							console.log("ajax 통신 실패");
-							
-						}
-					})
-				}
-			},error:function(){
-				console.log("ajax 통신 실패");
-				
+        
+        
+        $(function(){
+  		// 찜한상품이 장바구니에 담긴상품인지 구분하여 아이콘컬러를 구분하는 함수(페이지로드 즉시실행)
+  		$(".product").each(function(){
+  			
+  			const pNoList = <%= pNoList %>;				// 사용자가 장바구니에 담은상품의 상품번호 배열
+  			const $pNo = $(this).find(".pNo").val();	// 찜한상품 상품번호
+  			const $cart = $(this).find(".cart");		// 장바구니 아이콘태그
+  		
+  			for(let i=0 ; i<pNoList.length ; i++){
+  				// 장바구니에 담긴상품일 경우 ==> 아이콘컬러 : 파란색
+  				if(pNoList[i] == $pNo){	
+  					$cart.attr("fill", "blue");
+  				}
+  			}
+  		
+  		})
+  	})
+        
+        
+        
+   
+        
+  function cartMe(productNo){
+			<%
+			int userNo = 0;
+			if(loginUser != null){
+				userNo = loginUser.getUserNo();
 			}
+			%>
+			
+			var userNo = <%= userNo %>;
+			var $pNo = $(productNo).siblings('input[name="productNo"]').val(); // 장바구니 담은 상품번호
 			
 			
-		})
-
-		
-		//location.href=("/sos/views/cart/cartList.jsp);
-
-
-
-	}
+			
+			//장바구니 테이블에 해당 상품,유저가 존재하는지 중복체크
+			$.ajax({
+				url:"<%=contextPath%>/count.ca",
+				data:{
+					productNo:$pNo,
+					userNo:userNo,
+				},
+				type:"post",
+				success:function(count){ 
+					if(count > 0){ // 장바구니 테이블에 같은상품이 존재
+					alert("이미 장바구니에 존재하는 상품입니다.");
+					}else{
+						$.ajax({
+							url:"<%=contextPath%>/add.ca",
+							data:{
+								productNo:$pNo,
+								userNo:userNo,
+								cart_amount:1 // 장바구니 상품등록 기본수량 1
+								
+							},
+							type:"post",
+							success:function(result){
+								if(result>0){ // 장바구니 상품등록 성공
+								
+								alert("상품을 장바구니에 담았습니다.");
+								$(productNo).attr("fill", "blue"); 
+								
+								}
+							}
+						})
+					}
+				}
+				
+				
+			})
+	
+			
+		}
     
     
     </script>
