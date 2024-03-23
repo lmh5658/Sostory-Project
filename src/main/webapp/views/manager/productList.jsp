@@ -4,7 +4,6 @@
 <%@ page import="com.sos.product.model.vo.Product" %>
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	List<Product> list = (List<Product>)request.getAttribute("list");
 	String keyword = (String)request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
@@ -178,8 +177,8 @@
 	                                <td><input type="checkbox" name="typArr"></td>
 	                                <td><%= p.getProductNo() %></td>
 	                                <td style="cursor:pointer;" onclick="location.href='<%=request.getContextPath()%>/updateProductForm.ma?productNo=<%=p.getProductNo()%>'"><%= p.getProductName() %></td>
-	                                <td><%= p.getPrice() %></td>
-	                                <td><%= p.getPrice() - p.getDiscountPrice() %></td>
+	                                <td><%= String.format("%,d", p.getPrice()) %></td>
+	                                <td><%= String.format("%,d", p.getPrice() - p.getDiscountPrice()) %></td>
 	                                <td><%= p.getInventory() %></td>
 	                                <td><%= p.getStatus().equals("Y") ? "정상" : p.getStatus().equals("S") ? "품절" : "삭제" %></td>
 	                            </tr>
@@ -214,83 +213,53 @@
             </script>
             <!-- 페이징 -->
 			<% if(keyword == null) { %>
-                  <ul class="pagination">
-                  	<% if(pi.getCurrentPage() == 1) { %>
-                      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                      <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() - 1 %>" >Previous</a></li>
-                      <% } %>
-                      
-                      <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
-                      	<% if(i == pi.getCurrentPage())	{ %>
-                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
-                      	<% } else {%>
-                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
-                      	<% } %>
-                      <% } %>
-                      
-                      <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
-                      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                      <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() + 1 %>" >Next</a></li>
-                      <% } %>
-                  </ul>
-                  <% } else { %>
-                  <ul class="pagination">
-                  	<% if(pi.getCurrentPage() == 1) { %>
-                      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                      <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() - 1 %>&keyword=<%= keyword %>" >Previous</a></li>
-                      <% } %>
-                      
-                      <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
-                      	<% if(i == pi.getCurrentPage())	{ %>
-                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
-                      	<% } else {%>
-                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
-                      	<% } %>
-                      <% } %>
-                      
-                      <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
-                      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                      <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Next</a></li>
-                      <% } %>
-                  </ul>
-                  <% } %>
+               <ul class="pagination">
+               	<% if(pi.getCurrentPage() == 1) { %>
+                   <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                   <% } else { %>
+                   <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() - 1 %>" >Previous</a></li>
+                   <% } %>
+                   
+                   <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
+                   	<% if(i == pi.getCurrentPage())	{ %>
+                   	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
+                   	<% } else {%>
+                   	<li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
+                   	<% } %>
+                   <% } %>
+                   
+                   <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+                   <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                   <% } else { %>
+                   <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() + 1 %>" >Next</a></li>
+                   <% } %>
+               </ul>
+               <% } else { %>
+               <ul class="pagination">
+               	<% if(pi.getCurrentPage() == 1) { %>
+                   <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                   <% } else { %>
+                   <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() - 1 %>&keyword=<%= keyword %>" >Previous</a></li>
+                   <% } %>
+                   
+                   <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
+                   	<% if(i == pi.getCurrentPage())	{ %>
+                   	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                   	<% } else {%>
+                   	<li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                   	<% } %>
+                   <% } %>
+                   
+                   <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
+                   <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                   <% } else { %>
+                   <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Next</a></li>
+                   <% } %>
+               </ul>
+               <% } %>
             <script>
-
-                $(function(){
-                        // 전체 선택 / 해제
-                    $("#cbx_chkAll").click(function(){
-                        if($("#cbx_chkAll").is(":checked")){
-                        $("input[name=typArr]").prop("checked", true);
-                        }else {
-                        $("input[name=typArr]").prop("checked", false);
-                        }
-                    });
-                    
-                    $("input[name=typArr]").click(function(){
-                        var totalArr = $("input[name=typArr]").length;
-                        var checked = $("input[name=typArr]:checked").length;
-                        
-                        if(totalArr != ckecked){
-                        $("#cbx_chkAll").prop("checked", false);
-                        }else{
-                        $("#cbx_chkAll").prop("checked", true);
-                        }
-                    });
-
-                    $(".table_title>td").each(function(){
-                        if($(this).text() == "품절" || $(this).text() == "삭제"){
-                            $(this).css("color", "red");
-                        }else{
-                            $(this).css("color", "black");
-                        }
-                    })
-                })
                 
-              </script>
+            </script>
 
         </div>
 

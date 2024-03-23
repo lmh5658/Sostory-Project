@@ -46,11 +46,12 @@ public class RecipeInsertController extends HttpServlet {
 		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 		
 		//레시피 파라미터 받아서 한꺼번에 넘기기
+		
 		Recipe recipe = new Recipe( categoryNo,
 									userNo,
 									Integer.parseInt(request.getParameter("productNo")),//select된 것 드롭다운. select에 name 값 넣어서 보내기 
 									request.getParameter("recipeTitle"),
-									request.getParameter("thumbnailUrl"),
+									request.getParameter("thumbnailUrl"), // null
 									request.getParameter("recipeIntro"),
 									Integer.parseInt(request.getParameter("serving")), //인분
 									Integer.parseInt(request.getParameter("cookingTime")),
@@ -81,11 +82,13 @@ public class RecipeInsertController extends HttpServlet {
 		//스텝
 		/*List<Recipe> steplist = stepNo, STEP_CONTENT, STEP_ATTACHMENT_URL*/
 			String[] stepContent = request.getParameterValues("stepContent");
-			String[] stepAttachUrl = request.getParameterValues("stepAttachUrl");
+			String stepAttachUrl = "첨부파일";
+			// String[] stepAttachUrl = null;
 			
 			List<Step> step = new ArrayList<>();
 			for (int i = 0; i < stepContent.length; i++) {
-			    step.add(new Step(i + 1, stepContent[i], stepAttachUrl[i]));
+			    step.add(new Step(i + 1, stepContent[i], stepAttachUrl));
+			    //                                       null[i]
 			}
 
 			

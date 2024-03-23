@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.sos.cart.model.vo.Order;
 import com.sos.common.model.vo.Category;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
@@ -426,6 +427,26 @@ public class ManagerDao {
 		}
 		
 		return result;
+	}
+
+	public List<Order> selectOrderList(Connection conn) {
+		List<Order> list = new ArrayList<>();
+//		PreparedStatement pstmt = null;
+//		ResultSet rset = null;
+//		String sql = prop.getProperty("selectOrderList");
+//		
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			rset = pstmt.executeQuery();
+//			if(rset.next()) {
+//				Order o = new Order();
+//				o.setOrderNo(rset.getInt("order_no"));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		
+		return list;
 	}
 
 }

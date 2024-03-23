@@ -16,7 +16,6 @@ public class Order {
 	private String payDate;
 	private int orderNo;
 	
-	
 	public Order() {}
 
 

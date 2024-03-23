@@ -43,29 +43,31 @@
 		<div class="side_menu">
 			<button class="list">주문관리</button>
 			<div>
-				<a href="">결제관리</a>
+				<a href="<%=request.getContextPath() %>/payment.ma?page=1">결제관리</a>
 			</div>
 
 		</div>
 		<div class="side_menu">
 			<button class="list">레시피관리</button>
 			<div>
-				<a href="<%= request.getContextPath() %>/recipeList.ma">레시피조회</a><br> 
+				<a href="<%= request.getContextPath() %>/recipeList.ma?page=1">레시피조회</a><br> 
 				<!-- <a href="<%= request.getContextPath() %>/updateForm.re">레시피등록</a> -->
 			</div>
 		</div>
+		<!-- 
 		<div class="side_menu">
 			<button class="list">리뷰관리</button>
 			<div>
 				<a href="<%= request.getContextPath() %>/productReview.ma">상품리뷰</a><br> 
-				<!-- <a href="">레시피리뷰</a>  -->
+				<a href="">레시피리뷰</a>
 			</div>
 		</div>
+		 -->
 		<div class="side_menu">
 			<button class="list">문의관리</button>
 			<div>
-				<a href="<%= request.getContextPath() %>/qnaProduct.ma">상품문의</a><br> 
-				<a href="<%= request.getContextPath() %>/qnaPersonal.ma">1:1문의</a>
+				<a href="<%= request.getContextPath() %>/qnaProduct.ma?page=1">상품문의</a><br> 
+				<a href="<%= request.getContextPath() %>/qnaPersonal.ma?page=1">1:1문의</a>
 			</div>
 		</div>
 	</div>

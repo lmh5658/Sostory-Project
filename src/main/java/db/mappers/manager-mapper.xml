@@ -190,4 +190,35 @@
 		  	 , DISCOUNT_PRICE = ?
 		  	 , MODIFY_DATE = SYSDATE
 	</entry>
+	
+	<entry key="selectOrderList">
+		SELECT 
+		       ORDER_NO
+		     , USER_ID
+		     , TOTAL_ORIGIN_PRICE
+		     , ORDER_DATE
+		     , ORDER_STATUS
+		  FROM TB_ORDER
+		  JOIN TB_MEMBER USING(USER_NO)
+	</entry>
+	
+	<entry key="selectOrderProduct">
+		SELECT ORDER_NO
+		     , PRODUCT_NAME
+		     , (SELECT COUNT(*)
+		          FROM TB_ORDER_PRODUCT A
+		         WHERE A.ORDER_NO = B.ORDER_NO
+		         GROUP
+		            BY ORDER_NO) COUNT
+		  FROM TB_ORDER_PRODUCT B
+		  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		 WHERE ORDER_NO = 3
+		   AND ROWNUM = 1;
+	</entry>
+	
 </properties>
+
+
+
+
+

@@ -11,13 +11,13 @@ public class OrderProduct {
 	}
 
 	//레시피 목록 부르기
-	public OrderProduct(String productName, int categoryNo) {
+	public OrderProduct(String productName, int productNo, int categoryNo) {
 		super();
 		this.productName = productName;
+		this.productNo = productNo;
 		this.categoryNo = categoryNo;
-
-
 	}
+	
 
 	public String getProductName() {
 		return productName;

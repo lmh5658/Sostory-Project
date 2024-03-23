@@ -357,7 +357,8 @@ public class RecipeDao {
 			
 			while(rset.next()) {
 				orderProduct.add(new OrderProduct( rset.getString("PRODUCT_NAME"),
-													rset.getInt("CATEGORY_NO")
+												   rset.getInt("PRODUCT_NO"),
+												   rset.getInt("CATEGORY_NO")
 
 								  ));
 			}

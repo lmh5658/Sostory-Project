@@ -8,6 +8,7 @@ import static com.sos.common.template.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.List;
 
+import com.sos.cart.model.vo.Order;
 import com.sos.common.model.vo.Category;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.manager.model.dao.ManagerDao;
@@ -150,6 +151,13 @@ public class ManagerService {
 		}
 		close(conn);
 		return result;
+	}
+
+	public List<Order> selectOrderList() {
+		Connection conn = getConnection();
+		List<Order> list = mDao.selectOrderList(conn);
+		close(conn);
+		return list;
 	}
 
 	

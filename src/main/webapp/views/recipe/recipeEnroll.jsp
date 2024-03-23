@@ -10,7 +10,6 @@ List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("orderProduct
 Recipe recipe = (Recipe)request.getAttribute("recipe");
 List<Step> step = (List<Step>)request.getAttribute("step");
 List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient");
-
 %>
 <!DOCTYPE html>
 <html>
@@ -73,7 +72,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
 	        <div class="underbar"></div>
 	        <br><br><br>
             
-            <form action="<%=contextPath %>/insert.re" method="">
+            <form action="<%=contextPath %>/insert.re" method="post">
                 <table>
                     <tr>
                         <th colspan="2" style="font-size: 20px; padding: 20px 0px; border-bottom: 1px solid lightgrey;">레시피등록</th>
@@ -82,12 +81,13 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                     <tr>
                         <td width="150px">상품명</td>
                         <td width="400px">
-                          <select class="product_name" name="selectedProductName" onchange="updateHiddenCategoryNo()" required>
-							    <option hidden>상품을 선택하세요</option>
+                          <select class="product_name" name="productNo" onchange="updateHiddenCategoryNo()" required>
+							    <option disabled selected>상품을 선택하세요</option>
 							    <!-- 히든으로 카테고리 번호도 같이 넘기기. -->
 							    <% if (list != null) { %>
 							        <% for (OrderProduct o : list) { %>
-							            <option value="<%= o.getProductNo() %> " data-category-no="<%= o.getCategoryNo() %>"><%= o.getProductName() %></option>
+							        	<% System.out.println(o.getProductNo()); %>
+							            <option value="<%= o.getProductNo() %>" data-category-no="<%= o.getCategoryNo() %>"><%= o.getProductName() %></option>
 							        <% } %>
 							    <% } %>
 							</select>
@@ -137,8 +137,8 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                         <td id="ingredientForm">
                             <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" name="ingredientName" placeholder="재료명" required>
                             <input class="ingredient" type="number" style="width: 120px;" name="amount" placeholder="수량" required>
-                            <select class="ingredient" name="" style="width: 70px;" required>
-                                <option selected hidden name="unit">단위</option>
+                            <select class="ingredient" name="unit" style="width: 70px;" required>
+                                <option selected disabled>단위</option>
                                 <option value="g">g</option>
                                 <option value="kg">kg</option>
                                 <option value="ml">ml</option>
