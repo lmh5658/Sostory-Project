@@ -146,7 +146,7 @@
             <!-- Header 오른쪽-하단(nav바) 영역 start -->
             <div class="header-right-bottom">
                 <div class="header-nav py-4 mb-3">
-                    <nav class="nav nav-underline justify-content-between">
+                    <nav class="nav nav-underline justify-content-around">
                         <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.pr?page=1">전체상품</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath%>/listNew.pr?page=1">신상품</a>
