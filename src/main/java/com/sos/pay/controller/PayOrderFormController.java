@@ -49,7 +49,9 @@ public class PayOrderFormController extends HttpServlet {
 		
 		String[] productNo = request.getParameterValues("productNo"); // 체크된 상품들의 상품번호
 		
-		int result = new PayService().updateCount(count,userNo,hiddencartProductNo);
+		// 장바구니 목록페이지에서 변경된 수량만큼 TB_CART테이블에 업데이트
+		int result = new PayService().updateCount(count,userNo,hiddencartProductNo); 
+		
 		
 		
 		
