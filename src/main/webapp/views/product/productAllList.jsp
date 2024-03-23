@@ -12,11 +12,14 @@
 	
 	//로그인한 회원이 찜한 상품번호
 	List<Integer> proNo = (List<Integer>)request.getAttribute("likeList");
+	System.out.println(proNo + "좋아한상품번호");
+	//전체상품번호
 	List<Integer> listP = (List<Integer>)request.getAttribute("listP");
-	System.out.println(listP.get(1));
+	System.out.println(listP + "현재패에지의상품번호");
 	
 	// 장바구니 상품번호 리스트
 	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
+
 	
 %>
 <!DOCTYPE html>
@@ -52,6 +55,11 @@
     	.cart{
     	cursor: pointer;
     	}
+    	
+    	#heart:hover {
+            fill: red; /* 호버 시 색상 변경 */
+            cursor: pointer; /* 호버 시 커서 모양 변경 */
+        }
     
 </style>
 <body>
@@ -120,7 +128,7 @@
 
                 </div>
                 
-                 <!-- 상품 정렬 Select start -->
+                 
                  <!-- 상품 정렬 Select start -->
             <div class="select-product d-flex justify-content-end" id="option_div">
                 <select class="selectpicker" style="width: 120px;" name="select" id="option">
@@ -164,9 +172,9 @@
 	                                    <% } %>	 
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
-		                                        <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-												  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-												</svg>
+		                                        <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-heart-fill" viewBox="0 0 16 16">
+											        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+											    </svg>
                            						<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
 	                                   
 	                                        <% if(loginUser != null) { %>
@@ -189,16 +197,20 @@
                        
                        <script>
                    			$(function(){
+                   				let length = <%= listP.size()%>
+                   				let arr = <%= listP %>
+                   				let lengthp = <%= proNo.size()%>
+                   				let arrp = <%= proNo %>
                    				
+                   				console.log(length);
+                   				console.log(arr);
+                   				console.log("=====");
+                   				console.log(arrp);
+                   				console.log(lengthp);
                    				
-                   					
-                   			
-                   			
-                   			
+                   			             			
+                   		
                    			})
-                   			
-                   			
-                       
                        </script>
                        
                        

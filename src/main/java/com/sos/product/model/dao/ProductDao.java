@@ -1317,4 +1317,134 @@ public class ProductDao {
 		
 	}
 	
+	public int countBestList(Connection conn) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("countBestList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+	}
+	
+	public List<Product> productBestList(Connection conn, PageInfo pi){
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("productBestList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1; 
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setRowNum(rset.getInt("RNUM"));
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				pro.setCount(rset.getString("COUNT"));
+				pro.setReviewCount(rset.getInt("RCOUNT"));
+				list.add(pro);
+			}
+			System.out.println(list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public List<Product> productBestSearchList(Connection conn, PageInfo pi, String search){
+		List<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("productBestSearchList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setString(1, search);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pro = new Product();
+				pro.setRowNum(rset.getInt("RNUM"));
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryName(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				pro.setCount(rset.getString("COUNT"));
+				pro.setReviewCount(rset.getInt("RCOUNT"));
+				list.add(pro);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+		public int countBestSearchList(Connection conn, String search) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("countBestList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+	}
+	
 }

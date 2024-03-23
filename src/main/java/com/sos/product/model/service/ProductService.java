@@ -317,4 +317,33 @@ public class ProductService {
 		close(conn);
 		return list;
 	}
+	
+	public int countBestList() {
+		Connection conn = getConnection();
+		int count = pDao.countBestList(conn);
+		close(conn);
+		return count;
+	}
+	
+	public List<Product> productBestList(PageInfo pi){
+		Connection conn = getConnection();
+		List<Product> list = pDao.productBestList(conn, pi);
+		close(conn);
+		return list;
+	}
+	
+	public List<Product> productBestSearchList(PageInfo pi, String search){
+		Connection conn = getConnection();
+		List<Product> list = pDao.productBestSearchList(conn, pi, search);
+		close(conn);
+		return list;
+	}
+	
+	public int countBestSearchList(String search) {
+		Connection conn = getConnection();
+		int count = pDao.countBestSearchList(conn, search);
+		close(conn);
+		return count;
+		
+	}
 }
