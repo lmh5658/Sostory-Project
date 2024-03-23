@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sos.member.model.service.MemberService;
 import com.sos.recipe.model.sevice.RecipeService;
+import com.sos.recipe.model.vo.Ingredient;
 import com.sos.recipe.model.vo.OrderProduct;
 import com.sos.recipe.model.vo.Recipe;
 import com.sos.recipe.model.vo.RecipeInsert;
@@ -39,7 +40,7 @@ public class RecipeInsertController extends HttpServlet {
 
 		
 		//레시피 a 파라미터 받아서 한꺼번에 넘기기
-		RecipeInsert a = new RecipeInsert(request.getParameter("productName"),//select된 것 드롭다운. select에 name 값 넣어서 보내기 
+		Recipe recipe = new RecipeInsert(request.getParameter("productName"),//select된 것 드롭다운. select에 name 값 넣어서 보내기 
 									request.getParameter("recipeName"),
 									request.getParameter("thumbnailUrl"),
 									request.getParameter("recipeIntro"),
@@ -49,8 +50,16 @@ public class RecipeInsertController extends HttpServlet {
 				                    ); // cookingTime 파라미터를 정수로 변환
 		//재료
 		/*List<Recipe> list = ingredientName, ingredientAmount, 수량은 jsp에서 따로 파라미터 저장해서 보내기*/
+			String[] ings = request.getParameterValues("ingredientName");
+			String[] amount = request.getParameterValues("amount");
+			String[] unit = request.getParameterValues("unit");
+			
+			List<Ingredient> ingList = new ArrayList<>();
+			for(int i = 0; i<ings.length; i++) {
+				ingList.add(new Ingredient(ings[i], amount[i], unit[i]));
+			}
 
-			RecipeInsert ingredient = new RecipeInsert (request.getParameter("ingredientName"),
+			Ingerdient ingredient = new RecipeInsert (request.getParameter("ingredientName"),
 											    	request.getParameter("amount"),
 											     	request.getParameter("unit"));
 		
@@ -58,7 +67,7 @@ public class RecipeInsertController extends HttpServlet {
 		//스텝
 		/*List<Recipe> steplist = stepNo, STEP_CONTENT, STEP_ATTACHMENT_URL*/
 
-			RecipeInsert step = new RecipeInsert (Integer.parseInt(request.getParameter("stepNo")),
+			step step = new RecipeInsert (Integer.parseInt(request.getParameter("stepNo")),
 													Integer.parseInt(request.getParameter("no")),
 											    	request.getParameter("stepContent"),
 											     	request.getParameter("stepAttachUrl"));
@@ -67,9 +76,15 @@ public class RecipeInsertController extends HttpServlet {
 		//재료 삭제는 i = 0 // 재료명 name = 0 -> 비교 for 같은 번호가 없을경우 스킵, 같은 번호가 존재할 경우 -> not null
 		//키값으로 넘기면 사이즈또는 랭쓰로 서블릿측에서 알아내고 그만큼 포문을 돌리고 그 포문 안에서 if문으로 그 파라미터의 인덱스가 0부터 그 길이만큼 돌아서 null이 아닌것만 해가지고 
 
-			int aRsult = new MemberService().insertMember(a); //강의 한 번 듣고 하자
-			int ingredientResult = new RecipeService().insertIngredientList(ingredient);
-			int stepResult = new RecipeService().insertStepList(step);
+			int result = new RecipeService().insertRecipe(recipe, ingList, stepList);
+			
+//			int aRsult = new MemberService().insertMember(a); //강의 한 번 듣고 하자
+//			int ingredientResult = new RecipeService().insertIngredientList(ingredient);
+//			int stepResult = new RecipeService().insertStepList(step);
+			
+			if(result > 0) {
+				// 포워딩
+			}
 	}
 
 	/**

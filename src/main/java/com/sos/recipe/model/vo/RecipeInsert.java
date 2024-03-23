@@ -9,18 +9,6 @@ public class RecipeInsert {
 	private int serving;
 	private String difficulty;
 	private int cookingTime;
-
-	//재료
-	private String ingredientName;
-	private String amount;
-	private String unit;
-
-	
-	//스텝
-	private int stepNo;
-	private int userNo;
-	private String stepContent;
-	private String stepAttachUrl;
 	
 	
 	public RecipeInsert() {

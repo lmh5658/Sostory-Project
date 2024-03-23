@@ -100,6 +100,14 @@ public class RecipeService {
 		close(conn);
 		return ingredientResult;
 	}
+
+	public int insertRecipe() {
+		int result1 = rDao.insertRecipe();
+		int result2 = rDao.insertIngrent
+		int result3 = rDao.insertStep
+		
+		return reulst1 * result2 * result3;
+	}
 	
 
 	

@@ -26,6 +26,7 @@ public class Recipe {
 	//like
 	private int likeRefno;
 	private int likeCount;
+	
 	//product
 	private String productName;
 	private int price;
