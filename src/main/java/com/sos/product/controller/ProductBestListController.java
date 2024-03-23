@@ -1,4 +1,4 @@
-package com.sos.manager.controller;
+package com.sos.product.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,27 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
-import com.oreilly.servlet.MultipartRequest;
-import com.sos.common.model.vo.Category;
-import com.sos.common.template.MyFileRenamePolicy;
-import com.sos.manager.model.service.ManagerService;
+import com.sos.common.model.vo.PageInfo;
+import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
 
 /**
- * Servlet implementation class ProductUpdateFormController
+ * Servlet implementation class ProductBestList
  */
-@WebServlet("/updateProductForm.ma")
-public class ProductUpdateFormController extends HttpServlet {
+@WebServlet("/rank.pr")
+public class ProductBestListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductUpdateFormController() {
+    public ProductBestListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,18 +32,26 @@ public class ProductUpdateFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		int listCount = 20;
+		int currentPage = Integer.parseInt(request.getParameter("page")); 
+		int pageLimit = 5;
+		int boardLimit = 10;
+		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
+		int endPage= startPage + pageLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
 		
-		int productNo = Integer.parseInt(request.getParameter("productNo"));
+		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+
+		List<Product> list = new ProductService().productBestList(pi);
 		
-		Product p = new ManagerService().selectProduct(productNo);
+		request.setAttribute("pi", pi);
+		request.setAttribute("list", list);
 		
-		p.setProductNo(productNo);
-		
-		List<Category> list = new ManagerService().selectCategory();
-		
-		request.setAttribute("product", p);
-		request.setAttribute("categoryList", list);
-		request.getRequestDispatcher("/views/manager/productUpdate.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/product/productBest.jsp").forward(request, response);
 		
 	}
 

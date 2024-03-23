@@ -754,6 +754,71 @@
 		  AND LIKE_TYPE = 'P'
 	</entry>
 	
+	<entry key="countBestList">
+		SELECT
+		    COUNT(*) COUNT
+		FROM TB_ORDER
+		WHERE ORDER_STATUS = 1
+	</entry>
+	
+	<entry key="productBestList">
+			SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+                , TO_CHAR(NVL((SELECT AVG(RATING)
+                                 FROM TB_REVIEW
+                                WHERE PRODUCT_NO = P.PRODUCT_NO),0),'0.0')COUNT
+                ,(SELECT COUNT(*)
+                    FROM TB_REVIEW
+                   WHERE PRODUCT_NO = P.PRODUCT_NO)RCOUNT
+			FROM TB_PRODUCT P
+			LEFT JOIN TB_CATEGORY USING(CATEGORY_NO)
+			ORDER BY COUNT DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="productBestSearchList">
+		SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			      PRODUCT_NO
+			    , CATEGORY_NAME
+			    , PRODUCT_NAME
+			    , PRICE
+			    , DISCOUNT_PRICE
+			    , PATH
+                , TO_CHAR(NVL((SELECT AVG(RATING)
+                                 FROM TB_REVIEW
+                                WHERE PRODUCT_NO = P.PRODUCT_NO),0),'0.0')COUNT
+                ,(SELECT COUNT(*)
+                    FROM TB_REVIEW
+                   WHERE PRODUCT_NO = P.PRODUCT_NO)RCOUNT
+			FROM TB_PRODUCT P
+			LEFT JOIN TB_CATEGORY USING(CATEGORY_NO)
+            WHERE PRODUCT_NAME LIKE '%' || ? || '%'
+			ORDER BY COUNT DESC
+
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+		
+	
+	</entry>
+	
+	
+	
 	
 	
 </properties>

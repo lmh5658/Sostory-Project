@@ -36,7 +36,7 @@
 			<div>
 				<a href="<%= request.getContextPath() %>/productList.ma?page=1">상품조회</a><br>
 				<a href="<%= request.getContextPath() %>/enrollProductForm.ma">상품등록</a><br> 
-				<a href="<%= request.getContextPath() %>/updateProductForm.ma">상품수정</a><br>
+				<!-- <a href="<%= request.getContextPath() %>/updateProductForm.ma">상품수정</a><br>  -->
 				<a href="">TimeSale</a>
 			</div>
 		</div>
