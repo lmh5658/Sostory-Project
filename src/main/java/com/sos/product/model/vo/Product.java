@@ -16,15 +16,21 @@ public class Product {
 	private String path;
 	private String contentPath;
 	private int likeNo;
+	private int rowNum;
+	private String count;
+	private int reviewCount;
 	
 	public Product() {}
 
 	
-	public Product(int productNo, String categoryNo, String productName, int price, String inventory, Date enrollDate,
-			Date modifyDate, String status, int discountPrice, String path) {
+
+	public Product(int productNo, String categoryNo, String categoryName, String productName, int price,
+			String inventory, Date enrollDate, Date modifyDate, String status, int discountPrice, String path,
+			String contentPath, int likeNo, int rowNum, String count, int reviewCount) {
 		super();
 		this.productNo = productNo;
 		this.categoryNo = categoryNo;
+		this.categoryName = categoryName;
 		this.productName = productName;
 		this.price = price;
 		this.inventory = inventory;
@@ -33,29 +39,25 @@ public class Product {
 		this.status = status;
 		this.discountPrice = discountPrice;
 		this.path = path;
+		this.contentPath = contentPath;
+		this.likeNo = likeNo;
+		this.rowNum = rowNum;
+		this.count = count;
+		this.reviewCount = reviewCount;
 	}
 
-	public Product(int productNo, String categoryNo, String productName, int price, int discountPrice, String path) {
+
+
+	public Product(int productNo, String categoryName, String productName, int price, int discountPrice, String path) {
 		super();
 		this.productNo = productNo;
-		this.categoryNo = categoryNo;
+		this.categoryName = categoryName;
 		this.productName = productName;
 		this.price = price;
 		this.discountPrice = discountPrice;
 		this.path = path;
 	}
-	
 
-
-	public Product(int productNo, String productName, int price, String inventory, String status, int discountPrice) {
-		super();
-		this.productNo = productNo;
-		this.productName = productName;
-		this.price = price;
-		this.inventory = inventory;
-		this.status = status;
-		this.discountPrice = discountPrice;
-	}
 
 
 	public int getProductNo() {
@@ -80,14 +82,18 @@ public class Product {
 		this.categoryNo = categoryNo;
 	}
 
+
+
 	public String getCategoryName() {
 		return categoryName;
 	}
 
 
+
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+
 
 
 	public String getProductName() {
@@ -184,29 +190,85 @@ public class Product {
 		this.path = path;
 	}
 
-	public int getLikeNo() {
-		return likeNo;
-	}
 
-	public void setLikeNo(int likeNo) {
-		this.likeNo = likeNo;
-	}
 
 	public String getContentPath() {
 		return contentPath;
 	}
+
+
 
 	public void setContentPath(String contentPath) {
 		this.contentPath = contentPath;
 	}
 
 
+
+	public int getLikeNo() {
+		return likeNo;
+	}
+
+
+
+	public void setLikeNo(int likeNo) {
+		this.likeNo = likeNo;
+	}
+
+
+
+	public int getRowNum() {
+		return rowNum;
+	}
+
+
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+
+
+
+	public String getCount() {
+		return count;
+	}
+
+
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "Product [productNo=" + productNo + ", categoryNo=" + categoryNo + ", productName=" + productName
-				+ ", price=" + price + ", inventory=" + inventory + ", enrollDate=" + enrollDate + ", modifyDate="
-				+ modifyDate + ", status=" + status + ", discountPrice=" + discountPrice + ", path=" + path + "]";
+		return "Product [productNo=" + productNo + ", categoryNo=" + categoryNo + ", categoryName=" + categoryName
+				+ ", productName=" + productName + ", price=" + price + ", inventory=" + inventory + ", enrollDate="
+				+ enrollDate + ", modifyDate=" + modifyDate + ", status=" + status + ", discountPrice=" + discountPrice
+				+ ", path=" + path + ", contentPath=" + contentPath + ", likeNo=" + likeNo + ", rowNum=" + rowNum
+				+ ", count=" + count + ", reviewCount=" + reviewCount + "]";
 	}
+
+
+
+	
+
+	
+	
+	
+	
 
 
 	
