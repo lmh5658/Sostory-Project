@@ -44,9 +44,6 @@ public class Product {
 		this.discountPrice = discountPrice;
 		this.path = path;
 	}
-	
-
-
 	public Product(int productNo, String productName, int price, String inventory, String status, int discountPrice) {
 		super();
 		this.productNo = productNo;
@@ -55,6 +52,18 @@ public class Product {
 		this.inventory = inventory;
 		this.status = status;
 		this.discountPrice = discountPrice;
+	}
+
+	public Product(String categoryNo, String productName, int price, String inventory, int discountPrice, String path,
+			String contentPath) {
+		super();
+		this.categoryNo = categoryNo;
+		this.productName = productName;
+		this.price = price;
+		this.inventory = inventory;
+		this.discountPrice = discountPrice;
+		this.path = path;
+		this.contentPath = contentPath;
 	}
 
 
