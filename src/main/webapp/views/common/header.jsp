@@ -133,7 +133,11 @@
        					alert("로그인을 먼저진행해주세요.");
        					location.href = "<%= contextPath %>/loginForm.me";
        				})
+       				
+       				
        			})
+       			
+       			
        			
        			
        			
@@ -145,7 +149,7 @@
                     <nav class="nav nav-underline justify-content-between">
                         <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.pr?page=1">전체상품</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">신상품</a>
+                        <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath%>/listNew.pr?page=1">신상품</a>
                         <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
                         <a class="nav-item nav-link link-body-emphasis" href="#">랭킹</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.re?page=1">소스트리</a>
