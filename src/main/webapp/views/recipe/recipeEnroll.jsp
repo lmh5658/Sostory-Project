@@ -3,10 +3,14 @@
 <%@ page import="com.sos.recipe.model.vo.Recipe"%>
 <%@ page import="com.sos.recipe.model.vo.OrderProduct"%>
 <%@ page import="java.util.List" %>
+<%@ page import="com.sos.recipe.model.vo.Step"%>
+<%@ page import="com.sos.recipe.model.vo.Ingredient"%>
 <% 
-List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("list");
-String search = (String)request.getAttribute("search");
-String categoryNoSt = request.getParameter("no");
+List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("orderProduct");
+Recipe recipe = (Recipe)request.getAttribute("recipe");
+List<Step> step = (List<Step>)request.getAttribute("step");
+List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -69,29 +73,39 @@ String categoryNoSt = request.getParameter("no");
 	        <div class="underbar"></div>
 	        <br><br><br>
             
-            <form action="">
+            <form action="<%=contextPath %>/insert.re" method="">
                 <table>
                     <tr>
                         <th colspan="2" style="font-size: 20px; padding: 20px 0px; border-bottom: 1px solid lightgrey;">레시피등록</th>
                     </tr>
-                    <!-- 레시피 정보 입력 -->
+                    <!-- 레시피 정보 입력 여기 히든 다시 공부 -->
                     <tr>
                         <td width="150px">상품명</td>
                         <td width="400px">
-                          <select class="product_name" name="selectedProductName" required>
-						    <option hidden>상품을 선택하세요</option>
-						    
-						    <% if (list != null) { %>
-						        <% for (OrderProduct o : list) { %>
-						            <option value="<%= o.getProductName() %>" selected><%= o.getProductName() %></option>
-						        <% } %>
-						    <% } %>
-						</select>
+                          <select class="product_name" name="selectedProductName" onchange="updateHiddenCategoryNo()" required>
+							    <option hidden>상품을 선택하세요</option>
+							    <!-- 히든으로 카테고리 번호도 같이 넘기기. -->
+							    <% if (list != null) { %>
+							        <% for (OrderProduct o : list) { %>
+							            <option value="<%= o.getProductNo() %> " data-category-no="<%= o.getCategoryNo() %>"><%= o.getProductName() %></option>
+							        <% } %>
+							    <% } %>
+							</select>
+							<input type="hidden" id="categoryNo" name="categoryNo">
+							<script>
+							function updateHiddenCategoryNo() {
+							    var selectedOption = document.querySelector('.product_name option:checked');
+							    var selectedCategoryNo = selectedOption.dataset.categoryNo;
+							    var hiddenCategoryNoField = document.getElementById('categoryNo');
+							    hiddenCategoryNoField.value = selectedCategoryNo;
+							}
+							</script>
+						
                         </td>
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input class="form-control" type="text" name="recipeName" placeholder="레시피 제목을 입력해주세요" required></td>
+                        <td><input class="form-control" type="text" name="recipeTitle" placeholder="레시피 제목을 입력해주세요" required></td>
                     </tr>
                     <tr>
                         <td>대표사진</td>
@@ -195,16 +209,11 @@ String categoryNoSt = request.getParameter("no");
                             }
                         })
                     </script>
-                    <!-- 태그 입력 -->
-                    <tr>
-                        <!-- 정규표현식으로 공백문자로 구분이 안되어있으면 등록 안되게 -->
-                        <td>태그</td>
-                        <td><input class="form-control" type="text" placeholder="#간장 #고추장 (태그 사이 공백으로 구분)"></td>
-                    </tr>
+                   
                 </table>
                 <br>
                 <div align="center">
-                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">수정</button>
+                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">등록</button>
                 </div>
                 <br><br>
             </form>

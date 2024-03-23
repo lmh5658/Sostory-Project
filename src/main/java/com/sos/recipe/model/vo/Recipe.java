@@ -15,6 +15,7 @@ public class Recipe {
 	private Date postDate;
 	private String status;
 	
+	
 	//category
 	private String categoryName;
 	private int categoryNo;
@@ -141,11 +142,26 @@ public class Recipe {
 	}
 
 
+	//등록
+	public Recipe(int categoryNo, int userNo, int productNo, String recipeTitle, String thumbnailUrl, String recipeIntro,
+			 int serving,  int cookingTime, String difficulty) {
+		super();
+		this.categoryNo = categoryNo;
+		this.userNo = userNo;
+		this.productNo = productNo;
+		this.recipeTitle = recipeTitle;
+		this.thumbnailUrl = thumbnailUrl;
+		this.recipeIntro = recipeIntro;
+		this.serving = serving;
+		this.difficulty = difficulty;
+		this.cookingTime = cookingTime;
+	}
 	
-
+	
 	public int getLikeCount() {
 		return likeCount;
 	}
+
 
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;

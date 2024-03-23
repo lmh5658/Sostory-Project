@@ -3,9 +3,10 @@ package com.sos.recipe.model.sevice;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.recipe.model.dao.RecipeDao;
+import com.sos.recipe.model.vo.Ingredient;
 import com.sos.recipe.model.vo.OrderProduct;
 import com.sos.recipe.model.vo.Recipe;
-import com.sos.recipe.model.vo.RecipeInsert;
+import com.sos.recipe.model.vo.Step;
 
 import static com.sos.common.template.JDBCTemplate.*;
 
@@ -87,26 +88,23 @@ public class RecipeService {
 
 	}
 
-	public int insertStepList(int step) {
+	//등록 -레시피 정보, 재료 정보, 스텝 정보
+	public int insertRecipe(Recipe recipe, List<Ingredient> ingredient, List<Step> step) {
 		Connection conn = getConnection();
-		int stepResult= rDao.insertStepList(conn, step);
-		close(conn);
-		return stepResult;
-	}
 
-	public int insertIngredientList(int ingredient) {
-		Connection conn = getConnection();
-		int ingredientResult= rDao.insertIngredientList(conn, ingredient);
-		close(conn);
-		return ingredientResult;
-	}
-
-	public int insertRecipe() {
-		int result1 = rDao.insertRecipe();
-		int result2 = rDao.insertIngrent
-		int result3 = rDao.insertStep
+		int recipeResult = rDao.insertRecipe(conn, recipe);
+		int ingredientResult = rDao.insertIngredient(conn, ingredient);
+		int stepResult = rDao.insertStep(conn, step);
+	
 		
-		return reulst1 * result2 * result3;
+		if(recipeResult > 0 && ingredientResult > 0 && stepResult > 0 ) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return recipeResult * ingredientResult * stepResult;
 	}
 	
 

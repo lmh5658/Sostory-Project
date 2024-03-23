@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.sos.member.model.vo.Member;
 import com.sos.recipe.model.sevice.RecipeService;
 import com.sos.recipe.model.vo.OrderProduct;
 
@@ -31,15 +33,17 @@ public class RecipeEnrollFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userNo = Integer.parseInt(request.getParameter("no"));
-	
-		List<OrderProduct> orderProduct = new RecipeService().selectOrderProduct(userNo);
+		HttpSession session = request.getSession();
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 		
+		List<OrderProduct> orderProduct = new RecipeService().selectOrderProduct(userNo);
+		 
 		if(orderProduct == null || orderProduct.isEmpty()) {
 			request.getSession().setAttribute("alertMsg", "배송 완료된 상품만 레시피 작성이 가능합니다.");
 			response.sendRedirect(request.getContextPath() + "/list.re?page=1");
 		}else {
-			request.setAttribute("list", orderProduct);
+
+			request.setAttribute("orderProduct", orderProduct);
 			request.getRequestDispatcher("/views/recipe/recipeEnroll.jsp").forward(request, response);
 		}
 	}

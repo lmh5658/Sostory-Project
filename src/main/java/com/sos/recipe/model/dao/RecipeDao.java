@@ -14,7 +14,8 @@ import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.recipe.model.vo.Recipe;
-import com.sos.recipe.model.vo.RecipeInsert;
+import com.sos.recipe.model.vo.Step;
+import com.sos.recipe.model.vo.Ingredient;
 import com.sos.recipe.model.vo.OrderProduct;
 
 import static com.sos.common.template.JDBCTemplate.*;
@@ -342,7 +343,7 @@ public class RecipeDao {
 	}
 	
 	//등로페이지 - 구매확정 상품 
-	/*public List<OrderProduct> selectOrderProduct(Connection conn, int userNo) {
+	public List<OrderProduct> selectOrderProduct(Connection conn, int userNo) {
 		List<OrderProduct> orderProduct = new ArrayList<>() ;	
 		
 		PreparedStatement pstmt = null;
@@ -355,8 +356,9 @@ public class RecipeDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				orderProduct.add(new OrderProduct( rset.getString("PRODUCT_NAME")
-													
+				orderProduct.add(new OrderProduct( rset.getString("PRODUCT_NAME"),
+													rset.getInt("CATEGORY_NO")
+
 								  ));
 			}
 			
@@ -370,20 +372,28 @@ public class RecipeDao {
 		
 		return orderProduct;
 		
-	}*/
+	}
 
-	/*public int insertStepList(Connection conn, int step) {
-		int stepResult = 0;
+	
+	//등록 - 레시피 정보
+	public int insertRecipe(Connection conn, Recipe recipe) {
+		int recipeResult = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertStepList");
+		String sql = prop.getProperty("insertRecipeList");
 		
 		try {
-			pstmt = conn.prepareStatement(sql); // 미완성된 sql문
-			pstmt.setString(1, IngredientName());
-			pstmt.setString(2, Amount()); //어마운트와 유닛은 붙여서 하나 값으로 만들어 넣기
-			pstmt.setString(3, Unit());
-			stepResult = pstmt.executeUpdate();
-			
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setInt(1, recipe.getCategoryNo());
+			pstmt.setInt(2, recipe.getUserNo());
+			pstmt.setInt(3, recipe.getProductNo());
+			pstmt.setString(4, recipe.getRecipeTitle());
+			pstmt.setString(5, recipe.getThumbnailUrl());
+			pstmt.setString(6, recipe.getRecipeIntro());
+			pstmt.setString(7, recipe.getDifficulty());
+			pstmt.setInt(8, recipe.getServing());
+			pstmt.setInt(9, recipe.getCookingTime());
+
+			recipeResult = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -391,23 +401,26 @@ public class RecipeDao {
 			close(pstmt);
 		}
 		
-		return stepResult;
-	}*/
+		return recipeResult;
+	}
 	
-
-	public int insertIngredientList(Connection conn, int ingredient) {
+	
+	//등록 - 재료 정보
+	public int insertIngredient(Connection conn, List<Ingredient> ingredient) {
 		int ingredientResult = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("");
+		String sql = prop.getProperty("insertIngredientList");
 		
 		try {
-			pstmt = conn.prepareStatement(sql); 
-			pstmt.setInt(1, ingredient.getStepNo());
-			pstmt.setString(2, ingredient.getStepContent());
-			pstmt.setString(3, ingredient.getStepAttachUrl());
+			for(Ingredient in : ingredient) {
+				String amount = in.getAmount() + in.getUnit();
+
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, in.getIngredientName());
+				pstmt.setString(2, amount);//어마운트와 유닛은 붙여서 하나 값으로 만들어 넣기
 	
-			ingredientResult = pstmt.executeUpdate();
-			
+				ingredientResult = pstmt.executeUpdate();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -415,6 +428,29 @@ public class RecipeDao {
 		}
 		
 		return ingredientResult;
+	}
+	
+	//등록 - 스텝 정보
+	public int insertStep(Connection conn, List<Step> step) {
+		int stepResult = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertStepList");
+		
+		try {
+			for(Step st : step) {
+
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, st.getStepContent());
+				pstmt.setString(2, st.getStepAttachUrl()); //어마운트와 유닛은 붙여서 하나 값으로 만들어 넣기
+				stepResult = pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return stepResult;
 	}
 	
 }
