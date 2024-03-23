@@ -55,7 +55,7 @@
 		            M.USER_PATH    
 		            
 		    ) A
-		    ORDER BY LIKE_COUNT DESC
+		    ORDER BY A.LIKE_COUNT DESC
 		)
 		WHERE RNUM BETWEEN ? AND ?
 			
@@ -86,7 +86,7 @@
                left JOIN TB_LIKE L ON R.USER_NO = L.USER_NO
                left JOIN TB_CATEGORY C ON C.CATEGORY_NO = R.CATEGORY_NO
 		        WHERE R.RECIPE_STATUS = 'Y'
-		        	AND CATEGORY_NO = ? 
+		        	AND R.CATEGORY_NO = ? 
 		        GROUP BY 
 		            R.RECIPE_NO,
 		            C.CATEGORY_NAME,
@@ -237,4 +237,44 @@
 	 WHERE ORDER_STATUS = 4 AND USER_NO = ?
       </entry>
 
+
+	<!-- 등록 - 재료--> --뭔가 이상함
+   <!--  <entry key="insertIngredientList">
+	 INSERT
+		  INTO TB_RECIPE_INGREDIENT
+		  (
+		    RECIPE_NO
+		  , INGREDIENT_NAME
+		  , INGREDIENT_AMOUNT
+		  )
+		  VALUES
+		  (
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
+		  -->
+		  
+	
+	<!-- 등록 - step -->
+	<entry key="insertStepList">
+	  INSERT
+		  INTO TB_RECIPE_STEP
+		  (
+		    RECIPE_NO
+		  , STEP_NO 
+		  , STEP_CONTENT
+		  , STEP_ATTACHMENT_URL
+		  )
+		  VALUES
+		  (
+		    SEQ_RSNO .NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	
+	</entry>
 </properties>

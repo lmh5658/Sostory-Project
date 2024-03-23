@@ -34,11 +34,10 @@ public class RecipeEnrollFormController extends HttpServlet {
 		int userNo = Integer.parseInt(request.getParameter("no"));
 	
 		List<OrderProduct> orderProduct = new RecipeService().selectOrderProduct(userNo);
-		System.out.println(orderProduct);
 		
 		if(orderProduct == null || orderProduct.isEmpty()) {
-			request.getSession().setAttribute("alertMsg", "배송완료된 상품만 레시피 작성이 가능합니다.");
-			response.sendRedirect(request.getContextPath());
+			request.getSession().setAttribute("alertMsg", "배송 완료된 상품만 레시피 작성이 가능합니다.");
+			response.sendRedirect(request.getContextPath() + "/list.re?page=1");
 		}else {
 			request.setAttribute("list", orderProduct);
 			request.getRequestDispatcher("/views/recipe/recipeEnroll.jsp").forward(request, response);

@@ -177,7 +177,7 @@
 	                            <tr class="table_title">
 	                                <td><input type="checkbox" name="typArr"></td>
 	                                <td><%= p.getProductNo() %></td>
-	                                <td><%= p.getProductName() %></td>
+	                                <td style="cursor:pointer;" onclick="location.href='<%=request.getContextPath()%>/updateProductForm.ma?productNo=<%=p.getProductNo()%>'"><%= p.getProductName() %></td>
 	                                <td><%= p.getPrice() %></td>
 	                                <td><%= p.getPrice() - p.getDiscountPrice() %></td>
 	                                <td><%= p.getInventory() %></td>

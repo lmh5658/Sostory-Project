@@ -80,9 +80,9 @@ public class MyPageDeleteQnaController extends HttpServlet {
 			new File(savePath + file).delete();
 			
 			if(answerType == 1) { // 상품문의 삭제응답페이지
-				
+				response.sendRedirect(request.getContextPath() + "/qlist.me?type=1&page=1&status=all");
 			}else{ // 1:1문의 삭제응답페이지
-				response.sendRedirect(request.getContextPath() + "/qna.me?type=2&page=1");
+				response.sendRedirect(request.getContextPath() + "/qlist.me?type=2&page=1&status=all");
 			}
 			
 		}else {

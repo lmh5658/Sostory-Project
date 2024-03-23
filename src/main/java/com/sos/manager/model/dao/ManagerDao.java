@@ -367,4 +367,65 @@ public class ManagerDao {
 		return result;
 	}
 
+	public Product selectProduct(Connection conn, int productNo) {
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProduct");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				p = new Product(rset.getString("category_no"),
+							    rset.getString("product_name"),
+							    rset.getInt("price"),
+							    rset.getString("inventory"),
+							    rset.getInt("discount_price"),
+							    rset.getString("path"),
+							    rset.getString("content_path"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return p;
+	}
+
+	public int updateProduct(Connection conn, Product p) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateProduct");
+		
+		if(p.getPath() != null) {
+			sql += ", PATH = " + p.getPath();
+		}
+		if(p.getContentPath() != null) {
+			sql += ", CONTENT_PATH = " + "'" + p.getContentPath() + "'";
+		}
+		sql += " WHERE PRODUCT_NO = " + p.getProductNo();
+		
+		System.out.println(sql);
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, p.getCategoryNo());
+			pstmt.setString(2, p.getProductName());
+			pstmt.setInt(3, p.getPrice());
+			pstmt.setString(4, p.getInventory());
+			pstmt.setInt(5, p.getDiscountPrice());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }

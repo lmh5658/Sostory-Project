@@ -87,9 +87,10 @@ public class PayCompleteFormController extends HttpServlet {
 			
 		}
 		
-		int result = new PayService().insertOrder(o,list);
-		Order or = new PayService().selectOrder(userNo);
-		int result2 = new PayService().deleteCart(userNo,productNo);
+		int result = new PayService().insertOrder(o,list); // TB_ORDER, TB_ORDER_PRODUCT 2개 동시 INSERT
+		Order or = new PayService().selectOrder(userNo); // 주문번호, 주문일시 조회
+		int result2 = new PayService().deleteCart(userNo,productNo); // 결제 완료 시 TB_CART에서 삭제
+		
 		
 		
 		if(result>0) {

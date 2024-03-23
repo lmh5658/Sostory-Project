@@ -25,7 +25,8 @@ public class Recipe {
 	
 	//like
 	private int likeRefno;
-
+	private int likeCount;
+	
 	//product
 	private String productName;
 	private int price;
@@ -47,17 +48,13 @@ public class Recipe {
 	
 	
 
-	public Recipe(int recipeNo, int userNo, int productNo, String recipeTitle, String thumbnailUrl, String recipeIntro,
-			String difficulty, int serving, int cookingTime, Date postDate, String status, String categoryName,
-			int categoryNo, String userName, String userPath, int likeRefno, String productName, int price,
-			int discountPrice, String path, String ingredientName, String ingredientAmount, int ingredientCount,
-			int stepNo, String stepContent, String stepAttachmentUrl, int stepCount) {
+	public Recipe() {
 		
 	}
 
-
+	 //레시피 조회
 	public Recipe(int recipeNo, String categoryName, String recipeTitle, String thumbnailUrl, String recipeIntro,
-			String userName, String userPath, int likeRefno, String productName, int price, int discountPrice,
+			String userName, String userPath, int likeCount, String productName, int price, int discountPrice,
 			String path) {
 		super();
 		this.recipeNo = recipeNo;
@@ -67,7 +64,7 @@ public class Recipe {
 		this.recipeIntro = recipeIntro;
 		this.userName = userName;
 		this.userPath = userPath;
-		this.likeRefno = likeRefno;
+		this.likeCount = likeCount;
 		this.productName = productName;
 		this.price = price;
 		this.discountPrice = discountPrice;
@@ -144,22 +141,15 @@ public class Recipe {
 	}
 
 
-	public Recipe(String productName,String recipeTitle, String thumbnailUrl, String recipeIntro, String difficulty, int serving,
-			int cookingTime) {
-		super();
-		this.productName = productName;
-		this.recipeTitle = recipeTitle;
-		this.thumbnailUrl = thumbnailUrl;
-		this.recipeIntro = recipeIntro;
-		this.difficulty = difficulty;
-		this.serving = serving;
-		this.cookingTime = cookingTime;
+	
+
+	public int getLikeCount() {
+		return likeCount;
 	}
 
-
-
-
-
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
 
 	public int getStepCount() {
 		return stepCount;
@@ -444,20 +434,18 @@ public class Recipe {
 		this.ingredientName = ingridientName;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Recipe [recipeNo=" + recipeNo + ", userNo=" + userNo + ", productNo=" + productNo + ", recipeTitle="
 				+ recipeTitle + ", thumbnailUrl=" + thumbnailUrl + ", recipeIntro=" + recipeIntro + ", difficulty="
 				+ difficulty + ", serving=" + serving + ", cookingTime=" + cookingTime + ", postDate=" + postDate
 				+ ", status=" + status + ", categoryName=" + categoryName + ", categoryNo=" + categoryNo + ", userName="
-				+ userName + ", userPath=" + userPath + ", likeRefno=" + likeRefno + ", productName=" + productName
-				+ ", price=" + price + ", discountPrice=" + discountPrice + ", path=" + path + ", ingredientName="
-				+ ingredientName + ", ingredientAmount=" + ingredientAmount + ", ingredientCount=" + ingredientCount
-				+ ", stepNo=" + stepNo + ", stepContent=" + stepContent + ", stepAttachmentUrl=" + stepAttachmentUrl
-				+ ", stepCount=" + stepCount + "]";
+				+ userName + ", userPath=" + userPath + ", likeRefno=" + likeRefno + ", likeCount=" + likeCount
+				+ ", productName=" + productName + ", price=" + price + ", discountPrice=" + discountPrice + ", path="
+				+ path + ", ingredientName=" + ingredientName + ", ingredientAmount=" + ingredientAmount
+				+ ", ingredientCount=" + ingredientCount + ", stepNo=" + stepNo + ", stepContent=" + stepContent
+				+ ", stepAttachmentUrl=" + stepAttachmentUrl + ", stepCount=" + stepCount + "]";
 	}
-
 
 
 

@@ -2,10 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.sos.recipe.model.vo.Recipe"%>
 <%@ page import="com.sos.recipe.model.vo.OrderProduct"%>
-
 <%@ page import="java.util.List" %>
 <% 
-List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("orderProduct");
+List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("list");
 String search = (String)request.getAttribute("search");
 String categoryNoSt = request.getParameter("no");
 %>
@@ -81,9 +80,10 @@ String categoryNoSt = request.getParameter("no");
                         <td width="400px">
                           <select class="product_name" name="selectedProductName" required>
 						    <option hidden>상품을 선택하세요</option>
-						    <% if (list != null && !list.isEmpty()) { %>
+						    
+						    <% if (list != null) { %>
 						        <% for (OrderProduct o : list) { %>
-						            <option value="<%= o.getProductName() %>"><%= o.getProductName() %></option>
+						            <option value="<%= o.getProductName() %>" selected><%= o.getProductName() %></option>
 						        <% } %>
 						    <% } %>
 						</select>
@@ -111,20 +111,20 @@ String categoryNoSt = request.getParameter("no");
                         <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" name="cookingTime" style="width: 90px;">
                         </input>분&nbsp;&nbsp;&nbsp;
                         <select class="recipe_info" name="" style="width: 80px;">
-                            <option selected hidden>난이도</option>
-                            <option name="difficulty" value="상">상</option>
-                            <option name="difficulty" value="중">중</option>
-                            <option name="difficulty" value="하">하</option>
+                            <option selected hidden name="difficulty" >난이도</option>
+                            <option value="상">상</option>
+                            <option value="중">중</option>
+                            <option value="하">하</option>
                         </select>
                         </td>
                     </tr>
                     <tr>
                         <td>재료</td>
                         <td id="ingredientForm">
-                            <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명" required>
-                            <input class="ingredient" type="number" style="width: 120px;" placeholder="수량" required>
+                            <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" name="ingredientName" placeholder="재료명" required>
+                            <input class="ingredient" type="number" style="width: 120px;" name="amount" placeholder="수량" required>
                             <select class="ingredient" name="" style="width: 70px;" required>
-                                <option selected hidden>단위</option>
+                                <option selected hidden name="unit">단위</option>
                                 <option value="g">g</option>
                                 <option value="kg">kg</option>
                                 <option value="ml">ml</option>
@@ -158,14 +158,14 @@ String categoryNoSt = request.getParameter("no");
                         <th colspan="3" style="font-size: 20px; padding: 20px 0px;">조리 순서</th>
                     </tr>
                     <tr class="input_step">
-                        <td>Step 1.</td>
+                        <td name="stepNo">Step 1.</td>
                         <td>
-                            <textarea class="form-control" name="" rows="6" style="resize: none;" required></textarea>
+                            <textarea class="form-control" name="stepContent" rows="6" style="resize: none;" required></textarea>
                         </td>
                         <!-- 순서 이미지 파일 첨부 -->
                         <!-- 이미지 추가 누르면 파일 첨부 가능하게 -->
                         <td>
-                            <div class="add_step_img">
+                            <div class="add_step_img" name="stepAttachUrl">
                                 이미지 추가
                                 <input type="file">
                             </div>

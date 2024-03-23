@@ -286,10 +286,6 @@
                         				},success:function(result){
                         					if(result > 0){
                         						$cart.attr("fill", "blue");
-                        						
-                        						setTimeout(function(){
-                        							alert("상품이 장바구니에 추가되었습니다.")
-                        						}, 1000);
                         					}
                         				}
                         			})
@@ -303,10 +299,8 @@
                         				},success:function(result){
                         					if(result > 0){
                         						$cart.attr("fill", "black");
-                        						
-                        						setTimeout(function(){
-                        							alert("상품이 장바구니에서 삭제되었습니다.")
-                        						}, 1000);
+                        						alert("상품이 장바구니에서 삭제되었습니다.")
+                        					
                         					}
                         				}
                         			})
@@ -327,10 +321,7 @@
                     					"proNo" : $pNo 
                     				},success:function(result){
                     					if(result>0){
-                    						setTimeout(function(){
-                    							alert("상품이 짐목록에서 삭제되었습니다.");
-                    						}, 1000)
-                    						
+                    						alert("상품이 찜목록에서 삭제되었습니다.");
                     						location.reload();
                     					}
                     				}

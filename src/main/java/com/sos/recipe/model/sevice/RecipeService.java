@@ -5,6 +5,7 @@ import com.sos.common.model.vo.PageInfo;
 import com.sos.recipe.model.dao.RecipeDao;
 import com.sos.recipe.model.vo.OrderProduct;
 import com.sos.recipe.model.vo.Recipe;
+import com.sos.recipe.model.vo.RecipeInsert;
 
 import static com.sos.common.template.JDBCTemplate.*;
 
@@ -32,7 +33,7 @@ public class RecipeService {
 
 	public List<Recipe> selectCategoryList(PageInfo pi, int categoryNo) {
 		Connection conn = getConnection();
-		List<Recipe> categoryList= rDao.selectCategoryList(pi, conn, categoryNo);
+		List<Recipe> categoryList= rDao.selectCategoryList(conn, pi, categoryNo);
 		close(conn);
 		return categoryList;
 	}
@@ -46,7 +47,7 @@ public class RecipeService {
 
 	public int selectCategoryListCount(int categoryNo) {
 		Connection conn = getConnection();
-		int categoryListCount= rDao.selectListCount(conn);
+		int categoryListCount= rDao.selectCategoryListCount(conn, categoryNo);
 		close(conn);
 		return categoryListCount;
 	}
@@ -84,6 +85,28 @@ public class RecipeService {
 		close(conn);
 		return orderProduct;
 
+	}
+
+	public int insertStepList(int step) {
+		Connection conn = getConnection();
+		int stepResult= rDao.insertStepList(conn, step);
+		close(conn);
+		return stepResult;
+	}
+
+	public int insertIngredientList(int ingredient) {
+		Connection conn = getConnection();
+		int ingredientResult= rDao.insertIngredientList(conn, ingredient);
+		close(conn);
+		return ingredientResult;
+	}
+
+	public int insertRecipe() {
+		int result1 = rDao.insertRecipe();
+		int result2 = rDao.insertIngrent
+		int result3 = rDao.insertStep
+		
+		return reulst1 * result2 * result3;
 	}
 	
 
