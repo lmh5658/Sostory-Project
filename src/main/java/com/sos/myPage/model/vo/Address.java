@@ -32,6 +32,17 @@ public class Address {
 		this.addressType = addressType;
 		this.addressStatus = addressStatus;
 	}
+	
+	
+
+	public Address(String addressAddress, String addressDetail, String addressLocal) {
+		super();
+		this.addressAddress = addressAddress;
+		this.addressDetail = addressDetail;
+		this.addressLocal = addressLocal;
+	}
+	
+	
 
 	public int getAddressNo() {
 		return addressNo;

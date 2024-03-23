@@ -105,6 +105,7 @@
             fill: red; /* 호버 시 색상 변경 */
             cursor: pointer; /* 호버 시 커서 모양 변경 */
         }
+       
         
         
 
@@ -140,7 +141,7 @@
                                         <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1></span>
                                         <% }else{ %>
                                         <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1></span>
-                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() %>원</del></h4>
+                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() + pro.getDiscountPrice() %>원</del></h4>
                                         <hr>
                                         <% } %>
                                         
@@ -179,13 +180,14 @@
                                             </div>
 
                                             <div class="main_right_bottom_bottom d-flex flex-direction ">
-
+												
+												<svg id="heart" xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="bi bi-heart-fill" viewBox="0 0 16 16">
+											        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+											    </svg>
 											
-	                                           <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-												<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-											   </svg>
-	                                         
+	                                           
 	                                         <script>
+	                                         
 	                                         	$(function(){
 	                                         		let productNo = <%= pro.getProductNo()%>;	// 상품상세페이지 상품번호
 	                                         		let likedProductNo = <%= likedProductNo %>;				
@@ -197,48 +199,52 @@
 	                                         		}
 	                                         		
 	                                         		
-	                                         			
 	                                         		
 		                                         		$("#heart").click(function(){
 		                                         			
 		                                         			if(<%=loginUser == null%>){
 		                                         				alert("로그인후에 사용가능합니다.");
+		                                         			}else{
+		                                         				
+				                                         		if($(this).attr("fill") == "red"){
+				                                         			$(this).attr("fill", "black");
+				                                         			
+				                                         			$.ajax({
+				                                         				url:"<%=contextPath%>/dheart.pr",
+				                                         				data:{
+				                                         					proNo:<%=pro.getProductNo()%>
+				                                         				},
+				                                         				type:"post",
+				                                         				success:function(result){
+				                                         					console.log(result);
+				                                         					if(result > 0){
+				                                         						alert("찜해제");
+				                                         					}
+				                                         				}
+				                                         			})
+				                                         			
+				                                         		}else{
+				                                         			$(this).attr("fill", "red");
+				                                         			
+				                                         			$.ajax({
+				                                         				url:"<%=contextPath%>/heart.pr",
+				                                         				data:{
+				                                         					proNo:<%=pro.getProductNo()%>
+				                                         				},
+				                                         				type:"post",
+				                                         				success:function(result){
+				                                         					if(result > 0){
+				                                         						alert("찜하기성공");
+				                                         					}
+				                                         				}
+				                                         				
+				                                         			})
+				                                         		}
+		                                         				
+		                                         				
+		                                         				
 		                                         			}
-		                                         			
-			                                         		if($(this).attr("fill") == "red"){
-			                                         			$(this).attr("fill", "black");
-			                                         			
-			                                         			$.ajax({
-			                                         				url:"<%=contextPath%>/dheart.pr",
-			                                         				data:{
-			                                         					proNo:<%=pro.getProductNo()%>
-			                                         				},
-			                                         				type:"post",
-			                                         				success:function(result){
-			                                         					console.log(result);
-			                                         					if(result > 0){
-			                                         						alert("찜해제");
-			                                         					}
-			                                         				}
-			                                         			})
-			                                         			
-			                                         		}else{
-			                                         			$(this).attr("fill", "red");
-			                                         			
-			                                         			$.ajax({
-			                                         				url:"<%=contextPath%>/heart.pr",
-			                                         				data:{
-			                                         					proNo:<%=pro.getProductNo()%>
-			                                         				},
-			                                         				type:"post",
-			                                         				success:function(result){
-			                                         					if(result > 0){
-			                                         						alert("찜하기성공");
-			                                         					}
-			                                         				}
-			                                         				
-			                                         			})
-			                                         		}
+		                                         		
 		                                         		})
 	                                         			
 	                                         		
@@ -482,7 +488,7 @@
                         					if(result.pi.currentPage == result.pi.MaxPage){
                              					page +='<li class="page-item disabled"><a class="page-link">Next</a></li>';			                        						
                         					}else{
-                        						page +='<li class="page-item "><a class="page-link" onclick="selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
+                        						page +='<li class="page-item"><a class="page-link" onclick="selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
                         					}
                         					
                         					console.log(page);
@@ -526,34 +532,35 @@
                              			url:"<%=contextPath%>/qlist.pr",
                              			data:{
                              				proNo:<%= pro.getProductNo() %>,
-                             				page : requestPage
+                             				page:requestPage
                              			},
                              			post:"post",
                              			success:function(result){
                              				console.log(result);
   
                              				let page = "";
-                             				if(1 == result.pi.currengPage){
+                             				if(1 == result.pi.currentPage){
                              					page += '<li class="page-item disabled"><a class="page-link">previous</a><li>';
                              				}else{
-                             					page += '<li class="page-item"><a class="page-link" onclick="selectReview(' + (requestPage - 1) + ')">previous</a><li>';
+                             					page += '<li class="page-item"><a class="page-link" onclick="selectQna(' + (requestPage - 1) + ')">previous</a><li>';
                              				}
   				
                         					for(let i= result.pi.startPage; i<=result.pi.endPage; i++){
                         						if(i == result.pi.currentPage){
                         							page += '<li class="page-item active"><a class="page-link">' + i + '</a></li>';
                         						}else{
-                        							page += '<li class="page-item" onclick="selectReview(' + i + ')"><a class="page-link">' + i + '</a></li>';                        							
+                        							page += '<li class="page-item" onclick="selectQna(' + i + ')"><a class="page-link">' + i + '</a></li>';                        							
                         						}
                         					}
                         					
                         					if(result.pi.currentPage == result.pi.MaxPage){
                              					page +='<li class="page-item disabled"><a class="page-link">Next</a></li>';			                        						
                         					}else{
-                        						page +='<li class="page-item "><a class="page-link" onclick="selectReview(' + (requestPage + 1) + ')">Next</a></li>';	
+                        						page +='<li class="page-item"><a class="page-link" onclick="selectQna(' + (requestPage + 1) + ')">Next</a></li>';	
                         					}
                         					
                         					$("#qna_page").html(page);
+                        					
                         					
                         					let value = "";            					
                         					for(let i=0; i<result.qlist.length; i++){
@@ -574,28 +581,7 @@
                              		})
                              	}
                              	
-                           		function insertQna(){
-                           			/*
-                           			a.jax({
-                           				url: "<%=contextPath%>/minsert.pr",
-                           				data:{
-                           					title:$("#qna-title").val(),
-                           					content:$("#qna-content").val()
-                           					proNo:<%= pro.getProductNo() %>
-                           					upfile:
-                           				},
-                           				type:"post",
-                           				success:function(){
-                           					
-                           				}
-                           	
-                           			})
-                           			*/
-                           			
-                           			location.reload();
-                           			
-                           		}
-                             		
+                           
                              		
                              		
                              	
@@ -692,6 +678,8 @@
         
         
                             </table>
+                            
+                            
                             <!-- 페이징 바 -->
                             <ul class="pagination justify-content center" id="qna_page">
                               

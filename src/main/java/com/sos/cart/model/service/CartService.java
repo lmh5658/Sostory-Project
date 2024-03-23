@@ -71,6 +71,20 @@ public class CartService {
 			return result;
 			
 		}
+		
+		public int cartListDelete(int userNo) {
+			
+			Connection conn = getConnection();
+			int result = cDao.cartListDelete(conn,userNo);
+			if(result>0) {
+				commit(conn);
+			}else {
+				rollback(conn);
+			}
+			
+			return result;
+			
+		}
 	 
 	 
 	 
