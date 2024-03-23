@@ -90,7 +90,7 @@ public class MyPageInsertEtcQnaController extends HttpServlet {
 			}
 			
 			// 응답화면 : 마이페이지 1:1문의목록페이지
-			response.sendRedirect(request.getContextPath() + "/qna.me?type=2&page=1");
+			response.sendRedirect(request.getContextPath() + "/qlist.me?type=2&page=1&status=all");
 			
 		}
 		
