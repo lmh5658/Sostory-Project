@@ -57,6 +57,9 @@ public class AjaxQnaListController extends HttpServlet {
 			hmap.put("pi", pi);			
 		}
 	
+
+		
+		
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(hmap, response.getWriter());
 		

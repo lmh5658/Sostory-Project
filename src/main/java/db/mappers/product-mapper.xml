@@ -74,7 +74,7 @@
 			WHERE PRODUCT_NO = ?
 			 AND ANSWER_TYPE = 1
 			ORDER
-			  BY ANSWER_DATE DESC
+			  BY ANSWER_NO DESC
 			) A
 			)
 			WHERE RNUM BETWEEN ? AND ?
@@ -83,9 +83,9 @@
 	
 	<entry key="selectQnaCount">
 		SELECT COUNT(*) COUNT
-		  FROM 
-		      TB_PRODUCT
-		  WHERE PRODUCT_NO = ?
+		  FROM TB_QNA_REPLY
+           WHERE PRODUCT_NO = ?
+            AND ANSWER_TYPE  = 1
 	</entry>
 	
 	<entry key="selectRecipeList">
