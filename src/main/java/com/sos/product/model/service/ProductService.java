@@ -311,9 +311,9 @@ public class ProductService {
 		return list;
 	}
 	
-	public List<ProductLike> likeProductAll(int userNo){
+	public List<Integer> likeProductAll(int userNo){
 		Connection conn = getConnection();
-		List<ProductLike> list = pDao.likeProductAll(conn, userNo);
+		List<Integer> list = pDao.likeProductAll(conn, userNo);
 		close(conn);
 		return list;
 	}

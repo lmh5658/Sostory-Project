@@ -1292,8 +1292,8 @@ public class ProductDao {
 		return list;
 	}
 	
-	public List<ProductLike> likeProductAll(Connection conn, int userNo){
-		List<ProductLike> list = new ArrayList<>();
+	public List<Integer> likeProductAll(Connection conn, int userNo){
+		List<Integer> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("likeProductAll");
@@ -1301,9 +1301,9 @@ public class ProductDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
+			
 			while(rset.next()) {
-				ProductLike pl = new ProductLike();
-				pl.setLikeRefNo(rset.getInt("LIKE_REFNO"));
+				list.add(rset.getInt("LIKE_REFNO"));
 			}
 		
 		} catch (SQLException e) {

@@ -61,9 +61,14 @@ public class ProductListController extends HttpServlet {
 		// 전체상품게시글 데이터 조회
 		List<Product> list = new ProductService().selectProductList(pi);
 		// 좋아요한 상품데이터
-		List<ProductLike> likeList = new ProductService().likeProductAll(userNo);
+		List<Integer> likeList = new ProductService().likeProductAll(userNo);
 		
-		List<Integer> proNo = new ArrayList<>();
+		List<Integer> listP = new ArrayList<>();
+		for(Product l : list) {
+			listP.add(l.getProductNo());
+		}
+		
+	
 		
 		
 		
@@ -76,18 +81,14 @@ public class ProductListController extends HttpServlet {
 		
 		
 		
-		for(ProductLike pl : likeList) {
-			proNo.add(pl.getLikeRefNo());
-		}
-		
-		System.out.println(proNo);
-		
-		
-		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
-		request.setAttribute("proNo", proNo);
+		request.setAttribute("likeList", likeList);
+		request.setAttribute("listP", listP);
+		
+		
 		request.setAttribute("pNoList", pNoList);
+		
 		
 		
 		request.getRequestDispatcher("/views/product/productAllList.jsp").forward(request, response);
