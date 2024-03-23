@@ -437,12 +437,12 @@ public class MyPageDao {
 	 * 사용자가 지정한 상품 or 1:1문의 총문의수 조회요청시 실행될 메소드
 	 * 
 	 * case 01) 1:1문의 총문의수 조회요청 ==> ANSWER_TYPE = "2"
-	 *          case 01-1)  전체 1:1문의수 조회 ==> ANSWER_STATUS = null 
+	 *          case 01-1)  전체 1:1문의수 조회 ==> ANSWER_STATUS = "전체"
 	 *          case 01-2) 처리된 1:1문의수 조회 ==> ANSWER_STATUS = "처리"
 	 *          case 01-3) 미처리 1:1문의수 조회 ==> ANSWER_STATUS = "미처리"
 	 *          
 	 * case 02) 상품문의 총문의수 조회요청 : ANSWER_TYPE ="1"
-	 *          case 02-1)  전체 상품문의수 조회 ==> ANSWER_STATUS = null
+	 *          case 02-1)  전체 상품문의수 조회 ==> ANSWER_STATUS = "전체"
 	 *          case 02-2) 처리된 상품문의수 조회 ==> ANSWER_STATUS = "처리"
 	 *          case 02-3) 미처리 상품문의수 조회 ==> ANSWER_STATUS = "미처리"
 	 * 
@@ -467,14 +467,14 @@ public class MyPageDao {
 		 */
 		String status = q.getAnswerStatus();
 		
-		if(status != null) { sql += " AND ANSWER_STATUS = ?"; }
+		if(!status.equals("전체")) { sql += " AND ANSWER_STATUS = ?"; }
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, q.getAnswerType());
 			pstmt.setString(2, q.getUserNo());
 			
-			if(status != null) { pstmt.setString(3, status); }
+			if(!status.equals("전체")) { pstmt.setString(3, status); }
 			
 			rset = pstmt.executeQuery();
 			
@@ -501,7 +501,7 @@ public class MyPageDao {
 	 * @return : 조회된 문의객체 리스트
 	 */
 	public List<Qna> selectAllQnaList(Connection conn, HashMap<String, Object> info){
-		
+
 		List<Qna> list = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;

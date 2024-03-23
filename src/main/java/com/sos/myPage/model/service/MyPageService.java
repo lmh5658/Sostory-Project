@@ -272,12 +272,12 @@ public class MyPageService {
 	 * 사용자가 지정한 상품 or 1:1문의 총문의수 조회요청시 실행될 메소드
 	 * 
 	 * case 01) 1:1문의 총문의수 조회요청 ==> ANSWER_TYPE = "2"
-	 *          case 01-1)  전체 1:1문의수 조회 ==> ANSWER_STATUS = null 
+	 *          case 01-1)  전체 1:1문의수 조회 ==> ANSWER_STATUS = "전체" 
 	 *          case 01-2) 처리된 1:1문의수 조회 ==> ANSWER_STATUS = "처리"
 	 *          case 01-3) 미처리 1:1문의수 조회 ==> ANSWER_STATUS = "미처리"
 	 *          
 	 * case 02) 상품문의 총문의수 조회요청 : ANSWER_TYPE ="1"
-	 *          case 02-1)  전체 상품문의수 조회 ==> ANSWER_STATUS = null
+	 *          case 02-1)  전체 상품문의수 조회 ==> ANSWER_STATUS = "전체"
 	 *          case 02-2) 처리된 상품문의수 조회 ==> ANSWER_STATUS = "처리"
 	 *          case 02-3) 미처리 상품문의수 조회 ==> ANSWER_STATUS = "미처리"
 	 * 
@@ -308,15 +308,16 @@ public class MyPageService {
 		Connection conn = getConnection();
 		
 		String status = ((Qna)info.get("qna")).getAnswerStatus();
+
 		/* 
-		 * case 01)  null : 전체문의 조회 (처리 + 미처리)
+		 * case 01)  "전체" : 전체문의 조회 (처리 + 미처리)
 		 * case 02)  "처리" : 처리문의 조회
 		 * case 02) "미처리" : 미처리문의 조회
 		 * 
 		 */
 		List<Qna> list = new ArrayList<>();
 		
-		if(status == null) {
+		if(status.equals("전체")) {
 			list = mpDao.selectAllQnaList(conn, info);
 		}else {
 			list = mpDao.selectQnaList(conn, info);

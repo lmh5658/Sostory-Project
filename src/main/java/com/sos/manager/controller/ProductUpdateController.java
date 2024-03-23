@@ -1,7 +1,6 @@
 package com.sos.manager.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,16 +16,16 @@ import com.sos.manager.model.service.ManagerService;
 import com.sos.product.model.vo.Product;
 
 /**
- * Servlet implementation class EnrollProduct
+ * Servlet implementation class ProductUpdateController
  */
-@WebServlet("/insertProduct.ma")
-public class ProductInsertController extends HttpServlet {
+@WebServlet("/updateProduct.ma")
+public class ProductUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductInsertController() {
+    public ProductUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,7 +34,7 @@ public class ProductInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		if(ServletFileUpload.isMultipartContent(request)) {
 			
 			HttpSession session = request.getSession();
@@ -45,30 +44,33 @@ public class ProductInsertController extends HttpServlet {
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
 			Product p = new Product();
+			p.setProductNo(Integer.parseInt(multiRequest.getParameter("productNo")));
 			p.setCategoryNo(multiRequest.getParameter("categoryNo"));
 			p.setProductName(multiRequest.getParameter("productName"));
 			p.setPrice(Integer.parseInt(multiRequest.getParameter("price")));
 			p.setDiscountPrice(Integer.parseInt(multiRequest.getParameter("discountPrice")));
 			p.setInventory(multiRequest.getParameter("inventory"));
 			
-			p.setPath("resources/uploadFiles/" + multiRequest.getFilesystemName("productThumbnail"));
-			p.setContentPath("resources/uploadFiles/" + multiRequest.getFilesystemName("productContent"));
+			// 썸네일 이미지 첨부파일을 변경했을 경우
+			if(multiRequest.getFilesystemName("productThumbnail") != null) {
+				p.setPath("resources/uploadFiles/" + multiRequest.getFilesystemName("productThumbnail"));				
+			}
+			// 상세 이미지 청부파일을 번경했을 경우
+			if(multiRequest.getFilesystemName("productContent") != null) {
+				p.setContentPath("resources/uploadFiles/" + multiRequest.getFilesystemName("productContent"));				
+			}
 			
-			int result = new ManagerService().insertProduct(p);
+			int result = new ManagerService().updateProduct(p);
 			
 			if(result > 0) {
-				session.setAttribute("alertMsg", "상품이 등록되었습니다.");
+				session.setAttribute("alertMsg", "상품정보가 수정되었습니다.");
 				response.sendRedirect(request.getContextPath() + "/productList.ma?page=1");
 			} else {
-				session.setAttribute("alertMsg", "상품 등록에 실패했습니다.");
+				session.setAttribute("alertMsg", "상품정보 수정에 실패했습니다.");
 				response.sendRedirect(request.getContextPath() + "/productList.ma?page=1");
 			}
 			
 		}
-		
-		
-		
-		
 		
 	}
 

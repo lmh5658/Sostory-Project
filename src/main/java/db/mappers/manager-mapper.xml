@@ -167,4 +167,27 @@
 		  	 , ?
 		  	   )
 	</entry>
+	
+	<entry key="selectProduct">
+		SELECT
+			   CATEGORY_NO
+		  	 , PRODUCT_NAME
+		  	 , PRICE
+		  	 , INVENTORY
+		  	 , DISCOUNT_PRICE
+		  	 , PATH
+		  	 , CONTENT_PATH
+		  FROM TB_PRODUCT
+		 WHERE PRODUCT_NO = ?
+	</entry>
+	
+	<entry key="updateProduct">
+		UPDATE TB_PRODUCT
+		   SET CATEGORY_NO = ?
+		  	 , PRODUCT_NAME = ?
+		  	 , PRICE = ?
+		  	 , INVENTORY = ?
+		  	 , DISCOUNT_PRICE = ?
+		  	 , MODIFY_DATE = SYSDATE
+	</entry>
 </properties>

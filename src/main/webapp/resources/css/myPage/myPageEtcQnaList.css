@@ -54,7 +54,7 @@ a{
 .main-page{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
 }
 
 /* 마이페이지 1:1문의에서만 필요한 style */
@@ -101,11 +101,15 @@ h3>label{
     text-align: center;
 }
 
+.qna-list>.table>thead{
+	width: 960px;
+}
+
 .qna-list>.table>tbody>tr>td{
     vertical-align: middle;
 }
 
-.qna-list>.table>tbody tr>.qna-title:hover{
+.qna-list>.table>tbody>tr>.title:hover{
     cursor: pointer;
     opacity: 0.6;
 }
@@ -153,4 +157,8 @@ h3>label{
     bottom: 120px;
     right: 40px;
     color: rgb(186, 181, 181);
+}
+
+.pagination>.page-item:hover{
+	cursor:pointer;
 }

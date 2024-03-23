@@ -1,12 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.sos.common.model.vo.PageInfo
-				, java.util.List
-				, com.sos.product.model.vo.Qna" %>
-<%
-	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
-	List<Qna> list = (List<Qna>)request.getAttribute("qnaList");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +7,7 @@
 <title>1 : 1 문의</title>
 
 <!-- 마이페이지(1:1문의페이지) css 파일 링크연결 -->
-<link href="<%= request.getContextPath() %>/resources/css/myPage/myPageEtcQna.css" rel="stylesheet">
+<link href="<%= request.getContextPath() %>/resources/css/myPage/myPageEtcQnaList.css" rel="stylesheet">
 
 </head>
 <body>
@@ -168,25 +161,130 @@
                     </div>
 
                     <!-- 필터링 드롭다운 영역 start -->
-                    <div class="dropdown my-3">
-                        <a href="<%= contextPath %>/qna.me?type=2&page=1" class="btn dropdown-toggle px-5" data-toggle="dropdown">전체</a>
-                        <div class="dropdown-menu">
-                          <a href="<%= contextPath %>/qna.me?type=2&page=1&status=on" class="dropdown-item">진행중</a>
-                          <a href="<%= contextPath %>/qna.me?type=2&page=1&status=off" class="dropdown-item">답변완료</a>
-                        </div>
-                    </div>
+                    <select id="filter" style="width:120px; margin: 20px 0 40px 900px;" onchange="selectQnaList(1);">
+                    	<option value="all">전체</option>
+                    	<option value="on">진행중</option>
+                    	<option value="off">답변완료</option>
+                    </select>
                     <!-- 필터링 드롭다운 영역 end -->
-
+                    
                     <script>
-                        $(function(){
-                            // 사용자가 드롭다운 메뉴에서 다른 필터링 옵션을 선택했을 경우, 드롭다운 노출값과 선택된 옵션값을 변경하는 함수
-                            $(".dropdown-menu").on("click", ".dropdown-item", function(){
-                                const $oldVal = $(".dropdown>.dropdown-toggle").text();
-                                $(".dropdown>.dropdown-toggle").text($(this).text());
-                                $(this).text($oldVal);
-                            })
-                        })
+                    	/* 1:1문의 목록조회 Ajax 통신요청을 해야할 경우
+                    	 * 
+                    	 * case 01) 해당페이지 로드즉시 (마이페이지 사이드네비바에서 문의목록조회요청)
+                    	 *          * "전체" 상품문의 목록조회 Ajax 통신요청 ==> selectQnaList(1);
+                    	 *            매개변수 type = 1 (정적)
+                    	 *            매개변수 page = 1 (전체 문의목록 1페이지)
+                    	 *            매개변수 status = "all" 
+                    	 *
+                    	 * case 02) 필터링옵션(slect태그)값 변경이벤트 발생시
+                    	 *          * "답변상태별(진행중 | 답변완료)" 문의목록조회 Ajax 통신요청 ==> selectQnaList(1);
+                    	 *            매개변수 type = 1 (정적)
+                    	 *            매개변수 page = 1 (해당 필터링된 목록중 1페이지)
+                    	 *            매개변수 status = 선택한옵션값 (동적)
+                    	 *
+                    	 * case 03) 페이징바 클릭이벤트 발생시
+                    	 *          * "답변상태가" 필터링값이면서 && 페이지가 "요청한페이지"인 문의목록 Ajax 통신요청 ==> selectQnaList(사용자가 요청한 페이지번호);
+                    	 *            매개변수 type = 1 (정적)
+                    	 *            매개변수 page = 선택한페이지값 (동적)
+                    	 *            매개변수 status = 선택된옵션값 (동적)
+                    	 * 
+                    	*/
+                    	
+                    	
+                    	$(function(){
+                    		// case 01) 페이지로드 즉시 목록조회 Ajax통신 요청 함수실행
+                    		selectQnaList(1);
+                    	})
+                    	
+                    	// 문의목록 조회요청 Ajax 통신요청시 실행될 함수
+                    	function selectQnaList(requestPage){
+                    		console.log("실행")
+                    		$.ajax({
+                        		url:"<%= contextPath %>/qna.me",
+                        		data:{
+                        			"type" : 2, 					// 문의유형 == 상품문의
+                        			"page" : requestPage,			// 사용자가 요청한 페이지번호
+                        			"status" : $("#filter").val()	// 답변상태 (전체 | 진행중 |답변완료)
+                        		},success:function(result){
+
+                        			// 상품문의 리스트테이블 및 페이징바 생성
+                        			const qnaList = result[0];		// 조회된 상품문의 리스트
+                        			const pageInfo = result[1];		// 조회된 상품문의 리스트에 대한 페이징바
+                        			
+                        			let list = "";					// 테이블 생성 HTML구문을 담을변수
+                        			let paging = "";				// 페이징 생성 HTML구문을 담을변수
+                        			
+                        			/* 조회된 문의내역 존재여부
+                        			 *
+                        			 * case 01) qnaList.length == 0 : 조회된 문의내역이 없을경우
+                        			 * case 02) qnaList.length != 0 : 조회된 문의내역이 있을경우
+                        			 *
+                        			*/
+                        			if(qnaList.length == 0){
+                        				console.log("리스트 없음");
+                        				// case 01-1) 조회된 문의내역이 없을경우 생성될 테이블 HTML
+                        				list += "<tr>";
+                        				list += 	"<td colspan='5'>" + "조회된 문의내역이 없습니다." + "</td>";
+                        				list += "</tr>"
+                        			
+                        				// case 01-2) 조회된 문의내역이 없을경우 생성될 페이징 HTML (없음)
+                        				
+                        			}else{
+                        				console.log("리스트 있음");
+                        				console.log(qnaList.length);
+                        				// case 02-1) 조회된 문의내역이 있을경우 생성될 테이블 HTML
+                        				let status = "";
+                            			for(let q=0 ; q<qnaList.length ; q++){
+                            				
+                            				status = qnaList[q].answerStatus == "미처리" ? "진행중" : "답변완료";
+                            				
+                            				list += "<tr>";
+                            				list += 	"<td>" + qnaList[q].answerNo + "</td>";
+                            				list += 	"<td>" + qnaList[q].answerDate + "</td>";
+                            				list += 	"<td class='title'>" + qnaList[q].answerTitle + "</td>";
+                            				list += 	"<td>" + status + "</td>";
+                            				list += 	"<td><button type='button' class='btn text-danger' onclick='deleteQna(" + qnaList[q].answerNo + ");'>삭제</button></td>";
+                            				list += "</tr>";
+
+                            			}
+                        				
+                        				// case 02-2) 조회된 문의내역이 없을경우 생성될 페이징 HTML
+                        				// 이전페이지 이동버튼
+                        				if(pageInfo.currentPage == 1){
+                        					paging += "<li class='page-item disabled' style='cursor:pointer;'><a class='page-link'>Previous</a></li>";
+                        				}else{
+                        					paging += "<li class='page-item' style='cursor:pointer;' onclick='selectQnaList(" + (pageInfo.currentPage - 1) + ");'><a class='page-link'>Previous</a></li>";
+                        				}
+                        				
+                        				// 지정페이지 이동버튼
+                        				for(let p=pageInfo.startPage ; p<= pageInfo.endPage ; p++){
+                        					if(pageInfo.currentPage == p){
+                        						paging += "<li class='page-item active' style='cursor:pointer;'><a class='page-link'>" + p + "</a></li>";
+                        					}else{
+                        						paging += "<li class='page-item' style='cursor:pointer;' onclick='selectQnaList(" + p + ")'><a class='page-link'>" + p + "</a></li>";
+                        					}
+                        				}
+                        				
+                        				// 다음페이지 이동버튼
+                        				if(pageInfo.currentPage == pageInfo.maxPage){
+                        					paging += "<li class='page-item disabled' style='cursor:pointer;'><a class='page-link'>Next</a.</li>";	
+                        				}else{
+                        					paging += "<li class='page-item' style='cursor:pointer;' onclick='seletQnaList(" + (pageInfo.currentPage + 1) + ");'><a class='page-link'>Next</a.</li>";
+                        				}
+                        				
+                        			}
+                        			 
+                    				// 문의목록 테이블생성
+                    				$(".qna-list>.table>tbody").html(list);
+                    				
+                    				// 페이징바 생성
+                    				$(".pagination").html(paging);
+                        		 }
+                        	})
+                    	}
                     </script>
+                    
 
                      <!-- 1:1 문의목록 테이블 영역 start -->
                      <div class="qna-list">
@@ -201,31 +299,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <% if(list != null) { %>
-	                            <% for(Qna q : list) { %>
-	                                <tr>
-	                                    <td class="qNo"><%= q.getAnswerNo() %></td>
-	                                    <td><%= q.getAnswerDate() %></td>
-	                                    <!-- 
-	                                        기능설명 : 제목 클릭시, 상세페이지이동
-	                                        기능구현 : 아래 스크립트에 URL 넣어주면됨
-	                                    -->
-	                                    <td class="qna-title"><%= q.getAnswerTitle() %></td>
-	                                    <td><%= q.getAnswerStatus().equals("처리") ? "답변완료" : "진행중" %></td>
-	                                    <td>
-	                                        <!-- 
-	                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제진행 
-	                                            기능구현 : 아래 삭제여부 확인용 팝업창(모달)있음
-	                                        -->
-	                                        <button type="button" class="btn text-danger" onclick="deleteQna(<%= q.getAnswerNo() %>);">삭제</button>
-	                                    </td>
-	                                </tr>
-								<% } %>
-                            <% } else if(list.size() == 0) { %>
-                            	<tr>
-                            		<td colspan="5">문의 내역이 존재하지 않습니다.</td>
-                            	</tr>
-                            <% } %>
+                            	<!-- 조회된 문의목록이 출력될 테이블영역 -->
                             </tbody>
                         </table>
                         <!-- 1:1 문의목록 테이블 영역 end -->
@@ -244,8 +318,8 @@
 	                        $(function(){
 
 	                            // 문의제목 클릭시, 해당문의 상세페이지로 이동하는 함수
-	                            $(".qna-list>.table>tbody tr>.qna-title").click(function(){
-									const qNo = $(this).siblings(".qNo").text();
+	                            $(".qna-list>.table>tbody").on("click", "td.title", function(){
+									const qNo = $(this).prevAll().eq(1).text();
 									location.href = "<%= contextPath %>/detailQna.me?qNo=" + qNo;
 	                            })
 	
@@ -339,45 +413,16 @@
 	                        </div>
 	                    </div>
 	                    <!-- 문의작성 팝업창 end -->
-                        
-                        <!-- 기능 : 10개 단위 페이징처리 -->
-                        <div class="center">
-                            <ul class="pagination">
-	                            <!-- 이전페이지 이동버튼 활성화여부 
-	                            	 case 01) 비활성화 : 현재페이지 == 1페이지
-	                            	 case 02)  활성화 : 현재페이지 != 1페이지 ==> (현재페이지 - 1)페이지이동 URL요청
-	                             -->
-	                            <% if(pi.getCurrentPage() == 1) { %>
-                                	<li class="page-item disabled"><a class="page-link">Previous</a></li>
-                                <% } else { %>
-                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/qna.me?type=2&page=<%= (pi.getCurrentPage() - 1) %>">Previous</a></li>
-                                <% } %>
-                                <!-- 페이지 번호버튼 활성화여부
-                                	 case 01) 비활성화 : 해당페이지 == 현재페이지
-                                	 case 02)  활성화 : 해당페이지 != 현재페이지 ==> 해당페이지이동 URL요청
-                                 -->
-                                <% for(int p=pi.getStartPage() ; p<=pi.getEndPage() ; p++) { %>
-                                	<%if(pi.getCurrentPage() == p) { %>
-                                		<li class="page-item active"><a class="page-link"><%= p %></a></li>
-                                	<% } else { %>
-                                		 <li class="page-item"><a class="page-link" href="<%= contextPath %>/qna.me?type=2&page=<%= p %>"><%= p %></a></li>
-                                	<% } %>
-                                <% } %>
-                                <!-- 이후페이지 이동버튼 활성화여부
-                                	 case 01) 비활성화 : 현재페이지 == 최대페이지 || 문의목록 존재하지 않을때
-                                	 case 02)  활성화 : 현재페이지 != 최대페이지 ==> (현재페이지 + 1) 페이지이동 URL요청
-                                 -->
-                                <% if(pi.getCurrentPage() == pi.getMaxPage() || pi.getMaxPage() == 0) { %>
-                                	<li class="page-item disabled"><a class="page-link">Next</a></li>
-                                <% } else { %>
-                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/qna.me?type=2&page=<%= (pi.getCurrentPage() + 1) %>">Next</a></li>
-                                <% } %>
-                            </ul>
-                        </div>
 
                     </div>
                     <!-- 1:1문의 테이블 영역 end -->
-
+                    
+					<!-- 기능 : 10개 단위 페이징처리 -->
+                    <div class="center">
+                        <ul class="pagination">
+                        <!-- 조회된 문의목록에 대한 페이징바가 출력될 영역 -->
+                        </ul>
+                    </div>
                 </div>   
                 <!-- 1:1문의 페이지 영역 end -->
             </div>
