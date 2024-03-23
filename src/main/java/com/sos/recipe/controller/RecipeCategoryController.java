@@ -43,13 +43,14 @@ public class RecipeCategoryController extends HttpServlet {
 				int endPage;		//currentPage가 포함된 페이징바의 끝 수
 
 				int categoryNo = Integer.parseInt(request.getParameter("no"));
-				String categoryNoSt = request.getParameter("no");
-
 				
-				if (categoryNoSt != null && (categoryNoSt == "1" || categoryNoSt == "2" || categoryNoSt == "3")) {
-				    listCount = new RecipeService().selectCategoryListCount(categoryNo); //총 게시글 갯수
+				if (categoryNo == 1 || categoryNo == 2 || categoryNo == 3) {
+				    listCount = new RecipeService().selectCategoryListCount(categoryNo); 
 				} else {
 				    listCount = new RecipeService().selectListCount(); //총 게시글 갯수
+					response.sendRedirect(request.getContextPath() + "/views/recipe/recipeList.jsp");
+
+					
 				}
 				
 				currentPage = Integer.parseInt(request.getParameter("page")); //현재 페이지
@@ -65,16 +66,13 @@ public class RecipeCategoryController extends HttpServlet {
 					}
 					
 				PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-				System.out.println(pi);
-				
 
 				List<Recipe> categoryList = new RecipeService().selectCategoryList(pi, categoryNo);
-				
-				request.setAttribute("no", categoryNo);
 				request.setAttribute("list", categoryList);
 				request.setAttribute("pi", pi);
-				
-				request.getRequestDispatcher("/views/recipe/recipeList.jsp").forward(request, response);
+				request.setAttribute("no", categoryNo);
+
+				request.getRequestDispatcher("/views/recipe/recipeCategory.jsp").forward(request, response);
 				
 	}
 		

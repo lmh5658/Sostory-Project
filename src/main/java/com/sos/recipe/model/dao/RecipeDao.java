@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.recipe.model.vo.Recipe;
+import com.sos.recipe.model.vo.RecipeInsert;
 import com.sos.recipe.model.vo.OrderProduct;
 
 import static com.sos.common.template.JDBCTemplate.*;
@@ -182,15 +183,15 @@ public class RecipeDao {
 	
 
 	//카테고리 클릭시 레시피 목록조회
-	public List<Recipe> selectCategoryList(PageInfo pi, Connection conn, int categoryNo) {
+	public List<Recipe> selectCategoryList(Connection conn, PageInfo pi, int categoryNo) {
 			List<Recipe> categoryList = new ArrayList<>();	
 			
 			PreparedStatement pstmt = null;
 			ResultSet rset = null;
-			String sql = prop.getProperty("selectRecipeList");
-			
+			String sql = prop.getProperty("selectCategoryList");
 			try {
 				pstmt = conn.prepareStatement(sql);
+
 				int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
 				int endRow = startRow + pi.getBoardLimit() - 1;
 				pstmt.setInt(1, categoryNo);
@@ -341,7 +342,7 @@ public class RecipeDao {
 	}
 	
 	//등로페이지 - 구매확정 상품 
-	public List<OrderProduct> selectOrderProduct(Connection conn, int userNo) {
+	/*public List<OrderProduct> selectOrderProduct(Connection conn, int userNo) {
 		List<OrderProduct> orderProduct = new ArrayList<>() ;	
 		
 		PreparedStatement pstmt = null;
@@ -369,7 +370,53 @@ public class RecipeDao {
 		
 		return orderProduct;
 		
+	}*/
+
+	/*public int insertStepList(Connection conn, int step) {
+		int stepResult = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertStepList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql); // 미완성된 sql문
+			pstmt.setString(1, IngredientName());
+			pstmt.setString(2, Amount()); //어마운트와 유닛은 붙여서 하나 값으로 만들어 넣기
+			pstmt.setString(3, Unit());
+			stepResult = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return stepResult;
+	}*/
+	
+
+	public int insertIngredientList(Connection conn, int ingredient) {
+		int ingredientResult = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("");
+		
+		try {
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setInt(1, ingredient.getStepNo());
+			pstmt.setString(2, ingredient.getStepContent());
+			pstmt.setString(3, ingredient.getStepAttachUrl());
+	
+			ingredientResult = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return ingredientResult;
 	}
+	
 }
 	
 
