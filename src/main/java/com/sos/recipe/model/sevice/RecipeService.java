@@ -79,7 +79,7 @@ public class RecipeService {
 
 	}
 	
-	
+	//등록- 구매확정상품 조회
 	public List<OrderProduct> selectOrderProduct(int userNo) {
 		Connection conn = getConnection();
 		List<OrderProduct> orderProduct= rDao.selectOrderProduct(conn, userNo);
@@ -106,6 +106,15 @@ public class RecipeService {
 		
 		return recipeResult * ingredientResult * stepResult;
 	}
+
+	//수정 - 작성했던 레시피 목록
+	public List<OrderProduct> selectUpdateOrderProduct(int userNo) {
+		Connection conn = getConnection();
+		List<OrderProduct> writeRecipetitle= rDao.selectUpdateOrderProduct(conn, userNo);
+		close(conn);
+		return writeRecipetitle;
+
+	}	
 	
 
 	

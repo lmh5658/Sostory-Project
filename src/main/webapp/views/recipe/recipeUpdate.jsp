@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.recipe.model.vo.Recipe"%>
+<%@ page import="com.sos.recipe.model.vo.OrderProduct"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.sos.recipe.model.vo.Step"%>
+<%@ page import="com.sos.recipe.model.vo.Ingredient"%>
+<% 
+List<OrderProduct> list = (List<OrderProduct>)request.getAttribute("writeRecipetitle");
+Recipe recipe = (Recipe)request.getAttribute("recipe");
+List<Recipe> step = (List<Recipe>)request.getAttribute("step");
+List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,64 +69,78 @@
 	        <div class="underbar"></div>
 	        <br><br><br>
             
-            <form action="">
+            <form action="<%=contextPath %>/update.re" method="post">
                 <table>
                     <tr>
-                        <th colspan="2" style="font-size: 20px; padding: 20px 0px; border-bottom: 1px solid lightgrey;">레시피등록</th>
+                        <th colspan="2" style="font-size: 20px; padding: 20px 0px; border-bottom: 1px solid lightgrey;">레시피수정</th>
                     </tr>
                     <!-- 레시피 정보 입력 -->
                     <tr>
-                        <td width="150px">상품명</td>
+                        <td width="150px">레시피 목록</td>
                         <td width="400px">
-                            <select class="product_name" name="">
-                                <option selected hidden>상품을 선택하세요</option>
-                                <option value="">칼로리 zero 마요네즈</option>
-                                <option value="">케찹 떡볶이 밀키트</option>
-                                <option value="">칼로리 zero 고추장</option>
-                            </select>
+                            <select class="product_name" name="recipeTitle" onchange="updateHiddenCategoryNo()" required>
+                               <option disabled selected>레시피를 선택하세요</option>
+							    <% if (list != null) { %>
+							        <%  for (OrderProduct o : list) { %>
+							            <option value="<%= o.getProductNo() %>" data-category-no="<%= o.getCategoryNo() %>"><%= o.getRecipeTitle() %></option>
+							        <% } %>
+							    <% } %>
+							</select>
+							<input type="hidden" id="categoryNo" name="categoryNo">
+							<script>
+							function updateHiddenCategoryNo() {
+							    var selectedOption = document.querySelector('.product_name option:checked');
+							    var selectedCategoryNo = selectedOption.dataset.categoryNo;
+							    var hiddenCategoryNoField = document.getElementById('categoryNo');
+							    hiddenCategoryNoField.value = selectedCategoryNo;
+							}
+							</script>
+							
                         </td>
                     </tr>
-                    <tr>
+                        <tr>
                         <td>제목</td>
-                        <td><input class="form-control" type="text" placeholder="레시피 제목을 입력해주세요"></td>
+                        <td><input class="form-control" type="text" name="recipeTitle" placeholder="레시피 제목을 입력해주세요" value="<%= recipe.getRecipeTitle() %>"required></td>
                     </tr>
                     <tr>
                         <td>대표사진</td>
                         <td>
-                            <div class="thumbnail_img">대표사진 선택하기</div>
+                            <div class="thumbnail_img"><input type="file" name="thumbnailUrl" value="<%= recipe.getThumbnailUrl() %>" >대표사진 선택하기</div>
                         </td>
                     </tr>
                     <tr>
                         <td>간단소개</td>
-                        <td><textarea class="form-control" name="" rows="2" placeholder="레시피 소개를 작성해주세요" style="resize: none;"></textarea></td>
+                        <td><textarea class="form-control" name="recipeIntro" rows="2" placeholder="레시피 소개를 작성해주세요" style="resize: none;" ><%=recipe.getRecipeIntro()%></textarea></td>
                     </tr>
                     <tr>
                         <td>요리정보</td>
                         <td>
-                        <input type="number" class="recipe_info" minlength="0" maxlength="20" name="" placeholder="인원수" style="width: 70px;">
+                        <input type="number" class="recipe_info" minlength="0" maxlength="20" name="serving" placeholder="인원수" style="width: 70px;" value="<%= recipe.getServing() %>">
                         </input>인분&nbsp;&nbsp;&nbsp;
-                        <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" style="width: 90px;">
+                        <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" name="cookingTime" style="width: 90px;" value="<%= recipe.getCookingTime() %>">
                         </input>분&nbsp;&nbsp;&nbsp;
                         <select class="recipe_info" name="" style="width: 80px;">
-                            <option selected hidden>난이도</option>
-                            <option value="">상</option>
-                            <option value="">중</option>
-                            <option value="">하</option>
+                            <option hidden name="difficulty"><%= recipe.getDifficulty() %></option>
+                            <option value="상">상</option>
+                            <option value="중">중</option>
+                            <option value="하">하</option>
                         </select>
                         </td>
                     </tr>
                     <tr>
                         <td>재료</td>
                         <td id="ingredientForm">
-                            <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명">
-                            <input class="ingredient" type="number" style="width: 120px;" placeholder="수량">
-                            <select class="ingredient" name="" style="width: 70px;">
-                                <option selected hidden>단위</option>
-                                <option value="">g</option>
-                                <option value="">kg</option>
-                                <option value="">ml</option>
-                                <option value="">L</option>
+                          <%  for (Recipe in : ingredient) { %>
+                            <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" name="ingredientName" placeholder="재료명" value="<%= in.getIngredientName() %>" required>
+                            <input class="ingredient" type="number" style="width: 120px;" name="amount" placeholder="수량" value="" required>
+                            <select class="ingredient" name="unit" style="width: 70px;" required value="">
+                                <option selected disabled>단위</option>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="L">L</option>
                             </select>
+                            <%} %>
                         </td>
                     </tr>
                     <tr>
@@ -125,9 +151,9 @@
                     <script>
                         $(function(){
                             $("#addIngredientButton").click(function(){
-                                const ingName = '<input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명">';
-                                const ingMount = '<input class="ingredient" type="number" style="width: 120px;" placeholder="수량">';
-                                const unit = '<select class="ingredient" name="" style="width: 70px;"><option selected hidden>단위</option><option value="">g</option><option value="">kg</option><option value="">ml</option><option value="">L</option></select>';
+                                const ingName = '<input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명" required>';
+                                const ingMount = '<input class="ingredient" type="number" style="width: 120px;" placeholder="수량" required>';
+                                const unit = '<select class="ingredient" name="" style="width: 70px;" required><option selected hidden>단위</option><option value="">g</option><option value="">kg</option><option value="">ml</option><option value="">L</option></select>';
                                 const addButton = '<button type="button" class="btn btn-sm" style="background-color: rgb(224, 224, 224);">삭제</button>';
                                 let el = $("<tr></tr>").html("<td></td>" + '<td id="ingredientForm">' + ingName + "&nbsp;" +  ingMount + "&nbsp;" + unit + "&nbsp;" + addButton + "</td>");
                                 $("#addIngredientButton").parent().parent().before(el);
@@ -142,19 +168,22 @@
                     <tr>
                         <th colspan="3" style="font-size: 20px; padding: 20px 0px;">조리 순서</th>
                     </tr>
-                    <tr class="input_step">
-                        <td>Step 1.</td>
+                      <%  for (Recipe st : step) { %>
+                         <tr class="input_step">
+                      
+                        <td name="stepNo">Step <%=st.getStepNo()%></td>
                         <td>
-                            <textarea class="form-control" name="" rows="6" style="resize: none;"></textarea>
+                            <textarea class="form-control" name="stepContent" rows="6" style="resize: none;" required><%= st.getStepContent() %></textarea>
                         </td>
                         <!-- 순서 이미지 파일 첨부 -->
                         <!-- 이미지 추가 누르면 파일 첨부 가능하게 -->
                         <td>
-                            <div class="add_step_img">
+                            <div class="add_step_img" name="stepAttachUrl" value="<%= st.getStepAttachmentUrl() %>">
                                 이미지 추가
                                 <input type="file">
                             </div>
                         </td>
+                        <%} %>
                     </tr>
                     <tr>
                         <td colspan="3" align="center">
@@ -167,8 +196,8 @@
 
                         $("#addStep").click(function(){
                             countStep++;
-                            const stepContent = '<td><textarea class="form-control" name="" rows="6" style="resize: none;"></textarea></td>';
-                            const stepImg = '<td><div class="add_step_img">이미지 추가<input type="file"></div></td>';
+                            const stepContent = '<td><textarea class="form-control" name="" rows="6" style="resize: none;" required></textarea></td>';
+                            const stepImg = '<td><div class="add_step_img">이미지 추가<input type="file" required></div></td>';
                             let el = $("<tr></tr>").addClass("input_step").html("<td>Step " + countStep + ".</td>" + stepContent + stepImg);
                             $("#addStep").parent().parent().before(el);
                         })
@@ -180,16 +209,10 @@
                             }
                         })
                     </script>
-                    <!-- 태그 입력 -->
-                    <tr>
-                        <!-- 정규표현식으로 공백문자로 구분이 안되어있으면 등록 안되게 -->
-                        <td>태그</td>
-                        <td><input class="form-control" type="text"placeholder="#간장 #고추장 (태그 사이 공백으로 구분)"></td>
-                    </tr>
                 </table>
                 <br>
                 <div align="center">
-                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">등록</button>
+                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">수정</button>
                 </div>
                 <br><br>
             </form>

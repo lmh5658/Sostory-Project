@@ -98,11 +98,12 @@ public class Recipe {
 	}
 
 	//레시피 상세
-	public Recipe(int recipeNo, String categoryName, String recipeTitle, String thumbnailUrl, String recipeIntro, String difficulty, int serving, int cookingTime,
+	public Recipe(int recipeNo, int userNo, String categoryName, String recipeTitle, String thumbnailUrl, String recipeIntro, String difficulty, int serving, int cookingTime,
 			String userName, String userPath, int likeRefno, String productName, int price, int discountPrice,
 			String path) {
 		super();
 		this.recipeNo = recipeNo;
+		this.userNo = userNo;
 		this.categoryName = categoryName;
 		this.recipeTitle = recipeTitle;
 		this.thumbnailUrl = thumbnailUrl;

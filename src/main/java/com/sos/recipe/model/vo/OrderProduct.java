@@ -4,7 +4,9 @@ public class OrderProduct {
 	private String productName;
 	private int productNo;
 	private int categoryNo;
-
+	
+	private String recipeTitle;
+	
 	
 	public OrderProduct() {
 		
@@ -17,7 +19,26 @@ public class OrderProduct {
 		this.productNo = productNo;
 		this.categoryNo = categoryNo;
 	}
+		
+
+	//수정-조회
+
+	public OrderProduct(int productNo, String recipeTitle, int categoryNo) {
+		super();
+		this.productNo = productNo;
+		this.categoryNo = categoryNo;
+		this.recipeTitle = recipeTitle;
+
+	}
+
 	
+
+	public String getRecipeTitle() {
+		return recipeTitle;
+	}
+	public void setRecipeTitle(String recipeTitle) {
+		this.recipeTitle = recipeTitle;
+	}
 
 	public String getProductName() {
 		return productName;
@@ -46,8 +67,9 @@ public class OrderProduct {
 	@Override
 	public String toString() {
 		return "OrderProduct [productName=" + productName + ", productNo=" + productNo + ", categoryNo=" + categoryNo
-				+ "]";
+				+ ", recipeTitle=" + recipeTitle + "]";
 	}
+
 
 
  

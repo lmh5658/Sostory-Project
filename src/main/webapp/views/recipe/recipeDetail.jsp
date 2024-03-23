@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
  <%@ page import="com.sos.recipe.model.vo.Recipe"%>
  <%@ page import= "java.util.List"%>
+  <%@ page import= "com.sos.member.model.vo.Member"%>
  
  <% Recipe r = (Recipe)request.getAttribute("detailRecipe"); //레시피 상세에 들어갈 데이터들
  List<Recipe> step = (List<Recipe>)request.getAttribute("step");//step
 List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
-
 %>
 
 <!DOCTYPE html>
@@ -134,10 +134,18 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 		
 	    <!-- Section start -->
 		<section class="main-content">
-			<div class="detail_head">
+			<div class="detail_head"> 
 				<span>홈  > <%=r.getCategoryName() %></span>
-				<button type="button" class="btn" style="background-color: rgb(231, 76, 60); color: white;">수정하기</button>
+			<% if(loginUser != null && loginUser.getUserNo() == r.getUserNo()) { %>
+				<button id="updateButton" type="button" class="btn" style="background-color: rgb(231, 76, 60); color: white;">수정하기</button>
+			<% } %>
 			</div>
+			 <script>
+			    $("#updateButton").click(function(){
+			    		location.href = "<%= contextPath %>/updateForm.re?no=<%=r.getRecipeNo()%>";  
+			      });
+	    	  </script>
+			
 			<!-- 대표사진 -->
 			<div class="thumbnail">
 				<img src="" alt="">

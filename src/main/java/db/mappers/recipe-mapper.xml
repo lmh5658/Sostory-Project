@@ -158,6 +158,7 @@
 		    FROM (
 		        SELECT
 		            R.RECIPE_NO,
+		            R.USER_NO,
 		            C.CATEGORY_NAME,
 		            R.RECIPE_TITLE,
 		            R.THUMBNAIL_URL,
@@ -180,6 +181,7 @@
 		        WHERE R.RECIPE_STATUS = 'Y'
 		        GROUP BY 
 		            R.RECIPE_NO,
+		            R.USER_NO,
 		            C.CATEGORY_NAME,
 		            R.RECIPE_TITLE,
 		            R.THUMBNAIL_URL,
@@ -236,8 +238,7 @@
 		JOIN TB_ORDER O ON (O.ORDER_NO = OP.ORDER_NO)
 	 WHERE ORDER_STATUS = 4 AND USER_NO = ?
       </entry>
-
-
+      
 	<!-- 등록 - 레시피 정보 -->
 	<entry key="insertRecipeList">
 	 INSERT
@@ -308,4 +309,15 @@
 		  )
 	
 	</entry>
+	
+	
+	  <!-- 레시피 수정 - 작성했던 글의 상품 목록 -->
+      <entry key="selectUpdateOrderProduct">
+      SELECT P.PRODUCT_NO, P.CATEGORY_NO, R.RECIPE_TITLE
+		FROM TB_ORDER_PRODUCT OP
+   		 JOIN TB_PRODUCT P ON OP.PRODUCT_NO = P.PRODUCT_NO
+   		 JOIN TB_ORDER O ON O.ORDER_NO = OP.ORDER_NO
+   		 JOIN TB_RECIPE R ON R.CATEGORY_NO = P.CATEGORY_NO
+		WHERE R.USER_NO = ? AND R.USER_NO = O.USER_NO
+      </entry>
 </properties>

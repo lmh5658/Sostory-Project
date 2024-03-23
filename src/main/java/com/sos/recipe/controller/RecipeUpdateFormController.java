@@ -1,16 +1,24 @@
 package com.sos.recipe.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.sos.member.model.vo.Member;
+import com.sos.recipe.model.sevice.RecipeService;
+import com.sos.recipe.model.vo.OrderProduct;
+import com.sos.recipe.model.vo.Recipe;
 
 /**
  * Servlet implementation class RecipeUpdateFormController
  */
-@WebServlet("/RecipeUpdateFormController")
+@WebServlet("/updateForm.re")
 public class RecipeUpdateFormController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,8 +34,22 @@ public class RecipeUpdateFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		int recipeNo = Integer.parseInt(request.getParameter("no"));
+		
+		HttpSession session = request.getSession();
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+		
+		List<OrderProduct> writeRecipetitle = new RecipeService().selectUpdateOrderProduct(userNo);
+		List<Recipe> ingredient = new RecipeService().selectIngridient(userNo);
+		List<Recipe> step = new RecipeService().selectStep(userNo);
+		Recipe recipe = new RecipeService().selectDetailRecipe(userNo);
+		
+		request.setAttribute("writeRecipetitle", writeRecipetitle);
+		request.setAttribute("ingredient", ingredient);
+		request.setAttribute("step", step);
+		request.setAttribute("recipe", recipe);
+		request.getRequestDispatcher("/views/recipe/recipeUpdate.jsp").forward(request, response);
+		
 	}
 
 	/**

@@ -28,6 +28,8 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
     .underbar {
         width: 200px;
         height: 10px;
+        
+      
         border-bottom: 1px solid lightgrey;
     }
 

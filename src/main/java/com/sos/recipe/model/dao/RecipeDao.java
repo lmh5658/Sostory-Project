@@ -245,6 +245,7 @@ public class RecipeDao {
 			
 			while(rset.next()) {
 				detailRecipe  =  new Recipe( rset.getInt("RECIPE_NO"), 
+											rset.getInt("USER_NO"),
 											rset.getString("CATEGORY_NAME"), 
 											rset.getString("RECIPE_TITLE"),
 											rset.getString("THUMBNAIL_URL"),
@@ -342,7 +343,7 @@ public class RecipeDao {
 		
 	}
 	
-	//등로페이지 - 구매확정 상품 
+	//등록페이지 - 구매확정 상품 
 	public List<OrderProduct> selectOrderProduct(Connection conn, int userNo) {
 		List<OrderProduct> orderProduct = new ArrayList<>() ;	
 		
@@ -374,6 +375,7 @@ public class RecipeDao {
 		return orderProduct;
 		
 	}
+
 
 	
 	//등록 - 레시피 정보
@@ -452,6 +454,39 @@ public class RecipeDao {
 		}
 		
 		return stepResult;
+	}
+	
+	
+	//수정페이지 - 작성했던 글의 타이틀
+	public List<OrderProduct> selectUpdateOrderProduct(Connection conn, int userNo) {
+		List<OrderProduct> writeRecipetitle = new ArrayList<>() ;	
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUpdateOrderProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+
+			while(rset.next()) {
+				writeRecipetitle.add(new OrderProduct( rset.getInt("PRODUCT_NO"),
+												   rset.getString("RECIPE_TITLE"),
+												   rset.getInt("CATEGORY_NO")
+
+								  ));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return writeRecipetitle;
+		
 	}
 	
 }

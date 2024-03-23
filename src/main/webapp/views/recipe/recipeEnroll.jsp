@@ -86,7 +86,6 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
 							    <!-- 히든으로 카테고리 번호도 같이 넘기기. -->
 							    <% if (list != null) { %>
 							        <% for (OrderProduct o : list) { %>
-							        	<% System.out.println(o.getProductNo()); %>
 							            <option value="<%= o.getProductNo() %>" data-category-no="<%= o.getCategoryNo() %>"><%= o.getProductName() %></option>
 							        <% } %>
 							    <% } %>
