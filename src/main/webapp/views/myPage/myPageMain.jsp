@@ -39,7 +39,7 @@
 				    </div>
 				
 				    <div class="side_menu">
-				        <button class="list">My Tree</button>
+				        <button class="list" id="my-tree">My Tree</button>
 				    </div>
 				
 				    <div class="side_menu">
@@ -62,6 +62,12 @@
 				
 				<script>
 				   $(function(){
+					   
+					   	// 사이드메뉴-MyTree(내가 작성한 레피시목록페이지) 이동요청 버튼클릭시 실행될 함수
+					   	$("#my-tree").click(function(){
+					   		location.href = "<%= contextPath %>/recipe.me?page=1";
+					   	})
+					   	
 					   	// 사이드메뉴-주문조회 이동요청 버튼클릭시 실해될 함수
 					   	$("#orderList").click(function(){
 					   		location.href = "<%= contextPath %>/olist.me";
