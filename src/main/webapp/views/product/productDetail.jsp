@@ -122,7 +122,7 @@
             
             <!-- Section start -->
             <section class="main">
-                <h3 style="margin-top: 150px; margin-bottom: 20px;">HOME><%= pro.getCategoryNo() %></h3>
+                <h3 style="margin-top: 150px; margin-bottom: 20px;">HOME><%= pro.getCategoryName() %></h3>
 
                 <!-- 상품상세 상단 start -->
                 <div class="main_top d-flex flex-direction">
@@ -159,12 +159,39 @@
                                                 
                                                 <button type="button" class="btn btn-outline-dark">수량선택</button>
                                                 <button type="button" value="-" style="width: 30px;" id="minus">-</button>
-                                                <div id="result">0</div>
+                                                <input type="text" id="input_text" value="1" style="width:35px; text-align:center;">
                                                 <button type="button" type="button" value="+" style="width: 30px;" id="plus">+</button>
         
                                             </div>
                                             <hr>
                                             
+                                            
+                                       <script>
+                                       		$(function(){
+                                       			let $result = $("#input_text").val();
+                                       			
+                                       			
+                                       			let price = <%=pro.getPrice() - pro.getDiscountPrice()%>
+                                       			
+                                       			console.log(price);
+                                       			console.log($("#total_amount").html() * 2);
+                                       			
+                                       			$("#plus").click(function(){
+                                       				$("#input_text").val(++$result);
+                                       				
+													$("#total_amount").html($("#total_amount").html()*2);
+													$("#total_amount").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                       			})
+                                       			
+                                       			$("#minus").click(function(){
+                                       				if($("#input_text").val() > 1){
+	                                       				$("#input_text").val(--$result);
+	                                       				$("#total_amount").html($("#total_amount").html()/2)
+                                       				}
+                                       			})
+                                       		})
+                                       	
+                                       </script>
                                             
                                         
                                     </div>
@@ -175,7 +202,10 @@
 
                                             <div class="main_right_bottom_top">
                                                 <span class="d-flex center" style="font-size: 30px;"><b>총 금액</b></span>
-                                                <span class="d-flex center"><b style="color:rgba(173, 10, 10, 0.674); font-size: 30px;"> 50,000원</b></span>
+                                                <span class="d-flex center">
+                                                <b style="color:rgba(173, 10, 10, 0.674); font-size: 30px;" id="total_amount"><%=pro.getPrice() - pro.getDiscountPrice() %></b>
+                                                <b style="color:rgba(173, 10, 10, 0.674); font-size: 30px;" id="total_amount">원</b>
+                                                </span>
                                                 
                                             </div>
 

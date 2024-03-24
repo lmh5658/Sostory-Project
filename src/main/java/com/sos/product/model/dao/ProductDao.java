@@ -50,13 +50,14 @@ public class ProductDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Product(rset.getInt("PRODUCT_NO"),
-									rset.getString("CATEGORY_NAME"),
-									rset.getString("PRODUCT_NAME"),
-									rset.getInt("price"),
-									rset.getInt("DISCOUNT_PRICE"),
-									rset.getString("path")		
-						));
+				Product pro = new Product();
+				pro.setProductNo(rset.getInt("PRODUCT_NO"));
+				pro.setCategoryNo(rset.getString("CATEGORY_NAME"));
+				pro.setProductName(rset.getString("PRODUCT_NAME"));
+				pro.setPrice(rset.getInt("PRICE"));
+				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setPath(rset.getString("PATH"));
+				list.add(pro);
 			}
 			
 		} catch (SQLException e) {
