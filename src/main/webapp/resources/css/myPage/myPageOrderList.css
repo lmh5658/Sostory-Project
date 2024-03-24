@@ -115,8 +115,6 @@ h3>label{
 	margin-top: 50px;
 }
 
-.detail:hover{
-	cursor:pointer;
-	opacity: 0.8;
+.order_content{
+	cursor: pointer;
 }
-.order_content{cursor: pointer;}
