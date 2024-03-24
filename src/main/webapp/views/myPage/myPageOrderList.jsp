@@ -286,17 +286,21 @@
    	                   			 		}else{ // 조회된 주문내역이 있을경우
    	                   			 			for(let o=0 ; o<orderList.length ; o++){
 	   	                   			 			list += "<tr>";
-	   	                   			 			list += 	"<div class='detail'>"
-	   	                   			 			list += 		"<td>" + orderList[o].orderNo + "</td>";
-	   	                   			 			list += 		"<td>" + orderList[o].titleProductName + " " + "외 " + orderList[o].totalOrder + "건" + "</td>";
-	   	                   			 			list +=			"<td>" + orderList[o].orderDate + "</td>";
-	   	                   			 			list += 		"<td>" + orderList[o].orderStatus + "</td>";
-	   	                   			 			list += 	"</div>"
+	   	                   			 			list += 	"<td>" + orderList[o].orderNo + "</td>";
+	   	                   			 			if((orderList[o].totalOrder - 1) != 0) {
+	   	                   			 				list += "<td class='order_content' onclick='detail(" + orderList[o].orderNo + ");'>" 
+	   	                   			 						+ orderList[o].titleProductName + " " + "외 " + (orderList[o].totalOrder - 1)  + "건" + "</td>";
+	   	                   			 			}else{
+	   	                   			 				list += "<td class='order_content' onclick='detail(" + orderList[o].orderNo + ");'>" 
+              			 									+ orderList[o].titleProductName + "</td>";
+	   	                   			 			}
+	   	                   			 			list +=		"<td>" + orderList[o].orderDate + "</td>";
+	   	                   			 			list += 	"<td>" + orderList[o].orderStatus + "</td>";
 	   	                   			 			
 	   	                   			 			if(orderList[o].orderStatus == 3 || orderList[o].orderStatus == 4){
 	   	                   			 				list += "<td class='text-danger'><b>불가</b></td>";
 	   	                   			 			}else{
-	   	                   			 				list += "<td><button type='button' class='btn btn-secondary'>주문취소</button></td>";
+	   	                   			 				list += "<td><button type='button' class='btn btn-secondary' onclick='cancle("+ orderList[o].orderNo + ")';" + ">주문취소</button></td>";
 	   	                   			 			}
 	   	                   			 			
 	   	                   			 			list += "</tr>";
@@ -319,7 +323,6 @@
 					   	                    if(pageInfo.currentPage == 1){
    	                        					paging += "<li class='page-item disabled' style='cursor:pointer;'><a class='page-link'>Previous</a></li>";
    	                        				}else{
-   	                        					console.log("input type=date value값 없음 : " + defaultFrom, defaultTo);
 						                       	if($("#from").val() == "" && $("#to").val() == ""){ // input type=date value값이 없을경우
 						                       		paging += "<li class='page-item' style='cursor:pointer;' onclick='selectList("
                    										+ '"' + defaultFrom + '"' + ', ' + '"' + defaultTo + '"' + ', '  + (pageInfo.currentPage - 1) 
@@ -378,6 +381,31 @@
                       		 	})
                       		 
                        	}
+                    	
+                    	// 주문취소 요청시 실행될 함수
+                    	function cancle(orderNo){
+                    		
+                    		if(confirm("주문을 취소하시겠습니까?")){
+                    			$.ajax({
+                        			url:"<%= contextPath %>/deleteOrder.me",
+                        			data:{"orderNo" : orderNo},
+                        			success:function(result){
+                        				if(result > 0){
+                        					alert("주문이 취소되었습니다.");
+                        					location.reload();
+                        				}else{
+                        					alert("주문취소에 정상적으로 처리되지 않았습니다.");
+                        				}	
+                        			}
+                        		})	
+                    		}
+                    		
+                    	}
+                    	
+                    	// 주문내용 클릭시, 해당주문상세페이지 이동요청시 실행될 함수
+                    	function detail(orderNo){
+                    		location.href="<%= contextPath %>/detailOrder.me?oNo=" + orderNo;
+                    	}
                     </script>
                     
                     <table class="table order_list">
@@ -398,7 +426,7 @@
                     </table>
                     <!-- 컨텐츠 영역 end -->
                     
-                    <div style="display: flex; justify-content: center;">
+                    <div style="display: flex; justify-content: center; margin-top: 100px;">
                         <ul class="pagination">
                             <!-- 해당 목록에대한 페이징바 생성영역 -->
                         </ul>

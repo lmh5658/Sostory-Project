@@ -19,6 +19,7 @@ import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.vo.Address;
 import com.sos.myPage.model.vo.Liked;
 import com.sos.product.model.vo.AttachmentProduct;
+import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
 
 public class MyPageDao {
@@ -1008,8 +1009,7 @@ public class MyPageDao {
 	 * 사용자의 총주문 횟수조회시 실행될 메소드
 	 * 
 	 * @param conn
-	 * @param info : 쿼리실행시 필요한 데이터가 담긴객체 (회원번호, 조회시작날짜, 조회끝날짜)
-	 *                  
+	 * @param info : 쿼리실행시 필요한 데이터가 담긴객체 (회원번호, 조회시작날짜, 조회끝날짜)                  
 	 * @return : 조회된 해당회원의 총주문 횟수
 	 */
 	public int totalOrders(Connection conn, HashMap<String, Object> info) {
@@ -1049,7 +1049,6 @@ public class MyPageDao {
 	 * 
 	 * @param conn
 	 * @param info : 회원번호, 조회시작날짜, 조회마지막날짜, 페이징객체 데이터가 담긴객체
-	 * 
 	 * @return : 조회된 해당사용자의 주문객체 리스트
 	 */
 	public List<Order> selectOrderList(Connection conn, HashMap<String, Object> info){
@@ -1099,5 +1098,128 @@ public class MyPageDao {
 		
 	}
 	
+	/**
+	 * 마이페이지에서 사용자가 주문내역 삭제요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param orderNo : 삭제할 주문 주문번호
+	 * @return : 주문내역 삭제요청 처리결과 행 수
+	 */
+	public int deleteOrder(Connection conn, int orderNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteOrder");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, orderNo);
+			
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 주문상세조회 요청시 주문정보 조회시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param orderNo : 상세조회 요청한 주문번호
+	 * @return : 조회된 주문상세정보를 담은 주문객체
+	 */
+	public Order selectOrderInfo(Connection conn, int orderNo) {
+		
+		Order od = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectOrderInfo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, orderNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				od = new Order();
+				
+				od.setOrderNo(rset.getInt("order_no"));
+				od.setOrderDate(rset.getString("order_date"));
+				od.setAddressName(rset.getString("address_name"));
+				od.setAddress(rset.getString("address"));
+				od.setAddressDetail(rset.getString("adrress_detail"));
+				od.setName(rset.getString("orderer"));
+				od.setPhone(rset.getString("order_phone"));
+				od.setPayMethod(rset.getString("pay_method"));
+				od.setPayDate(rset.getString("pay_date"));
+				
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return od;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 주문상세조회 요청시 주문상품 상세조회용 메소드
+	 * 
+	 * @param conn
+	 * @param orderNo : 상세조회 요청한 주문번호
+	 * @return : 조회된 주문상품 객체를 담은 리스트객체
+	 */
+	public List<Product> selectOrderProducts(Connection conn, int orderNo){
+	
+		List<Product> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectOrderProducts");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, orderNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				
+				p.setProductNo(rset.getInt("product_no"));
+				p.setProductName(rset.getString("product_name"));
+				p.setPrice(rset.getInt("price"));
+				p.setDiscountPrice(rset.getInt("discount_price"));
+				p.setRowNum(rset.getInt("order_product_amount"));
+				p.setPath(rset.getString("path"));
+				
+				list.add(p);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
 
 }

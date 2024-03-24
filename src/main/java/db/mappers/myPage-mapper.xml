@@ -467,5 +467,73 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-
+	<!-- 주문내역 취소요청 -->
+	<entry key="deleteOrder">
+		DELETE
+			FROM TB_ORDER
+		   WHERE ORDER_NO = ?
+	</entry>
+	
+	<!-- 주문정보 상세조회 -->
+	<entry key="selectOrderInfo">
+		SELECT
+		      ORDER_NO
+		     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+		     ,ADDRESS_NAME
+		     ,ADDRESS
+		     ,ADRRESS_DETAIL
+		     ,ORDERER
+		     ,ORDER_PHONE
+		     ,PAY_METHOD
+		     ,TO_CHAR(PAY_DATE, 'YYYY-MM-DD') PAY_DATE
+		  FROM TB_ORDER
+		 WHERE ORDER_NO = ?
+	</entry>
+	
+	<!-- 주문상품 상세조회 -->
+	<entry key="selectOrderProducts">
+		SELECT 
+		      PRODUCT_NO
+		     ,PRODUCT_NAME
+		     ,PRICE
+		     ,DISCOUNT_PRICE
+		     ,ORDER_PRODUCT_AMOUNT
+		     ,PATH
+		  FROM TB_ORDER_PRODUCT
+		  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		 WHERE ORDER_NO = ?
+	</entry>
+	
+	<!-- 작성한 레시피 총갯수 -->
+	<entry key="totalRecipe">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_RECIPE
+		 WHERE USER_NO = ?
+	</entry>
+	
+	<!-- 작성한 레시피 목록조회 -->
+	<entry key="selectRecipeList">
+		SELECT
+		      RECIPE_NO
+		     ,RECIPE_TITLE
+		     ,TO_CHAR(POST_DATE, 'YYYY-MM-DD') PSOT_DATE
+		     ,(
+		        SELECT COUNT(*)
+		          FROM TB_LIKE
+		         WHERE LIKE_REFNO = TB_RECIPE.RECIPE_NO
+		           AND LIKE_TYPE = 'R'
+		      )TOTAL_LIKED
+		    ,THUMBNAIL_URL
+		  FROM TB_RECIPE
+		 WHERE RECIPE_STATUS = 'Y'
+		   AND USER_NO = ?
+	</entry>
+	
+	<!-- 작성한 레피시 삭제요청 -->
+	<entry key="deleteRecipe">
+		UPDATE TB_RECIPE
+		   SET RECIPE_STATUS = 'N'
+		 WHERE RECIPE_NO = ?
+	</entry>
+	
 </properties>

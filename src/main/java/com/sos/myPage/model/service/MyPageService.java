@@ -16,6 +16,7 @@ import com.sos.myPage.model.dao.MyPageDao;
 import com.sos.myPage.model.vo.Address;
 import com.sos.myPage.model.vo.Liked;
 import com.sos.product.model.vo.AttachmentProduct;
+import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
 
 public class MyPageService {
@@ -524,9 +525,7 @@ public class MyPageService {
 	/**
 	 * 사용자의 총주문 횟수조회시 실행될 메소드
 	 * 
-	 * @param conn
-	 * @param info : 쿼리실행시 필요한 데이터가 담긴객체 (회원번호, 조회시작날짜, 조회끝날짜)
-	 *                   
+	 * @param info : 쿼리실행시 필요한 데이터가 담긴객체 (회원번호, 조회시작날짜, 조회끝날짜)                  
 	 * @return : 조회된 해당회원의 총주문 횟수
 	 */
 	public int totalOrders(HashMap<String, Object> info) {
@@ -544,9 +543,7 @@ public class MyPageService {
 	/**
 	 * 마이페이지에서 사용자가 주문목록 조회요청시 실행될 메소드
 	 * 
-	 * @param conn
-	 * @param info : 회원번호, 조회시작날짜, 조회마지막날짜, 페이징객체 데이터가 담긴객체
-	 * 
+	 * @param info : 회원번호, 조회시작날짜, 조회마지막날짜, 페이징객체 데이터가 담긴객체 
 	 * @return : 조회된 해당사용자의 주문객체 리스트
 	 */
 	public List<Order> selectOrderList(HashMap<String, Object> info){
@@ -561,4 +558,60 @@ public class MyPageService {
 		
 	}
 	
+	/**
+	 * 마이페이지에서 사용자가 주문내역 삭제요청시 실행될 메소드
+	 * 
+	 * @param orderNo : 삭제할 주문 주문번호
+	 * @return : 주문내역 삭제요청 처리결과 행 수
+	 */
+	public int deleteOrder(int orderNo) {
+		
+		Connection conn = getConnection();
+		
+		int result = mpDao.deleteOrder(conn, orderNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 주문상세조회 요청시 실행될 메소드
+	 * (1) 주문정보 상세조회 요청 ==> Order 객체로 반환
+	 * (2) 주문상품 상세조회 요청 ==> List<Product>로 반환
+	 * 
+	 * @param conn
+	 * @param orderNo : 상세조회 요청한 주문번호
+	 * @return : 조회된 주문상세정보 객체(Order객체, List<Product>)
+	 */
+	public HashMap<String, Object> selectOrder(int orderNo){
+		
+		Connection conn = getConnection();
+		
+		// (1) 주문정보 상세조회 요청
+		Order orderInfo = mpDao.selectOrderInfo(conn, orderNo);
+		
+		// (2) 주문상품 상세조회 요청
+		List<Product> productList = new ArrayList<>();
+		if(orderInfo != null) {
+			productList = mpDao.selectOrderProducts(conn, orderNo);
+		}
+		
+		// 결과전달용 HashMap객체
+		HashMap<String, Object> result = new HashMap<>();
+		result.put("orderInfo", orderInfo);
+		result.put("productList", productList);
+		
+		close(conn);
+		
+		return result;
+		
+	}
 }
