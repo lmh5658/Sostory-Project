@@ -17,6 +17,8 @@ public class Order {
 	private int orderNo;
 	private String orderDate;
 	private String orderStatus;
+	private String titleProductName;
+	private int totalOrder;
 	
 	public Order() {}
 
@@ -206,6 +208,25 @@ public class Order {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	
+	public String getTitleProductName() {
+		return titleProductName;
+	}
+
+
+	public void setTitleProductName(String titleProductName) {
+		this.titleProductName = titleProductName;
+	}
+	
+	public int getTotalOrder() {
+		return totalOrder;
+	}
+
+
+	public void setTotalOrder(int totalOrder) {
+		this.totalOrder = totalOrder;
+	}
+
 
 	@Override
 	public String toString() {
@@ -213,8 +234,8 @@ public class Order {
 				+ address + ", addressDetail=" + addressDetail + ", requestContent=" + requestContent + ", pay=" + pay
 				+ ", accountHolder=" + accountHolder + ", bankName=" + bankName + ", accountNumber=" + accountNumber
 				+ ", payDate=" + payDate + ", orderNo=" + orderNo + ", orderDate=" + orderDate + ", orderStatus="
-				+ orderStatus + "]";
+				+ orderStatus + ", titleProductName=" + titleProductName + ", totalOrder=" + totalOrder + "]";
 	}
-	
+
 	
 }
