@@ -159,7 +159,7 @@
                             <div class="product img-thumbnail p-2 " style="width:300px">
                             	<div id="thumb">
                                		<img class="product-img thumbnail1" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%; height:300px">                            	
-	                            	<input type="hidden" class="pNo" value="<%= p.getProductNo() %>">                    	
+	                            	<input type="hidden" class="pNo" id="proNo_heart" value="<%= p.getProductNo() %>">                    	
                             	</div>       
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
@@ -172,7 +172,7 @@
 	                                    <% } %>
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
-		                                        <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-heart-fill" viewBox="0 0 16 16">
+		                                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-heart-fill" viewBox="0 0 16 16">
 											        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
 											    </svg>
                            						<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
@@ -197,10 +197,39 @@
                        
                        <script>
                    			$(function(){
+                   				let likeUserPro = <%=proNo%>
                    				
-                   			             			
-                   		
+                   				let pNo = 0;
+                   				$(".product").each(function(){
+                   					
+                   					pNo = $(this).find(".pNo").val();
+                   					
+                   					for(let i=0; i<likeUserPro.length; i++){
+                   						if(pNo == likeUserPro[i]){
+                   							$(this).find(".heart").attr("fill", "red");
+                   						}
+                   					}
+                   					
+                   					$(".heart").click(function(){
+                   						console.log($("productNo").find(".pNo").val());
+                   						/*
+	                   					if($(".heart").attr("fill") == "red"){
+	                   						$.ajax({
+	                   							url:"<%=contextPath%>/heart.pr"
+	                   							data:{
+	                   								proNo:$(".pNo").val(),
+	                   							}
+	                   						})
+	                   					}
+                   						*/
+                   					})
+                   					
+                   				})
+            
+                   				
+                   				
                    			})
+                   			
                        </script>
                        
                        

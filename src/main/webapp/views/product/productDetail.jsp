@@ -173,9 +173,6 @@
                                        			
                                        			let price = <%=pro.getPrice() - pro.getDiscountPrice()%>
                                        			
-                                       			console.log(price);
-                                       			console.log($("#total_amount").html() * 2);
-                                       			
                                        			$("#plus").click(function(){
                                        				$("#input_text").val(++$result);
                                        				
@@ -595,7 +592,7 @@
                         					let value = "";            					
                         					for(let i=0; i<result.qlist.length; i++){
                             					value += "<tr>"
-                            						   + "<td>" + result.qlist[i].answerNo + "</td>"
+                            						   + "<td onclick='("+ this +")'>" + result.qlist[i].answerNo + "</td>"
                             						   + "<td>" + result.qlist[i].answerTitle + "</td>"
                             						   + "<td>" + result.qlist[i].userNo + "</td>"
                             						   + "<td>" + result.qlist[i].answerType + "</td>"
@@ -611,7 +608,32 @@
                              		})
                              	}
                              	
-                           
+                             	
+                             	
+                             	
+                             		/*
+                             		$(document).on("click", $("#qna_table tbody>tr"),function(d){
+                             			console.log(d.text());
+                             		})
+		                             		/*
+		                             		$.ajax({
+			                             		url:"<%=contextPath%>/qnaAnswer.pr",
+			                             		data:{
+			                             			proNo:<%=pro.getProductNo()%>,
+			                             			answerNo:
+			                             		},
+			                             		type:"post",
+			                             		success:function(){
+			                             			
+			                             		}
+		                             		})
+		                             		*/
+		                             
+                             		*/
+                             		
+                             	
+                             	
+                             	
                              		
                              		
                              	
