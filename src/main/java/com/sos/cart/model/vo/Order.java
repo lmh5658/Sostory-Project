@@ -15,6 +15,8 @@ public class Order {
 	private String accountNumber;
 	private String payDate;
 	private int orderNo;
+	private String orderDate;
+	private String orderStatus;
 	
 	public Order() {}
 
@@ -186,18 +188,33 @@ public class Order {
 		this.orderNo = orderNo;
 	}
 
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 
 	@Override
 	public String toString() {
-		return "Order [name=" + name + ", phone=" + phone + ", email=" + email + ", address=" + address
-				+ ", addressDetail=" + addressDetail + ", requestContent=" + requestContent + ", pay=" + pay
+		return "Order [userNo=" + userNo + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address="
+				+ address + ", addressDetail=" + addressDetail + ", requestContent=" + requestContent + ", pay=" + pay
 				+ ", accountHolder=" + accountHolder + ", bankName=" + bankName + ", accountNumber=" + accountNumber
-				+ "]";
+				+ ", payDate=" + payDate + ", orderNo=" + orderNo + ", orderDate=" + orderDate + ", orderStatus="
+				+ orderStatus + "]";
 	}
-	
-	
-	
-	
 	
 	
 }
