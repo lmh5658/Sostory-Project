@@ -108,6 +108,15 @@
 
 </entry>
 
+<entry key="updateProduct">
+
+	UPDATE TB_PRODUCT
+	SET inventory = inventory - ?
+	WHERE PRODUCT_NO = ?
+
+
+</entry>
+
 
 
 

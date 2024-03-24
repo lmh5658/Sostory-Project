@@ -120,6 +120,21 @@ public class PayService {
 		
 	}
 	
+	public int updateProduct(String[] productNo, String[] count) {
+		
+		Connection conn = getConnection();
+		int result = pDao.updateProduct(conn,productNo,count);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+		
+	}
+	
 	
 	
 	

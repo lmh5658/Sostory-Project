@@ -355,6 +355,35 @@ private Properties prop = new Properties();
 		
 		return result;
 	}
+
+
+	public int updateProduct(Connection conn, String[] productNo, String[] count) {
+		
+		int result=0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateProduct");
+		
+		try {
+			
+			for(int i=0; i<count.length; i++) {
+				
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, count[i]);
+				pstmt.setString(2, productNo[i]);
+				
+				result = pstmt.executeUpdate();
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return result;
+	}
+	
+
 	
 	
 	
