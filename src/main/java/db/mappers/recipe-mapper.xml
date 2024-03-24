@@ -202,7 +202,7 @@
     <!-- 레시피 상세 재료 ->총수로 SIZR값 가져와서 FOR문 돌리기? -->
     <entry key="selectIngridient">
 
-		      SELECT R.RECIPE_NO, RI.INGREDIENT_NAME, RI.INGREDIENT_AMOUNT, A.INGREDIENT_COUNT
+		      SELECT R.RECIPE_NO, RI.INGREDIENT_NAME, RI.INGREDIENT_AMOUNT, RI.INGREDIENT_UNIT, A.INGREDIENT_COUNT
 			      FROM (
 			          SELECT R.RECIPE_NO, COUNT(*) AS INGREDIENT_COUNT
 			          FROM TB_RECIPE_INGREDIENT RI
@@ -279,10 +279,12 @@
 		    RECIPE_NO
 		  , INGREDIENT_NAME
 		  , INGREDIENT_AMOUNT
+		  , INGREDIENT_UNIT
 		  )
 		  VALUES
 		  (
 		   SEQ_RNO.CURRVAL
+		  , ?
 		  , ?
 		  , ?
 		  )

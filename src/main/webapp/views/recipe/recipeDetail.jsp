@@ -242,7 +242,7 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 							<%for(Recipe in : list) { %>
 					            <tr>
 					                 <th><%= in.getIngredientName() %></th>
-					                 <td><%= in.getIngredientAmount() %></td>
+					                 <td><%= in.getIngredientAmount() + in.getIngredientUnit() %></td>
 					            </tr>
 					           <% } %>
 					       </table>
