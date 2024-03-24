@@ -199,13 +199,13 @@
                     	
                     	// 문의목록 조회요청 Ajax 통신요청시 실행될 함수
                     	function selectQnaList(requestPage){
-                    		console.log("실행")
+                    		let status = $("#filter").val() == null ? "all" : $("#filter").val();
                     		$.ajax({
                         		url:"<%= contextPath %>/qna.me",
                         		data:{
                         			"type" : 2, 					// 문의유형 == 상품문의
                         			"page" : requestPage,			// 사용자가 요청한 페이지번호
-                        			"status" : $("#filter").val()	// 답변상태 (전체 | 진행중 |답변완료)
+                        			"status" : status	// 답변상태 (전체 | 진행중 |답변완료)
                         		},success:function(result){
 
                         			// 상품문의 리스트테이블 및 페이징바 생성
@@ -231,8 +231,6 @@
                         				// case 01-2) 조회된 문의내역이 없을경우 생성될 페이징 HTML (없음)
                         				
                         			}else{
-                        				console.log("리스트 있음");
-                        				console.log(qnaList.length);
                         				// case 02-1) 조회된 문의내역이 있을경우 생성될 테이블 HTML
                         				let status = "";
                             			for(let q=0 ; q<qnaList.length ; q++){
@@ -249,7 +247,7 @@
 
                             			}
                         				
-                        				// case 02-2) 조회된 문의내역이 없을경우 생성될 페이징 HTML
+                        				// case 02-2) 조회된 문의내역이 있을경우 생성될 페이징 HTML
                         				// 이전페이지 이동버튼
                         				if(pageInfo.currentPage == 1){
                         					paging += "<li class='page-item disabled' style='cursor:pointer;'><a class='page-link'>Previous</a></li>";

@@ -7,7 +7,7 @@
 			FROM (
 			    SELECT ROWNUM RNUM, A.*
 			    FROM (
-			        SELECT 
+			    SELECT 
 			         PRODUCT_NO
 			       , CATEGORY_NAME
 			       , PRODUCT_NAME

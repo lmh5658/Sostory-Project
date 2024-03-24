@@ -429,5 +429,43 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<!-- 총주문목록수 조회요청 -->
+	<entry key="totalOrders">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_ORDER
+		 WHERE USER_NO = ?
+		   AND ORDER_DATE BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 주문목록 조회요청 -->
+	<entry key="selectOrderList">
+		SELECT OT.*
+		  FROM (
+		        SELECT 
+		                DISTINCT TB_ORDER_PRODUCT.ORDER_NO
+		               ,ROWNUM RNUM
+		               ,(         
+		                 SELECT PRODUCT_NAME
+		                   FROM TB_ORDER_PRODUCT
+		                   JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                  WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                    AND ROWNUM = 1
+		                )TITLE_PRODUCT_NAME
+		               ,(
+		                 SELECT COUNT(*) 
+		                  FROM TB_ORDER_PRODUCT
+		                 WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                 ) AS TOTAL_ORDER
+		               ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+		               ,ORDER_STATUS
+		          FROM TB_ORDER
+		          JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+		         WHERE USER_NO = ?
+		           AND ORDER_DATE BETWEEN ? AND ?
+		         ORDER BY TB_ORDER_PRODUCT.ORDER_NO DESC
+		        )OT
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
 
 </properties>
