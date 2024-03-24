@@ -55,13 +55,18 @@
 				    </div>
 				
 				    <div class="side_menu">
-				        <button class="list">주문조회</button>
+				        <button class="list" id="orderList">주문조회</button>
 				    </div>
 				
 				</div>
 				
 				<script>
 				   $(function(){
+					   	// 사이드메뉴-주문조회 이동요청 버튼클릭시 실해될 함수
+					   	$("#orderList").click(function(){
+					   		location.href = "<%= contextPath %>/olist.me";
+					   	})
+					   	
 					   	// 사이드메뉴-찜목록 이동요청 버튼클릭시 실행될 함수
 					    $("#likeList").click(function(){
 					    	location.href="<%= contextPath %>/like.me?type=p&page=1";
