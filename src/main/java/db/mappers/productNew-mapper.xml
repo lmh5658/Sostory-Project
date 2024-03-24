@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+
+
+<entry key="selectNewProductList">
+
+SELECT *
+FROM (
+    SELECT ROWNUM RNUM, A.*
+    FROM (
+        SELECT 
+            PRODUCT_NO,
+            CATEGORY_NAME,
+            PRODUCT_NAME,
+            PRICE,
+            DISCOUNT_PRICE,
+            PATH,
+            ROW_NUMBER() OVER(ORDER BY enroll_date DESC) AS ROW_NUM
+        FROM TB_PRODUCT
+        JOIN TB_CATEGORY USING(CATEGORY_NO)
+        WHERE STATUS = 'Y'
+    ) A
+)
+WHERE RNUM BETWEEN ? AND ?
+
+</entry>
+
+<entry key="selectNewProductListCount">
+
+SELECT COUNT(*) AS COUNT
+FROM (
+    SELECT ROWNUM RNUM, A.*
+    FROM (
+        SELECT 
+            PRODUCT_NO,
+            CATEGORY_NAME,
+            PRODUCT_NAME,
+            PRICE,
+            DISCOUNT_PRICE,
+            PATH,
+            ROW_NUMBER() OVER(PARTITION BY CATEGORY_NAME ORDER BY enroll_date DESC) AS category_rownum
+        FROM TB_PRODUCT
+        JOIN TB_CATEGORY USING(CATEGORY_NO)
+        WHERE STATUS = 'Y'
+    ) A
+    WHERE category_rownum BETWEEN 1 AND 4
+)
+
+
+</entry>
+
+
+<entry key="selectjlist">
+
+	SELECT * FROM(
+		SELECT ROWNUM RNUM, A.* 
+		FROM
+		(
+		SELECT 
+		  PRODUCT_NO
+		, CATEGORY_NAME
+		, PRODUCT_NAME
+		, PRICE
+		, DISCOUNT_PRICE
+		, PATH
+		FROM TB_PRODUCT
+		JOIN TB_CATEGORY USING(CATEGORY_NO)
+		WHERE CATEGORY_NAME = '장류'
+		 AND STATUS = 'Y'
+		ORDER BY ENROLL_DATE DESC
+		) A
+		) WHERE RNUM BETWEEN 1 AND 4
+
+
+
+</entry>
+
+<entry key ="insertLike">
+
+	INSERT INTO TB_LIKE
+		
+	(LIKE_NO,USER_NO,LIKE_TYPE,LIKE_REFNO)
+	
+	VALUES(SEQ_LNO.NEXTVAL,?,?,?)
+
+</entry>
+
+<entry key ="countLike">
+
+	SELECT COUNT(*) COUNT
+	FROM TB_LIKE
+	WHERE USER_NO =? AND LIKE_TYPE =? AND LIKE_REFNO =?
+
+</entry>
+
+<entry key="deleteLike">
+
+	DELETE FROM TB_LIKE
+	WHERE USER_NO =? AND LIKE_TYPE =? AND LIKE_REFNO =?
+
+
+
+</entry>
+
+<entry key="selectLike">
+
+	SELECT DISTINCT LIKE_REFNO
+	FROM TB_LIKE
+	WHERE USER_NO = ? AND LIKE_TYPE = 'P'
+
+
+
+</entry>
+
+
+
+
+
+
+
+
+
+
+
+</properties>
