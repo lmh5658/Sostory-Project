@@ -33,6 +33,7 @@ public class AjaxLikeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int productNo = Integer.parseInt(request.getParameter("proNo"));
+		System.out.println(productNo);
 		int userNo = 0;
 		if(request.getSession().getAttribute("loginUser") != null) {
 			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();	

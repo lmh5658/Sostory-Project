@@ -57,6 +57,9 @@ public class ProductEtcListController extends HttpServlet {
 		
 		List<Product> list = new ProductService().selectEtcProductList(pi);
 		
+		// 좋아요한 상품데이터
+		List<Integer> likeList = new ProductService().likeProductAll(userNo);
+		
 		
 		//사용자가 장바구니에 담은상품번호 리스트(장바구니 담김여부 표시를 위함)
 		List<Cart> cartList = new CartService().selectCart(userNo);
@@ -65,6 +68,7 @@ public class ProductEtcListController extends HttpServlet {
 			pNoList.add(ca.getProductNo());
 		}
 		
+		request.setAttribute("likeList", likeList);
 		request.setAttribute("pNoList", pNoList);
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);

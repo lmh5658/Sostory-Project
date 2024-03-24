@@ -12,10 +12,9 @@
 	
 	//로그인한 회원이 찜한 상품번호
 	List<Integer> proNo = (List<Integer>)request.getAttribute("likeList");
-	System.out.println(proNo + "좋아한상품번호");
+	
 	//전체상품번호
 	List<Integer> listP = (List<Integer>)request.getAttribute("listP");
-	System.out.println(listP + "현재패에지의상품번호");
 	
 	// 장바구니 상품번호 리스트
 	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
@@ -173,9 +172,10 @@
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
 		                                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-heart-fill" viewBox="0 0 16 16">
-											        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-											    </svg>
-                           						<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
+		                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+		                                        </svg>
+		                                        <input type="hidden" value="<%=p.getProductNo()%>">
+	                           					<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
 	                                   
 	                                        <% if(loginUser != null) { %>
 								                    <svg onclick="cartMe(this);"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
@@ -210,25 +210,68 @@
                    						}
                    					}
                    					
-                   					$(".heart").click(function(){
-                   						console.log($("productNo").find(".pNo").val());
-                   						/*
-	                   					if($(".heart").attr("fill") == "red"){
-	                   						$.ajax({
-	                   							url:"<%=contextPath%>/heart.pr"
-	                   							data:{
-	                   								proNo:$(".pNo").val(),
-	                   							}
-	                   						})
-	                   					}
-                   						*/
-                   					})
-                   					
                    				})
-            
-                   				
-                   				
+                   			
                    			})
+                   			
+                   				
+                   				$(".heart").click(function(){
+                   					
+                   					if(<%= loginUser == null%>){
+                   						alert("로그인 먼저 진행해주세요.");
+                   						
+                   					}else if(<%=loginUser != null%>){
+
+                   						if($(this).attr("fill") == "red"){
+                           					$(this).attr("fill", "black");
+                           					
+        	                   				$.ajax({
+        	                   					url:"<%=contextPath%>/dheart.pr",
+        	                   					data:{
+        	                   						proNo:$(this).next().val()
+        	                   					},
+        	                   					type:"post",
+        	                   					success:function(result){
+        	                   						if(result>0){
+        	                   							alert("찜해제");
+        	                   						}
+        	                   					}
+        	                   					
+        	                   				})	
+        	                   				
+                           				}else{
+                           					$(this).attr("fill", "red");
+                           					
+                        						$.ajax({
+                        							url:"<%=contextPath%>/heart.pr",
+                        							data:{
+                        								proNo:$(this).next().val()
+                        							},
+                        							type:"post",
+                        							success:function(result){
+                        								if(result>0){
+                        									alert("찜하기 성공");
+                        								}
+                        							}
+                        						})
+                           					
+                           				}
+                   					}
+                   						
+                   						
+                   					
+                       				
+                       				
+                       			})
+                   				
+                   				
+                   		
+                   			
+                   			
+                   				
+                   				
+                   				
+                   			
                    			
                        </script>
                        

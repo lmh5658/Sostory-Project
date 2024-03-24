@@ -10,6 +10,9 @@
 	
 	String search = (String)request.getAttribute("search"); // null | 검색단어
 	
+	//로그인한 회원이 찜한 상품번호
+	List<Integer> proNo = (List<Integer>)request.getAttribute("likeList");
+	
 	// 장바구니 상품번호 리스트
 	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
 %>
@@ -155,7 +158,7 @@
 	                                    <% } %>	 
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
-		                                        <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+		                                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 												  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 												</svg>
                            						<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
@@ -178,6 +181,91 @@
                        <% } %>
                     <!-- 상품 리스트 end--> 
                     </div>
+                    
+                     
+                       <script>
+                   			$(function(){
+                   				let likeUserPro = <%=proNo%>
+                   				
+                   				let pNo = 0;
+                   				$(".product").each(function(){
+                   					
+                   					pNo = $(this).find(".pNo").val();
+                   					
+                   					for(let i=0; i<likeUserPro.length; i++){
+                   						if(pNo == likeUserPro[i]){
+                   							$(this).find(".heart").attr("fill", "red");
+                   						}
+                   					}
+                   					
+                   				})
+                   			
+                   			})
+                   			
+                   				
+                   				$(".heart").click(function(){
+                   					
+                   					if(<%= loginUser == null%>){
+                   						alert("로그인 먼저 진행해주세요.");
+                   						
+                   					}else if(<%=loginUser != null%>){
+
+                   						if($(this).attr("fill") == "red"){
+                           					$(this).attr("fill", "black");
+                           					
+        	                   				$.ajax({
+        	                   					url:"<%=contextPath%>/dheart.pr",
+        	                   					data:{
+        	                   						proNo:$(this).next().val()
+        	                   					},
+        	                   					type:"post",
+        	                   					success:function(result){
+        	                   						if(result>0){
+        	                   							alert("찜해제");
+        	                   						}
+        	                   					}
+        	                   					
+        	                   				})	
+        	                   				
+                           				}else{
+                           					$(this).attr("fill", "red");
+                           					
+                        						$.ajax({
+                        							url:"<%=contextPath%>/heart.pr",
+                        							data:{
+                        								proNo:$(this).next().val()
+                        							},
+                        							type:"post",
+                        							success:function(result){
+                        								if(result>0){
+                        									alert("찜하기 성공");
+                        								}
+                        							}
+                        						})
+                           					
+                           				}
+                   					}
+                   						
+                   						
+                   					
+                       				
+                       				
+                       			})
+                   				
+                   				
+                   		
+                   			
+                   			
+                   				
+                   				
+                   				
+                   			
+                   			
+                       </script>
+                       
+                    
+                    
+                    
                    <% if(select == null && search == null) { %>
 	                   <div style="display: flex; justify-content: center; align-items: center;">
 						

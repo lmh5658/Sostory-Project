@@ -63,10 +63,16 @@ public class ProductDressingListController extends HttpServlet {
 		for(Cart ca : cartList) {
 			pNoList.add(ca.getProductNo());
 		}
+		
+		
+		// 좋아요한 상품데이터
+		List<Integer> likeList = new ProductService().likeProductAll(userNo);
+		
 	
 		request.setAttribute("pNoList", pNoList);
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
+		request.setAttribute("likeList", likeList);
 		
 		request.getRequestDispatcher("/views/product/productDressingList.jsp").forward(request, response);
 		
