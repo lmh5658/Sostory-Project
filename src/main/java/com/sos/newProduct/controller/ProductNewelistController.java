@@ -14,6 +14,8 @@ import com.sos.cart.model.service.CartService;
 import com.sos.cart.model.vo.Cart;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.member.model.vo.Member;
+import com.sos.newProduct.model.service.ProductNewService;
+import com.sos.newProduct.model.vo.ProductNew;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
 
@@ -64,6 +66,15 @@ public class ProductNewelistController extends HttpServlet {
 			pNoList.add(ca.getProductNo());
 		}
 		
+		// 사용자가 좋아요테이블에 담은 상품번호 리스트
+		List<ProductNew> LikeList = new ProductNewService().selectLike(userNo);
+		ArrayList<Integer> pNoLikeList = new ArrayList<>();
+		for(ProductNew pr : LikeList) {
+			pNoLikeList.add(pr.getProductNo());
+		
+		}
+		
+		request.setAttribute("pNoLikeList", pNoLikeList);
 		request.setAttribute("pNoList", pNoList);
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);

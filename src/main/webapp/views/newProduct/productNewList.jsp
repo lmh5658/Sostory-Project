@@ -367,10 +367,6 @@
 			          
 		  	})
 		  	
-		  	
-		  	
-		  	
-		  	
 		  	function heartMe(productNo){
 	        	<%
 				int userNo1 = 0;

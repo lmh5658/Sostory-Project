@@ -40,7 +40,7 @@
         max-width: 60%;
     }
 
-    .order_list th{
+    .table.order_list th{
         font-size: 25px;
         color: rgb(100, 135, 31);
     }
@@ -89,13 +89,7 @@
         width: 20%;
         margin-bottom: 3%;
     }
-    .flex-table {
-        display: flex;
-        width: 100%;
-    }
-    .flex-table th {
-        flex: 1;
-    }
+    
 
 
 
@@ -144,12 +138,12 @@
                 </div>
            
                 <!--결제상품 테이블-->
-                <table class="table order_list flex-table" style="margin-top: 7%;">
+                <table class="table order_list" style="margin-top: 7%;">
                     
                     <tr>
-                        <th  colspan="2">상품 정보</th>
-                        <th>금액</th>
-                        <th>수량</th>
+                        <th width="200px" colspan="2">상품 정보</th>
+                        <th width="200px">금액</th>
+                        <th width="150px">수량</th>
                     </tr>
                     
                     <!--  반복문 뿌려줄 구문 -->

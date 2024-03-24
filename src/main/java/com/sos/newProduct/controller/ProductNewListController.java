@@ -70,7 +70,7 @@ public class ProductNewListController extends HttpServlet {
 		}
 	
 		
-		// 사용자가 좋아요테이블에 담음 상품번호 리스트
+		// 사용자가 좋아요테이블에 담은 상품번호 리스트
 		List<ProductNew> LikeList = new ProductNewService().selectLike(userNo);
 		ArrayList<Integer> pNoLikeList = new ArrayList<>();
 		for(ProductNew pr : LikeList) {

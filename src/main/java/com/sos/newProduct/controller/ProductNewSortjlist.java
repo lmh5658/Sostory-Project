@@ -1,6 +1,7 @@
 package com.sos.newProduct.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.cart.model.service.CartService;
+import com.sos.cart.model.vo.Cart;
 import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
+import com.sos.newProduct.model.service.ProductNewService;
+import com.sos.newProduct.model.vo.ProductNew;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
 
@@ -48,6 +54,27 @@ public class ProductNewSortjlist extends HttpServlet {
 		PageInfo pi = new PageInfo(countList, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		List<Product> list = new ProductService().sortJangList(select, pi);
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();			
+		}
+		List<Cart> cartList = new CartService().selectCart(userNo);
+		ArrayList<Integer> pNoList = new ArrayList<>();
+		for(Cart ca : cartList) {
+			pNoList.add(ca.getProductNo());
+		}
+		
+		
+		// 사용자가 좋아요테이블에 담은 상품번호 리스트
+		List<ProductNew> LikeList = new ProductNewService().selectLike(userNo);
+		ArrayList<Integer> pNoLikeList = new ArrayList<>();
+		for(ProductNew pr : LikeList) {
+			pNoLikeList.add(pr.getProductNo());
+			
+		}
+		request.setAttribute("pNoList", pNoList);
+		request.setAttribute("pNoLikeList", pNoLikeList);
+		
 		
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);

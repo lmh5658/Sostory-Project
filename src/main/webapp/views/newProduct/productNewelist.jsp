@@ -12,6 +12,9 @@
 	
 	// 장바구니 상품번호 리스트
 	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
+	
+	// 찜한 상품번호 리스트
+	List<Integer> pNoLikeList = (List<Integer>)request.getAttribute("pNoLikeList");
 %>
 <!DOCTYPE html>
 <html>
@@ -45,6 +48,14 @@
         
         .cart{
     	cursor: pointer;
+    	}
+    	
+    	.bi{
+    	cursor: pointer;
+    	}
+    	b{
+    	 display: inline;
+    	 margin 0;
     	}
     
 </style>
@@ -127,6 +138,14 @@
             
             <script>
             	$(function(){
+            		var select1 = "<%=select%>";
+        			$(".selectpicker").find('option').each(function(){
+				        if($(this).val() == select1){
+				            $(this).prop('selected', true);
+				            return false; // 일치하는 값 찾으면 반복문 중단
+				        }
+				    });
+            		
             		$("#option").change(function(){	
             			
             			location.href = "<%=contextPath%>/seelistNew.pr?page=1&select=" + $(this).val();
@@ -160,9 +179,15 @@
 			                               <% } %>	  
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
-		                                        <svg id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-												  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-												</svg>
+		                                        <% if(loginUser != null) { %>
+				                                    <svg onclick="heartMe(this);" id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+										  			<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+													</svg>
+												<%}else{ %>
+													<svg onclick="alert('로그인을 해주세요.')" id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+										  			<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+													</svg>
+												<%} %>
                            						<input type="hidden" name="productNo" value="<%= p.getProductNo() %>">                       	
 	                                   
 	                                        <% if(loginUser != null) { %>
@@ -296,23 +321,107 @@
         })	
    
       $(function(){
+		  	
   		// 찜한상품이 장바구니에 담긴상품인지 구분하여 아이콘컬러를 구분하는 함수(페이지로드 즉시실행)
-  		$(".product").each(function(){
-  			
-  			const pNoList = <%= pNoList %>;				// 사용자가 장바구니에 담은상품의 상품번호 배열
-  			const $pNo = $(this).find(".pNo").val();	// 찜한상품 상품번호
-  			const $cart = $(this).find(".cart");		// 장바구니 아이콘태그
-  		
-  			for(let i=0 ; i<pNoList.length ; i++){
-  				// 장바구니에 담긴상품일 경우 ==> 아이콘컬러 : 파란색
-  				if(pNoList[i] == $pNo){	
-  					$cart.attr("fill", "blue");
-  				}
-  			}
-  		
-  		})
-  	})
-        
+	  		$(".product").each(function(){
+	  			
+	  			const pNoList = <%= pNoList %>;				// 사용자가 장바구니에 담은상품의 상품번호 배열
+	  			const pNoLikeList = <%= pNoLikeList%>;		// 사용자가 찜한 상품의 상품번호 배열
+	  			const $pNo = $(this).find(".pNo").val();	// 찜한상품 상품번호
+	  			const $cart = $(this).find(".cart");		// 장바구니 아이콘태그
+	  			const $heart = $(this).find(".bi");	
+	  			
+	  			
+	  			for(let i=0 ; i<pNoList.length ; i++){
+	  				// 장바구니에 담긴상품일 경우 ==> 아이콘컬러 : 파란색
+	  				if(pNoList[i] == $pNo){	
+	  					$cart.attr("fill", "blue");
+	  				}
+	  			}
+	  			for(let i=0 ; i<pNoLikeList.length ; i++){
+	  				// 찜한 상품일 경우 ==> 아이콘컬러 : 빨간색
+	  				if(pNoLikeList[i] == $pNo){	
+	  					$heart.attr("fill", "red");
+	  				}
+	  			}
+	  			
+	  		})
+			  		
+			  		
+			          
+		  })
+       function heartMe(productNo){
+	        	<%
+				int userNo1 = 0;
+				if(loginUser != null){
+					userNo1 = loginUser.getUserNo();
+				}
+				
+				%>
+				
+				var userNo = <%= userNo1 %>;
+				var $pNo = $(productNo).siblings('input[name="productNo"]').val(); //  찜한 상품번호
+				var type = "P";
+				
+				
+				$.ajax({
+					url:"<%=contextPath%>/count.pr",
+					data:{
+						productNo:$pNo,
+						userNo:userNo,
+						type:type // 상품 type = P
+					},
+					type:"post",
+					success:function(count){ 
+						if(count > 0){ // 좋아요 테이블에 같은상품이 존재
+							
+							$.ajax({
+								url:"<%=contextPath%>/del.pr",
+								data:{
+									productNo:$pNo,
+									userNo:userNo,
+									type:type // 상품 type = p
+									
+								},
+								type:"post",
+								success:function(result){
+									if(result>0){ // 상품 찜하기 성공
+									
+									alert("찜하기 목록에서 삭제했습니다.");
+									$(productNo).attr("fill", "currentColor"); 
+									
+									}
+								}
+							})
+						
+						}else{
+							$.ajax({
+								url:"<%=contextPath%>/add.pr",
+								data:{
+									productNo:$pNo,
+									userNo:userNo,
+									type:type // 상품 type = p
+									
+								},
+								type:"post",
+								success:function(result){
+									if(result>0){ // 상품 찌하기 성공
+									
+									alert("상품을 찜했습니다.");
+									$(productNo).attr("fill", "red"); 
+									
+									}
+								}
+							})
+						}
+					}
+					
+				})
+        	} 
+		  
+		  
+		  
+		  
         
         
      function cartMe(productNo){

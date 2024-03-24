@@ -114,7 +114,7 @@
                             </div>
                             <div class="product-name">
                                 <small class="product-category text-secondary d-block mb-3 mt-2"><%=c.getCategoryName() %></small>
-                                <h7 class="product-title"><b ><b style="color: rgb(150, 24, 136);">[BEST] </b><%= c.getProductName()%></b></h7>
+                                <h7 class="product-title"><b ><b style="color: rgb(150, 24, 136);"></b><%= c.getProductName()%></b></h7>
                                 <input type="hidden"  name="cartName" value="<%= c.getProductName()%>">
                             </div>
                             <div class="cart-price cart-hh">
