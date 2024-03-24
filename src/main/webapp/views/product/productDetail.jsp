@@ -13,7 +13,8 @@
 	// 찜하기 기능
 	List<Integer> likedProductNo = (List<Integer>)request.getAttribute("likedProductNo");
 	
-	
+	// 장바구니 상품번호 리스트
+	List<Integer> pNoList = (List<Integer>)request.getAttribute("pNoList");
 %>
 <!DOCTYPE html>
 <html>
@@ -105,7 +106,12 @@
             fill: red; /* 호버 시 색상 변경 */
             cursor: pointer; /* 호버 시 커서 모양 변경 */
         }
+        .cart{
+        	cursor: pointer;
+        
+        }
        
+	    
         
         
 
@@ -138,9 +144,9 @@
                                     <div class="main_right_top">
                                         <h1><b><%= pro.getProductName() %></b></h1>
                                          <% if(pro.getDiscountPrice() == 0){ %>
-                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1></span>
+                                        <h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1>
                                         <% }else{ %>
-                                        <span><h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1></span>
+                                        <h1 class="d-block" style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1>
                                         <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() + pro.getDiscountPrice() %>원</del></h4>
                                         <hr>
                                         <% } %>
@@ -206,7 +212,7 @@
                                                 
                                             </div>
 
-                                            <div class="main_right_bottom_bottom d-flex flex-direction ">
+                                            <div class="main_right_bottom_bottom d-flex flex-direction center">
 												
 												<svg id="heart" xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="bi bi-heart-fill" viewBox="0 0 16 16">
 											        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -214,14 +220,20 @@
 											
 	                                           
 	                                         <script>
-	                                         
+	                                        
 	                                         	$(function(){
 	                                         		let productNo = <%= pro.getProductNo()%>;	// 상품상세페이지 상품번호
 	                                         		let likedProductNo = <%= likedProductNo %>;				
-	                                         		
+	                                         		let pNoList = <%= pNoList %>;	// 사용자가 장바구니에 담은상품의 상품번호 배열
 	                                         		for(let i=0 ; i<likedProductNo.length ; i++){
 	                                         			if(likedProductNo[i] == productNo){
 	                                         				$("#heart").attr("fill", "red");  
+	                                         			}
+	                                         		}
+	                                         		
+	                                         		for(let i=0; i<pNoList.length; i++){
+	                                         			if(pNoList[i]==productNo){
+	                                         				$("#cartd").attr("fill","blue");
 	                                         			}
 	                                         		}
 	                                         		
@@ -288,10 +300,69 @@
                                         
 												
                                                 <div class="my-5 w-100 center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-                                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                                    </svg>
+                                                     <% if(loginUser != null) { %>
+										                    <svg onclick="cartMe(<%=pro.getProductNo() %>);" id="cartd" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+										                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+										                    </svg>
+														<%}else{ %>
+															 <svg onclick="alert('로그인을 해주세요.')"  xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+										                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+										                    </svg>
+														<%} %>
                                                 </div>
+                                                
+                                         		 <script>
+		                                                function cartMe(productNo){
+					                        				<%
+					                        				int userNo = 0;
+					                        				if(loginUser != null){
+					                        					userNo = loginUser.getUserNo();
+					                        				}
+					                        				%>
+					                        				
+					                        				var userNo = <%= userNo %>;
+					                        				
+					                        				
+					                        				//장바구니 테이블에 해당 상품,유저가 존재하는지 중복체크
+					                        				$.ajax({
+					                        					url:"<%=contextPath%>/count.ca",
+					                        					data:{
+					                        						productNo:productNo,
+					                        						userNo:userNo,
+					                        					},
+					                        					type:"post",
+					                        					success:function(count){ 
+					                        						if(count > 0){ // 장바구니 테이블에 같은상품이 존재
+					                        						alert("이미 장바구니에 존재하는 상품입니다.");
+					                        						}else{
+					                        							$.ajax({
+					                        								url:"<%=contextPath%>/add.ca",
+					                        								data:{
+					                        									productNo:productNo,
+					                        									userNo:userNo,
+					                        									cart_amount:1 // 장바구니 상품등록 기본수량 1
+					                        									
+					                        								},
+					                        								type:"post",
+					                        								success:function(result){
+					                        									if(result>0){ // 장바구니 상품등록 성공
+					                        									
+					                        									alert("상품을 장바구니에 담았습니다.");
+					                        									$("#cartd").attr("fill", "blue"); 
+					                        									
+					                        									}
+					                        								}
+					                        							})
+					                        						}
+					                        					}
+					                        					
+					                        				})
+		                        		
+		                        					}
+                                    		</script>          
+                                                
+                                                
+                                                
                                                 <div class="my-5 w-100">
                                                     <button type="button" class="btn btn-outline-dark" style="width: 150px;">구매하기</button>
                                                 </div>
@@ -452,7 +523,7 @@
                     <!-- 상품상세 리뷰 end -->
                     
                     <script>
-
+                 	
                        	$(function(){
                        		
                        		selectReview(1);
@@ -631,12 +702,8 @@
 		                             
                              		*/
                              		
-                             	
-                             	
-                             	
                              		
                              		
-                             	
                              </script>
 
 

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.cart.model.service.CartService;
+import com.sos.cart.model.vo.Cart;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
@@ -57,11 +59,19 @@ public class ProductDetailController extends HttpServlet {
 			
 		}
 		
+		//사용자가 장바구니에 담은상품번호 리스트(장바구니 담김여부 표시를 위함)
+		List<Cart> cartList = new CartService().selectCart(userNo);
+		ArrayList<Integer> pNoList = new ArrayList<>();
+		for(Cart ca : cartList) {
+			pNoList.add(ca.getProductNo());
+		}
+		
 		request.setAttribute("list", list);
 		request.setAttribute("pro", pro);
 		request.setAttribute("rlist", rlist);
 		request.setAttribute("likeUser", likeUser);
 		request.setAttribute("likedProductNo", likedProductNo);
+		request.setAttribute("pNoList", pNoList);
 		
 		
 		
