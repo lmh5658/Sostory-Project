@@ -290,7 +290,8 @@ public class RecipeDao {
 			while(rset.next()) {
 				ingredients.add(new Recipe( rset.getInt("RECIPE_NO"), 
 									rset.getString("INGREDIENT_NAME"),
-									rset.getString("INGREDIENT_AMOUNT"),
+									rset.getInt("INGREDIENT_AMOUNT"),
+									rset.getString("INGREDIENT_UNIT"),
 									rset.getInt("INGREDIENT_COUNT")
 								  ));
 			}
@@ -420,8 +421,9 @@ public class RecipeDao {
 
 				pstmt = conn.prepareStatement(sql); 
 				pstmt.setString(1, in.getIngredientName());
-				pstmt.setString(2, amount);//어마운트와 유닛은 붙여서 하나 값으로 만들어 넣기
-	
+				pstmt.setString(2, in.getAmount());
+				pstmt.setString(3, in.getUnit());
+
 				ingredientResult = pstmt.executeUpdate();
 			}
 		} catch (SQLException e) {

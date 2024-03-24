@@ -79,7 +79,6 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                         <td width="150px">레시피 목록</td>
                         <td width="400px">
                             <select class="product_name" name="recipeTitle" onchange="updateHiddenCategoryNo()" required>
-                               <option disabled selected>레시피를 선택하세요</option>
 							    <% if (list != null) { %>
 							        <%  for (OrderProduct o : list) { %>
 							            <option value="<%= o.getProductNo() %>" data-category-no="<%= o.getCategoryNo() %>"><%= o.getRecipeTitle() %></option>
@@ -110,7 +109,7 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                     </tr>
                     <tr>
                         <td>간단소개</td>
-                        <td><textarea class="form-control" name="recipeIntro" rows="2" placeholder="레시피 소개를 작성해주세요" style="resize: none;" ><%=recipe.getRecipeIntro()%></textarea></td>
+                        <td><textarea class="form-control" name="recipeIntro" rows="2" placeholder="레시피 소개를 작성해주세요" style="resize: none;"value="<%= recipe.getRecipeIntro() %>" ><%=recipe.getRecipeIntro()%></textarea></td>
                     </tr>
                     <tr>
                         <td>요리정보</td>
@@ -132,9 +131,8 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                         <td id="ingredientForm">
                           <%  for (Recipe in : ingredient) { %>
                             <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" name="ingredientName" placeholder="재료명" value="<%= in.getIngredientName() %>" required>
-                            <input class="ingredient" type="number" style="width: 120px;" name="amount" placeholder="수량" value="" required>
-                            <select class="ingredient" name="unit" style="width: 70px;" required value="">
-                                <option selected disabled>단위</option>
+                            <input class="ingredient" type="number" style="width: 120px;" name="amount" placeholder="수량" value="<%= in.getIngredientAmount() %>" required>
+                            <select class="ingredient" name="unit" style="width: 70px;" required value="<%= in.getIngredientUnit() %>">
                                 <option value="g">g</option>
                                 <option value="kg">kg</option>
                                 <option value="ml">ml</option>

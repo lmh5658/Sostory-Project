@@ -36,10 +36,10 @@ public class Recipe {
 	
 	//RECIPE_INGREDIENT
 	private String ingredientName;
-	private String ingredientAmount;
+	private int ingredientAmount;
 	private int ingredientCount;
+	private String ingredientUnit;
 
-	
 	//STEP
 	private int stepNo;
 	private String stepContent;
@@ -134,11 +134,12 @@ public class Recipe {
 	}	
 	
 	//레시피 재료
-	public Recipe(int recipeNo, String ingredientName, String ingredientAmount, int ingredientCount) {
+	public Recipe(int recipeNo, String ingredientName, int ingredientAmount, String ingredientUnit, int ingredientCount) {
 		super();
 		this.recipeNo = recipeNo;
 		this.ingredientName = ingredientName;
 		this.ingredientAmount = ingredientAmount;
+		this.ingredientUnit = ingredientUnit;
 		this.ingredientCount = ingredientCount;
 	}
 
@@ -159,6 +160,23 @@ public class Recipe {
 	}
 	
 	
+
+	public String getIngredientUnit() {
+		return ingredientUnit;
+	}
+
+	public void setIngredientUnit(String ingredientUnit) {
+		this.ingredientUnit = ingredientUnit;
+	}
+
+	public int getIngredientAmount() {
+		return ingredientAmount;
+	}
+	
+	public void setIngredientAmount(int ingredientAmount) {
+		this.ingredientAmount = ingredientAmount;
+	}
+
 	public int getLikeCount() {
 		return likeCount;
 	}
@@ -182,15 +200,6 @@ public class Recipe {
 		this.ingredientName = ingredientName;
 	}
 
-
-	public String getIngredientAmount() {
-		return ingredientAmount;
-	}
-
-
-	public void setIngredientAmount(String ingredientAmount) {
-		this.ingredientAmount = ingredientAmount;
-	}
 
 
 	public int getIngredientCount() {
@@ -460,8 +469,9 @@ public class Recipe {
 				+ userName + ", userPath=" + userPath + ", likeRefno=" + likeRefno + ", likeCount=" + likeCount
 				+ ", productName=" + productName + ", price=" + price + ", discountPrice=" + discountPrice + ", path="
 				+ path + ", ingredientName=" + ingredientName + ", ingredientAmount=" + ingredientAmount
-				+ ", ingredientCount=" + ingredientCount + ", stepNo=" + stepNo + ", stepContent=" + stepContent
-				+ ", stepAttachmentUrl=" + stepAttachmentUrl + ", stepCount=" + stepCount + "]";
+				+ ", ingredientCount=" + ingredientCount + ", ingredientUnit=" + ingredientUnit + ", stepNo=" + stepNo
+				+ ", stepContent=" + stepContent + ", stepAttachmentUrl=" + stepAttachmentUrl + ", stepCount="
+				+ stepCount + "]";
 	}
 
 
