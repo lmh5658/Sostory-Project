@@ -293,7 +293,7 @@
 		  
 	
 	<!-- 등록 - step -->
-	<entry key="insertStepList">
+	<entry key="insertStep">
 	  INSERT
 		  INTO TB_RECIPE_STEP
 		  (

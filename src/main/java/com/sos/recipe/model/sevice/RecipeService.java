@@ -96,7 +96,6 @@ public class RecipeService {
 		int ingredientResult = rDao.insertIngredient(conn, ingredient);
 		int stepResult = rDao.insertStep(conn, step);
 	
-		
 		if(recipeResult > 0 && ingredientResult > 0 && stepResult > 0 ) {
 			commit(conn);
 		}else {

@@ -417,8 +417,6 @@ public class RecipeDao {
 		
 		try {
 			for(Ingredient in : ingredient) {
-				String amount = in.getAmount() + in.getUnit();
-
 				pstmt = conn.prepareStatement(sql); 
 				pstmt.setString(1, in.getIngredientName());
 				pstmt.setString(2, in.getAmount());
@@ -439,7 +437,7 @@ public class RecipeDao {
 	public int insertStep(Connection conn, List<Step> step) {
 		int stepResult = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertStepList");
+		String sql = prop.getProperty("insertStep");
 		
 		try {
 			for(Step st : step) {
