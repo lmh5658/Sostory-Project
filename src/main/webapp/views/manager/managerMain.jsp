@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.common.model.vo.PageInfo, java.util.List" %>
+<%@ page import="com.sos.product.model.vo.Qna" %>
+
+<%
+	List<Qna> oneList =(List<Qna>)request.getAttribute("oneList");
+	List<Qna> pList =(List<Qna>)request.getAttribute("pList");
+	int qnaCount = (int)request.getAttribute("qnaCount");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,10 +90,11 @@
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         
         <!-- Section start -->
-        <section class="main-content">
+       <section class="main-content">
             <div class="section_1">
-            
-            <%@ include file="/views/common/managerMenu.jsp" %>
+                
+                <%@ include file="/views/common/managerMenu.jsp" %>
+                
          
         <!-- 사이드메뉴바 클릭시 바뀌는 화면-->
         <div class="section_right">
@@ -96,15 +106,17 @@
                 </svg>
                 <label>관리자 메인페이지</label>
             </div>
+            
             <div class="section_bottom">
                 <div class="section_bottom_1">
                     <div class="section_bottom_2">
                         <div style="border-bottom: 1px solid rgb(212, 212, 212);">오늘의 방문자 수</div>
-                        <div>50</div>
-                    </div>
+                        <div ></div>
+                     </div>
+					
                     <div class="section_bottom_2">
                         <div style="border-bottom: 1px solid rgb(212, 212, 212);">미답변 문의</div>
-                        <div>5</div>
+                        <div><%=qnaCount %></div>
                     </div>
                 </div>
                 <div class="section_mtitle">
@@ -118,112 +130,53 @@
                                 <th>작성일자</th>
                                 <th>아이디</th>
                                 <th>상품명</th>
-                                <th>상품코드</th>
                                 <th>상품리뷰제목</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <%int count = 0; %>
+                        <%for(Qna list : pList) { %>
                             <tr>
-                                <td>2</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>상품입고는 언제되나요?</td>
+                             <td> <%=count + 1%></td>
+                             <td><%=list.getAnswerDate()%></td>
+                              <td><%=list.getUserNo() %></td>
+                              <td><%=list.getProductName() %></td>
+                              <td><%=list.getAnswerContent() %></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>상품입고는 언제되나요?</td>
-                            </tr>
-                            <td>2</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>상품입고는 언제되나요?</td>
-                        </tbody>
+                            <%count++; %>
+                          <%} %>
+                         </tbody>
                     </table>
+                  
                 </div>
-                <div class="section_mtitle">
+                <div class="section_mtitle" >
                     <div>미답변 1:1문의</div>
                 </div>
-                <div>
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>번호</th>
-                                <th>작성일자</th>
-                                <th>아이디</th>
-                                <th>문의유형</th>
-                                <th>문의내역</th>
-                            </tr>                          
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>6</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>배송</td>
-                                <td>평균 몇일정도 걸리나요?</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>기타</td>
-                                <td>평균 몇일정도 걸리나요?</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>기타</td>
-                                <td>평균 몇일정도 걸리나요?</td>
-                            </tr>
-                        </tbody>
-                        
-                    </table>
-                </div>
-            </div>
-
-            
-            <script>
-
-                $(function(){
-                        // 전체 선택 / 해제
-                    $("#cbx_chkAll").click(function(){
-                        if($("#cbx_chkAll").is(":checked")){
-                        $("input[name=typArr]").prop("checked", true);
-                        }else {
-                        $("input[name=typArr]").prop("checked", false);
-                        }
-                    });
-                    
-                    $("input[name=typArr]").click(function(){
-                        var totalArr = $("input[name=typArr]").length;
-                        var checked = $("input[name=typArr]:checked").length;
-                        
-                        if(totalArr != ckecked){
-                        $("#cbx_chkAll").prop("checked", false);
-                        }else{
-                        $("#cbx_chkAll").prop("checked", true);
-                        }
-                    });
-
-                    $(".table_title>td").each(function(){
-                        if($(this).text() == "미처리"){
-                            $(this).css("color", "red");
-                        }else{
-                            $(this).css("color", "black");
-                        }
-                    })
-                })
-                
-              </script>
+               <div>
+					<table class="table" >
+						<thead class="thead-dark">
+							<tr>
+								<th>번호</th>
+								<th>작성일자</th>
+								<th>아이디</th>
+								<th>문의내역</th>
+							</tr>                          
+						</thead>
+						<tbody >
+							<%int oneCount = 0; %>
+							<%for(Qna list : oneList) { %>
+								<tr>
+								 <td> <%=oneCount + 1%></td>
+								 <td><%=list.getAnswerDate()%></td>
+								 <td><%=list.getUserNo() %></td>
+								 <td><%=list.getAnswerContent() %></td>
+								</tr>
+								<%oneCount++; %>
+							  <%} %>
+						</tbody>
+					</table>
+				</div>
+			</div>
 
         </div>
     </div>

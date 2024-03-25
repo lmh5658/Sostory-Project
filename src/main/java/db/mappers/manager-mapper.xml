@@ -10,7 +10,7 @@
 		   AND USER_STATUS = 'Y'
 		   AND ADDRESS_TYPE = 'Y'
 	</entry>
-	
+
 	<entry key="selectCountSearchList">
 		SELECT COUNT(*) COUNT
 		  FROM TB_MEMBER
@@ -22,7 +22,7 @@
 	</entry>
 
 	<entry key="selectMemberList">
-		SELECT * 
+		SELECT *
 		  FROM (
 		        SELECT ROWNUM RN, A.*
 		          FROM (
@@ -45,15 +45,15 @@
 		        )
   		  WHERE RN BETWEEN ? AND ?
 	</entry>
-	
+
 	<entry key="deleteMember">
 		UPDATE
 		       TB_MEMBER
 		   SET USER_STATUS = 'N'
 	</entry>
-	
+
 	<entry key="selectMemberByKeyword">
-		SELECT * 
+		SELECT *
 		  FROM (
 		        SELECT ROWNUM RN, A.*
 		          FROM (
@@ -82,9 +82,9 @@
 			   COUNT(*) COUNT
 		  FROM TB_PRODUCT
 	</entry>
-	
+
 	<entry key="selectProductList">
-		SELECT * 
+		SELECT *
 		  FROM (
 		        SELECT ROWNUM RN, A.*
 		          FROM (
@@ -102,21 +102,21 @@
 		        )
   		  WHERE RN BETWEEN ? AND ?
 	</entry>
-	
+
 	<entry key="deleteProduct">
 		UPDATE
 		       TB_PRODUCT
 		   SET STATUS = 'N'
 	</entry>
-	
+
 	<entry key="selectCountSearchProductList">
 		SELECT COUNT(*) COUNT
 		  FROM TB_PRODUCT
 		 WHERE PRODUCT_NAME LIKE ?
 	</entry>
-	
+
 	<entry key="selectProductByKeyword">
-		SELECT * 
+		SELECT *
 		  FROM (
 		        SELECT ROWNUM RN, A.*
 		          FROM (
@@ -135,16 +135,16 @@
 		        )
   		  WHERE RN BETWEEN ? AND ?
 	</entry>
-	
+
 	<entry key="selectCategory">
-		SELECT 
+		SELECT
 			   CATEGORY_NO
 			 , CATEGORY_NAME
 		  FROM TB_CATEGORY
 	</entry>
 
 	<entry key="insertProduct">
-		INSERT 
+		INSERT
 		  INTO TB_PRODUCT
 		  	   (
 		  	   PRODUCT_NO
@@ -167,7 +167,7 @@
 		  	 , ?
 		  	   )
 	</entry>
-	
+
 	<entry key="selectProduct">
 		SELECT
 			   CATEGORY_NO
@@ -180,7 +180,7 @@
 		  FROM TB_PRODUCT
 		 WHERE PRODUCT_NO = ?
 	</entry>
-	
+
 	<entry key="updateProduct">
 		UPDATE TB_PRODUCT
 		   SET CATEGORY_NO = ?
@@ -190,35 +190,155 @@
 		  	 , DISCOUNT_PRICE = ?
 		  	 , MODIFY_DATE = SYSDATE
 	</entry>
-	
-	<entry key="selectOrderList">
-		SELECT 
-		       ORDER_NO
-		     , USER_ID
-		     , TOTAL_ORIGIN_PRICE
-		     , ORDER_DATE
-		     , ORDER_STATUS
+
+	<entry key="selectCountOrderList">
+		SELECT COUNT(*) COUNT
 		  FROM TB_ORDER
-		  JOIN TB_MEMBER USING(USER_NO)
 	</entry>
-	
-	<entry key="selectOrderProduct">
-		SELECT ORDER_NO
-		     , PRODUCT_NAME
-		     , (SELECT COUNT(*)
-		          FROM TB_ORDER_PRODUCT A
-		         WHERE A.ORDER_NO = B.ORDER_NO
-		         GROUP
-		            BY ORDER_NO) COUNT
-		  FROM TB_ORDER_PRODUCT B
-		  JOIN TB_PRODUCT USING (PRODUCT_NO)
-		 WHERE ORDER_NO = 3
-		   AND ROWNUM = 1;
+
+	<entry key="selectOrderList">
+		SELECT OT.*
+	        FROM (
+	              SELECT
+	                      DISTINCT TB_ORDER_PRODUCT.ORDER_NO
+	                     ,ROWNUM RNUM
+	                     ,(
+	                       SELECT PRODUCT_NAME
+	                         FROM TB_ORDER_PRODUCT
+	                         JOIN TB_PRODUCT USING (PRODUCT_NO)
+	                        WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                          AND ROWNUM = 1
+	                      )TITLE_PRODUCT_NAME
+	                     ,(
+	                       SELECT COUNT(*)
+	                        FROM TB_ORDER_PRODUCT
+	                       WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                       ) AS TOTAL_ORDER
+	                     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+	                     ,ORDER_STATUS
+	                     ,USER_NAME
+	                     ,TOTAL_ORIGIN_PRICE AS PAYMENT
+	                FROM TB_ORDER
+	                JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+	                JOIN TB_MEMBER ON (TB_ORDER.USER_NO = TB_MEMBER.USER_NO)
+	               ORDER BY ORDER_DATE DESC
+	              )OT
+	       WHERE RNUM BETWEEN ? AND ?
 	</entry>
-	
+
+	<entry key="selectCountOrderSearch">
+		SELECT COUNT(*) COUNT
+		  FROM TB_ORDER
+		 JOIN TB_MEMBER USING (USER_NO)
+		 WHERE USER_ID LIKE ?
+	</entry>
+
+	<entry key="selectOrderSearchList">
+		  SELECT OT.*
+	        FROM (
+	              SELECT
+	                      DISTINCT TB_ORDER_PRODUCT.ORDER_NO
+	                     ,ROWNUM RNUM
+	                     ,(
+	                       SELECT PRODUCT_NAME
+	                         FROM TB_ORDER_PRODUCT
+	                         JOIN TB_PRODUCT USING (PRODUCT_NO)
+	                        WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                          AND ROWNUM = 1
+	                      )TITLE_PRODUCT_NAME
+	                     ,(
+	                       SELECT COUNT(*)
+	                        FROM TB_ORDER_PRODUCT
+	                       WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                       ) AS TOTAL_ORDER
+	                     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+	                     ,ORDER_STATUS
+	                     ,USER_NAME
+	                     ,TOTAL_ORIGIN_PRICE AS PAYMENT
+	                FROM TB_ORDER
+	                JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+	                JOIN TB_MEMBER ON (TB_ORDER.USER_NO = TB_MEMBER.USER_NO)
+	               WHERE USER_ID LIKE ?
+	               ORDER BY ORDER_DATE DESC
+	              )OT
+	       WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="updateOrderStatus">
+		UPDATE TB_ORDER
+		   SET ORDER_STATUS = ?
+		 WHERE ORDER_NO = ?
+	</entry>
 </properties>
 
 
+	<!-- 메인 - 상품문의 조회 -->
+	<entry key="selectProductQnaList">
+	<![CDATA[
+		SELECT *
+	FROM (
+   	 SELECT ROWNUM RNUM, A.*
+    FROM (
+        SELECT
+            ANSWER_NO,
+            PRODUCT_NAME,
+            ANSWER_TITLE,
+            USER_ID,
+            TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') AS ANSWER_DATE,
+            ANSWER_CONTENT,
+            ANSWER_STATUS,
+            REPLY,
+            TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') AS REPLY_DATE
+        FROM TB_QNA_REPLY
+        JOIN TB_PRODUCT USING(PRODUCT_NO)
+        JOIN TB_MEMBER USING(USER_NO)
+        WHERE ANSWER_TYPE = 1 AND ANSWER_STATUS = '미처리'
+        ORDER BY ANSWER_DATE DESC  -- 최근 날짜순으로 정렬
+    ) A
+   	 WHERE ROWNUM <= 5
+	)]]>
 
 
+	</entry>
 
+	<!-- 메인 - 1대1 상품문의 조회 -->
+	<entry key="selectOneQnaList">
+	<![CDATA[
+		SELECT *
+	FROM (
+   	 SELECT ROWNUM RNUM, A.*
+    FROM (
+        SELECT
+            ANSWER_NO,
+            PRODUCT_NAME,
+            ANSWER_TITLE,
+            USER_ID,
+            TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') AS ANSWER_DATE,
+            ANSWER_CONTENT,
+            ANSWER_STATUS,
+            REPLY,
+            TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') AS REPLY_DATE
+        FROM TB_QNA_REPLY
+        JOIN TB_PRODUCT USING(PRODUCT_NO)
+        JOIN TB_MEMBER USING(USER_NO)
+        WHERE ANSWER_TYPE = 2 AND ANSWER_STATUS = '미처리'
+        ORDER BY ANSWER_DATE DESC  -- 최근 날짜순으로 정렬
+    ) A
+   	 WHERE ROWNUM <= 5
+	)]]>
+	</entry>
+
+	<!-- 메인 -미답변 문의 갯수조회 -->
+	<entry key="selectQnaCount">
+		SELECT COUNT(*) COUNT
+        FROM TB_QNA_REPLY
+		 WHERE ANSWER_STATUS = '미처리'
+	</entry>
+
+	<!-- 메인 -오늘의 접속자 수
+	<entry key="selectTodayCount">
+		SELECT COUNT(*) COUNT
+        FROM
+		WHERE
+	</entry> -->
+</properties>

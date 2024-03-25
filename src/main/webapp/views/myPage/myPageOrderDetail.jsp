@@ -26,6 +26,13 @@
     <div class="wrap">
       
         <%@ include file="/views/common/header.jsp" %>
+        
+        <% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+	        <script>
+	           alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+	           location.href="<%=contextPath%>/loginForm.me";
+	        </script>
+		<% } %>
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -37,7 +44,7 @@
 <!-- =========================================================================================================================== -->
 
                <!-- 사이드 nav바 start -->
-		      <div class="menu_wrap" >
+		      <div class="menu_wrap" style="width:200px;">
 		
 		          <div class="side_menu">
 		              <button class="list">회원정보</button>
@@ -48,7 +55,7 @@
 		          </div>
 		
 		          <div class="side_menu">
-		              <button class="list">My Tree</button>
+		              <button class="list" id="my-tree">My Tree</button>
 		          </div>
 		
 		          <div class="side_menu">
@@ -72,6 +79,12 @@
 			   <!-- 네비메뉴바 스크립트 -->
 		       <script>
 			   $(function(){
+					
+				   // 사이드메뉴-MyTree(내가 작성한 레피시목록페이지) 이동요청 버튼클릭시 실행될 함수
+				   	$("#my-tree").click(function(){
+				   		location.href = "<%= contextPath %>/recipe.me?page=1";
+				   	})
+				   
 					// 사이드메뉴-주문조회 이동요청 버튼클릭시 실해될 함수
 				   	$("#orderList").click(function(){
 				   		location.href = "<%= contextPath %>/olist.me";
@@ -168,12 +181,21 @@
 
                     <!-- 페이지 제목 영역 start -->
                     <div class="page-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
+                        <svg id="main" style="pointer-events: visible; cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
                         <h3><b>주문상세</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
+                    
+                    <script>
+                    	$(function(){
+                    		// 회원아이콘 클릭시, 마이페이지-메인페이지 이동요청시 실행될 함수
+                    		$("#main").click(function(){
+                    			location.href="<%= contextPath %>/myPage.me";
+                    		})
+                    	})
+                    </script>
 
                     <!-- 컨텐츠 영역 start -->
 

@@ -18,6 +18,7 @@ import com.sos.myPage.model.vo.Liked;
 import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
+import com.sos.recipe.model.vo.Recipe;
 
 public class MyPageService {
 
@@ -612,6 +613,84 @@ public class MyPageService {
 		close(conn);
 		
 		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한레시피 총갯수 조회시 실행될 메소드
+	 * 
+	 * @param userNo : 서비스요청 회원번호
+	 * @return : 조회된 총작성레시피수
+	 */
+	public int totalRecipe(int userNo) {
+		
+		Connection conn = getConnection();
+		
+		int total = mpDao.totalRecipe(conn, userNo);
+		
+		close(conn);
+		
+		return total;
+
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한 레시피목록 조회요청시 실행될 메소드
+	 * 
+	 * @param info : 레시피목록조회시 필요한데이터가 담긴 객체(회원번호, 페이징바)
+	 * @return : 조회된 레시피객체 리스트객체
+	 */
+	public List<Recipe> selectRecipeList(HashMap<String, Object> info){
+		
+		Connection conn = getConnection();
+		
+		List<Recipe> list = mpDao.selectRecipeList(conn, info);
+		
+		close(conn);
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한레시피 삭제요청시 실행될 메소드
+	 * 
+	 * @param recipeNo : 삭제할 레시피번호
+	 * @return : 레시피 삭제요청 처리결과 행 수
+	 */
+	public int deleteRecipe(int recipeNo) {
+		
+		Connection conn = getConnection();
+		
+		int result = mpDao.deleteRecipe(conn, recipeNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한레시피 삭제요청시 실행될 메소드
+	 * 
+	 * @param recipeNo : 삭제할 레시피번호
+	 * @return : 레시피 삭제요청 처리결과 행 수
+	 */
+	public HashMap<String, Integer> selectMyPageMainInfo(int userNo){
+		
+		Connection conn = getConnection();
+		
+		HashMap<String, Integer> me = mpDao.selectMyPageMainInfo(conn, userNo);
+		
+		close(conn);
+		
+		return me;
 		
 	}
 }

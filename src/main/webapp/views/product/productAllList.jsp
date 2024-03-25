@@ -146,6 +146,7 @@
             			location.href = "<%=contextPath%>/salist.pr?page=1&select=" + $(this).val();
             			
             		})
+            		
             		let select = '<%=select%>';
             		$(".selectpicker").find("option").each(function(){
             			if($(this).val() == select){

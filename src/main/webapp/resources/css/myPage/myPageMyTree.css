@@ -54,7 +54,7 @@ a{
 .main-page{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
 }
 
 /* 마이페이지 MyTree에서만 필요한 style */
@@ -82,16 +82,19 @@ h3>label{
     text-align: center;
 }
 
-.recipe-list #recipe-thumbnail>img{
-    width: 130px;
-    height: 130px;
+.table .recipe-thumbnail{
+	width: 100px;
+	height: 100px;
+    border: 1px solid tomato;
 }
 
 .recipe-list tr>td{
     vertical-align: middle;
 }
 
-.recipe-list #recipe-thumbnail:hover, .recipe-list #recipe-title:hover{
+.recipe-thumbnail:hover, .recipe-title:hover{
     cursor: pointer;
     opacity: 0.8;
 }
+
+

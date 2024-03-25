@@ -21,6 +21,7 @@ import com.sos.myPage.model.vo.Liked;
 import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
+import com.sos.recipe.model.vo.Recipe;
 
 public class MyPageDao {
 	
@@ -1219,6 +1220,171 @@ public class MyPageDao {
 		}
 		
 		return list;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한레시피 총갯수 조회시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param userNo : 서비스요청 회원번호
+	 * @return : 조회된 총작성레시피수
+	 */
+	public int totalRecipe(Connection conn, int userNo) {
+		
+		int total = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("totalRecipe");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				total = rset.getInt("total");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return total;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한 레시피목록 조회요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param info : 레시피목록조회시 필요한데이터가 담긴 객체(회원번호, 페이징바)
+	 * @return : 조회된 레시피객체 리스트객체
+	 */
+	public List<Recipe> selectRecipeList(Connection conn, HashMap<String, Object> info){
+		
+		List<Recipe> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRecipeList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int userNo = Integer.parseInt(info.get("userNo").toString());
+			PageInfo pi = (PageInfo)info.get("pageInfo");
+			
+			int endNo = pi.getCurrentPage() * pi.getBoardLimit();
+			int startNo = endNo - (pi.getBoardLimit() - 1);
+			
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, startNo);
+			pstmt.setInt(3, endNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()){
+				Recipe r = new Recipe();
+				
+				r.setRecipeNo(rset.getInt("recipe_no"));
+				r.setRecipeTitle(rset.getString("recipe_title"));
+				r.setPostDate(rset.getDate("post_date"));
+				r.setLikeCount(rset.getInt("total_liked"));
+				r.setThumbnailUrl(rset.getString("thumbnail_url"));
+				
+				list.add(r);
+			}
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한레시피 삭제요청시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @param recipeNo : 삭제할 레시피번호
+	 * @return : 레시피 삭제요청 처리결과 행 수
+	 */
+	public int deleteRecipe(Connection conn, int recipeNo) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteRecipe");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, recipeNo);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 마이페이지에 접속한 회원의 기본정보 조회시 실행될 메소드 (마이페이지 메인페이지 정보조회)
+	 * 
+	 * @param conn
+	 * @param userNo : 마이페이지 요청 회원번호
+	 * @return : 조회된 사용자의 기본정보 및 데이터 
+	 */
+	public HashMap<String, Integer> selectMyPageMainInfo(Connection conn, int userNo){
+		
+		HashMap<String, Integer> me = new HashMap<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectMyPageMainInfo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+			
+				me.put("totalDelivering", rset.getInt("total_delivering"));
+				me.put("totalLikedProduct", rset.getInt("total_liked_product"));
+				me.put("totalLikedRecipe", rset.getInt("total_liked_recipe"));
+				me.put("totalOngoingQnaProduct", rset.getInt("total_ongoing_qna_product"));
+				me.put("totalOngoingQnaEtc", rset.getInt("total_ongoing_qna_etc"));
+				
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return me;
 		
 	}
 

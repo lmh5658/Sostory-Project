@@ -10,7 +10,6 @@
             margin: auto;
             width: 100%;
             min-height: 1300px;
-            height: 800px;
             display: flex;
          }
 	.menu_wrap{text-align: center;display: flex;flex-direction: column;background-color: gray; padding-top: 30px;}
@@ -43,7 +42,7 @@
 		<div class="side_menu">
 			<button class="list">주문관리</button>
 			<div>
-				<a href="<%=request.getContextPath() %>/payment.ma?page=1">결제관리</a>
+				<a href="<%=request.getContextPath() %>/paymentList.ma?page=1">결제관리</a>
 			</div>
 
 		</div>

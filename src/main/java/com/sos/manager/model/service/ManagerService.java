@@ -14,9 +14,10 @@ import com.sos.common.model.vo.PageInfo;
 import com.sos.manager.model.dao.ManagerDao;
 import com.sos.member.model.vo.Member;
 import com.sos.product.model.vo.Product;
+import com.sos.product.model.vo.Qna;
 
 public class ManagerService {
-	
+
 	private ManagerDao mDao = new ManagerDao();
 
 	// 천체 회원목록 총 회원수
@@ -45,7 +46,7 @@ public class ManagerService {
 			rollback(conn);
 		}
 		close(conn);
-		
+
 		return result;
 	}
 
@@ -56,7 +57,7 @@ public class ManagerService {
 		close(conn);
 		return result;
 	}
-	
+
 	// 회원검색 결과 회원목록 List
 	public List<Member> selectMemberByKeyword(String keyword, PageInfo pi) {
 		Connection conn = getConnection();
@@ -91,7 +92,7 @@ public class ManagerService {
 			rollback(conn);
 		}
 		close(conn);
-		
+
 		return result;
 	}
 
@@ -139,7 +140,7 @@ public class ManagerService {
 		close(conn);
 		return p;
 	}
-	
+
 	// 상품 정보 update
 	public int updateProduct(Product p) {
 		Connection conn = getConnection();
@@ -153,13 +154,77 @@ public class ManagerService {
 		return result;
 	}
 
-	public List<Order> selectOrderList() {
+	public List<Order> selectOrderList(PageInfo pi) {
 		Connection conn = getConnection();
-		List<Order> list = mDao.selectOrderList(conn);
+		List<Order> list = mDao.selectOrderList(conn, pi);
 		close(conn);
 		return list;
 	}
 
-	
+	//메인 -상품문의 조회
+	public List<Qna> selectProductQnaList(){
+		Connection conn = getConnection();
+		List<Qna> list = mDao.selectProductQnaList(conn);
+		close(conn);
+		return list;
+	}
+
+	public int selectCountOrderList() {
+		Connection conn = getConnection();
+		int result = mDao.selectCountOrderList(conn);
+		close(conn);
+		return result;
+	}
+
+	public int selectCountOrderSearch(String keyword) {
+		Connection conn = getConnection();
+		int result = mDao.selectCountOrderSearch(conn, keyword);
+		close(conn);
+		return result;
+	}
+
+	public List<Order> selectOrderSearchList(PageInfo pi, String keyword) {
+		Connection conn = getConnection();
+		List<Order> list = mDao.selectOrderSearchList(conn, pi, keyword);
+		close(conn);
+		return list;
+	}
+
+	public int updateOrderStatus(Order o) {
+		Connection conn = getConnection();
+		int result = mDao.updateOrderStatus(conn, o);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	//메인 -1대1문의 조회
+		public List<Qna> selectOneQnaList(){
+			Connection conn = getConnection();
+			List<Qna> list = mDao.selectOneQnaList(conn);
+			close(conn);
+			return list;
+		}
+	//메인 - 답변 미완료 문의 총 갯수
+		public int selectQnaCount(){
+			Connection conn = getConnection();
+			int result = mDao.selectQnaCount(conn);
+			close(conn);
+			return result;
+		}
+
+	//메인 - 하루 접속자 수
+		/*public int selectTodayCount() {
+			Connection conn = getConnection();
+			int result = mDao.selectTodayCount(conn);
+			close(conn);
+			return result;
+		}*/
+
 
 }

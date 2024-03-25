@@ -119,7 +119,7 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                         <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" name="cookingTime" style="width: 90px;" value="<%= recipe.getCookingTime() %>">
                         </input>분&nbsp;&nbsp;&nbsp;
                         <select class="recipe_info" name="" style="width: 80px;">
-                            <option hidden name="difficulty"><%= recipe.getDifficulty() %></option>
+                            <option selected hidden value="disabled"><%= recipe.getDifficulty() %></option>
                             <option value="상">상</option>
                             <option value="중">중</option>
                             <option value="하">하</option>
@@ -128,8 +128,8 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                     </tr>
                     <tr>
                         <td>재료</td>
+                        <%  for (Recipe in : ingredient) { %>
                         <td id="ingredientForm">
-                          <%  for (Recipe in : ingredient) { %>
                             <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" name="ingredientName" placeholder="재료명" value="<%= in.getIngredientName() %>" required>
                             <input class="ingredient" type="number" style="width: 120px;" name="amount" placeholder="수량" value="<%= in.getIngredientAmount() %>" required>
                             <select class="ingredient" name="unit" style="width: 70px;" required value="<%= in.getIngredientUnit() %>">
@@ -138,8 +138,8 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                                 <option value="ml">ml</option>
                                 <option value="L">L</option>
                             </select>
-                            <%} %>
                         </td>
+                        <%} %>
                     </tr>
                     <tr>
                         <td colspan="3" align="center">
@@ -189,6 +189,7 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                             <button type="button" id="deleteStep" class="btn btn-outline-danger btn-sm" style="width: 80px;">순서삭제</button>
                         </td>
                     </tr>
+                </table>
                     <script>
                         let countStep = 1;
 
@@ -207,13 +208,30 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                             }
                         })
                     </script>
-                </table>
                 <br>
                 <div align="center">
-                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">수정</button>
+                    <button class="btn" onclick="return enroll();" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">수정</button>
                 </div>
                 <br><br>
             </form>
+            
+            <script>
+            	function enroll(){
+            		let disableSelected = true;
+            		$("option:selected").each(function(){
+            			console.log("실행");
+            			if($(this).val() == "disabled"){
+            				disableSelected = false;
+            			}
+            		})
+            		
+            		if(!disableSelected){
+            			alert("필수 입력사항을 확인해주세요");
+            		}
+            		
+            		return disableSelected;
+            	}
+            </script>
 	     </section>
 	     <!-- Section end -->
 	     

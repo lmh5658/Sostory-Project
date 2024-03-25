@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List
+				,com.sos.recipe.model.vo.Recipe
+				,com.sos.common.model.vo.PageInfo" 
+%>
+<%
+	List<Recipe> list = (List<Recipe>)request.getAttribute("recipeList");
+	PageInfo pi = (PageInfo)request.getAttribute("pageInfo");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +22,13 @@
     <div class="wrap">
 		
         <%@ include file="/views/common/header.jsp" %>
+        
+        <% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+	        <script>
+	           alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+	           location.href="<%=contextPath%>/loginForm.me";
+	        </script>
+		<% } %>
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -24,8 +39,8 @@
 
 <!-- =========================================================================================================================== -->
 
-               <!-- 사이드 nav바 start -->
-		      <div class="menu_wrap" >
+              <!-- 사이드 nav바 start -->
+		      <div class="menu_wrap" style="width:200px;">
 		
 		          <div class="side_menu">
 		              <button class="list">회원정보</button>
@@ -162,103 +177,99 @@
 
                     <!-- 페이지 제목 영역 start -->
                     <div class="page-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
+                        <svg id="main" style="pointer-events: visible; cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
                         <h3><b>MyTree</b><label>내가 작성한 레시피</label></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
+                    
+                    <script>
+                    	$(function(){
+                    		// 회원아이콘 클릭시, 마이페이지-메인페이지 이동요청시 실행될 함수
+                    		$("#main").click(function(){
+                    			location.href="<%= contextPath %>/myPage.me";
+                    		})
+                    	})
+                    </script>
 
                     <!-- 작성한 레시피목록 테이블 영역 start -->
                     <div class="recipe-list mt-4">
                         <table class="table">
                             <thead>
-                                <tr>
+                                <tr style="line-height:50px; font-size:20px;">
                                     <th></th>
                                     <th>레시피명</th>
                                     <th>작성일</th>
-                                    <th>조회수</th>
                                     <th>좋아요</th>
                                     <th>관리</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- 
+                            
+                            <% if(list.isEmpty()) { %>
+                            	<tr>
+                            		<td colspan="5" class="fs-4">조회된 레시피가 없습니다.</td>
+                            	</tr>
+                            <% } else { %>
+                            	<!-- 
                                     기능설명 : 이미지 or 레시피명 클릭시, 레시피 상세페이지로 이동
                                     기능구현 : 아래 script로 location.href 이동 함수있음 (URL 채우면됨)  
                                 -->
-                                <tr>
-                                    <td id="recipe-thumbnail"><img src="/src/main/webapp/resources/images/이미지1.jpg" alt=""></td>
-                                    <td id="recipe-title">고추장 불고기</td>
-                                    <td>2024-02-26</td>
-                                    <td>251</td>
-                                    <td>56</td>
+                                <% for(Recipe r : list) { %>
+                                <tr style="height:250px;">
+                                    <td class="recipe-thumbnail" style="cursor:pointer;" onclick="detail(<%= r.getRecipeNo() %>);"><img src="<%= contextPath + '/' + r.getThumbnailUrl() %>" alt="레시피썸네일" style="width: 300px; height:200px; !important;"></td>
+                                    <td class="recipe-title fs-4 fw-bold" style="cursor:pointer;" onclick="detail(<%= r.getRecipeNo() %>);"><%= r.getRecipeTitle() %></td>
+                                    <td class="fs-5"><%= r.getPostDate() %></td>
+                                    <td class="fs-5"><%= r.getLikeCount() %></td>
                                     <!-- 
                                         기능설명 : 수정버튼 클릭시, 레시피 수정페이지로 이동 
                                         기능구현 : 태그내 href 속성에 수정페이지 URL 넣으면됨
                                     -->
                                     <td>
-                                        <a href="" class="btn text-primary">수정</a>
+                                        <a href="<%= contextPath %>/updateForm.re?no=<%= r.getRecipeNo() %>" class="btn text-primary fs-5">수정</a>
                                         | 
                                         <!-- 
                                             기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제 
                                             기능구현 : 아래 삭제여부 확인용 팝업창있음
                                         -->
-                                        <button type="button" class="btn text-danger" data-toggle="modal" data-target="#delete-recipe">삭제</button>
+                                        <button type="button" class="btn text-danger fs-5" onclick="deleteRecipe(<%= r.getRecipeNo() %>)">삭제</button>
                                     </td>
                                 </tr>
-
-                                <!-- 
-                                    기능설명 : 이미지 or 레시피명 클릭시, 레시피 상세페이지로 이동
-                                    기능구현 : 아래 script로 location.href 이동 함수있음 (URL 채우면됨)  
-                                -->
-                                <tr>
-                                    <td id="recipe-thumbnail"><img src="/src/main/webapp/resources/images/이미지1.jpg" alt=""></td>
-                                    <td id="recipe-title">고추장 불고기</td>
-                                    <td>2024-02-26</td>
-                                    <td>251</td>
-                                    <td>56</td>
-                                    <!-- 
-                                        기능설명 : 수정버튼 클릭시, 레시피 수정페이지로 이동 
-                                        기능구현 : 태그내 href 속성에 수정페이지 URL 넣으면됨
-                                    -->
-                                    <td>
-                                        <a href="" class="btn text-primary">수정</a>
-                                        | 
-                                        <!-- 
-                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제 
-                                            기능구현 : 아래 삭제여부 확인용 팝업창있음
-                                        -->
-                                        <button type="button" class="btn text-danger" data-toggle="modal" data-target="#delete-recipe">삭제</button>
-                                    </td>
-                                </tr>
-
-                                <!-- 
-                                    기능설명 : 이미지 or 레시피명 클릭시, 레시피 상세페이지로 이동
-                                    기능구현 : 아래 script로 location.href 이동 함수있음 (URL 채우면됨)  
-                                -->
-                                <tr>
-                                    <td id="recipe-thumbnail"><img src="/src/main/webapp/resources/images/이미지1.jpg" alt=""></td>
-                                    <td id="recipe-title">고추장 불고기</td>
-                                    <td>2024-02-26</td>
-                                    <td>251</td>
-                                    <td>56</td>
-                                    <!-- 
-                                        기능설명 : 수정버튼 클릭시, 레시피 수정페이지로 이동 
-                                        기능구현 : 태그내 href 속성에 수정페이지 URL 넣으면됨
-                                    -->
-                                    <td>
-                                        <a href="" class="btn text-primary">수정</a>
-                                        | 
-                                        <!-- 
-                                            기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제 
-                                            기능구현 : 아래 삭제여부 확인용 팝업창있음
-                                        -->
-                                        <button type="button" class="btn text-danger" data-toggle="modal" data-target="#delete-recipe">삭제</button>
-                                    </td>
-                                </tr>
+								<% } %>
+                            <% } %>
+                                
                             </tbody>
                         </table>
+                        
+                        
+                        <script>
+                        	// 레시피 상세피이지 이동요청시 실행될 함수
+                        	function detail(recipeNo){
+                        		location.href="<%= contextPath %>/detail.re?no=" + recipeNo;
+                        	}
+                        	
+                        	// 사용자가 작성한 레시피 삭제요청시 실행될 함수
+                        	function deleteRecipe(recipeNo){
+                        		// 삭제여부 재확인
+                        		if(confirm("해당 레시피를 삭제하시겠습니까?")){
+                        			$.ajax({
+                            			url:"<%= contextPath %>/deleteRecipe.me",
+                            			data:{"recipeNo" : recipeNo},
+                            			success:function(result){
+                            				console.log(result);
+                            				if(result > 0){
+                            					alert("레시피가 삭제되었습니다.");
+                            					location.reload();
+                            				}else{
+                            					alert("레시피 삭제가 정상적으로 진행되지않았습니다.");
+                            				}
+                            			}
+                            		})
+                        		}
+                        		
+                        	}
+                        </script>
 
                         <!-- 레시피 삭제여부 확인 팝업창 start -->
                         <div class="modal" id="delete-recipe">
@@ -299,13 +310,35 @@
                         <!-- 기능 : 5개 단위 페이징처리 -->
                         <div class="center" style="margin-top: 150px;">
                             <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            <!-- 이전페이지 이동버튼 활성화여부
+                            	* 비활성화 : 현재페이지 == 1페이지   
+                            	*  활성화 : 현재페이지 != 1페이지 ==> (현재페이지 - 1)페이지 이동요청 URL
+                             -->
+                            <% if(pi.getCurrentPage() == 1 || pi.getMaxPage() == 0) { %>
+                            	<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            <% } else { %>
+                            	<li class="page-item"><a class="page-link" href="<%= contextPath %>/recipe.me?page=<%= pi.getCurrentPage() - 1 %>">Previous</a></li>
+                            <% } %>
+                            <!-- 지정페이지 이동버튼 활성화여부 
+                            	* 비활성화 : 현재페이지 != 보고있는페이지 ==> (지정)페이지 이동요청 URL
+                            	*  활성화 : 현재페이지 == 보고있는페이지
+                             -->
+                           	<% for(int p=pi.getStartPage() ; p<=pi.getEndPage() ; p++) { %>
+                                <% if(pi.getCurrentPage() == p) { %>
+                                	<li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
+                                <% } else { %>
+                                	<li class="page-item"><a class="page-link" href="<%= contextPath %>/recipe.me?page=<%= p %>"><%= p %></a></li>
+                                <% } %>
+                            <% } %>
+                            <!-- 다음페이지 이동버튼 활성화여부
+                            	* 비활성화 : 현재페이지 == 최대페이지
+                            	*  활성화 : 현재페이지 != 최대페이지 (현재페이지 + 1)페이지 이동요청 URL 
+                             -->
+                             <% if(pi.getCurrentPage() == pi.getMaxPage() || pi.getMaxPage() == 0) { %>
+                             	<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                             <% } else { %>
+                             	<li class="page-item"><a class="page-link" href="<%= contextPath %>/recipe.me?page=<%= pi.getCurrentPage() + 1 %>">Next</a></li>
+                             <% } %>
                             </ul>
                         </div>
 
