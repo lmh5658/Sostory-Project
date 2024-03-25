@@ -363,7 +363,7 @@
                                                 
                                                 
                                                 <div class="my-5 w-100">
-                                                    <button id="btn_sale" type="button" class="btn btn-outline-dark" style="width: 150px;">구매하기</button>
+                                                    <button id="btn_sale" onclick="goCartList();" type="button" class="btn btn-outline-dark" style="width: 150px;">구매하기</button>
                                                 </div>
 
                                             </div>
@@ -377,11 +377,69 @@
                  <br><br>
                  
                  <script>
-               		if(<%=loginUser != null%>){
-	                 	// 데이터를 넘기고
-	                 	// 
-	                 
-               		}
+                 function goCartList(){
+                	<%
+     				int userNo1 = 0;
+     				if(loginUser != null){
+     					userNo1 = loginUser.getUserNo();
+     				}
+     		
+     				%>
+                	let $amount = $("#input_text").val();
+     				let userNo = <%= userNo1%>;
+     				let productNo = <%= pro.getProductNo()%>;
+                 	
+                 	console.log(productNo);
+                 $.ajax({
+          			url:"<%=contextPath%>/count.ca",
+          			data:{
+          				userNo : userNo,
+          				productNo: productNo
+          				
+          			},
+          			post:"post",
+          			success:function(result){
+          				if(result>0){ // 장바구니 테이블에 같은상품이 존재
+          					
+          					if(confirm("장바구니로 이동하시겠습니까?")){
+          						location.href="<%=contextPath%>/list.ca";
+                            }else {
+                            	
+                            }
+          				}else{
+          					$.ajax({
+								url:"<%=contextPath%>/add.ca",
+								data:{
+									productNo:productNo,
+									userNo:userNo,
+									cart_amount:$amount // 상세페이지에서 변경된 수량
+									
+								},
+								type:"post",
+								success:function(result){
+									if(result>0){ // 장바구니 상품등록 
+										
+									   if(confirm("장바구니로 이동하시겠습니까?")){
+										   location.href="<%=contextPath%>/list.ca";
+		                               }else {
+		                            	   
+		                               }
+									
+									
+									
+								}
+							}
+						})
+         				}
+         			
+         			}                            			
+         		})
+              		
+             }
+                 
+           
+                 
+                 
                  </script>
                  
                  

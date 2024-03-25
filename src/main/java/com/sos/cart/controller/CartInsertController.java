@@ -39,6 +39,7 @@ public class CartInsertController extends HttpServlet {
 		int userNo =  Integer.parseInt(request.getParameter("userNo"));
 		int productNo = Integer.parseInt(request.getParameter("productNo"));
 		int amount = Integer.parseInt(request.getParameter("cart_amount"));
+		System.out.println(amount);
 		
 		Cart c = new Cart();
 		c.setUserNo(userNo);
