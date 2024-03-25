@@ -21,6 +21,7 @@ public class Order {
 	private int totalOrder;
 	private String payMethod;
 	private String addressName;
+	private String userName;
 	
 	public Order() {}
 
@@ -245,6 +246,15 @@ public class Order {
 
 	public void setAddressName(String addressName) {
 		this.addressName = addressName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 
