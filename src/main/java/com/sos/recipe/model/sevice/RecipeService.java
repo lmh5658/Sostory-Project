@@ -113,7 +113,33 @@ public class RecipeService {
 		close(conn);
 		return writeRecipetitle;
 
-	}	
+	}
+
+	public int insertLikeProduct(int recipeNo, int userNo) {
+		Connection conn = getConnection();
+		int result = rDao.insertLikeProduct(conn, recipeNo, userNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;	
+	}
+	
+	
+	public int deleteLikeProduct(int recipeNo, int userNo) {
+		Connection conn = getConnection();
+		int result = rDao.deleteLikeProduct(conn, recipeNo, userNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;	
+	}
+
 	
 
 	
