@@ -2,7 +2,6 @@ package com.sos.myPage.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sos.cart.model.vo.Order;
+import com.sos.member.model.vo.Member;
 import com.sos.myPage.model.service.MyPageService;
-import com.sos.product.model.vo.Product;
 
 /**
  * Servlet implementation class MyPageOrderDetailController
@@ -45,8 +44,9 @@ public class MyPageOrderDetailController extends HttpServlet {
 		 *          응답데이터 : 조회된 해당주문번호의 상세정보 객체
 		 * 
 		 */
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
-		if(request.getSession().getAttribute("loginUser") == null) {
+		if(loginUser == null) {
 			request.getSession().setAttribute("alertMsg", "로그인을 먼저 진행해주세요.");
 			response.sendRedirect(request.getContextPath() + "/loginForm.me");
 		}else {
@@ -57,15 +57,23 @@ public class MyPageOrderDetailController extends HttpServlet {
 			HashMap<String, Object> result = new MyPageService().selectOrder(orderNo);
 			Order orderInfo = (Order)result.get("orderInfo");	// 조회된 주문정보 객체 (null | 주문정보)
 
-			if(orderInfo != null) { // 주문정보가 있을경우 == 유효한 주문내역(주문번호)
-				request.setAttribute("result", result);
-				request.getRequestDispatcher("/views/myPage/myPageOrderDetail.jsp").forward(request, response);
-			}else {
-				request.getSession().setAttribute("alertMsg", "조회된 내역이 없습니다. 유효한 주문인지 확인해주세요.");
-				response.sendRedirect(request.getContextPath() + "/olist.me");
+			if(loginUser.getUserType().equals("Y")) {
+				if(orderInfo != null) { // 주문정보가 있을경우 == 유효한 주문내역(주문번호)
+					request.setAttribute("result", result);
+					request.getRequestDispatcher("/views/myPage/myPageOrderDetail.jsp").forward(request, response);
+				}else {
+					request.getSession().setAttribute("alertMsg", "조회된 내역이 없습니다. 유효한 주문인지 확인해주세요.");
+					response.sendRedirect(request.getContextPath() + "/olist.me");
+				}
+			} else {
+				if(orderInfo != null) { // 주문정보가 있을경우 == 유효한 주문내역(주문번호)
+					request.setAttribute("result", result);
+					request.getRequestDispatcher("/views/manager/orderDetail.jsp").forward(request, response);
+				}else {
+					request.getSession().setAttribute("alertMsg", "조회된 내역이 없습니다. 유효한 주문인지 확인해주세요.");
+					response.sendRedirect(request.getContextPath() + "/paymentList.ma?page=1");
+				}
 			}
-			
-			
 		}
 		
 	}

@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.sos.product.model.vo.* , java.util.List, com.sos.common.model.vo.PageInfo" %>
+    
+<%
+	List<ProductQnaReply> list = (List<ProductQnaReply>)request.getAttribute("list");
+	//문의번호, 상품번호, 사용자 아이디, 문의날짜, 문의제목, 처리&미처리
+	int listCount = (int)request.getAttribute("listCount");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,82 +160,56 @@
                                 <th>번호</th>
                                 <th>작성일자</th>
                                 <th>아이디</th>
-                                <th>문의유형</th>
                                 <th>문의내역</th>
                                 <th>처리결과</th>
                             </tr>
                         </thead>
                         <tbody>
+                        	<% for(ProductQnaReply p : list){ %>
                             <tr class="table_title">
                                 <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>배송</td>
-                                <td>평균 몇일정도 걸리나요?</td>
-                                <td>미처리</td>
+                                <td><%= p.getAnswerNo() %></td>
+                                <td><%= p.getAnswerDate() %></td>
+                                <td><%= p.getUserNo() %></td>
+                                <td><%= p.getAnswerTitle() %></td>
+                                <td><%= p.getAnswerStatus() %></td>
                             </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>5</td>
-                                <td>2024/02/25</td>
-                                <td>user01</td>
-                                <td>결제</td>
-                                <td>신용카드 결제는 안되나요?</td>
-                                <td>미처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>4</td>
-                                <td>2024/02/25</td>
-                                <td>user03</td>
-                                <td>기타</td>
-                                <td>상품 판매 안하나요</td>
-                                <td>처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>3</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>기타</td>
-                                <td>레시피 맛집이네요</td>
-                                <td>처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>2</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>기타</td>
-                                <td>맛있네요 다음에도 방문할게요</td>
-                                <td>처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>1</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>기타</td>
-                                <td>좋아요 !</td>
-                                <td>처리</td>
-                            </tr>
+                            <% } %>
                         </tbody>
                     </table>     
                 </div>
                     <div style="font-weight: bold;">
-                        총 문의 수 : <label style="color: red;">6</label>
+                        총 문의 수 : <label style="color: red;"><%= listCount %></label>
                     </div>                  
             </div>
+       
+            
+            
+            
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            
+            	<% if(1 == pi.getCurrentPage()) { %>
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                <% }else {%>
+                <li class="page-item"><a class="page-link" href="<%=contextPath%>/qnaPersonal.ma?page=<%= pi.getCurrentPage() - 1%>">Previous</a></li>
+                <% } %>
+                
+                <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+	                <% if (p == pi.getCurrentPage()){ %>
+	                <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
+	                <% } else { %>
+	                <li class="page-item"><a class="page-link" href="<%=contextPath%>/qnaPersonal.ma?page=<%=p%>"><%= p %></a></li>
+	                <% } %>
+                <% } %>
+				
+				<% if(pi.getEndPage() != pi.getMaxPage()) {%>					
+                <li class="page-item"><a class="page-link" href="<%=contextPath%>/qnaPersonal.ma?page=<%= pi.getCurrentPage() + 1%>">Next</a></li>
+                <% }else { %>
+                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                <% } %>
+                
               </ul>
+              
             <script>
 
                 $(function(){

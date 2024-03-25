@@ -4,6 +4,7 @@
 <%@ page import="com.sos.product.model.vo.Product" %>
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	List<Product> list = (List<Product>)request.getAttribute("list");
 	String keyword = (String)request.getAttribute("keyword");
 %>
 <!DOCTYPE html>

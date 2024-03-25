@@ -429,24 +429,137 @@ public class ManagerDao {
 		return result;
 	}
 
-	public List<Order> selectOrderList(Connection conn) {
+	public int selectCountOrderList(Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCountOrderList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public List<Order> selectOrderList(Connection conn, PageInfo pi) {
 		List<Order> list = new ArrayList<>();
-//		PreparedStatement pstmt = null;
-//		ResultSet rset = null;
-//		String sql = prop.getProperty("selectOrderList");
-//		
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			rset = pstmt.executeQuery();
-//			if(rset.next()) {
-//				Order o = new Order();
-//				o.setOrderNo(rset.getInt("order_no"));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectOrderList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Order o = new Order();
+				o.setOrderNo(rset.getInt("order_no"));
+				o.setTitleProductName(rset.getString("title_product_name"));
+				o.setTotalOrder(rset.getInt("total_order"));
+				o.setOrderDate(rset.getString("order_date"));
+				o.setOrderStatus(rset.getString("order_status"));
+				o.setUserName(rset.getString("user_name"));
+				o.setPay(rset.getInt("payment"));
+				list.add(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
 		
 		return list;
+	}
+
+	public int selectCountOrderSearch(Connection conn, String keyword) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCountOrderSearch");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + keyword + "%");
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public List<Order> selectOrderSearchList(Connection conn, PageInfo pi, String keyword) {
+		List<Order> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectOrderSearchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Order o = new Order();
+				o.setOrderNo(rset.getInt("order_no"));
+				o.setTitleProductName(rset.getString("title_product_name"));
+				o.setTotalOrder(rset.getInt("total_order"));
+				o.setOrderDate(rset.getString("order_date"));
+				o.setOrderStatus(rset.getString("order_status"));
+				o.setUserName(rset.getString("user_name"));
+				o.setPay(rset.getInt("payment"));
+				list.add(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int updateOrderStatus(Connection conn, Order o) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateOrderStatus");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, o.getOrderStatus());
+			pstmt.setInt(2, o.getOrderNo());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

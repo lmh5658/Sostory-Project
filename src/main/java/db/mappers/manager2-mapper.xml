@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="managerQnalistCount">
+	SELECT COUNT(*) COUNT
+	FROM TB_QNA_REPLY
+	WHERE ANSWER_TYPE = 2
+	</entry>
+
+
+
+
+	<entry key="managerQnalist">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT
+			      ANSWER_NO
+			    , p.PRODUCT_NO
+			    , M.USER_ID
+			    , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			    , ANSWER_TITLE
+			    , ANSWER_STATUS
+			FROM TB_QNA_REPLY QR
+			LEFT JOIN TB_PRODUCT P ON(QR.PRODUCT_NO = P.PRODUCT_NO)
+			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
+			WHERE  ANSWER_TYPE = 2
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+			ORDER BY ANSWER_NO DESC
+	</entry>
+	
+	
+	
+
+</properties>
