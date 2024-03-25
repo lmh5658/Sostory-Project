@@ -171,7 +171,7 @@
 
                             <div id="thumb" class="product img-thumbnail p-2" style="width:200px">
                                 <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%">
-                            	<input type="hidden" name="proNo" value="<%= p.getProductNo() %>">
+                            	<input type="hidden" name="propo" value="<%= p.getProductNo() %>">
                             </div>
                             <div class="product-name">
                                 <small class="product-category text-secondary d-block mb-3 mt-2"><%=p.getCategoryName() %></small>
@@ -193,7 +193,7 @@
                              </div>
 
                             <div class="icon d-flex justify-content-end">
-                                <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
                                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
                                 </svg>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
@@ -210,74 +210,6 @@
                        
                     <!-- 상품 리스트 end--> 
                     </div>
-                      <script>
-                   			$(function(){
-                   				let likeUserPro = <%=proNo%>
-                   				
-                   				let pNo = 0;
-                   				$(".product").each(function(){
-                   					
-                   					pNo = $(this).find(".pNo").val();
-                   					
-                   					for(let i=0; i<likeUserPro.length; i++){
-                   						if(pNo == likeUserPro[i]){
-                   							$(this).find(".heart").attr("fill", "red");
-                   						}
-                   					}
-                   					
-                   				})
-                   			
-                   			})
-                   			
-                   				
-                   				$(".heart").click(function(){
-                   					
-                   					if(<%= loginUser == null%>){
-                   						alert("로그인 먼저 진행해주세요.");
-                   						
-                   					}else if(<%=loginUser != null%>){
-
-                   						if($(this).attr("fill") == "red"){
-                           					$(this).attr("fill", "black");
-                           					
-        	                   				$.ajax({
-        	                   					url:"<%=contextPath%>/dheart.pr",
-        	                   					data:{
-        	                   						proNo:$(this).next().val()
-        	                   					},
-        	                   					type:"post",
-        	                   					success:function(result){
-        	                   						
-        	                   					}
-        	                   					
-        	                   				})	
-        	                   				
-                           				}else{
-                           					$(this).attr("fill", "red");
-                           					
-                        						$.ajax({
-                        							url:"<%=contextPath%>/heart.pr",
-                        							data:{
-                        								proNo:$(this).next().val()
-                        							},
-                        							type:"post",
-                        							success:function(result){
-                        								
-                        							}
-                        						})
-                           					
-                           				}
-                   					}
-                   						
-                   						
-                   					
-                       				
-                       				
-                       			})
-                   		
-                       </script>
-                       
-                    
                     
                     
                     
