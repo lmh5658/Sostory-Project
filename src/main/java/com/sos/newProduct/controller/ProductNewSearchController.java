@@ -59,6 +59,7 @@ public class ProductNewSearchController extends HttpServlet {
 				PageInfo pi = new PageInfo(countList, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 				
 				List<Product> list = new ProductService().selectSearchList(search, pi);
+				
 				//사용자가 장바구니에 담은상품번호 리스트(장바구니 담김여부 표시를 위함)
 				List<Cart> cartList = new CartService().selectCart(userNo);
 				ArrayList<Integer> pNoList = new ArrayList<>();
@@ -74,6 +75,8 @@ public class ProductNewSearchController extends HttpServlet {
 					pNoLikeList.add(pr.getProductNo());
 					
 				}
+				
+				
 				request.setAttribute("pNoList", pNoList);
 				request.setAttribute("pNoLikeList", pNoLikeList);
 				request.setAttribute("list", list);

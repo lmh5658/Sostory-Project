@@ -173,18 +173,18 @@
 				                               <h7 class="product-price  my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 				                               <% }else { %>
 				                               <h7 class="product-price  my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
-				                               <h7 class="product-price  my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+				                               <h7 class="product-price  my-4" style="color:gray;"><b><s><%= p.getPrice() %>원</s></b></h7>
 				                               <% } %>	 
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
 	                                    
 	                                    
 		                                       <% if(loginUser != null) { %>
-				                                    <svg onclick="heartMe(this);" id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+				                                    <svg onclick="heartMe(this);" id="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 										  			<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 													</svg>
 												<%}else{ %>
-													<svg onclick="alert('로그인을 해주세요.')" id="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+													<svg onclick="alert('로그인을 해주세요.')" id="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 										  			<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 													</svg>
 												<%} %>
@@ -390,7 +390,6 @@
 							success:function(result){
 								if(result>0){ // 상품 찜하기 성공
 								
-								alert("찜하기 목록에서 삭제했습니다.");
 								$(productNo).attr("fill", "currentColor"); 
 								
 								}
@@ -410,7 +409,6 @@
 							success:function(result){
 								if(result>0){ // 상품 찌하기 성공
 								
-								alert("상품을 찜했습니다.");
 								$(productNo).attr("fill", "red"); 
 								
 								}
@@ -419,7 +417,7 @@
 					}
 				}
 				
-			})
+				})
         	}  
         
 		  	

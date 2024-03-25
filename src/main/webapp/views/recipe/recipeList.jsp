@@ -200,7 +200,6 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("list");
 	                <option value="">인기순</option>
 	                <option value="">낮은 인기순</option>
 	            </select>   
-	            
 	            <% if (loginUser != null) { %>
     				<a href="<%=contextPath %>/enroll.re?no=<%=loginUser.getUserNo() %>" class="btn btn-secondary">글쓰기</a>
 				<% }else{ %>

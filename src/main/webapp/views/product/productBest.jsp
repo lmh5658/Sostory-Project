@@ -66,7 +66,7 @@
         }
        
     	
-    	#heart:hover {
+    	.heart:hover {
             fill: red; /* 호버 시 색상 변경 */
             cursor: pointer; /* 호버 시 커서 모양 변경 */
         }
@@ -159,10 +159,10 @@
 
 
                     <!-- 상품 리스트 start -->
-                    <div class="product-thumbnail-list d-flex flex-direction w-100">
+                    <div class="product-thumbnail-list d-flex flex-direction wrap w-100">
                       
                     	<% for(Product p : list) { %>
-                        <div class="thumbnail-list d-flex w-100 justify-content-evenly"> 
+                        <div class="product thumbnail-list d-flex w-100 justify-content-evenly"> 
                             <!-- 상품 썸네일 start -->
                             <div class="product-count">
                                 <h2><%=p.getRowNum() %></h2>
@@ -171,7 +171,7 @@
 
                             <div id="thumb" class="product img-thumbnail p-2" style="width:200px">
                                 <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%">
-                            	<input type="hidden" name="propo" value="<%= p.getProductNo() %>">
+                            	<input type="hidden" class="pNo" value="<%= p.getProductNo() %>">
                             </div>
                             <div class="product-name">
                                 <small class="product-category text-secondary d-block mb-3 mt-2"><%=p.getCategoryName() %></small>
@@ -187,18 +187,32 @@
                             </div>
 
                             <div class="product-price">
-                            
-                            <h7 class="product-price d-block mb-3 mt-2"><b><%=p.getPrice() - p.getDiscountPrice() %>원</b></h7>
+                            <%if(p.getDiscountPrice()==0){ %>
+                               <h7 class="product-price d-block mb-3 mt-2"><b><%=p.getPrice()%>원</b></h7>
+                            <%}else{ %>
+                               <h7 class="product-price  my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
+                               <h7 class="product-price  my-4" style="color:gray;"><b><s><%= p.getPrice() %>원</s></b></h7>
+                            <%} %>
                             
                              </div>
 
                             <div class="icon d-flex justify-content-end">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                </svg>
+                                <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                 	<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                 </svg>
+                                
+                                <input type="hidden" name="productNo" value="<%= p.getProductNo() %>">        
+                                
+                                <% if(loginUser != null) { %>
+				                    <svg onclick="cartMe(this);"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+				                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+				                    </svg>
+								<%}else{ %>
+									 <svg onclick="alert('로그인을 해주세요.')"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart mx-2" viewBox="0 0 16 16">
+				                    	<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+				                    </svg>
+								<%} %>
+                                
                             </div>
                             <!-- 상품 썸네일 end -->
 
@@ -289,6 +303,7 @@
 		  		// 찜한상품이 장바구니에 담긴상품인지 구분하여 아이콘컬러를 구분하는 함수(페이지로드 즉시실행)
 		  		$(".product").each(function(){
 		  			
+		  			const proNo = <%=proNo%>;
 		  			const pNoList = <%= pNoList %>;				// 사용자가 장바구니에 담은상품의 상품번호 배열
 		  			const $pNo = $(this).find(".pNo").val();	// 찜한상품 상품번호
 		  			const $cart = $(this).find(".cart");		// 장바구니 아이콘태그
@@ -297,6 +312,12 @@
 		  				// 장바구니에 담긴상품일 경우 ==> 아이콘컬러 : 파란색
 		  				if(pNoList[i] == $pNo){	
 		  					$cart.attr("fill", "blue");
+		  				}
+		  			}
+		  			for(let i=0 ; i<proNo.length ; i++){
+		  				// 찜한 상품일 경우 ==> 아이콘컬러 : 빨간색
+		  				if(proList[i] == $pNo){	
+		  					$cart.attr("fill", "red");
 		  				}
 		  			}
 		  		
@@ -355,6 +376,12 @@
 		
 				
 			}
+        
+        
+        
+        
+        
+        
   
     
     

@@ -1,6 +1,7 @@
 package com.sos.product.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.cart.model.service.CartService;
+import com.sos.cart.model.vo.Cart;
 import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
 
@@ -45,13 +49,29 @@ public class ProductBestSearchController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();	
+			
+		}
+		
+		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 
 		List<Product> list = new ProductService().productBestSearchList(pi, search);
 		
+		//사용자가 장바구니에 담은상품번호 리스트(장바구니 담김여부 표시를 위함)
+		List<Cart> cartList = new CartService().selectCart(userNo);
+		ArrayList<Integer> pNoList = new ArrayList<>();
+		for(Cart ca : cartList) {
+			pNoList.add(ca.getProductNo());
+		}
+		
+		
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		request.setAttribute("search", search);
+		request.setAttribute("pNoList", pNoList);
 		
 		if(!list.isEmpty()) {
 			request.getRequestDispatcher("/views/product/productBest.jsp").forward(request, response);			
