@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+	<!-- 전체상품 5개 랜덤조회 -->
+	<entry key="selectProductList">
+		SELECT ROWNUM, A.*
+		  FROM (
+		        SELECT 
+		               PRODUCT_NO
+		             , CATEGORY_NAME
+		             , PRODUCT_NAME
+		             , PRICE
+		             , DISCOUNT_PRICE
+		             , PATH
+		         FROM TB_PRODUCT
+		         JOIN TB_CATEGORY USING (CATEGORY_NO)
+		        WHERE STATUS = 'Y'
+		        ORDER BY DBMS_RANDOM.value
+		       ) A
+		 WHERE ROWNUM BETWEEN 1 AND 5
+	</entry>	
+	
+	<!-- 평점순 Top5 상품조회 -->
+	<entry key="selectHighRatedProducts">
+		SELECT ROWNUM, B.*
+		  FROM (
+		        SELECT 
+		              PRODUCT_NO
+		             ,CATEGORY_NAME
+		             ,PRODUCT_NAME
+		             ,PRICE
+		             ,DISCOUNT_PRICE
+		             ,PATH
+		             ,TO_CHAR(NVL((SELECT AVG(RATING)
+		                             FROM TB_REVIEW
+		                            WHERE PRODUCT_NO = TB_PRODUCT.PRODUCT_NO),0),'0.0')AVG_REVIEW
+		          FROM TB_PRODUCT
+		          JOIN TB_CATEGORY USING (CATEGORY_NO)
+		         WHERE STATUS = 'Y'
+		         ORDER BY AVG_REVIEW DESC
+		        )B
+		 WHERE ROWNUM BETWEEN 1 AND 5
+	</entry>
+	
+	<!-- 등록일 최신순 Top5 신상품조회 -->
+	<entry key="selectNewestProducts">
+		SELECT ROWNUM, N.*
+		  FROM (
+		        SELECT
+		              PRODUCT_NO
+		             ,CATEGORY_NAME
+		             ,PRODUCT_NAME
+		             ,PRICE
+		             ,DISCOUNT_PRICE
+		             ,PATH
+		             ,ENROLL_DATE
+		          FROM TB_PRODUCT
+		          JOIN TB_CATEGORY USING (CATEGORY_NO)
+		         WHERE STATUS = 'Y'
+		         ORDER BY ENROLL_DATE DESC
+		       )N
+		 WHERE ROWNUM BETWEEN 1 AND 5
+	</entry>
+	
+	<!-- 좋아요순 Top6 레시피조회 -->
+	<entry key="selectHighestLikedRecipes">
+		SELECT RR.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                       RECIPE_NO
+		                      ,RECIPE_TITLE
+		                      ,RECIPE_INTRO
+		                      ,THUMBNAIL_URL
+		                      ,CATEGORY_NAME
+		                      ,USER_ID
+		                      ,USER_PATH 
+		                      ,(
+		                        SELECT COUNT(*)
+		                          FROM TB_LIKE
+		                         WHERE LIKE_TYPE = 'R'
+		                           AND LIKE_REFNO = TB_RECIPE.RECIPE_NO
+		                        ) TOTAL_LIKED
+		                      ,PRODUCT_NO
+		                      ,PRODUCT_NAME
+		                      ,PRICE
+		                      ,DISCOUNT_PRICE
+		                      ,PATH PRODUCT_PATH  
+		                  FROM TB_RECIPE
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                  JOIN TB_MEMBER USING (USER_NO)
+		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE RECIPE_STATUS = 'Y'
+		                   AND TB_PRODUCT.STATUS = 'Y'
+		                 ORDER BY TOTAL_LIKED DESC
+		                )R  
+		         WHERE ROWNUM BETWEEN 1 AND 6
+		        )RR
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+</properties>
