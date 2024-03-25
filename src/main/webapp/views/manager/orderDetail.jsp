@@ -17,12 +17,16 @@
 <meta charset="UTF-8">
 <title>주문상세</title>
 <style>
+.section_right{
+width: 100%;
+margin: 20px;
+margin-top: 30px;
+}
 /* 주문조회 전용 style */
 .order_content{
 width: 100%;
 border-top: 1px solid grey;
 }
-
 .order_product{
 display: flex;
 align-items: center;
@@ -243,7 +247,7 @@ font-size: 17px;
             <div class="button-area">
                 <button type="button" class="btn btn-outline-primary" onclick="history.back();">목록가기</button>
             </div>
-
+</div>
             <!-- 컨텐츠 영역 end -->
 
         </div>

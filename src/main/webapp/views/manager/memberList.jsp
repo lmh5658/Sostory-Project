@@ -52,7 +52,6 @@
         .section_right label {
             font-weight: bolder;
             font-size: 17px;
-
         }
 
         .section_right>div {

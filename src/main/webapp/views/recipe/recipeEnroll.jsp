@@ -84,7 +84,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                         <td width="150px">상품명</td>
                         <td width="400px">
                           <select class="product_name" name="productNo" onchange="updateHiddenCategoryNo()" required>
-							    <option disabled selected>상품을 선택하세요</option>
+							    <option hidden selected value="disabled">상품을 선택하세요</option>
 							    <!-- 히든으로 카테고리 번호도 같이 넘기기. -->
 							    <% if (list != null) { %>
 							        <% for (OrderProduct o : list) { %>
@@ -124,12 +124,10 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                     <tr>
                         <td>요리정보</td>
                         <td>
-                        <input type="number" class="recipe_info" min="1" max="20" name="serving" placeholder="인원수" style="width: 70px;">
-                        </input>인분&nbsp;&nbsp;&nbsp;
-                        <input type="number" class="recipe_info" min="1" placeholder="소요시간" name="cookingTime" style="width: 90px;">
-                        </input>분&nbsp;&nbsp;&nbsp;
+                        <input type="number" class="recipe_info" min="1" max="20" name="serving" placeholder="인원수" style="width: 70px;">&nbsp;인분&nbsp;&nbsp;&nbsp;
+                        <input type="number" class="recipe_info" min="1" placeholder="소요시간" name="cookingTime" style="width: 90px;">&nbsp;분&nbsp;&nbsp;&nbsp;
                         <select class="recipe_info" name="" style="width: 80px;">
-                            <option selected hidden name="difficulty" >난이도</option>
+                            <option selected hidden value="disabled">난이도</option>
                             <option value="상">상</option>
                             <option value="중">중</option>
                             <option value="하">하</option>
@@ -142,7 +140,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                             <input class="ingredient" type="text" style="width: 120px; margin-right: 20px;" name="ingredientName" placeholder="재료명" required>
                             <input class="ingredient" type="number" min="1" style="width: 120px;" name="amount" placeholder="수량" required>
                             <select class="ingredient" name="unit" style="width: 70px;" required>
-                                <option selected disabled>단위</option>
+                                <option selected hidden value="disabled">단위</option>
                                 <option value="g">g</option>
                                 <option value="kg">kg</option>
                                 <option value="ml">ml</option>
@@ -152,7 +150,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                     </tr>
                     <tr>
                         <td colspan="3" align="center">
-                            <button id="addIngredientButton" type="button" class="btn btn-sm" style="width: 80px; background-color: rgb(94, 94, 94); color: white;"  onclick="addIngredient(this);">재료추가</button>
+                            <button id="addIngredientButton" type="button" class="btn btn-sm" style="width: 80px; background-color: rgb(94, 94, 94); color: white;">재료추가</button>
                         </td>
                     </tr>
                     <script>
@@ -161,14 +159,15 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                                 const ingName = '<input class="ingredient" name="ingredientName" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명" required>';
                                 const ingMount = '<input class="ingredient" name="amount" type="number" style="width: 120px;" placeholder="수량" required>';
                                 const unit = '<select class="ingredient" name="unit" style="width: 70px;" required><option selected hidden>단위</option><option value="g">g</option><option value="kg">kg</option><option value="ml">ml</option><option value="L">L</option></select>';
-                                const addButton = '<button type="button" class="btn btn-sm" style="background-color: rgb(224, 224, 224);">삭제</button>';
-                                let el = $("<tr></tr>").html("<td></td>" + '<td id="ingredientForm">' + ingName + "&nbsp;" +  ingMount + "&nbsp;" + unit + "&nbsp;" + addButton + "</td>");
+                                const deleteButton = '<button type="button" class="btn btn-sm deleteButton" style="background-color: rgb(224, 224, 224);">삭제</button>';
+                                let el = $("<tr></tr>").html("<td></td>" + '<td id="ingredientForm">' + ingName + "&nbsp;" +  ingMount + "&nbsp;" + unit + "&nbsp;" + deleteButton + "</td>");
                                 $("#addIngredientButton").parent().parent().before(el);
                             })
     
-                            $("#ingredientForm").on("click", "button", function(){
-                                $(this).parent().remove();
-                            })
+                            $(document).on("click", ".deleteButton", function(){
+                            	console.log("실행");
+					            $(this).closest("tr").remove();
+					        })
                         })
                     </script>
                     <!-- 조리순서 입력 -->
@@ -255,10 +254,28 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                 </table>
                 <br>
                 <div align="center">
-                    <button class="btn" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">등록</button>
+                    <button class="btn" onclick="return enroll();" style="width: 100px; background-color: rgb(192, 57, 43); color: white;">등록</button>
                 </div>
                 <br><br>
             </form>
+            
+            <script>
+            	function enroll(){
+            		let disableSelected = true;
+            		$("option:selected").each(function(){
+            			console.log("실행");
+            			if($(this).val() == "disabled"){
+            				disableSelected = false;
+            			}
+            		})
+            		
+            		if(!disableSelected){
+            			alert("필수 입력사항을 확인해주세요");
+            		}
+            		
+            		return disableSelected;
+            	}
+            </script>
 	     </section>
 	     <!-- Section end -->
 	     

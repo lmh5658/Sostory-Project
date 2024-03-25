@@ -10,7 +10,6 @@
             margin: auto;
             width: 100%;
             min-height: 1300px;
-            height: 800px;
             display: flex;
          }
 	.menu_wrap{text-align: center;display: flex;flex-direction: column;background-color: gray; padding-top: 30px;}
