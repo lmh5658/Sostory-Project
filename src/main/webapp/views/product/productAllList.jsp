@@ -9,6 +9,7 @@
 	String search = (String)request.getAttribute("search"); // null | 검색단어
 	
 	String select = (String)request.getAttribute("select");
+	System.out.println(select);
 	
 	//로그인한 회원이 찜한 상품번호
 	List<Integer> proNo = (List<Integer>)request.getAttribute("likeList");
@@ -145,6 +146,11 @@
             			location.href = "<%=contextPath%>/salist.pr?page=1&select=" + $(this).val();
             						
             		})
+            		
+            		let select = <%=select%>;
+            		if($("#option").attr("selected", true) == select){
+            			$(this).attr("selected", true);
+            		}
             	})
             </script>
 
