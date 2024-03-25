@@ -147,9 +147,10 @@
             						
             		})
             		
+            		let option = $("#option").val();
             		let select = <%=select%>;
-            		if($("#option").attr("selected", true) == select){
-            			$(this).attr("selected", true);
+            		if(option == select){
+            			$("#").attr("selected", true);
             		}
             	})
             </script>
@@ -173,7 +174,7 @@
 	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
 	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
-	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice()%>원</s></b></h7>
 	                                    <% } %>
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
