@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.product.model.service.ProductService;
 import com.sos.product.model.vo.Product;
 
@@ -44,12 +45,22 @@ public class ProductBestListController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();	
+			
+		}
+		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 
 		List<Product> list = new ProductService().productBestList(pi);
 		
+		// 좋아요한 상품데이터
+		List<Integer> likeList = new ProductService().likeProductAll(userNo);
+		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
+		request.setAttribute("likeList", likeList);
 		
 		request.getRequestDispatcher("/views/product/productBest.jsp").forward(request, response);
 		
