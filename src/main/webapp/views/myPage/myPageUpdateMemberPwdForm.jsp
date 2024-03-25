@@ -15,6 +15,13 @@
     <div class="wrap">
 		
         <%@ include file="/views/common/header.jsp" %>
+        
+        <% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+	        <script>
+	           alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+	           location.href="<%=contextPath%>/loginForm.me";
+	        </script>
+		<% } %>
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -23,49 +30,102 @@
 
             <div class="main-wrap">
 
-                <!-- 사이드 nav바 start -->
-                <div class="menu_wrap" >
+<!-- =========================================================================================================================== -->
 
-                    <div class="side_menu">
-                        <button class="list">회원정보</button>
-                        <div><a href="" id="updateMemInfo">회원정보 변경</a></div>
-                        <div><a href="<%= contextPath %>/updatePwdForm.me">비밀변호 변경</a></div>
-                        <div><a href="">배송지관리</a></div>
-                        <div><a href="">회원탈퇴</a></div>
-                    </div>
-
-                    <div class="side_menu">
-                        <button class="list">My Tree</button>
-                    </div>
-
-                    <div class="side_menu">
-                        <button class="list">찜목록</button>
-                    </div>
-
-                    <div class="side_menu">
-                        <button class="list">고객문의</button>
-                        <div>
-                        <a href="">상품문의</a><br>
-                        <a href="">1:1 문의</a>
-                        </div>
-                    </div>
-
-                    <div class="side_menu">
-                        <button class="list">주문조회</button>
-                    </div>
-
-                </div>
-
-
-                <!-- 네비메뉴바 스크립트 -->
+               <!-- 사이드 nav바 start -->
+		      <div class="menu_wrap" style="width:200px;">
+		
+		          <div class="side_menu">
+		              <button class="list">회원정보</button>
+		              <div><a href="" id="updateMemInfo" style="color:white; text-decoration-line:none;">회원정보 변경</a></div>
+		              <div><a href="<%= contextPath %>/updatePwdForm.me" style="color:white; text-decoration-line:none;">비밀변호 변경</a></div>
+		              <div><a href="<%= contextPath %>/address.me" style="color:white; text-decoration-line:none;">배송지관리</a></div>
+		              <div><a href="" id="deleteMember" style="color:white; text-decoration-line:none;">회원탈퇴</a></div>
+		          </div>
+		
+		          <div class="side_menu">
+		              <button class="list" id="my-tree">My Tree</button>
+		          </div>
+		
+		          <div class="side_menu">
+				        <button type="button" id="likeList" class="list">찜목록</button>
+				   </div>
+		
+		          <div class="side_menu">
+		              <button class="list">고객문의</button>
+		              <div>
+		              <a href="<%= contextPath %>/qlist.me?type=1" style="color:white; text-decoration-line:none;">상품문의</a><br>
+		              <a href="<%= contextPath %>/qlist.me?type=2" style="color:white; text-decoration-line:none;">1:1 문의</a>
+		              </div>
+		          </div>
+		
+		          <div class="side_menu">
+				        <button class="list" id="orderList">주문조회</button>
+				  </div>
+		
+		      </div>
+		
+			   <!-- 네비메뉴바 스크립트 -->
 		       <script>
 			   $(function(){
-				   // 회원정보 변경페이지 요청시 실행될 함수
-				   $("#updateMemInfo").click(function(e){
-					  console.log(location.href);
-					  console.log(location.href.indexOf("<%= contextPath %>/updateForm.me"));
-					   if(location.href.indexOf("<%= contextPath %>/updateForm.me") == -1){
+					
+				   // 사이드메뉴-MyTree(내가 작성한 레피시목록페이지) 이동요청 버튼클릭시 실행될 함수
+				   	$("#my-tree").click(function(){
+				   		location.href = "<%= contextPath %>/recipe.me?page=1";
+				   	})
+				   
+					// 사이드메뉴-주문조회 이동요청 버튼클릭시 실해될 함수
+				   	$("#orderList").click(function(){
+				   		location.href = "<%= contextPath %>/olist.me";
+				   	})
+				   	
+					// 사이드메뉴-찜목록 이동요청 버튼클릭시 실행될 함수
+				    $("#likeList").click(function(){
+				    	location.href="<%= contextPath %>/like.me?type=p&page=1";
+				    })	
+				   
+				   // 회원탈퇴페이지 요청시 실행될 함수
+				   $("#deleteMember").click(function(e){
+					   
+					  /* 
+					   * case 01) 회원탈퇴페이지 진입이후 동일페이지를 재요청할 경우 : 비밀번호확인 x
+					   * case 02) 이외페이지에서 회원탈퇴페이지 요청할 경우 : 비밀번호확인
+					  */
+					   if(location.href.indexOf("<%= contextPath %>/deleteForm.me") == -1){
+						   
 						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+						   
+						   if("<%= loginUser.getUserPwd() %>" == userPwd){
+								   /* 
+								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
+								   	* ==> 회원탈퇴페이지 이동
+								   */
+								   $(this).attr("href", "<%= contextPath %>/deleteForm.me");
+							   }
+						   
+						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+								   /*
+								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
+								    * ==> alert("실패메세지")
+								   */
+								   alert("비밀번호가 일치하지 않습니다.");
+						   } 
+					   }
+					   
+					   
+				   })
+				   
+				   // 회원정보변경페이지 요청시 실행될 함수
+				   $("#updateMemInfo").click(function(e){
+					   
+					   /* 
+					    * case 01) 회원정보변경페이지 진입이후 동일페이지를 재요청할 경우 : 비밀번호확인 x
+					    * case 02) 이외페이지에서 회원정보변경페이지 요청할 경우 : 비밀번호확인
+					    */
+					   if(location.href.indexOf("<%= contextPath %>/updateForm.me") == -1){
+						   
+						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
+						   
 						   if("<%= loginUser.getUserPwd() %>" == userPwd){
 								   /* 
 								    * 로그인한 회원(정보변경을 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
@@ -82,7 +142,8 @@
 								   alert("비밀번호가 일치하지 않습니다.");
 						   } 
 					   }
-
+					   
+					   
 				   })
 				   
 					// 마이페이지 nav메뉴바 목록 슬라이딩 처리용 함수
@@ -100,19 +161,31 @@
 		        	
 			    })
 				</script>	
-                <!-- 사이드 nav바 end -->
+		      	<!-- 사이드 nav바 end -->
+
+<!-- =========================================================================================================================== -->
+
 
                 <!-- 비밀번호 페이지 영역 start -->
                 <div class="main-page">
 
                     <!-- 페이지 제목 영역 start -->
                     <div class="page-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
+                        <svg id="main" style="pointer-events: visible; cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                         </svg>
                         <h3><b>비밀번호변경</b></h3>
                     </div>
                     <!-- 페이지 제목 영역 end -->
+                    
+                    <script>
+                    	$(function(){
+                    		// 회원아이콘 클릭시, 마이페이지-메인페이지 이동요청시 실행될 함수
+                    		$("#main").click(function(){
+                    			location.href="<%= contextPath %>/myPage.me";
+                    		})
+                    	})
+                    </script>
 
                     <!-- 비밀번호 변경 양식영역 시작 -->
                     <div class="change-pwd">

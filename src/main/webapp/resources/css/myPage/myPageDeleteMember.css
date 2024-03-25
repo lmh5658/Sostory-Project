@@ -54,7 +54,7 @@ a{
 .main-page{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
 }
 
 /* 마이페이지 1:1문의에서만 필요한 style */

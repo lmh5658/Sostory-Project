@@ -79,7 +79,7 @@ text-decoration-line: none;
 .main-page{
 display: flex;
 flex-direction: column;
-width: 100%;
+width: 85%;
 margin-left: 40px;
 }
 

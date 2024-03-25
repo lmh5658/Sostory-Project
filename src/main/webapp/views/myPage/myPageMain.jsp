@@ -17,6 +17,13 @@
 	 <div class="wrap">
 	 
     	<%@ include file="/views/common/header.jsp" %>
+    	
+    	<% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+	        <script>
+	           alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+	           location.href="<%=contextPath%>/loginForm.me";
+	        </script>
+		<% } %>
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -156,25 +163,34 @@
 	
 	                <!-- 페이지 제목 영역 start -->
 	                <div class="page-title">
-	                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
+	                    <svg id="main" style="pointer-events: visible; cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="user-icon me-4 mb-2" viewBox="0 0 16 16">
 	                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
 	                    </svg>
 	                    <h3><b>마이페이지</b></h3>
 	                </div>
 	                <!-- 페이지 제목 영역 end -->
+	                
+	                <script>
+                    	$(function(){
+                    		// 회원아이콘 클릭시, 마이페이지-메인페이지 이동요청시 실행될 함수
+                    		$("#main").click(function(){
+                    			location.href="<%= contextPath %>/myPage.me";
+                    		})
+                    	})
+                    </script>
 	
 	                <!-- 회원정보 영역(오른쪽 상단) start -->
 	                <div class="user-info">
 	                    
 	                    <div class="profile">
-	                        <img src="프로필이미지" alt="" id="userProfile">
+	                        <img src="<%= contextPath + '/' + loginUser.getUserPath() %>" alt="" id="userProfile">
 	                    </div>
 	
 	                    <div class="profile-right">
 	                        <h3><b id="userName"><%= loginUser.getUserName() %></b>님! 안녕하세요</h3>
 	                        
 	                        <!-- 각 메뉴 클릭시, 해당페이지로 이동 -->
-	                        <div class="profile-right-bottom">
+	                        <div class="profile-right-bottom mt-5">
 	                            
 	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;">
 	                                <b class="d-block">배송중</b>
@@ -184,11 +200,12 @@
 	                            <!--
 	                                뺐지만, 일단 화면에 넣으는 놓음
 	                            -->
+	                            <!--  
 	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;">
 	                                <b class="d-block">환불/반품</b>
 	                                <h6><b>1</b>개</h6>
 	                            </div>
-	
+								-->
 	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;">
 	                                <b class="d-block">찜한상품</b>
 	                                <h6><b>5</b>개</h6>

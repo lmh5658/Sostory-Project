@@ -81,6 +81,14 @@ a{
     padding: 80px;
 }
 
+img#userProfile{
+	border: 1px solid lightblue;   /* 사진넣을 때 지울것!! 영역표시를 위해 임시부여한 것임 */
+    width: 150px;
+    height: 150px;
+    border-radius: 80px;
+    padding: 80px;
+}
+
 .profile-right{
     margin-top: 20px;
     margin-left: 60px;
