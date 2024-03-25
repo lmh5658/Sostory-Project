@@ -175,21 +175,24 @@
                                        <script>
                                        		$(function(){
                                        			let $result = $("#input_text").val();
+                                       			let $sum = Number($("#total_amount").html());
                                        			
+                                       			let price = Number(<%=pro.getPrice() - pro.getDiscountPrice()%>);
                                        			
-                                       			let price = <%=pro.getPrice() - pro.getDiscountPrice()%>
+                                       			console.log(price);
                                        			
                                        			$("#plus").click(function(){
                                        				$("#input_text").val(++$result);
+                                       				$("#total_amount").html(Number($("#total_amount").html()) + price);
+
                                        				
-													$("#total_amount").html($("#total_amount").html()*2);
-													$("#total_amount").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+													//$("#total_amount").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                        			})
                                        			
                                        			$("#minus").click(function(){
                                        				if($("#input_text").val() > 1){
 	                                       				$("#input_text").val(--$result);
-	                                       				$("#total_amount").html($("#total_amount").html()/2)
+	                                       				$("#total_amount").html(Number($("#total_amount").html()) - price);
                                        				}
                                        			})
                                        		})
@@ -372,13 +375,12 @@
                  </div>
                   <!-- 상품상세 상단 end -->
                  <br><br>
+                 
                  <script>
-                 	/*
-                 	$("#btn_sale").click(function(){
-                 		location.href="<%=contextPath%>/count.ca?userNo=<%=loginUser.getUserNo()%>&productNo=<%=pro.getProductNo()%>"
-                 	
-                 	})
-                 	*/
+               		if(<%=loginUser != null%>){
+	                 	
+	                 
+               		}
                  </script>
                  
                  

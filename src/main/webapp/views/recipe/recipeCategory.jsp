@@ -253,9 +253,9 @@ String no = (String) request.getParameter("no");
 	                    
 	                    <div class="product_etc">
 		                   <!-- 할인하고 있지 않을 때 -->
-	                       <% if(r.getDiscountPrice() != 0) { %> 
-                           <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s></div>   -->                           
-                           <%}else if(r.getDiscountPrice() == 0){ %>
+	                       <% if(r.getDiscountPrice() == 0) { %> 
+                           <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s></div>  
+                           <%}else if(r.getDiscountPrice() != 0){ %>
 	                       <!-- 할인하고 있을 때 -->
                            <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%></div>
                            <% } %>

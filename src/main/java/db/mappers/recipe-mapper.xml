@@ -322,4 +322,31 @@
    		 JOIN TB_RECIPE R ON R.CATEGORY_NO = P.CATEGORY_NO
 		WHERE R.USER_NO = ? AND R.USER_NO = O.USER_NO
       </entry>
+      
+      <!-- 레시피 좋아요 -->
+      <entry key="insertLikeProduct">
+		INSERT
+		   INTO TB_LIKE
+		   (
+		     LIKE_NO
+		   , USER_NO
+		   , LIKE_TYPE
+		   , LIKE_REFNO
+		   )
+		   VALUES
+		   (
+		    SEQ_LNO.NEXTVAL
+		   , ?
+		   , 'R'
+		   , ?
+		   )
+	</entry>
+	
+	<entry key="deleteLikeProduct">
+		DELETE FROM TB_LIKE
+		WHERE USER_NO = ?
+		  AND LIKE_REFNO = ?
+          AND LIKE_TYPE = 'R'
+	</entry>
+	
 </properties>

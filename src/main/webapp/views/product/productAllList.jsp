@@ -9,6 +9,7 @@
 	String search = (String)request.getAttribute("search"); // null | 검색단어
 	
 	String select = (String)request.getAttribute("select");
+	System.out.println(select);
 	
 	//로그인한 회원이 찜한 상품번호
 	List<Integer> proNo = (List<Integer>)request.getAttribute("likeList");
@@ -145,6 +146,12 @@
             			location.href = "<%=contextPath%>/salist.pr?page=1&select=" + $(this).val();
             						
             		})
+            		
+            		let option = $("#option").val();
+            		let select = <%=select%>;
+            		if(option == select){
+            			$("#").attr("selected", true);
+            		}
             	})
             </script>
 
@@ -167,7 +174,7 @@
 	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
 	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
-	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice()%>원</s></b></h7>
 	                                    <% } %>
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
