@@ -147,7 +147,7 @@
                                         <h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1>
                                         <% }else{ %>
                                         <h1 class="d-block" style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1>
-                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() + pro.getDiscountPrice() %>원</del></h4>
+                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice()%>원</del></h4>
                                         <hr>
                                         <% } %>
                                         
@@ -175,21 +175,24 @@
                                        <script>
                                        		$(function(){
                                        			let $result = $("#input_text").val();
+                                       			let $sum = Number($("#total_amount").html());
                                        			
+                                       			let price = Number(<%=pro.getPrice() - pro.getDiscountPrice()%>);
                                        			
-                                       			let price = <%=pro.getPrice() - pro.getDiscountPrice()%>
+                                       			console.log(price);
                                        			
                                        			$("#plus").click(function(){
                                        				$("#input_text").val(++$result);
+                                       				$("#total_amount").html(Number($("#total_amount").html()) + price);
+
                                        				
-													$("#total_amount").html($("#total_amount").html()*2);
-													$("#total_amount").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+													//$("#total_amount").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                        			})
                                        			
                                        			$("#minus").click(function(){
                                        				if($("#input_text").val() > 1){
 	                                       				$("#input_text").val(--$result);
-	                                       				$("#total_amount").html($("#total_amount").html()/2)
+	                                       				$("#total_amount").html(Number($("#total_amount").html()) - price);
                                        				}
                                        			})
                                        		})
@@ -255,10 +258,8 @@
 				                                         				},
 				                                         				type:"post",
 				                                         				success:function(result){
-				                                         					console.log(result);
-				                                         					if(result > 0){
-				                                         						alert("찜해제");
-				                                         					}
+				                                         					
+				                                         					
 				                                         				}
 				                                         			})
 				                                         			
@@ -272,9 +273,7 @@
 				                                         				},
 				                                         				type:"post",
 				                                         				success:function(result){
-				                                         					if(result > 0){
-				                                         						alert("찜하기성공");
-				                                         					}
+				                                         					
 				                                         				}
 				                                         				
 				                                         			})
@@ -364,22 +363,86 @@
                                                 
                                                 
                                                 <div class="my-5 w-100">
-                                                    <button type="button" class="btn btn-outline-dark" style="width: 150px;">구매하기</button>
+                                                    <button id="btn_sale" onclick="goCartList();" type="button" class="btn btn-outline-dark" style="width: 150px;">구매하기</button>
                                                 </div>
 
                                             </div>
                                            
                                     </div>
-                                    
-                                    
-
-
-
+                          
                         </div>
 
                  </div>
                   <!-- 상품상세 상단 end -->
                  <br><br>
+                 
+                 <script>
+                 function goCartList(){
+                	<%
+     				int userNo1 = 0;
+     				if(loginUser != null){
+     					userNo1 = loginUser.getUserNo();
+     				}
+     		
+     				%>
+                	let $amount = $("#input_text").val();
+     				let userNo = <%= userNo1%>;
+     				let productNo = <%= pro.getProductNo()%>;
+                 	
+                 	console.log(productNo);
+                 $.ajax({
+          			url:"<%=contextPath%>/count.ca",
+          			data:{
+          				userNo : userNo,
+          				productNo: productNo
+          				
+          			},
+          			post:"post",
+          			success:function(result){
+          				if(result>0){ // 장바구니 테이블에 같은상품이 존재
+          					
+          					if(confirm("장바구니로 이동하시겠습니까?")){
+          						location.href="<%=contextPath%>/list.ca";
+                            }else {
+                            	
+                            }
+          				}else{
+          					$.ajax({
+								url:"<%=contextPath%>/add.ca",
+								data:{
+									productNo:productNo,
+									userNo:userNo,
+									cart_amount:$amount // 상세페이지에서 변경된 수량
+									
+								},
+								type:"post",
+								success:function(result){
+									if(result>0){ // 장바구니 상품등록 
+										
+									   if(confirm("장바구니로 이동하시겠습니까?")){
+										   location.href="<%=contextPath%>/list.ca";
+		                               }else {
+		                            	   
+		                               }
+									
+									
+									
+								}
+							}
+						})
+         				}
+         			
+         			}                            			
+         		})
+              		
+             }
+                 
+           
+                 
+                 
+                 </script>
+                 
+                 
 
                  <!-- 상품상세 하단 start -->
                 <div class="main_bottom">
@@ -404,6 +467,7 @@
                             <div class="recipe" style="width:300px">
                             	<div style="height:300px; width:300px;">
                                 	<img class="recipe-img-top" src="<%= contextPath + "/" + pr.getThumbnailUrl() %>" alt="Card image" style="width:100%; height:100%; border-radius: 30px;">
+                                	<input type="hidden" value="<%=pr.getRecipeNo()%>">
                             	</div>
                                 <div class="recipe-body">
                                     <small class="recipe-category d-block text-secondary my-3">분류><%= pr.getCategoryNo() %></small>
@@ -448,6 +512,13 @@
 					 <% } %>
                     </div>
                     <!-- 레시피 커뮤니티 리스트 end -->
+                    
+                    
+                    <script>
+                    	$(".recipe-img-top").click(function(){
+                    		location.href = "<%=contextPath%>/detail.re?no=" + $(this).next().val();
+                    	})
+                    </script>
 
                     <br><br>
                     
@@ -561,10 +632,10 @@
                        			data:{
                        				proNo:<%= pro.getProductNo() %>,
                              				page:requestPage//요청할페이지번호(매개변수활용)
-                             			}, // 실행되는 servlet에서는 응답데이터로 PageInfo, ArrayList<리뷰>
-                             			type:"post",
-                             			success:function(result){
-                             				console.log(result); // {pi:{}, rlist:[{}, {},.. ]}
+                             	}, // 실행되는 servlet에서는 응답데이터로 PageInfo, ArrayList<리뷰>
+                             		type:"post",
+                             		success:function(result){
+                             			console.log(result); // {pi:{}, rlist:[{}, {},.. ]}
                              				
                              				
                              				let page = "";
@@ -622,8 +693,8 @@
                              				
                              			}
                              		})
-                             	}
-                             	
+                         }
+                       	
                              
                              	function selectQna(requestPage){
                              		$.ajax({
@@ -663,7 +734,7 @@
                         					let value = "";            					
                         					for(let i=0; i<result.qlist.length; i++){
                             					value += "<tr>"
-                            						   + "<td onclick='("+ this +")'>" + result.qlist[i].answerNo + "</td>"
+                            						   + "<td>" + result.qlist[i].answerNo + "</td>"
                             						   + "<td>" + result.qlist[i].answerTitle + "</td>"
                             						   + "<td>" + result.qlist[i].userNo + "</td>"
                             						   + "<td>" + result.qlist[i].answerType + "</td>"
@@ -679,30 +750,6 @@
                              		})
                              	}
                              	
-                             	
-                             	
-                             	
-                             		/*
-                             		$(document).on("click", $("#qna_table tbody>tr"),function(d){
-                             			console.log(d.text());
-                             		})
-		                             		/*
-		                             		$.ajax({
-			                             		url:"<%=contextPath%>/qnaAnswer.pr",
-			                             		data:{
-			                             			proNo:<%=pro.getProductNo()%>,
-			                             			answerNo:
-			                             		},
-			                             		type:"post",
-			                             		success:function(){
-			                             			
-			                             		}
-		                             		})
-		                             		*/
-		                             
-                             		*/
-                             		
-                             		
                              		
                              </script>
 

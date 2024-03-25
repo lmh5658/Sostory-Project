@@ -1,7 +1,6 @@
-package com.sos.cart.controller;
+package com.sos.recipe.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,21 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.sos.cart.model.service.CartService;
-import com.sos.cart.model.vo.Cart;
 import com.sos.member.model.vo.Member;
+import com.sos.recipe.model.sevice.RecipeService;
 
 /**
- * Servlet implementation class CartController
+ * Servlet implementation class AjaxRecipeLikeController
  */
-@WebServlet("/add.ca")
-public class CartInsertController extends HttpServlet {
+@WebServlet("/heart.re")
+public class AjaxRecipeLikeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CartInsertController() {
+    public AjaxRecipeLikeController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,25 +30,18 @@ public class CartInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int recipeNo = Integer.parseInt(request.getParameter("no"));
+		System.out.println(recipeNo);
+		int userNo = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			userNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();	
+			
+		}
 		
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
-//		int userNo = loginUser.getUserNo();
+		int result = new RecipeService().insertLikeProduct(recipeNo, userNo);
 		
-		int userNo =  Integer.parseInt(request.getParameter("userNo"));
-		int productNo = Integer.parseInt(request.getParameter("productNo"));
-		int amount = Integer.parseInt(request.getParameter("cart_amount"));
-		System.out.println(amount);
-		
-		Cart c = new Cart();
-		c.setUserNo(userNo);
-		c.setProductNo(productNo);
-		c.setCartAmount(amount);
-		
-		int result = new CartService().insertCart(c);
-		
-		response.setContentType("application/json; charset=utf-8");
+		response.setContentType("application/json, charset=utf-8");
 		new Gson().toJson(result, response.getWriter());
-		
 		
 	}
 

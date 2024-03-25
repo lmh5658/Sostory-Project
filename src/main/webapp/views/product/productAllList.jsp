@@ -9,6 +9,7 @@
 	String search = (String)request.getAttribute("search"); // null | 검색단어
 	
 	String select = (String)request.getAttribute("select");
+	System.out.println(select);
 	
 	//로그인한 회원이 찜한 상품번호
 	List<Integer> proNo = (List<Integer>)request.getAttribute("likeList");
@@ -143,8 +144,18 @@
             	$(function(){
             		$("#option").change(function(){	
             			location.href = "<%=contextPath%>/salist.pr?page=1&select=" + $(this).val();
-            						
+            			
             		})
+            		
+            		let select = '<%=select%>';
+            		$(".selectpicker").find("option").each(function(){
+            			if($(this).val() == select){
+            				$(this).attr("selected", true);
+            			}
+            		})
+            		
+            		
+            		
             	})
             </script>
 
@@ -162,12 +173,12 @@
                             	</div>       
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
-	                                    <h7 class="product-title"><b><b class="text-danger"></b><%= p.getProductName() %></b></h7>
+	                                    <h7 class="product-title d-block my-4"><b><b class="text-danger"></b><%= p.getProductName() %></b></h7>
 	                                    <% if(p.getDiscountPrice() == 0) { %>
-	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
+	                                    <h7 class="product-price  my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
-	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
-	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
+	                                    <h7 class="product-price  my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
+	                                    <h7 class="product-price  my-4" style="color:gray;"><b><s><%= p.getPrice()%>원</s></b></h7>
 	                                    <% } %>
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
@@ -232,9 +243,7 @@
         	                   					},
         	                   					type:"post",
         	                   					success:function(result){
-        	                   						if(result>0){
-        	                   							alert("찜해제");
-        	                   						}
+        	                   						
         	                   					}
         	                   					
         	                   				})	
@@ -249,9 +258,7 @@
                         							},
                         							type:"post",
                         							success:function(result){
-                        								if(result>0){
-                        									alert("찜하기 성공");
-                        								}
+                        								
                         							}
                         						})
                            					

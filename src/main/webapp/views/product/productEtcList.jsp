@@ -49,6 +49,11 @@
         .cart{
     	cursor: pointer;
     	}
+    	
+    	#heart:hover {
+            fill: red; /* 호버 시 색상 변경 */
+            cursor: pointer; /* 호버 시 커서 모양 변경 */
+        }
     
 </style>
 <body>
@@ -135,6 +140,14 @@
             			location.href = "<%=contextPath%>/seelist.pr?page=1&select=" + $(this).val();
             						
             		})
+            		let select = '<%=select%>';
+            		$(".selectpicker").find("option").each(function(){
+            			if($(this).val() == select){
+            				$(this).attr("selected", true);
+            			}
+            		})
+            		
+            		
             	})
             </script>
                 
@@ -154,13 +167,13 @@
                             	</div>       
 	                                <div class="product-body">
 	                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= p.getCategoryNo() %></small>
-	                                    <h7 class="product-title"><b><b class="text-danger">[HOT] </b><%= p.getProductName() %></b></h7>
+	                                     <h7 class="product-title d-block my-4"><b><b class="text-danger"></b><%= p.getProductName() %></b></h7>
 	                                    <% if(p.getDiscountPrice() == 0) { %>
-	                                    <h7 class="product-price d-block my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
+	                                    <h7 class="product-price  my-4 disabled"><b><%= p.getPrice()%>원</b></h7>
 	                                    <% }else { %>
-	                                    <h7 class="product-price d-block my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
-	                                    <h7 class="product-price d-block my-4" style="color:gray;"><b><s><%= p.getPrice() + p.getDiscountPrice() %>원</s></b></h7>
-	                                    <% } %>	 
+	                                    <h7 class="product-price  my-4"><b><%= p.getPrice() - p.getDiscountPrice() %>원</b></h7>
+	                                    <h7 class="product-price  my-4" style="color:gray;"><b><s><%= p.getPrice()%>원</s></b></h7>
+	                                    <% } %>
 	                                                                      
 	                                    <div class="icon d-flex justify-content-end">
 		                                        <svg class="heart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -222,9 +235,7 @@
         	                   					},
         	                   					type:"post",
         	                   					success:function(result){
-        	                   						if(result>0){
-        	                   							alert("찜해제");
-        	                   						}
+        	                   						
         	                   					}
         	                   					
         	                   				})	
@@ -239,9 +250,7 @@
                         							},
                         							type:"post",
                         							success:function(result){
-                        								if(result>0){
-                        									alert("찜하기 성공");
-                        								}
+                        								
                         							}
                         						})
                            					

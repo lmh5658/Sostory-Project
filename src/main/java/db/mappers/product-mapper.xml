@@ -4,22 +4,23 @@
 	<entry key="selectProductList">
 	
 		SELECT *
-			FROM (
-			    SELECT ROWNUM RNUM, A.*
-			    FROM (
-			    SELECT 
-			         PRODUCT_NO
-			       , CATEGORY_NAME
-			       , PRODUCT_NAME
-			       , PRICE
-				   , DISCOUNT_PRICE
-			       , PATH
-			    FROM TB_PRODUCT
-			    JOIN TB_CATEGORY USING(CATEGORY_NO)
-			    WHERE STATUS = 'Y'
-			    ) A
-			)
-			WHERE RNUM BETWEEN ? AND ?
+         FROM (
+             SELECT ROWNUM RNUM, A.*
+             FROM (
+                 SELECT 
+                  PRODUCT_NO
+                , CATEGORY_NAME
+                , PRODUCT_NAME
+                , PRICE
+               , DISCOUNT_PRICE
+                , PATH
+             FROM TB_PRODUCT
+             JOIN TB_CATEGORY USING(CATEGORY_NO)
+             WHERE STATUS = 'Y'
+             ORDER BY DBMS_RANDOM.value
+             ) A
+         )
+         WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
 	<entry key="selectListCount">
