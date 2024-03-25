@@ -148,6 +148,9 @@
                 		location.href="<%=contextPath%>/srank.pr?page=1&search=" + $("#search").val();
                 	})
                 	
+                	
+                	
+                	
                 })
                 	
                 </script>
