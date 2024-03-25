@@ -191,31 +191,84 @@
 		  	 , MODIFY_DATE = SYSDATE
 	</entry>
 	
-	<entry key="selectOrderList">
-		SELECT 
-		       ORDER_NO
-		     , USER_ID
-		     , TOTAL_ORIGIN_PRICE
-		     , ORDER_DATE
-		     , ORDER_STATUS
+	<entry key="selectCountOrderList">
+		SELECT COUNT(*) COUNT
 		  FROM TB_ORDER
-		  JOIN TB_MEMBER USING(USER_NO)
 	</entry>
 	
-	<entry key="selectOrderProduct">
-		SELECT ORDER_NO
-		     , PRODUCT_NAME
-		     , (SELECT COUNT(*)
-		          FROM TB_ORDER_PRODUCT A
-		         WHERE A.ORDER_NO = B.ORDER_NO
-		         GROUP
-		            BY ORDER_NO) COUNT
-		  FROM TB_ORDER_PRODUCT B
-		  JOIN TB_PRODUCT USING (PRODUCT_NO)
-		 WHERE ORDER_NO = 3
-		   AND ROWNUM = 1;
+	<entry key="selectOrderList">
+		  SELECT OT.*
+	        FROM (
+	              SELECT 
+	                      DISTINCT TB_ORDER_PRODUCT.ORDER_NO
+	                     ,ROWNUM RNUM
+	                     ,(         
+	                       SELECT PRODUCT_NAME
+	                         FROM TB_ORDER_PRODUCT
+	                         JOIN TB_PRODUCT USING (PRODUCT_NO)
+	                        WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                          AND ROWNUM = 1
+	                      )TITLE_PRODUCT_NAME
+	                     ,(
+	                       SELECT COUNT(*) 
+	                        FROM TB_ORDER_PRODUCT
+	                       WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                       ) AS TOTAL_ORDER
+	                     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+	                     ,ORDER_STATUS
+	                     ,USER_NAME
+	                     ,TOTAL_ORIGIN_PRICE AS PAYMENT
+	                FROM TB_ORDER
+	                JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+	                JOIN TB_MEMBER ON (TB_ORDER.USER_NO = TB_MEMBER.USER_NO)
+	               ORDER BY ORDER_DATE DESC
+	              )OT
+	       WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<entry key="selectCountOrderSearch">
+		SELECT COUNT(*) COUNT
+		  FROM TB_ORDER
+		  JOIN TB_MEMBER USING (USER_NO)
+		 WHERE USER_ID LIKE ?
+	</entry>
+	
+	<entry key="selectOrderSearchList">
+		  SELECT OT.*
+	        FROM (
+	              SELECT 
+	                      DISTINCT TB_ORDER_PRODUCT.ORDER_NO
+	                     ,ROWNUM RNUM
+	                     ,(         
+	                       SELECT PRODUCT_NAME
+	                         FROM TB_ORDER_PRODUCT
+	                         JOIN TB_PRODUCT USING (PRODUCT_NO)
+	                        WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                          AND ROWNUM = 1
+	                      )TITLE_PRODUCT_NAME
+	                     ,(
+	                       SELECT COUNT(*) 
+	                        FROM TB_ORDER_PRODUCT
+	                       WHERE ORDER_NO = TB_ORDER.ORDER_NO
+	                       ) AS TOTAL_ORDER
+	                     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+	                     ,ORDER_STATUS
+	                     ,USER_NAME
+	                     ,TOTAL_ORIGIN_PRICE AS PAYMENT
+	                FROM TB_ORDER
+	                JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+	                JOIN TB_MEMBER ON (TB_ORDER.USER_NO = TB_MEMBER.USER_NO)
+	               WHERE USER_ID LIKE ?
+	               ORDER BY ORDER_DATE DESC
+	              )OT
+	       WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="updateOrderStatus">
+		UPDATE TB_ORDER
+		   SET ORDER_STATUS = ?
+		 WHERE ORDER_NO = ?
+	</entry>
 </properties>
 
 

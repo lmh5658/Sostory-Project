@@ -153,11 +153,44 @@ public class ManagerService {
 		return result;
 	}
 
-	public List<Order> selectOrderList() {
+	public List<Order> selectOrderList(PageInfo pi) {
 		Connection conn = getConnection();
-		List<Order> list = mDao.selectOrderList(conn);
+		List<Order> list = mDao.selectOrderList(conn, pi);
 		close(conn);
 		return list;
+	}
+
+	public int selectCountOrderList() {
+		Connection conn = getConnection();
+		int result = mDao.selectCountOrderList(conn);
+		close(conn);
+		return result;
+	}
+
+	public int selectCountOrderSearch(String keyword) {
+		Connection conn = getConnection();
+		int result = mDao.selectCountOrderSearch(conn, keyword);
+		close(conn);
+		return result;
+	}
+
+	public List<Order> selectOrderSearchList(PageInfo pi, String keyword) {
+		Connection conn = getConnection();
+		List<Order> list = mDao.selectOrderSearchList(conn, pi, keyword);
+		close(conn);
+		return list;
+	}
+
+	public int updateOrderStatus(Order o) {
+		Connection conn = getConnection();
+		int result = mDao.updateOrderStatus(conn, o);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
 	}
 
 	

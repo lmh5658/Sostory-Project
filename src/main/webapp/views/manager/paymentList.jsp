@@ -1,11 +1,13 @@
+<%@page import="javax.swing.text.AbstractDocument.Content"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.sos.common.model.vo.PageInfo, java.util.List" %>
-<%@ page import="com.sos.order.model.vo.Order" %>
+<%@ page import="com.sos.cart.model.vo.Order" %>
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	List<Product> list = (List<order>)request.getAttribute("list");
+	List<Order> orderList = (List<Order>)request.getAttribute("orderList");
 	String keyword = (String)request.getAttribute("keyword");
+	String[] orderStatus = {"결제완료", "결제전", "배송중", "배송완료"};
 %>
 <!DOCTYPE html>
 <html>
@@ -130,12 +132,14 @@
                     <path d="m13.158 9.608-.043-.148c-.181-.613-1.049-.613-1.23 0l-.043.148a.64.64 0 0 1-.921.382l-.136-.074c-.561-.306-1.175.308-.87.869l.075.136a.64.64 0 0 1-.382.92l-.148.045c-.613.18-.613 1.048 0 1.229l.148.043a.64.64 0 0 1 .382.921l-.074.136c-.306.561.308 1.175.869.87l.136-.075a.64.64 0 0 1 .92.382l.045.149c.18.612 1.048.612 1.229 0l.043-.15a.64.64 0 0 1 .921-.38l.136.074c.561.305 1.175-.309.87-.87l-.075-.136a.64.64 0 0 1 .382-.92l.149-.044c.612-.181.612-1.049 0-1.23l-.15-.043a.64.64 0 0 1-.38-.921l.074-.136c.305-.561-.309-1.175-.87-.87l-.136.075a.64.64 0 0 1-.92-.382ZM12.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                 </svg>주문관리><b>결제관리</b>
             </div>
-            <div class="pro_search">
-                <div class="pro_name">상품명</div>
-                <div><input type="text" class="form-control"></div>
-                <div><button>조회</button></div>
-            </div>
-        
+            <form action="searchPayment.ma">
+            	<input type="hidden" name="page" value="1">
+	            <div class="pro_search">
+	                <div class="pro_name">아이디</div>
+	                <div><input type="text" name="keyword" class="form-control"></div>
+	                <div><button>조회</button></div>
+	            </div>
+        	</form>
             <div class="table_d">
                 <div>
                     <table class="table table-hover">
@@ -150,28 +154,60 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table_title">
-                                <td>123456789</td>
-                                <td>user01</td>
-                                <td>오리엔탈드레싱 외 1</td>
-                                <td>40,000</td>
-                                <td>2024/03/13</td>
-                                <td>
-                                    <select name="" id="">
-                                        <option value="">입금대기</option>
-                                        <option value="">배송중</option>
-                                        <option value="">배송준비중</option>
-                                        <option value="">배송완료</option>
-                                    </select>
-                                </td>
-                            </tr>
+                        	<% if(orderList.isEmpty()) { %>
+                        	<tr>
+                        		<td colspan="6">주문내역이 존재하지 않습니다.</td>
+                        	</tr>
+                        	<% } else { %>
+                        		<% for(Order o : orderList) { %>
+	                            <tr class="table_title">
+	                                <td id="orderNo"><%= o.getOrderNo() %></td>
+	                                <td><%= o.getUserName() %></td>
+	                                <td><%= o.getTitleProductName() %> 외 <%= o.getTotalOrder() %></td>
+	                                <td><%= String.format("%,d", o.getPay()) %> 원</td>
+	                                <td><%= o.getOrderDate() %></td>
+	                                <td>
+	                                    <select name="orderStatus" class="orderStatus">
+	                                    	<% for(int i = 0; i < orderStatus.length; i++) { %>
+	                                    		<% if(Integer.parseInt(o.getOrderStatus()) == i + 1) { %>
+	                                    		<option value="<%= i+1 %>" selected><%= orderStatus[i] %></option>
+	                                    		<% } else { %>
+	                                        	<option value="<%= i+1 %>"><%= orderStatus[i] %></option>
+	                                        	<% } %>
+	                                        <% } %>
+	                                    </select>
+	                                </td>
+	                            </tr>
+	                            <% } %>
+                            <% } %>
                         </tbody>
                     </table>     
                 </div>
                     <div style="font-weight: bold;">
-                        총 결제 수 : <label style="color: red;">6</label>
+                        총 결제 수 : <label style="color: red;"><%= pi.getListCount() %> 건</label>
                     </div>                  
             </div>
+            
+            <script>
+            	$(".table_title").click(function(){
+            		location.href = "<%=contextPath%>/detailOrder.me?oNo=" + $(this).children().eq(0).text();
+            	})
+            
+            	$(".orderStatus").on("change", function(){
+            		$.ajax({
+            			url: "<%=contextPath%>/updateOrderStatus.ma",
+            			data: {
+            					orderStatus: $(this).find(":selected").val(),
+            					orderNo: $(this).parent().siblings().eq(0).text()
+            				  },
+            			success: function(result){
+            				alert("주문상태가 변경되었습니다.");
+            			}, error: function(){
+            				console.log("실패");
+            			}
+            		})
+            	})
+            </script>
             
             <!-- 페이징 -->
 			<% if(keyword == null) { %>
@@ -179,21 +215,21 @@
                   	<% if(pi.getCurrentPage() == 1) { %>
                       <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                       <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() - 1 %>" >Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/paymentList.ma?page=<%= pi.getCurrentPage() - 1 %>" >Previous</a></li>
                       <% } %>
                       
                       <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
                       	<% if(i == pi.getCurrentPage())	{ %>
-                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
+                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/paymentList.ma?page=<%= i %>"><%= i %></a></li>
                       	<% } else {%>
-                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= i %>"><%= i %></a></li>
+                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/paymentList.ma?page=<%= i %>"><%= i %></a></li>
                       	<% } %>
                       <% } %>
                       
                       <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
                       <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                       <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/productList.ma?page=<%= pi.getCurrentPage() + 1 %>" >Next</a></li>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/paymentList.ma?page=<%= pi.getCurrentPage() + 1 %>" >Next</a></li>
                       <% } %>
                   </ul>
                   <% } else { %>
@@ -201,48 +237,24 @@
                   	<% if(pi.getCurrentPage() == 1) { %>
                       <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                       <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() - 1 %>&keyword=<%= keyword %>" >Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchPayment.ma?page=<%= pi.getCurrentPage() - 1 %>&keyword=<%= keyword %>" >Previous</a></li>
                       <% } %>
                       
                       <% for (int i = pi.getStartPage(); i <= pi.getEndPage(); i++) { %>
                       	<% if(i == pi.getCurrentPage())	{ %>
-                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                      	<li class="page-item active"><a class="page-link" href="<%= contextPath %>/searchPayment.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
                       	<% } else {%>
-                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
+                      	<li class="page-item"><a class="page-link" href="<%= contextPath %>/searchPayment.ma?page=<%= i %>&keyword=<%= keyword %>"><%= i %></a></li>
                       	<% } %>
                       <% } %>
                       
                       <% if(pi.getCurrentPage() == pi.getMaxPage()) { %>
                       <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                       <% } else { %>
-                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchProduct.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Next</a></li>
+                      <li class="page-item"><a class="page-link" href="<%= contextPath %>/searchPayment.ma?page=<%= pi.getCurrentPage() + 1 %>&keyword=<%= keyword %>" >Next</a></li>
                       <% } %>
                   </ul>
                   <% } %>
-
-                $(function(){
-                        // 전체 선택 / 해제
-                    $("#cbx_chkAll").click(function(){
-                        if($("#cbx_chkAll").is(":checked")){
-                        $("input[name=typArr]").prop("checked", true);
-                        }else {
-                        $("input[name=typArr]").prop("checked", false);
-                        }
-                    });
-                    
-                    $("input[name=typArr]").click(function(){
-                        var totalArr = $("input[name=typArr]").length;
-                        var checked = $("input[name=typArr]:checked").length;
-                        
-                        if(totalArr != ckecked){
-                        $("#cbx_chkAll").prop("checked", false);
-                        }else{
-                        $("#cbx_chkAll").prop("checked", true);
-                        }
-                    });
-                })
-                
-              </script>
 
         </div>
 
