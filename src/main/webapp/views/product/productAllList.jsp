@@ -144,14 +144,17 @@
             	$(function(){
             		$("#option").change(function(){	
             			location.href = "<%=contextPath%>/salist.pr?page=1&select=" + $(this).val();
-            						
+            			
+            		})
+            		let select = '<%=select%>';
+            		$(".selectpicker").find("option").each(function(){
+            			if($(this).val() == select){
+            				$(this).attr("selected", true);
+            			}
             		})
             		
-            		let option = $("#option").val();
-            		let select = <%=select%>;
-            		if(option == select){
-            			$("#").attr("selected", true);
-            		}
+            		
+            		
             	})
             </script>
 

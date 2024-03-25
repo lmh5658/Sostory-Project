@@ -147,7 +147,7 @@
                                         <h1 style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice()%>원</b></h1>
                                         <% }else{ %>
                                         <h1 class="d-block" style="padding-top: 20px; color: rgba(173, 10, 10, 0.674);"><b><%= pro.getPrice() - pro.getDiscountPrice()%>원</b></h1>
-                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice() + pro.getDiscountPrice() %>원</del></h4>
+                                        <h4 style="color: gray;">&nbsp;<del><%= pro.getPrice()%>원</del></h4>
                                         <hr>
                                         <% } %>
                                         
@@ -378,7 +378,8 @@
                  
                  <script>
                		if(<%=loginUser != null%>){
-	                 	
+	                 	// 데이터를 넘기고
+	                 	// 
 	                 
                		}
                  </script>
