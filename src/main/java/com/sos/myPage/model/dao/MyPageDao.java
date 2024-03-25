@@ -1344,5 +1344,41 @@ public class MyPageDao {
 		return result;
 		
 	}
+	
+	/**
+	 * 마이페이지에 접속한 회원의 기본정보 조회시 실행될 메소드 (마이페이지 메인페이지 정보조회)
+	 * 
+	 * @param conn
+	 * @param userNo : 마이페이지 요청 회원번호
+	 * @return : 조회된 사용자의 기본정보 및 데이터 
+	 */
+	public HashMap<String, Integer> selectMyPageMainInfo(Connection conn, int userNo){
+		
+		HashMap<String, Integer> me = new HashMap<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectMyPageMainInfo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				me.put("totalDelivering", rset.getInt("TOTAL_DELIVERING"));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return me;
+		
+	}
 
 }

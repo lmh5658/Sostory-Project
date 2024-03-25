@@ -74,20 +74,18 @@ a{
 }
 
 .profile{
-    border: 1px solid lightblue;   /* 사진넣을 때 지울것!! 영역표시를 위해 임시부여한 것임 */
     width: 150px;
     height: 150px;
     border-radius: 80px;
     padding: 80px;
+    display: flex;
 }
 
-img#userProfile{
-	border: 1px solid lightblue;   /* 사진넣을 때 지울것!! 영역표시를 위해 임시부여한 것임 */
-    width: 150px;
-    height: 150px;
-    border-radius: 80px;
-    padding: 80px;
+.user-info-etc:hover{
+	cursor:pointer;
+	opacity:0.8;
 }
+
 
 .profile-right{
     margin-top: 20px;
@@ -98,6 +96,20 @@ img#userProfile{
 .profile-right-bottom{
     margin-top: 25px;
     display: flex;
+}
+
+#userProfile{
+	border: 1px solid black;
+	display: block;
+    width: 170px;
+    height: 170px;
+    border-radius: 80px;
+    margin-left:-70px;
+    margin-top: -80px;
+}
+
+.profile-right>h3{
+	margin-left:70px;
 }
 
 .user-info-etc{

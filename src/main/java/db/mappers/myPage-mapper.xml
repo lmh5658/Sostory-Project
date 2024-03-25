@@ -544,4 +544,43 @@
 		 WHERE RECIPE_NO = ?
 	</entry>
 	
+	<!-- 마이페이지 메인페이지 정보조회 -->
+	<entry key="selectMyPageMainInfo">
+		SELECT (
+		         SELECT COUNT(*) 
+		           FROM TB_ORDER
+		          WHERE ORDER_STATUS = 3
+		            AND USER_NO = TB_MEMBER.USER_NO
+		        )TOTAL_DELIVERING
+		       ,(
+		         SELECT COUNT(*)
+		           FROM TB_LIKE
+		          WHERE LIKE_TYPE = 'P'
+		            AND USER_NO = TB_MEMBER.USER_NO
+		        )TOTAL_LIKED_PRODUCT
+		       ,(
+		         SELECT COUNT(*)
+		           FROM TB_LIKE
+		          WHERE LIKE_TYPE = 'R'
+		            AND USER_NO = TB_MEMBER.USER_NO
+		         )TOTAL_LIKED_RECIPE
+		        ,(
+		          SELECT COUNT(*)
+		            FROM TB_QNA_REPLY
+		           WHERE ANSWER_STATUS = '미처리'
+		             AND ANSWER_TYPE = 1
+		             AND USER_NO = TB_MEMBER.USER_NO
+		          )TOTAL_ONGOING_QNA_PRODUCT
+		        ,(
+		          SELECT COUNT(*)
+		            FROM TB_QNA_REPLY
+		           WHERE ANSWER_STATUS = '미처리'
+		             AND ANSWER_TYPE = 2
+		             AND USER_NO = TB_MEMBER.USER_NO
+		          )TOTAL_ONGOING_QNA_ETC
+		  FROM TB_MEMBER
+		 WHERE USER_NO = ?
+		   AND USER_STATUS = 'Y'
+	</entry>
+	
 </properties>

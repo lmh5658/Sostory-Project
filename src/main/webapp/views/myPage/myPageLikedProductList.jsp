@@ -227,7 +227,7 @@
 	                    	<% } else { %>
 	                    		<% for(Liked li : likedList) { %>
 		                    	<!-- 상품 썸네일 한개 start -->
-	                            <div class="product img-thumbnail p-2" style="width:295px; heigth:500px;">
+	                            <div class="product img-thumbnail p-2" style="width:290px; heigth:500px;">
 	                            	<div class="item">
 			                    		<input type="hidden" class="pNo" value="<%= li.getProductNo() %>">
 		                                <img class="product-img" src="<%= contextPath + "/" + li.getProductThumbnailUrl() %>" alt="Card image" style="width:100%; height:300px;">

@@ -192,7 +192,7 @@
 	                        <!-- 각 메뉴 클릭시, 해당페이지로 이동 -->
 	                        <div class="profile-right-bottom mt-5">
 	                            
-	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;" onclick="orderList();">
 	                                <b class="d-block">배송중</b>
 	                                <h6><b>1</b>개</h6>
 	                            </div>
@@ -206,18 +206,35 @@
 	                                <h6><b>1</b>개</h6>
 	                            </div>
 								-->
-	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;" onclick="likedProduct();">
 	                                <b class="d-block">찜한상품</b>
 	                                <h6><b>5</b>개</h6>
 	                            </div>
 	
-	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;">
+	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;" onclick="likedRecipe();">
 	                                <b class="d-block">찜한레시피</b>
 	                                <h6><b>3</b>개</h6>
 	                            </div>
 	
 	                        </div>
 	                    </div>
+	                    
+	                    <script>
+	                    	// 주문목록페이지 이동시 실행될 함수
+	                    	function orderList(){
+	                    		location.href="<%= contextPath %>/olist.me";
+	                    	}
+	                    	
+	                    	// 찜상품목록페이지 이동시 실행될 함수
+	                    	function likedProduct(){
+	                    		location.href="<%= contextPath %>/like.me?type=p&page=1";
+	                    	}
+	                    	
+	                    	// 찜레시피페이지 이동시 실행될 함수
+	                    	function likedRecipe(){
+	                    		location.href="<%= contextPath %>/like.me?type=r&page=1";
+	                    	}
+	                    </script>
 	
 	                </div>
 	                <!-- 회원정보 영역(오른쪽 상단) end -->
@@ -235,13 +252,9 @@
 	                            <!-- 현재 진행중인 고객문의 표시 -->
 	                            <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
 	                            <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
-	
-	                            <!-- 미확인 문의는 확인하면 표시안됨 -->
-	                            <h6 class="mt-5 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>미확인 완료문의</b></h6>
-	                            <b>확인하지 않은 2건의 완료 문의가 있습니다.</b>
-	
+	                            
 	                            <!-- 클릭시 해당 문의페이지로 이동-->
-	                            <a class="btn btn-secondary mt-5">확인하기</a>
+	                            <a class="btn btn-secondary mt-5" href="<%= contextPath %>/qlist.me?type=1">확인하기</a>
 	                        </div>
 	
 	                        <!-- 1:1 문의 -->
@@ -252,12 +265,8 @@
 	                            <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
 	                            <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
 	
-	                            <!-- 미확인 문의는 확인하면 표시안됨 -->
-	                            <h6 class="mt-5 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>미확인 완료문의</b></h6>
-	                            <b>확인하지 않은 2건의 완료 문의가 있습니다.</b>
-	
 	                            <!-- 클릭시 해당 문의페이지로 이동-->
-	                            <a class="btn btn-secondary mt-5">확인하기</a>
+	                            <a class="btn btn-secondary mt-5" href="<%= contextPath %>/qlist.me?type=2">확인하기</a>
 	                        </div>
 	                    </div>
 	                    
