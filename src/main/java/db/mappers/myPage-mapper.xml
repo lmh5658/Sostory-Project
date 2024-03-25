@@ -513,20 +513,28 @@
 	
 	<!-- 작성한 레시피 목록조회 -->
 	<entry key="selectRecipeList">
-		SELECT
-		      RECIPE_NO
-		     ,RECIPE_TITLE
-		     ,TO_CHAR(POST_DATE, 'YYYY-MM-DD') PSOT_DATE
-		     ,(
-		        SELECT COUNT(*)
-		          FROM TB_LIKE
-		         WHERE LIKE_REFNO = TB_RECIPE.RECIPE_NO
-		           AND LIKE_TYPE = 'R'
-		      )TOTAL_LIKED
-		    ,THUMBNAIL_URL
-		  FROM TB_RECIPE
-		 WHERE RECIPE_STATUS = 'Y'
-		   AND USER_NO = ?
+		SELECT RR.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                      RECIPE_NO
+		                     ,RECIPE_TITLE
+		                     ,POST_DATE
+		                     ,(
+		                        SELECT COUNT(*)
+		                          FROM TB_LIKE
+		                         WHERE LIKE_REFNO = TB_RECIPE.RECIPE_NO
+		                           AND LIKE_TYPE = 'R'
+		                      )TOTAL_LIKED
+		                    ,THUMBNAIL_URL
+		                  FROM TB_RECIPE
+		                 WHERE RECIPE_STATUS = 'Y'
+		                   AND USER_NO = ?
+		                 ORDER BY RECIPE_NO DESC
+		                )R
+		        )RR
+		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
 	<!-- 작성한 레피시 삭제요청 -->
