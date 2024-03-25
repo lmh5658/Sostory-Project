@@ -89,6 +89,126 @@ public class ManagerDao2 {
 	}
 	
 	
+
+	public List<ProductQnaReply> managerProQnalist(Connection conn, PageInfo pi){
+		List<ProductQnaReply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("managerProQnalist");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ProductQnaReply pQna = new ProductQnaReply();
+				pQna.setAnswerNo(rset.getInt("ANSWER_NO"));
+				pQna.setProductNo(rset.getInt("PRODUCT_NO"));
+				pQna.setUserNo(rset.getString("USER_ID"));
+				pQna.setAnswerDate(rset.getString("ANSWER_DATE"));
+				pQna.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				pQna.setAnswerStatus(rset.getString("ANSWER_STATUS"));
+				list.add(pQna);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	public List<ProductQnaReply> managerUnproQnalist(Connection conn, PageInfo pi){
+		List<ProductQnaReply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("managerUnproQnalist");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ProductQnaReply pQna = new ProductQnaReply();
+				pQna.setAnswerNo(rset.getInt("ANSWER_NO"));
+				pQna.setProductNo(rset.getInt("PRODUCT_NO"));
+				pQna.setUserNo(rset.getString("USER_ID"));
+				pQna.setAnswerDate(rset.getString("ANSWER_DATE"));
+				pQna.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				pQna.setAnswerStatus(rset.getString("ANSWER_STATUS"));
+				list.add(pQna);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public int managerProQnalistCount(Connection conn) {
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("managerProQnalistCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+	}
+	
+	public int managerUnproQnalistCount(Connection conn) {
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("managerUnproQnalistCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+	}
+	
+	
+	
 	
 	
 	

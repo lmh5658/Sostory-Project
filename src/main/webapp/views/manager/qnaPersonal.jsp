@@ -144,14 +144,102 @@
                 </div>
                 <div class="option_2">
                     <button class="select_delete" onclick="return confirm('정말로 삭제하시겠습니까?');">선택삭제</button>
-                    <select name="" id="">
-                        <option value="">전체</option>
-                        <option value="">처리</option>
-                        <option value="">미처리</option>
+                    <select name="select" id="select">
+                        <option value="all">전체</option>
+                        <option value="processed">처리</option>
+                        <option value="unprocessed">미처리</option>
                     </select>
                 </div>
             </div>
-            <div class="table_d">
+            
+            <script>
+            	$(function(){
+            		select(1);
+            		
+            	})
+            	
+           		function select(page){
+            		
+            		$("#select").change(function(){
+                		
+                		$.ajax({
+               				url:"<%=contextPath%>/qnaselect.me",
+               				data:{
+               					select:$(this).val(),
+               					page:page
+               				},
+               				type:"post",
+               				success:function(result){
+               					console.log(result.pi);
+               					//{pi: {…}, list: [{..},{..},]}
+               					let list = "";
+               					for(let i=0; i<result.list.length; i++){
+               						list += "<tr>"
+               						     + "<td><input type='checkbox' name='typArr'></td>"
+               						     + "<td>" + result.list[i].answerNo + "</td>"
+               						     + "<td>" + result.list[i].answerDate + "</td>"
+               						     + "<td>" + result.list[i].userNo + "</td>"
+               						     + "<td>" + result.list[i].answerTitle + "</td>"
+               						     + "<td>" + result.list[i].answerStatus + "</td>";   
+               					}
+               					
+               					$("#table_div tbody").html("");
+               					$("#table_div tbody").html(list);
+               					
+               					let paging = "";
+               					
+               					if(1 == result.pi.currentPage) {
+               						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+               	                }else {
+               	                	paging += "<li class='page-item'><a class='page-link' onclick='select(" + (page- 1) + ")'>Previous</a></li>";
+               	                }
+               	                
+               	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
+               		                if (p == result.pi.currentPage){
+               		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+               		                } else {
+               		                	paging += '<li class="page-item"><a class="page-link" onclick="select(' + p + ')">' + p + '</a></li>';
+               		                }
+               	                }
+               					
+               					if(result.pi.endPage != result.pi.maxPage){			
+               						paging += '<li class="page-item"><a class="page-link" onclick="select(' + (page + 1) + ')>Next</a></li>'
+               	                }else{
+               	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+               	                }
+               					
+               	                $("#paging").html("");
+               	            	$("#paging").html(paging);
+               	            	
+               	            	console.log(paging);
+               					
+               				}
+               				
+               			})
+                		
+                		
+                		
+                	})
+            		
+            		
+            		
+            	}
+            	
+            		
+            		
+            		
+            
+           			
+           		
+            	
+            	
+            
+            </script>
+        
+            
+            
+            
+            <div class="table_d" id="table_div">
                 <div>
                     <table class="table table-hover">
                         <thead>
@@ -175,6 +263,7 @@
                                 <td><%= p.getAnswerStatus() %></td>
                             </tr>
                             <% } %>
+                
                         </tbody>
                     </table>     
                 </div>
@@ -186,7 +275,7 @@
             
             
             
-            <ul class="pagination">
+            <ul class="pagination" id="paging">
             
             	<% if(1 == pi.getCurrentPage()) { %>
                 <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
