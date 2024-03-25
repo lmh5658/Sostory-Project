@@ -675,4 +675,22 @@ public class MyPageService {
 		return result;
 		
 	}
+	
+	/**
+	 * 마이페이지에서 사용자가 작성한레시피 삭제요청시 실행될 메소드
+	 * 
+	 * @param recipeNo : 삭제할 레시피번호
+	 * @return : 레시피 삭제요청 처리결과 행 수
+	 */
+	public HashMap<String, Integer> selectMyPageMainInfo(int userNo){
+		
+		Connection conn = getConnection();
+		
+		HashMap<String, Integer> me = mpDao.selectMyPageMainInfo(conn, userNo);
+		
+		close(conn);
+		
+		return me;
+		
+	}
 }

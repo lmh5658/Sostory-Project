@@ -1368,8 +1368,15 @@ public class MyPageDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				me.put("totalDelivering", rset.getInt("TOTAL_DELIVERING"));
+			
+				me.put("totalDelivering", rset.getInt("total_delivering"));
+				me.put("totalLikedProduct", rset.getInt("total_liked_product"));
+				me.put("totalLikedRecipe", rset.getInt("total_liked_recipe"));
+				me.put("totalOngoingQnaProduct", rset.getInt("total_ongoing_qna_product"));
+				me.put("totalOngoingQnaEtc", rset.getInt("total_ongoing_qna_etc"));
+				
 			}
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {

@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.sos.member.model.vo.Member" %>
+<%@ page import="com.sos.member.model.vo.Member
+				,java.util.HashMap" 
+%>
+
+<%
+	HashMap<String, Integer> me = (HashMap<String, Integer>)request.getAttribute("myInfo");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -194,7 +200,7 @@
 	                            
 	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;" onclick="orderList();">
 	                                <b class="d-block">배송중</b>
-	                                <h6><b>1</b>개</h6>
+	                                <h6><b><%= me.get("totalDelivering") %></b>개</h6>
 	                            </div>
 	
 	                            <!--
@@ -208,12 +214,12 @@
 								-->
 	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;" onclick="likedProduct();">
 	                                <b class="d-block">찜한상품</b>
-	                                <h6><b>5</b>개</h6>
+	                                <h6><b><%= me.get("totalLikedProduct") %></b>개</h6>
 	                            </div>
 	
 	                            <div class="user-info-etc" style="border-right: 2px solid lightgray;" onclick="likedRecipe();">
 	                                <b class="d-block">찜한레시피</b>
-	                                <h6><b>3</b>개</h6>
+	                                <h6><b><%= me.get("totalLikedRecipe") %></b>개</h6>
 	                            </div>
 	
 	                        </div>
@@ -251,10 +257,14 @@
 	
 	                            <!-- 현재 진행중인 고객문의 표시 -->
 	                            <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
-	                            <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
+	                            <% if(me.get("totalOngoingQnaProduct") == 0 ) { %>
+	                            	<h6 style="color: rgb(158, 155, 155); margin-top:50px;">진행 중인 문의가 존재하지 않습니다.</h6>
+	                            <% } else { %>
+	                            	<h6 style="margin-top:50px;">진행 중인 문의 총 <b style="font-size: 20px;"><%= me.get("totalOngoingQnaProduct") %></b> 건 존재합니다.</h6>
+	                            <% } %>
 	                            
 	                            <!-- 클릭시 해당 문의페이지로 이동-->
-	                            <a class="btn btn-secondary mt-5" href="<%= contextPath %>/qlist.me?type=1">확인하기</a>
+	                            <a class="btn btn-secondary confirm" href="<%= contextPath %>/qlist.me?type=1">문의확인</a>
 	                        </div>
 	
 	                        <!-- 1:1 문의 -->
@@ -263,10 +273,14 @@
 	
 	                            <!-- 현재 진행중인 고객문의 표시 -->
 	                            <h6 class="mt-2 mb-3 pb-3" style="width: 250px; text-align: center; padding-bottom:6px; border-bottom:1px solid grey;"><b>진행중 문의</b></h6>
-	                            <h6 style="color: rgb(158, 155, 155);">진행 중인 문의가 존재하지 않습니다.</h6>
+	                            <% if(me.get("totalOngoingQnaEtc") == 0 ) { %>
+	                            	<h6 style="color: rgb(158, 155, 155); margin-top: 50px;">진행 중인 문의가 존재하지 않습니다.</h6>
+	                            <% } else { %>
+	                            	<h6 style="margin-top:50px;">진행 중인 문의 총 <b style="font-size: 20px;"><%= me.get("totalOngoingQnaEtc") %></b> 건 존재합니다.</h6>
+	                            <% } %>
 	
 	                            <!-- 클릭시 해당 문의페이지로 이동-->
-	                            <a class="btn btn-secondary mt-5" href="<%= contextPath %>/qlist.me?type=2">확인하기</a>
+	                            <a class="btn btn-secondary confirm" href="<%= contextPath %>/qlist.me?type=2">문의확인</a>
 	                        </div>
 	                    </div>
 	                    
