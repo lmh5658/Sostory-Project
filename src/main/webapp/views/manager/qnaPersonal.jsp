@@ -131,7 +131,7 @@
             <div class="pro_search">
                 <div class="pro_name">회원ID</div>
                 <div><input type="text" class="form-control" name="memId" id="memId"></div>
-                <div><button class="searchBtn">조회</button></div>
+                <div><button class="searchBtn" onclick="member(1);">조회</button></div>
             </div>
             <div class="select_div">
                 <div>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="option_2">
                     <button id="select_btn" class="select_delete">선택삭제</button>
-                    <select name="select" id="select">
+                    <select name="select" id="selecte" onchange="statusData(1);">
                         <option value="all">전체</option>
                         <option value="processed">처리</option>
                         <option value="unprocessed">미처리</option>
@@ -148,19 +148,6 @@
             </div>
             
             <script>
-	        		
-            	
-            	
-            	
-            	$(function(){
-            		select(1);
-            		
-            		$(".searchBtn").click(function(){
-            			member(1);
-            		})
-            	
-            	})
-            	
             	
 	            function member(page){
 	        		
@@ -187,29 +174,30 @@
             	
             	
             	
-           		function select(page){
-            		
-            		$("#select").change(function(){
+            	
+           		function statusData(page){
                 		
                 		$.ajax({
                				url:"<%=contextPath%>/qnaselect.ma",
                				data:{
-               					select:$(this).val(),
+               					select:$("#selecte").val(),
                					page:page
                				},
                				type:"post",
                				success:function(result){
                					console.log(result.pi);
                					//{pi: {…}, list: [{..},{..},]}
+               					
                					let list = "";
                					for(let i=0; i<result.list.length; i++){
                						list += "<tr>"
                						     + "<td><input type='checkbox' class='typArr'></td>"
-               						     + "<td>" + result.list[i].answerNo + "</td>"
+               						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
                						     + "<td>" + result.list[i].answerDate + "</td>"
                						     + "<td>" + result.list[i].userNo + "</td>"
                						     + "<td>" + result.list[i].answerTitle + "</td>"
-               						     + "<td>" + result.list[i].answerStatus + "</td>";  
+               						     + "<td>" + result.list[i].answerStatus + "</td>"; 
+               						     + "</tr>"
                						
                						     
                					}
@@ -218,31 +206,28 @@
                					$("#table_div tbody").html(list);
                					
                					let paging = "";
-               					
+               				 	
                					if(1 == result.pi.currentPage) {
                						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
                	                }else {
-               	                	paging += "<li class='page-item'><a class='page-link' onclick='select(" + (page- 1) + ")'>Previous</a></li>";
+               	                	paging += "<li class='page-item'><a class='page-link' onclick='statusData(" + (page- 1) + ")'>Previous</a></li>";
                	                }
                	                
                	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
                		                if (p == result.pi.currentPage){
                		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
                		                } else {
-               		                	paging += '<li class="page-item"><a class="page-link" onclick="select(' + p + ')">' + p + '</a></li>';
+               		                	paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + p + ')">' + p + '</a></li>';
                		                }
                	                }
                					
                					if(result.pi.endPage != result.pi.maxPage){			
-               						paging += '<li class="page-item"><a class="page-link" onclick="select(' + (page + 1) + ')>Next</a></li>'
+               						paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + (page + 1) + ')>Next</a></li>'
                	                }else{
                	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
                	                }
                					
-               				
-               					
-               					
-               	                $("#paging").html("");
+               	            	$("#paging").html("");
                	            	$("#paging").html(paging);
                	            	
                	            	console.log($("#select_btn"));
@@ -270,7 +255,7 @@
                			})
                 		
                 		
-                	})
+                	
             		
             	}
             	
@@ -309,14 +294,14 @@
                         </thead>
                         <tbody>
                         	<% for(ProductQnaReply p : list){ %>
-                            <tr class="table_title">
+                            <tr class="table_content">
                                 <td>
                                 <input type="checkbox" class="typArr">
                                 </td>
                                 <td class="answerNo"><%= p.getAnswerNo() %></td>
                                 <td><%= p.getAnswerDate() %></td>
                                 <td><%= p.getUserNo() %></td>
-                                <td><%= p.getAnswerTitle() %></td>
+                                <td class="content"><%= p.getAnswerTitle() %></td>
                                 <td><%= p.getAnswerStatus() %></td>
                             </tr>
                             <% } %>
@@ -329,14 +314,15 @@
             </div>
             
             <script>
+            
             	$(function(){
-            		$(".table_title>td").nextAll().click(function(){
-            			console.log($(this).prev().prev().text());
-            			/*
-            			location.href="<%=contextPath%>/mselect.ma?page=1&search=" $(this).prev().text();
-            			*/
+            		$(".table_content").click(function(){
+            			console.log($(this).find(".answerNo").text());
+            			// let select = $(".table_content").children().eq(1).text();
+            			location.href="<%=contextPath%>/mselect.ma?page=1&search=" + $(this).find(".answerNo").text();
             		})
             	})
+            
             </script>
             
        
