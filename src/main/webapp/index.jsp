@@ -73,9 +73,9 @@
 	                 <!-- 상품 카테고리 영역 start -->
 	                 <input type="hidden" value="all" id="category">
 	                 <div class="product-category my-5 w-100 d-flex justify-content-evenly">
-	                     <button class="1 btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('all');">전체</button>
-	                     <button class="2 btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('best');">랭킹</button>
-	                     <button class="3 btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('new');">신상품</button>
+	                     <button class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('all');">전체</button>
+	                     <button class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('best');">랭킹</button>
+	                     <button class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('new');">신상품</button>
 	                 </div>
 	                 <!-- 상품 카테고리 영역 end -->
 	
@@ -94,7 +94,7 @@
 	                     		// 상품목록조회 함수호출
 	                     		selectProductList('all');
 	                     		
-	                     		console.log("페이징바 : " + <%= recipePi.getMaxPage() %>);
+	                     		
 	                     	})
 	                     	
 	                     	// 상품목록조회 Ajax통신
@@ -266,6 +266,7 @@
                          		$.ajax({
                          			url:"<%= contextPath %>/recipe.mp",
                          			data:{"page":requestPage},
+                         			// async:false,
                          			success:function(recipeList){
                          				console.log("성공");
                          				console.log(recipeList);
