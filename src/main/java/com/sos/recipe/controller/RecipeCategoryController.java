@@ -72,7 +72,7 @@ public class RecipeCategoryController extends HttpServlet {
 				request.setAttribute("pi", pi);
 				request.setAttribute("no", categoryNo);
 
-				request.getRequestDispatcher("/views/recipe/recipeCategory.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/recipe/recipeList.jsp").forward(request, response);
 				
 	}
 		

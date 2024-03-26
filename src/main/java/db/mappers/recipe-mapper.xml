@@ -34,7 +34,8 @@
 		            P.PRODUCT_NAME,
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
-		            P.PATH
+		            P.PATH,
+		            P.PRODUCT_NO
 		        FROM TB_RECIPE R
 		       left JOIN TB_MEMBER M ON R.USER_NO = M.USER_NO
       		   left JOIN TB_PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
@@ -52,8 +53,8 @@
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
 		            P.PATH,
-		            M.USER_PATH    
-		            
+		            M.USER_PATH,  
+		            P.PRODUCT_NO
 		    ) A
 		    ORDER BY A.LIKE_COUNT DESC
 		)
@@ -168,11 +169,17 @@
 		            R.COOKING_TIME,
 		            M.USER_NAME,
 		            M.USER_PATH,
-		            COUNT(L.LIKE_REFNO) AS LIKE_COUNT,
+		            (
+		            SELECT COUNT(*)
+		              FROM TB_LIKE
+		             WHERE LIKE_TYPE = 'R'
+		               AND LIKE_REFNO = ?
+		            ) LIKE_COUNT,
 		            P.PRODUCT_NAME,
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
-		            P.PATH
+		            P.PATH,
+		            P.PRODUCT_NO
 		        FROM TB_RECIPE R
 		       left JOIN TB_MEMBER M ON R.USER_NO = M.USER_NO
       		   left JOIN TB_PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
@@ -194,7 +201,8 @@
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
 		            P.PATH,
-		            M.USER_PATH
+		            M.USER_PATH,
+                    P.PRODUCT_NO
 			    ) A
    		 WHERE RECIPE_NO = ?
     </entry>
@@ -227,6 +235,7 @@
 		) A
 		JOIN TB_RECIPE R ON R.RECIPE_NO = A.RECIPE_NO
 		JOIN TB_RECIPE_STEP RS ON RS.RECIPE_NO = R.RECIPE_NO
+	   ORDER BY RS.STEP_NO
     </entry>
     
     
@@ -347,6 +356,34 @@
 		WHERE USER_NO = ?
 		  AND LIKE_REFNO = ?
           AND LIKE_TYPE = 'R'
+	</entry>
+	
+	<entry key="selectMemberLike">
+		SELECT COUNT(*) COUNT
+		  FROM TB_LIKE
+		 WHERE LIKE_TYPE = 'R'
+		   AND LIKE_REFNO = ?
+		   AND USER_NO = ?
+	</entry>
+	
+	<entry key="insertLike">
+		INSERT
+		  INTO TB_LIKE 
+		VALUES(
+				SEQ_LNO.NEXTVAL
+			  , ?
+			  , 'R'
+			  , ?
+			  , SYSDATE
+			  )
+	</entry>
+	
+	<entry key="deleteLike">
+		DELETE
+		  FROM TB_LIKE
+		 WHERE LIKE_TYPE = 'R'
+		   AND LIKE_REFNO = ?
+		   AND USER_NO = ?
 	</entry>
 	
 </properties>

@@ -1,5 +1,7 @@
 package com.sos.recipe.model.dao;
 
+import static com.sos.common.template.JDBCTemplate.close;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,12 +15,11 @@ import java.util.List;
 import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
-import com.sos.recipe.model.vo.Recipe;
-import com.sos.recipe.model.vo.Step;
+import com.sos.member.model.vo.Member;
 import com.sos.recipe.model.vo.Ingredient;
 import com.sos.recipe.model.vo.OrderProduct;
-
-import static com.sos.common.template.JDBCTemplate.*;
+import com.sos.recipe.model.vo.Recipe;
+import com.sos.recipe.model.vo.Step;
 
 public class RecipeDao {
 	
@@ -84,19 +85,22 @@ public class RecipeDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				list.add(new Recipe( rset.getInt("RECIPE_NO"), 
-									rset.getString("CATEGORY_NAME"), 
-									rset.getString("RECIPE_TITLE"),
-									rset.getString("THUMBNAIL_URL"),
-									rset.getString("RECIPE_INTRO"),
-									rset.getString("USER_NAME"),
-									rset.getString("USER_PATH"),
-									rset.getInt("LIKE_COUNT"),
-									rset.getString("PRODUCT_NAME"),
-									rset.getInt("PRICE"),
-									rset.getInt("DISCOUNT_PRICE"),
-									rset.getString("PATH")
-								  ));
+				Recipe r = new Recipe( rset.getInt("RECIPE_NO"), 
+										rset.getString("CATEGORY_NAME"), 
+										rset.getString("RECIPE_TITLE"),
+										rset.getString("THUMBNAIL_URL"),
+										rset.getString("RECIPE_INTRO"),
+										rset.getString("USER_NAME"),
+										rset.getString("USER_PATH"),
+										rset.getInt("LIKE_COUNT"),
+										rset.getString("PRODUCT_NAME"),
+										rset.getInt("PRICE"),
+										rset.getInt("DISCOUNT_PRICE"),
+										rset.getString("PATH")
+					  );
+				r.setProductNo(rset.getInt("product_no"));
+				list.add(r);
+				
 			}
 			
 			
@@ -241,9 +245,9 @@ public class RecipeDao {
 			pstmt = conn.prepareStatement(sql);
 	
 			pstmt.setInt(1, recipeNo);
+			pstmt.setInt(2, recipeNo);
 			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
+			if(rset.next()) {
 				detailRecipe  =  new Recipe( rset.getInt("RECIPE_NO"), 
 											rset.getInt("USER_NO"),
 											rset.getString("CATEGORY_NAME"), 
@@ -261,9 +265,8 @@ public class RecipeDao {
 											rset.getInt("DISCOUNT_PRICE"),
 											rset.getString("PATH")
 								  );
+				detailRecipe.setProductNo(rset.getInt("product_no"));
 			}
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -518,6 +521,65 @@ public class RecipeDao {
 			pstmt.setInt(2, recipeNo);
 			result = pstmt.executeUpdate();
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int selectMemberLike(Connection conn, int recipeNo, Member loginUser) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectMemberLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, recipeNo);
+			pstmt.setInt(2, loginUser.getUserNo());
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertLike(Connection conn, int recipeNo, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, recipeNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteLike(Connection conn, int recipeNo, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, recipeNo);
+			pstmt.setInt(2, userNo);
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

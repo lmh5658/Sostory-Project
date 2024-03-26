@@ -92,6 +92,40 @@ public class MainPageDao {
 		
 	}
 	
+	/**
+	 * 유효한레시피 갯수조회시 실행될 메소드
+	 * 
+	 * @param conn
+	 * @return : 조회된 유효한 레시피갯수
+	 */
+	public int totalRecipe(Connection conn) {
+		
+		int total = 0;
+		
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("totalRecipe");
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				total = rset.getInt("total");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return total;
+		
+	}
 	
 	/**
 	 * 메인페이지 노출용 레시피 리스트 조회시 실행될 메소드

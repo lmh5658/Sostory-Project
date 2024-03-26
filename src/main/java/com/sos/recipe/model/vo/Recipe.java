@@ -15,7 +15,6 @@ public class Recipe {
 	private Date postDate;
 	private String status;
 	
-	
 	//category
 	private String categoryName;
 	private int categoryNo;
@@ -99,7 +98,7 @@ public class Recipe {
 
 	//레시피 상세
 	public Recipe(int recipeNo, int userNo, String categoryName, String recipeTitle, String thumbnailUrl, String recipeIntro, String difficulty, int serving, int cookingTime,
-			String userName, String userPath, int likeRefno, String productName, int price, int discountPrice,
+			String userName, String userPath, int likeCount, String productName, int price, int discountPrice,
 			String path) {
 		super();
 		this.recipeNo = recipeNo;
@@ -113,7 +112,7 @@ public class Recipe {
 		this.cookingTime = cookingTime;
 		this.userName = userName;
 		this.userPath = userPath;
-		this.likeRefno = likeRefno;
+		this.likeCount = likeCount;
 		this.productName = productName;
 		this.price = price;
 		this.discountPrice = discountPrice;

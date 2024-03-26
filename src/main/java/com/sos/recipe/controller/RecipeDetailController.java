@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.member.model.vo.Member;
 import com.sos.recipe.model.sevice.RecipeService;
 import com.sos.recipe.model.vo.Recipe;
 
@@ -37,17 +38,19 @@ public class RecipeDetailController extends HttpServlet {
 		//3.정보(조인),스텝(조인) 첨부파일 포함 -> Attachment
 		
 		int recipeNo = Integer.parseInt(request.getParameter("no"));
-		
-		Recipe detailRecipe = new RecipeService().selectDetailRecipe(recipeNo); //상세에 들어갈 것들
-		List<Recipe> ingredient = new RecipeService().selectIngridient(recipeNo);//재료 
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		Recipe detailRecipe = new RecipeService().selectDetailRecipe(recipeNo); // 상세에 들어갈 것들
+		List<Recipe> ingredient = new RecipeService().selectIngridient(recipeNo); // 재료 
 		List<Recipe> step = new RecipeService().selectStep(recipeNo);//step
-        //Attachment at = new RecipeService().selectAttachment(reciprNo);
-		System.out.println(step);
+		int userLike = 0;
+		if(loginUser != null) {
+			userLike = new RecipeService().selectMemberLike(recipeNo, loginUser); // 유저가 해당 레시피를 찜했는지 여부			
+		}
 		
 		request.setAttribute("step", step);//step
 		request.setAttribute("ingredient", ingredient); //재료 -= 카테고리도 int일 때 넘기는 법 물어보기 ->jsp에서 안돼
 		request.setAttribute("detailRecipe", detailRecipe);
-		//request.setAttribute("at", at);
+		request.setAttribute("userLike", userLike);
 		
 		request.getRequestDispatcher("/views/recipe/recipeDetail.jsp").forward(request, response);
 
