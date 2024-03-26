@@ -276,31 +276,31 @@ String no = (String) request.getParameter("no");
 			  </ul>
 	
 		 -->
-		 <ul class="pagination">
-		 <% if(pi.getCurrentPage() == 1) { %>
-                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    <% }else { %>
-                    <li class="page-item"><a class="page-link" >Previous</a></li>
-                    <% } %>
-                    
-                    
-                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++){ %>
-                    
-	                    <% if(p == pi.getCurrentPage()) { %>
-	                    <li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
-	                    <% }else{ %>
-							<li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= p %>&no=<%=no%>"><%= p %></a></li>
-                    	<% } %>
-                    					 
-                    	
-                    <% } %>
-                    
-                    <% if(pi.getCurrentPage() == pi.getMaxPage()){ %>
-                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                    <% }else{ %>
-                    <li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= pi.getCurrentPage() + 1 %>&no=<%=no%>">Next</a></li>
-                    <% } %>
-                <% } %>
+		<ul class="pagination">
+		<% if(pi.getCurrentPage() == 1) { %>
+			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+			<% }else { %>
+			<li class="page-item"><a class="page-link" >Previous</a></li>
+			<% } %>
+			
+			
+			<% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++){ %>
+			
+				<% if(p == pi.getCurrentPage()) { %>
+				<li class="page-item active"><a class="page-link" href="#"><%= p %></a></li>
+				<% }else{ %>
+					<li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= p %>&no=<%=no%>"><%= p %></a></li>
+				<% } %>
+									
+				
+			<% } %>
+			
+			<% if(pi.getCurrentPage() == pi.getMaxPage()){ %>
+			<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+			<% }else{ %>
+			<li class="page-item"><a class="page-link" href="<%= contextPath %>/category.re?page=<%= pi.getCurrentPage() + 1 %>&no=<%=no%>">Next</a></li>
+			<% } %>
+		<% } %>
 	     </section>
 	     <!-- Section end -->
 	     

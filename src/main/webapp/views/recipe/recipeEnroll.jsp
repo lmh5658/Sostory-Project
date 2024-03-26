@@ -55,10 +55,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
 </style>
 </head>
 <body>
-<!-- 
-    기본적인 form은 레시피 등록 페이지와 동일
-    기능 구현할때 기존 값이 표시되게 할것
- -->
+
 <div class="wrap">
 		
 		<%@ include file="/views/common/header.jsp" %>
@@ -126,7 +123,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                         <td>
                         <input type="number" class="recipe_info" min="1" max="20" name="serving" placeholder="인원수" style="width: 70px;">&nbsp;인분&nbsp;&nbsp;&nbsp;
                         <input type="number" class="recipe_info" min="1" placeholder="소요시간" name="cookingTime" style="width: 90px;">&nbsp;분&nbsp;&nbsp;&nbsp;
-                        <select class="recipe_info" name="" style="width: 80px;">
+                        <select class="recipe_info" name="difficulty" style="width: 80px;">
                             <option selected hidden value="disabled">난이도</option>
                             <option value="상">상</option>
                             <option value="중">중</option>

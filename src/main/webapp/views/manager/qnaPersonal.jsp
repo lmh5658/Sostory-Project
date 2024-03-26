@@ -130,20 +130,15 @@
             </div>
             <div class="pro_search">
                 <div class="pro_name">회원ID</div>
-                <div><input type="text" class="form-control"></div>
-                <div><button>조회</button></div>
+                <div><input type="text" class="form-control" name="memId" id="memId"></div>
+                <div><button class="searchBtn">조회</button></div>
             </div>
             <div class="select_div">
                 <div>
-                    <select name="" id="">
-                        <option value="">문의유형</option>
-                        <option value="">배송</option>
-                        <option value="">결제</option>
-                        <option value="">기타</option>
-                    </select>
+                    
                 </div>
                 <div class="option_2">
-                    <button class="select_delete" onclick="return confirm('정말로 삭제하시겠습니까?');">선택삭제</button>
+                    <button id="select_btn" class="select_delete">선택삭제</button>
                     <select name="select" id="select">
                         <option value="all">전체</option>
                         <option value="processed">처리</option>
@@ -153,17 +148,51 @@
             </div>
             
             <script>
+	        		
+            	
+            	
+            	
             	$(function(){
             		select(1);
             		
+            		$(".searchBtn").click(function(){
+            			member(1);
+            		})
+            	
             	})
+            	
+            	
+	            function member(page){
+	        		
+	            		$.ajax({
+	            			url:"<%=contextPath%>/msearch.ma",
+	            			data:{
+	            				search:$("#memId").val(),
+	            				page:page
+	            			},
+	            			type:"post",
+	            			success:function(result){
+	            				console.log(result);
+	            				
+	            				
+	            			}
+	            			
+	            			
+	            		})
+	            		
+	            	
+	        		
+	        		
+	        	}
+            	
+            	
             	
            		function select(page){
             		
             		$("#select").change(function(){
                 		
                 		$.ajax({
-               				url:"<%=contextPath%>/qnaselect.me",
+               				url:"<%=contextPath%>/qnaselect.ma",
                				data:{
                					select:$(this).val(),
                					page:page
@@ -175,12 +204,14 @@
                					let list = "";
                					for(let i=0; i<result.list.length; i++){
                						list += "<tr>"
-               						     + "<td><input type='checkbox' name='typArr'></td>"
+               						     + "<td><input type='checkbox' class='typArr'></td>"
                						     + "<td>" + result.list[i].answerNo + "</td>"
                						     + "<td>" + result.list[i].answerDate + "</td>"
                						     + "<td>" + result.list[i].userNo + "</td>"
                						     + "<td>" + result.list[i].answerTitle + "</td>"
-               						     + "<td>" + result.list[i].answerStatus + "</td>";   
+               						     + "<td>" + result.list[i].answerStatus + "</td>";  
+               						
+               						     
                					}
                					
                					$("#table_div tbody").html("");
@@ -208,32 +239,56 @@
                	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
                	                }
                					
+               				
+               					
+               					
                	                $("#paging").html("");
                	            	$("#paging").html(paging);
                	            	
-               	            	console.log(paging);
+               	            	console.log($("#select_btn"));
+               	            	
+               	            	let count = "";
+               	            	if(result.select == "all"){
+               	            		count +=  '총 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+               	            	}else if(result.select == "processed"){
+               	            		count +=  '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
+               	            	}else if(result.select == "unprocessed"){
+               	            		count +=  '처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
+
+               	            	}
+               	            	
+               	            	$("#listCount").html("");
+               	            	$("#listCount").html(count);
+               	            	
+               	            	
+               	            	
+               	            	
+               	            	
                					
                				}
                				
                			})
                 		
                 		
-                		
                 	})
-            		
-            		
             		
             	}
             	
+            	
+            	$("#select_btn").click(function(){
             		
+            		$(".typArr").each(function(){
+            			if($(this).is(":checked")){
+            				location.href="<%=contextPath%>/mpdelete.ma?no=" + $(this).parent().next().text();
+            				
+            			}
+            		})
             		
-            		
-            
-           			
-           		
+            	})
             	
             	
-            
+            	
+            	
             </script>
         
             
@@ -255,22 +310,35 @@
                         <tbody>
                         	<% for(ProductQnaReply p : list){ %>
                             <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td><%= p.getAnswerNo() %></td>
+                                <td>
+                                <input type="checkbox" class="typArr">
+                                </td>
+                                <td class="answerNo"><%= p.getAnswerNo() %></td>
                                 <td><%= p.getAnswerDate() %></td>
                                 <td><%= p.getUserNo() %></td>
                                 <td><%= p.getAnswerTitle() %></td>
                                 <td><%= p.getAnswerStatus() %></td>
                             </tr>
                             <% } %>
-                
                         </tbody>
                     </table>     
                 </div>
-                    <div style="font-weight: bold;">
+                    <div style="font-weight: bold;" id="listCount">
                         총 문의 수 : <label style="color: red;"><%= listCount %></label>
                     </div>                  
             </div>
+            
+            <script>
+            	$(function(){
+            		$(".table_title>td").nextAll().click(function(){
+            			console.log($(this).prev().prev().text());
+            			/*
+            			location.href="<%=contextPath%>/mselect.ma?page=1&search=" $(this).prev().text();
+            			*/
+            		})
+            	})
+            </script>
+            
        
             
             

@@ -1,17 +1,21 @@
 package com.sos.recipe.model.sevice;
 
 
+import static com.sos.common.template.JDBCTemplate.close;
+import static com.sos.common.template.JDBCTemplate.commit;
+import static com.sos.common.template.JDBCTemplate.getConnection;
+import static com.sos.common.template.JDBCTemplate.rollback;
+
+import java.sql.Connection;
+import java.util.List;
+
 import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.recipe.model.dao.RecipeDao;
 import com.sos.recipe.model.vo.Ingredient;
 import com.sos.recipe.model.vo.OrderProduct;
 import com.sos.recipe.model.vo.Recipe;
-import com.sos.recipe.model.vo.Step;
-
-import static com.sos.common.template.JDBCTemplate.*;
-
-import java.sql.Connection;
-import java.util.List;;
+import com.sos.recipe.model.vo.Step;;
 
 public class RecipeService {
 	
@@ -138,6 +142,35 @@ public class RecipeService {
 		}
 		close(conn);
 		return result;	
+	}
+
+	public int selectMemberLike(int recipeNo, Member loginUser) {
+		Connection conn = getConnection();
+		int result = rDao.selectMemberLike(conn, recipeNo, loginUser);
+		close(conn);
+		return result;
+	}
+
+	public void insertLike(int recipeNo, int userNo) {
+		Connection conn = getConnection();
+		int result = rDao.insertLike(conn, recipeNo, userNo);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+	}
+
+	public void deleteLike(int recipeNo, int userNo) {
+		Connection conn = getConnection();
+		int result = rDao.deleteLike(conn, recipeNo, userNo);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
 	}
 
 	

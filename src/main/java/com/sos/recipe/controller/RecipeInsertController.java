@@ -54,12 +54,12 @@ public class RecipeInsertController extends HttpServlet {
 			int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 			
 			//레시피 파라미터 받아서 한꺼번에 넘기기
-			
+			System.out.println(multiRequest.getParameter("difficulty"));
 			Recipe recipe = new Recipe( categoryNo,
 										userNo,
 										Integer.parseInt(multiRequest.getParameter("productNo")),//select된 것 드롭다운. select에 name 값 넣어서 보내기 
 										multiRequest.getParameter("recipeTitle"),
-										"resouces/uploadFiles/" + multiRequest.getFilesystemName("thumbnailUpfile"),
+										"resources/uploadFiles/" + multiRequest.getFilesystemName("thumbnailUpfile"),
 										multiRequest.getParameter("recipeIntro"),
 										Integer.parseInt(multiRequest.getParameter("serving")), //인분
 										Integer.parseInt(multiRequest.getParameter("cookingTime")),
@@ -90,18 +90,11 @@ public class RecipeInsertController extends HttpServlet {
 				List<Step> step = new ArrayList<>();
 				for (int i = 0; i < stepContent.length; i++) {
 					if(multiRequest.getFilesystemName("stepUpfile" + (i + 1)) != null){
-						stepAttachUrl = "resouces/uploadFiles/" + multiRequest.getFilesystemName("stepUpfile" + (i + 1));						
+						stepAttachUrl = "resources/uploadFiles/" + multiRequest.getFilesystemName("stepUpfile" + (i + 1));						
 					}
 				    step.add(new Step(i + 1, stepContent[i], stepAttachUrl));
 				    //                                       null[i]
 				}
-				System.out.println(step.size());
-	
-				
-				/*Step step = new Step (Integer.parseInt(request.getParameter("no")),
-									 request.getParameter("stepContent"),
-									 request.getParameter("stepAttachUrl"));
-					*/  
 			
 				//재료 삭제는 i = 0 // 재료명 name = 0 -> 비교 for 같은 번호가 없을경우 스킵, 같은 번호가 존재할 경우 -> not null
 				//키값으로 넘기면 사이즈또는 랭쓰로 서블릿측에서 알아내고 그만큼 포문을 돌리고 그 포문 안에서 if문으로 그 파라미터의 인덱스가 0부터 그 길이만큼 돌아서 null이 아닌것만 해가지고 
