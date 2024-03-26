@@ -27,7 +27,8 @@ public class ManagerRecipeListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher("/views/manager/recipeList.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("/views/manager/managerRecipeList.jsp").forward(request, response);
 	}
 
 	/**

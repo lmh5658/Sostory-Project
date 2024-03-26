@@ -49,7 +49,7 @@
       <section class="main-content">
         <div class="signup_success">
             <div class="success-logo">
-                <img src="<%= request.getContextPath() %>/resources/images/회원가입성공.png" alt="소스토리 로고이미지">
+                <img src="<%= request.getContextPath() %>/resources/images/signUpSuccess.png" alt="소스토리 로고이미지">
             </div>                
             <div class="success_comment center">
                 <b><%= request.getAttribute("userName") %>님 가입을 축하합니다.</b>
