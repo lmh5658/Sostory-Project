@@ -14,20 +14,19 @@ import org.json.simple.JSONObject;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.mainPage.model.service.MainPageService;
-import com.sos.product.model.vo.Product;
 import com.sos.recipe.model.vo.Recipe;
 
 /**
- * Servlet implementation class MainPageController
+ * Servlet implementation class AjaxMainPageRecipeController
  */
-@WebServlet("/main.pg")
-public class AjaxMainPageController extends HttpServlet {
+@WebServlet("/recipe.mp")
+public class AjaxMainPageRecipeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxMainPageController() {
+    public AjaxMainPageRecipeController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,31 +36,13 @@ public class AjaxMainPageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 서블릿 역할 : 메인페이지 노출용 Product 및 Recipe 리스트 조회
-		
-		// ========================================== 상품조회 =================================================
-		
-		/* 조회할 상품리스트 카테고리
-		 * 
-		 * category "all" == 전체상품
-		 * 
-		 * category "best" == 랭킹상품
-		 * 
-		 * category "new" == 신상품
-		 * 
-		 */
-		String category = request.getParameter("category");
-		
-		// 노출할 상품리스트 조회요청
-		List<Product> productList = new MainPageService().selectProductList(category);
-		
-		// ========================================== 레시피조회 =================================================
+		// 서블릿 역할 : 메인페이지 노출용 Recipe 리스트 조회
 		
 		// 레시피 리스트용 페이징바
-		int totalRecipe = 6;	// 좋아요순 상위 6개 레시피
+		int totalRecipe = new MainPageService().totalRecipe();
 		int currentPage = Integer.parseInt(request.getParameter("page"));
 		int recipeLimit = 3;	// 3개단위로 레시피노출
-		int pageLimit = 1;		// 1페이지씩
+		int pageLimit = 10;
 		int maxPage = (int)Math.ceil((double)totalRecipe/recipeLimit);
 		int startPage = ((currentPage - 1) / recipeLimit) + 1;
 		int endPage = startPage + (pageLimit - 1);
@@ -73,26 +54,6 @@ public class AjaxMainPageController extends HttpServlet {
 		
 		// 노출할 레시피리스트 조회요청
 		List<Recipe> recipeList = new MainPageService().selectRecipeList(pi);
-		
-		// ========================================== 조회결과 ================================================= 
-		
-		// 상품리스트 JSON화
-		JSONArray jProductList = new JSONArray();	// 상품리스트를 담을 JSON배열
-		
-		if(!productList.isEmpty()) {
-			for(Product p : productList) {
-				JSONObject jProduct = new JSONObject();
-				
-				jProduct.put("productNo", p.getProductNo());
-				jProduct.put("categoryName", p.getCategoryName());
-				jProduct.put("productName", p.getProductName());
-				jProduct.put("price", p.getPrice());
-				jProduct.put("discountPrice", p.getDiscountPrice());
-				jProduct.put("productUrl", p.getPath());
-				
-				jProductList.add(jProduct);
-			}
-		}
 		
 		// 레시피리스트 JSON화
 		JSONArray jRecipeList = new JSONArray();	// 레시피리스트를 담을 JSON배열
@@ -119,11 +80,13 @@ public class AjaxMainPageController extends HttpServlet {
 			}
 		}
 		
+		// 결과전송
+		response.setContentType("application/json; charset=utf-8");
+		response.getWriter().print(jRecipeList);
 		
-		
-		
-		
-		
+		// 헤더로 전송할 데이터
+		request.getSession().setAttribute("recipePageInfo", pi);
+		response.sendRedirect(request.getContextPath());
 	}
 
 	/**
