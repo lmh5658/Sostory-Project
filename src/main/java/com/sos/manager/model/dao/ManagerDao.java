@@ -429,29 +429,7 @@ public class ManagerDao {
 
 		return result;
 	}
-	public int selectCountOrderList(Connection conn) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectCountOrderList");
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				result = rset.getInt("count");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-
-		return result;
-	}
-
-	public int selectCountOrderList(Connection conn) {
+		public int selectCountOrderList(Connection conn) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;

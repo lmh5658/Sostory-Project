@@ -269,7 +269,6 @@
 		   SET ORDER_STATUS = ?
 		 WHERE ORDER_NO = ?
 	</entry>
-</properties>
 
 
 	<!-- 메인 - 상품문의 조회 -->

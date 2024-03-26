@@ -161,13 +161,6 @@ public class ManagerService {
 		return list;
 	}
 
-	//메인 -상품문의 조회
-	public List<Qna> selectProductQnaList(){
-		Connection conn = getConnection();
-		List<Qna> list = mDao.selectProductQnaList(conn);
-		close(conn);
-		return list;
-	}
 
 	public int selectCountOrderList() {
 		Connection conn = getConnection();
@@ -202,6 +195,13 @@ public class ManagerService {
 		return result;
 	}
 
+	//메인 -상품문의 조회
+		public List<Qna> selectProductQnaList(){
+			Connection conn = getConnection();
+			List<Qna> list = mDao.selectProductQnaList(conn);
+			close(conn);
+			return list;
+		}
 
 	//메인 -1대1문의 조회
 		public List<Qna> selectOneQnaList(){
