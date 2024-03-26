@@ -587,6 +587,29 @@ public class RecipeDao {
 		}
 		return result;
 	}
+
+	public List<Integer> selectRecipeLikeList(Connection conn, int userNo) {
+		List<Integer> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectRecipeLikeList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(rset.getInt("like_refno"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 	
 	
 	

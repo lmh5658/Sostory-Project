@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sos.common.model.vo.PageInfo;
+import com.sos.member.model.vo.Member;
 import com.sos.recipe.model.sevice.RecipeService;
 import com.sos.recipe.model.vo.Recipe;
 
@@ -58,8 +59,15 @@ public class RecipeListController extends HttpServlet {
 		
 		List<Recipe> list = new RecipeService().selectRecipeList(pi);
 		
+		List<Integer> userLikeList = null;
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		if(loginUser != null) {
+			userLikeList = new RecipeService().selectRecipeLikeList(loginUser.getUserNo());			
+		}
+		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
+		request.setAttribute("userLikeList", userLikeList);
 		
 		request.getRequestDispatcher("/views/recipe/recipeList.jsp").forward(request, response);
 	}

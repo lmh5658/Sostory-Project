@@ -173,6 +173,13 @@ public class RecipeService {
 		close(conn);
 	}
 
+	public List<Integer> selectRecipeLikeList(int userNo) {
+		Connection conn = getConnection();
+		List<Integer> userLikeList = rDao.selectRecipeLikeList(conn, userNo);
+		close(conn);
+		return userLikeList;
+	}
+
 	
 
 	

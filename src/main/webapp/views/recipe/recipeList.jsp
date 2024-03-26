@@ -4,10 +4,11 @@
 <%@ page import="com.sos.recipe.model.vo.Recipe"%>
 <%@ page import="java.util.List" %>
 <% 
-PageInfo pi = (PageInfo)request.getAttribute("pi");
-String search = (String)request.getAttribute("search");
-List<Recipe> list = (List<Recipe>)request.getAttribute("list");
-String no = (String)request.getParameter("no");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	String search = (String)request.getAttribute("search");
+	List<Recipe> list = (List<Recipe>)request.getAttribute("list");
+	String no = (String)request.getParameter("no");
+	List<Integer> userLikeList = (List<Integer>)request.getAttribute("userLikeList");
 %>
 <!DOCTYPE html>
 <html>
@@ -145,6 +146,7 @@ String no = (String)request.getParameter("no");
         justify-content: center;
         align-items: center;
     }
+    #like:hover{cursor:pointer}
 </style>
 </head>
 <body>
@@ -215,14 +217,14 @@ String no = (String)request.getParameter("no");
 	    <div class="recipe_wrap">
 	        <!-- 레시피가 없을 경우 -->
 	        <%if(list.isEmpty()){%>
-		    <h4 style="padding : 3%; color:gray; font-weight:bold;">레시피가 존재하지 않습니다.</h4>
+		    <h4 style="padding : 3%; color:gray; font-weight:bold; width:100%; text-align:center;">레시피가 존재하지 않습니다.</h4>
 			<% } else { %>
   			    <% for (Recipe r : list) { %>
 				<!-- 가로로 세 개 둬야함 현재 세로로 9개  -->  	
 				<div class="recipe" recipeNo="<%= r.getRecipeNo() %>">
 					<div class="recipe_thumbnail">
 						<input type="hidden" value="<%= r.getRecipeNo() %>">
-						<img src=<%= contextPath + "/" + r.getThumbnailUrl()%>>
+						<img src='<%= contextPath + "/" + r.getThumbnailUrl()%>'>
 					</div>
 					<div class="recipe_category">분류><%=r.getCategoryName()%></div>
 					<div class="recipe_name" style="font-weight: bolder;"><%=r.getRecipeTitle()%></div>
@@ -234,23 +236,13 @@ String no = (String)request.getParameter("no");
 							<img src=<%=r.getUserPath()%> alt="프로필" height="15px">
 							<%=r.getUserName()%>
 						</div>
-						<!-- 내가 찜하지 않은 레시피인 경우 -->
 						<div class="recipe_like">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							<svg class="like" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart like" viewBox="0 0 16 16">
 								<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 							</svg>
-							<%=r.getLikeCount()%>
 						</div>
-						<!-- 내가 찜한 레시피인 경우 -->
-						<!-- 
-						<div class="recipe_like">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-								<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-							</svg>
-							(2000)
-						</div>
-							-->
 					</div>
+					
 					<div class="recipe_product" >
 						<input type="hidden" value="<%= r.getProductNo() %>">
 						<div class="product_img">
@@ -262,10 +254,10 @@ String no = (String)request.getParameter("no");
 						<div class="product_etc">
 							<!-- 할인하고 있지 않을 때 -->
 							<% if(r.getDiscountPrice() == 0) { %> 
-							<div class="product_price"><%=r.getPrice()%></div>                        
+							<div class="product_price"><%=r.getPrice()%>원</div>                        
 							<%}else if(r.getDiscountPrice() != 0){ %>
 							<!-- 할인하고 있을 때 -->
-							<div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%></div>
+							<div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%>원</s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%>원</div>
 							<% } %>
 							</div>
 						</div>
@@ -274,12 +266,67 @@ String no = (String)request.getParameter("no");
 				<% } %>
 			<% } %>
 			<script>
+			$(function(){
+				if(<%= loginUser != null && userLikeList != null%>){
+					let userLikeList = <%=userLikeList%>
+					$(".recipe").each(function(){
+						let rNo = $(this).find(".recipe_thumbnail").find("input").val();
+						for(let i=0; i<userLikeList.length; i++){
+       						if(rNo == userLikeList[i]){
+       							$(this).find(".like").attr("fill", "red");
+       						}
+       					}
+					})
+				}
+			})
+			
 			$(".recipe_thumbnail").click(function(){
+
 				location.href = "<%= contextPath %>/detail.re?no=" + $(".recipe_thumbnail>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
 			});
 			$(".recipe_product").click(function(){
 				location.href = "<%= contextPath %>/detail.pr?no=" + $(".recipe_product>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
 			});
+			
+			$(".like").click(function(){
+     			if(<%=loginUser == null%>){
+     				alert("로그인후에 사용가능합니다.");
+     			}else{
+     				const $this = $(this);
+     				const $recipe = $(this).parent().parent().parent();
+     				console.log($recipe.find(".recipe_thumbnail").find("input").val());
+             		if($(this).attr("fill") == "red"){
+             			$.ajax({
+             				url:"<%=contextPath%>/dlike.re",
+             				data:{
+             					rNo: $recipe.find(".recipe_thumbnail").find("input").val()
+             				},
+             				type:"post",
+             				success:function(){
+	                 			$this.attr("fill", "black");
+             					alert("레시피 찜 목록에서 삭제되었습니다.");
+             				}, error:function(){
+             					console.log("추가실패");
+             				}
+             			})
+             			
+             		}else{
+             			$.ajax({
+             				url:"<%=contextPath%>/like.re",
+             				data:{
+             					rNo:$recipe.find(".recipe_thumbnail").find("input").val()
+             				},
+             				type:"post",
+             				success:function(){
+	                 			$this.attr("fill", "red");
+             					alert("레시피 찜 목록에 저장되었습니다.");
+             				}, error:function(){
+             					console.log("삭제실패");
+             				}
+             			})
+             		}
+     			}
+     		})
 			</script>
 			<br><br>
 		</div>
