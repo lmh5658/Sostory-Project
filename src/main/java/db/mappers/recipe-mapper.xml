@@ -34,7 +34,8 @@
 		            P.PRODUCT_NAME,
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
-		            P.PATH
+		            P.PATH,
+		            P.PRODUCT_NO
 		        FROM TB_RECIPE R
 		       left JOIN TB_MEMBER M ON R.USER_NO = M.USER_NO
       		   left JOIN TB_PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
@@ -52,8 +53,8 @@
 		            P.PRICE,
 		            P.DISCOUNT_PRICE,
 		            P.PATH,
-		            M.USER_PATH    
-		            
+		            M.USER_PATH,  
+		            P.PRODUCT_NO
 		    ) A
 		    ORDER BY A.LIKE_COUNT DESC
 		)

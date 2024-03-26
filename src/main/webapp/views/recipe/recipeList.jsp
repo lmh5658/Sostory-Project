@@ -26,8 +26,6 @@ String no = (String)request.getParameter("no");
     .underbar {
         width: 200px;
         height: 10px;
-        
-      
         border-bottom: 1px solid lightgrey;
     }
 
@@ -93,7 +91,6 @@ String no = (String)request.getParameter("no");
         flex-shrink: 0;
     }
     .recipe:hover{
-        cursor: pointer;
         background-color: antiquewhite;
     }
     .recipe_thumbnail{
@@ -101,6 +98,10 @@ String no = (String)request.getParameter("no");
         height: 45%;
         background-color: white;
         border-radius: 40px;
+    }
+    .recipe_thumbnail:hover{
+    	cursor: pointer;
+    	opacity: 0.8;
     }
 	.recipe_thumbnail>img{
 		width: 100%;
@@ -127,6 +128,10 @@ String no = (String)request.getParameter("no");
         margin-top: 5px;
         padding: 10px 0px;
         display: flex;
+    }
+    .recipe_product:hover{
+    	cursor:pointer;
+    	opacity:0.8;
     }
     .product_img{margin-right: 10px;}
     .product_img>img{
@@ -206,8 +211,6 @@ String no = (String)request.getParameter("no");
 	          	    	
 		<!-- 레시피 컨텐츠 -->
 	
-	   
-					    	
 	    <!-- 레시피가 있는 경우 -->
 	    <div class="recipe_wrap">
 	        <!-- 레시피가 없을 경우 -->
@@ -218,6 +221,7 @@ String no = (String)request.getParameter("no");
 				<!-- 가로로 세 개 둬야함 현재 세로로 9개  -->  	
 				<div class="recipe" recipeNo="<%= r.getRecipeNo() %>">
 					<div class="recipe_thumbnail">
+						<input type="hidden" value="<%= r.getRecipeNo() %>">
 						<img src=<%= contextPath + "/" + r.getThumbnailUrl()%>>
 					</div>
 					<div class="recipe_category">분류><%=r.getCategoryName()%></div>
@@ -248,6 +252,7 @@ String no = (String)request.getParameter("no");
 							-->
 					</div>
 					<div class="recipe_product" >
+						<input type="hidden" value="<%= r.getProductNo() %>">
 						<div class="product_img">
 							<img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
 						</div>
@@ -269,8 +274,11 @@ String no = (String)request.getParameter("no");
 				<% } %>
 			<% } %>
 			<script>
-			$(".recipe_wrap > div").click(function(){
-				location.href = "<%= contextPath %>/detail.re?no=" + $(this).attr("recipeNo"); //레시피 번호와 같이 넘기기 경로 넘길때
+			$(".recipe_thumbnail").click(function(){
+				location.href = "<%= contextPath %>/detail.re?no=" + $(".recipe_thumbnail>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
+			});
+			$(".recipe_product").click(function(){
+				location.href = "<%= contextPath %>/detail.pr?no=" + $(".recipe_product>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
 			});
 			</script>
 			<br><br>

@@ -216,7 +216,6 @@
                  				type:"post",
                  				success:function(){
 		                 			$this.attr("fill", "black");
-		                 			$this.next().html("(" + <%= r.getLikeCount() - 1 %> + ")");
                  					alert("레시피 찜 목록에서 삭제되었습니다.");
                  				}, error:function(){
                  					console.log("추가실패");
@@ -232,7 +231,6 @@
                  				type:"post",
                  				success:function(){
 		                 			$this.attr("fill", "red");
-		                 			$this.next().html("(" + <%= r.getLikeCount() + 1 %> + ")");
                  					alert("레시피 찜 목록에 저장되었습니다.");
                  				}, error:function(){
                  					console.log("삭제실패");
