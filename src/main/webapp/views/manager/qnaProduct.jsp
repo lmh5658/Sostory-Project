@@ -121,6 +121,7 @@
         <!-- Section start -->
         <section class="main-content">
             <div class="section_1">
+            
                 <%@ include file="/views/common/managerMenu.jsp" %>
         <!-- 사이드메뉴바 클릭시 바뀌는 화면-->
         <div class="section_right">
@@ -133,12 +134,13 @@
             </div>
             <div class="pro_search">
                 <div class="pro_name">상품명</div>
-                <div><input type="text"></div>
-                <div><button>조회</button></div>
+                <div><input type="text" id="searchBox" ></div>
+                <div><button onclick="searchPid(1);">조회</button></div>
             </div>
+            
             <div class="select_div">
                 <div>
-                    <select name="" id="categorySort" onchange="sortCategory(1);">
+                    <select name="" id="categorySort" onchange="sortCategory(1);" style="display:none;">
                         <option value="all">전체</option>
                         <option value="jang">장류</option>
                         <option value="dress">드레싱</option>
@@ -146,10 +148,106 @@
                     </select>
                 </div>
                 
+                
                 <script>
                 
-                
-             
+                function searchPid(page){
+                var search = $("#searchBox").val();
+                	$.ajax({
+						url:"<%=contextPath%>/search.ma",
+						data:{
+							search:search,
+							page:page
+							
+						},
+						type:"post",
+						success:function(hm){
+							let value="";
+							let pa ="";
+							let unprocessed ="미처리";
+							
+								
+								for(let i=0; i<hm.list.length; i++){
+									
+									if(hm.list[i].answerType== unprocessed){
+										
+									value+="<tr>" +
+									"<td><input type='checkbox' name='typArr' class='typArr'></td>"+
+            						"<td>"+hm.list[i].answerNo+"</td>"+
+            						"<td>"+hm.list[i].answerDate+"</td>"+
+            						"<td>"+hm.list[i].userNo+"</td>"+
+            						"<td>"+hm.list[i].productNo+"</td>"+
+            						"<td onclick='listMe(" + hm.list[i].answerNo + ")'>"+hm.list[i].answerTitle+"</td>"+
+            						"<td style='color: red;'>"+hm.list[i].answerType+"</td>"+
+            						"</tr>";
+									}else{
+										value+="<tr onclick='listMe(" + hm.list[i].answerNo + ")'>" +
+										"<td><input type='checkbox' name='typArr' class='typArr'></td>"+
+                						"<td>"+hm.list[i].answerNo+"</td>"+
+                						"<td>"+hm.list[i].answerDate+"</td>"+
+                						"<td>"+hm.list[i].userNo+"</td>"+
+                						"<td>"+hm.list[i].productNo+"</td>"+
+                						"<td onclick='listMe(" + hm.list[i].answerNo + ")'>"+hm.list[i].answerTitle+"</td>"+
+                						"<td>"+hm.list[i].answerType+"</td>"+
+                						"</tr>";
+										
+									}
+										
+            						
+									
+            						
+								}
+								
+								$("#boardList tbody").html("");
+								$("#boardList tbody").html(value);
+								
+								
+								
+	                              if(1 == hm.pi.currentPage) {
+	                                 pa += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+	                              }else {
+	                                 pa += "<li class='page-item'><a class='page-link' onclick='searchPid(" + (page- 1) + ")'>Previous</a></li>";
+	                              }
+	                                  
+	                                 for(let p=hm.pi.startPage; p<=hm.pi.endPage; p++) {
+	                                     if (p == hm.pi.currentPage){
+	                                    	 pa += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+	                                     } else {
+	                                    	 pa += '<li class="page-item"><a class="page-link" onclick="searchPid(' + p + ')">' + p + '</a></li>';
+	                                     }
+	                                  }
+	                              
+	                              if(hm.pi.endPage != hm.pi.maxPage){         
+	                            	  pa += '<li class="page-item"><a class="page-link" onclick="searchPid(' + (page + 1) + ')>Next</a></li>'
+	                                  }else{
+	                                	  pa += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+	                                  }
+	                              	$("#pagingg").html("");
+									$("#pagingg").html(pa);
+								
+								
+							
+							
+									let count = "";
+		           	            	if(result.select == "all"){
+		           	            		count +=  '총 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+		           	            	}else if(result.select == "unprocessed"){
+		           	            		count +=  '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+		           	            		console.log(count);
+		           	            	}else if(result.select == "processed"){
+		           	            		count +=  '처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
+		           	            	}
+		           	            	$("#qnaCount").html("");
+		           	            	$("#qnaCount").html(count);
+							
+           	            	
+							
+						}
+					})
+                	
+                	
+                	
+                }
                 
                 
                 function sortCategory(page){
@@ -311,7 +409,7 @@
         						"<td>"+result.list[i].answerDate+"</td>"+
         						"<td>"+result.list[i].userNo+"</td>"+
         						"<td>"+result.list[i].productNo+"</td>"+
-        						"<td>"+result.list[i].answerTitle+"</td>"+
+        						"<td onclick='listMe(" + result.list[i].answerNo + ")'>"+result.list[i].answerTitle+"</td>"+
         						"<td style='color: red;'>"+result.list[i].answerType+"</td>"+
         						"</tr>";
 								}else{
@@ -321,7 +419,7 @@
             						"<td>"+result.list[i].answerDate+"</td>"+
             						"<td>"+result.list[i].userNo+"</td>"+
             						"<td>"+result.list[i].productNo+"</td>"+
-            						"<td>"+result.list[i].answerTitle+"</td>"+
+            						"<td onclick='listMe(" + result.list[i].answerNo + ")'>"+result.list[i].answerTitle+"</td>"+
             						"<td>"+result.list[i].answerType+"</td>"+
             						"</tr>";
 									
@@ -407,13 +505,13 @@
                         	<%}else{ %>
                         
                         	<% for(Qna q : list) { %>
-                            <tr class="table_title productQna">
+                            <tr class="table_title productQna" >
                                 <td><input type="checkbox" name="typArr" class="typArr" value="<%=q.getAnswerNo()%>"></td>
                                 <td><%=q.getAnswerNo() %></td>
                                 <td><%=q.getAnswerDate() %></td>
                                 <td><%=q.getUserNo() %></td>
                                 <td><%=q.getProductNo() %></td>
-                                <td><%=q.getAnswerTitle() %></td>
+                                <td onclick="listMe(<%=q.getAnswerNo()%>);"><%=q.getAnswerTitle() %></td>
                                 <td><%=q.getAnswerType() %></td>
                             </tr>
                             <%} %>
@@ -423,11 +521,17 @@
                 </div>
                
                <script>
-                    	$(function(){
-                    		$("#boardList>tbody>tr").click(function(){
-                    			location.href ="<%=contextPath%>/detail.bo?no=" +$(this).children().eq(0).text();
-                    		})
-                    	})
+               
+		       
+		            	<%--     $(document).on("click", "#boardList>tbody>tr", function() {
+		            	        location.href = "<%=contextPath%>/productReply.ma?no=" + $(this).find('input[type="checkbox"]').val();
+		            	    }); --%>
+		         
+
+		               function listMe(no){
+		            	   location.href = "<%=contextPath%>/productReply.ma?no=" + no;
+		               }
+		            	
                     
              </script>
                

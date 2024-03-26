@@ -90,12 +90,12 @@
 	                     <!-- 상품 썸네일 리스트영역 end -->
 	                     
 	                     <script>
-	                     	$(function(){
+	                     	/*$(function(){
 	                     		// 상품목록조회 함수호출
 	                     		selectProductList('all');
 	                     		
 	                     		
-	                     	})
+	                     	})*/
 	                     	
 	                     	// 상품목록조회 Ajax통신
                      		function selectProductList(category){

@@ -684,6 +684,139 @@ public class ProductNewDao {
 		
 	}
 
+	public Qna selectReplyList(Connection conn, int no) {
+		
+		Qna q = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReplyList");
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				 q = new Qna();
+				q.setAnswerNo(rset.getInt("ANSWER_NO"));
+				q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				q.setAnswerContent(rset.getString("ANSWER_CONTENT"));
+				q.setReply(rset.getString("REPLY"));
+				
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return q;
+		
+	}
+
+	public int updateReply(Connection conn, int no, String content) {
+		
+		int result=0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateReply");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, content);
+			pstmt.setInt(2, no);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+
+	public List<Qna> selectSearchList(Connection conn, String search, PageInfo pi) {
+		
+		List<Qna> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSearchList");
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);	
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setString(1, search);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Qna q = new Qna();
+				q.setAnswerNo(rset.getInt("ANSWER_NO"));
+				q.setProductNo(rset.getString("PRODUCT_NAME"));
+				q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				q.setUserNo(rset.getString("USER_ID"));
+				q.setAnswerDate(rset.getString("ANSWER_DATE"));
+				q.setAnswerContent(rset.getString("ANSWER_CONTENT"));
+				q.setAnswerType(rset.getString("ANSWER_STATUS"));
+				q.setReply(rset.getString("REPLY"));
+				q.setReplyDate(rset.getString("REPLY_DATE"));
+				
+				list.add(q);
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+		
+		
+	}
+
+	public int countSearch(Connection conn, String search) {
+		
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("countSearch");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+		
+		
+	}
+
 	
 	
 	

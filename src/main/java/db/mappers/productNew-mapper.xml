@@ -372,11 +372,80 @@ SELECT *
 			
 	</entry>
 
+<entry key="selectReplyList">
+
+		SELECT ANSWER_NO, ANSWER_TITLE, ANSWER_CONTENT,REPLY
+	    FROM TB_QNA_REPLY
+	    WHERE ANSWER_NO=?
+	    AND ANSWER_TYPE =1
+
+
+
+
+</entry>
+
+<entry key="updateReply">
+	UPDATE TB_QNA_REPLY
+	SET REPLY = ?,
+    ANSWER_STATUS = '처리'
+    
+    
+	WHERE ANSWER_NO = ?
+
+
+</entry>
 
 
 
 
 
+<entry key="selectSearchList">
+
+	SELECT * 
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT 
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE	 
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            where ANSWER_TYPE = 1 
+			and PRODUCT_NAME LIKE '%' || ? || '%'
+			  
+			ORDER
+			   BY ANSWER_NO DESC
+			) A
+			) WHERE RNUM BETWEEN ? AND ?
+
+
+</entry>
+
+
+<entry key="countSearch">
+	SELECT COUNT(*) AS COUNT
+FROM (
+    SELECT 
+    ANSWER_NO
+    FROM TB_QNA_REPLY
+    JOIN TB_PRODUCT USING(PRODUCT_NO)
+    JOIN TB_MEMBER USING(USER_NO)
+    WHERE ANSWER_TYPE = 1 
+    AND PRODUCT_NAME LIKE '%' || ? || '%'
+) A
+
+
+
+
+</entry>
 
 
 

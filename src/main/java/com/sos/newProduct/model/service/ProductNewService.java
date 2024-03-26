@@ -186,9 +186,51 @@ public class ProductNewService {
 	}
 	
 
-	
-	
-	
+	public Qna selectReplyList(int no) {
+		Connection conn = getConnection();
+		Qna q = pDao.selectReplyList(conn,no);
+		close(conn);
+		return q;
+		
+	}
+
+	public int updateReply(int no, String content) {
+		
+			Connection conn = getConnection();
+			int result = pDao.updateReply(conn,no,content);
+			
+			if(result>0) {
+				commit(conn);
+			}else {
+				rollback(conn);
+			}
+			
+			close(conn);
+			
+			return result;
+		
+		
+		
+	}
+
+	public List<Qna> selectSearchList(String search, PageInfo pi) {
+		
+		Connection conn = getConnection();
+		List<Qna> list = pDao.selectSearchList(conn,search,pi);
+		close(conn);
+		return list;
+		
+	}
+
+	public int countSearch(String search) {
+		
+		Connection conn = getConnection();
+		int result = pDao.countSearch(conn,search);
+		close(conn);
+		
+		return result;
+		
+	}
 	
 	
 	
