@@ -16,9 +16,6 @@
 	*/
 	Member loginUser = (Member)session.getAttribute("loginUser");
 	
-	// 메인페이지 레시피목록 페이징바
-	PageInfo recipePi = (PageInfo)session.getAttribute("recipePageInfo");
-	
 %>
 <!DOCTYPE html>
 <html>
