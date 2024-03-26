@@ -148,7 +148,7 @@
             </div>
             
             <script>
-            	/*
+            	
 	            function member(page){
 	        		
 	            		$.ajax({
@@ -171,7 +171,7 @@
 	        		
 	        		
 	        	}
-            	*/
+            	
             	
             	
             	
