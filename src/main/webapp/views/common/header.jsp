@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.sos.member.model.vo.Member" %>
+<%@ page import="com.sos.member.model.vo.Member
+				,com.sos.common.model.vo.PageInfo" 
+%>
 <%
 	// 웹 애플리케이션 ContextPath == /sos
 	String contextPath = request.getContextPath();
@@ -14,7 +16,8 @@
 	*/
 	Member loginUser = (Member)session.getAttribute("loginUser");
 	
-	
+	// 메인페이지 레시피목록 페이징바
+	PageInfo recipePi = (PageInfo)session.getAttribute("recipePageInfo");
 	
 %>
 <!DOCTYPE html>
@@ -147,7 +150,7 @@
             <div class="header-right-bottom">
                 <div class="header-nav py-4 mb-3">
                     <nav class="nav nav-underline justify-content-around">
-                        <a class="nav-item nav-link link-body-emphasis active" href="#">HOME</a>
+                        <a class="nav-item nav-link link-body-emphasis active" href="<%= contextPath %>">HOME</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.pr?page=1">전체상품</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath%>/listNew.pr?page=1">신상품</a>
                         <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
