@@ -81,6 +81,9 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                             <select class="product_name" name="recipeTitle" onchange="updateHiddenCategoryNo()" required>
 							    <% if (list != null) { %>
 							        <%  for (OrderProduct o : list) { %>
+								    	<% if(o.getProductNo() == recipe.getProductNo()) { %>
+							            <option selected value="<%= o.getProductNo() %>" data-category-no="<%= o.getCategoryNo() %>"><%= o.getRecipeTitle() %></option>
+							        	<% } %>
 							            <option value="<%= o.getProductNo() %>" data-category-no="<%= o.getCategoryNo() %>"><%= o.getRecipeTitle() %></option>
 							        <% } %>
 							    <% } %>
@@ -118,7 +121,7 @@ List<Recipe> ingredient = (List<Recipe>)request.getAttribute("ingredient");
                         </input>인분&nbsp;&nbsp;&nbsp;
                         <input type="number" class="recipe_info" minlength="0" placeholder="소요시간" name="cookingTime" style="width: 90px;" value="<%= recipe.getCookingTime() %>">
                         </input>분&nbsp;&nbsp;&nbsp;
-                        <select class="recipe_info" name="" style="width: 80px;">
+                        <select class="recipe_info" name="dificulty" style="width: 80px;">
                             <option selected hidden value="disabled"><%= recipe.getDifficulty() %></option>
                             <option value="상">상</option>
                             <option value="중">중</option>

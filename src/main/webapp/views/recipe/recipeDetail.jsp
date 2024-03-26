@@ -1,12 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
- <%@ page import="com.sos.recipe.model.vo.Recipe"%>
- <%@ page import= "java.util.List"%>
-  <%@ page import= "com.sos.member.model.vo.Member"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.sos.recipe.model.vo.Recipe"%>
+<%@ page import= "java.util.List"%>
+<%@ page import= "com.sos.member.model.vo.Member"%>
  
- <% Recipe r = (Recipe)request.getAttribute("detailRecipe"); //레시피 상세에 들어갈 데이터들
- List<Recipe> step = (List<Recipe>)request.getAttribute("step");//step
-List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
+<% 
+ 	Recipe r = (Recipe)request.getAttribute("detailRecipe"); //레시피 상세에 들어갈 데이터들
+ 	List<Recipe> step = (List<Recipe>)request.getAttribute("step");//step
+	List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
+	int userLike = (int)request.getAttribute("userLike");
 %>
 
 <!DOCTYPE html>
@@ -28,6 +29,10 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 		align-items: center;
 	}
 	.detail_head>button{margin-left: auto;}
+	.step_wrap{
+		width: 100%;
+		margin: 20px 0px;
+	}
 	.thumbnail{
 		width: 100%;
 		height: 500px;
@@ -148,7 +153,7 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 			
 			<!-- 대표사진 -->
 			<div class="thumbnail">
-				<img src="" alt="">
+				<img src="<%=contextPath + "/" + r.getThumbnailUrl() %>" alt="대표사진">
 			</div>
 
 			<!-- 레시피 요약 -->
@@ -181,19 +186,62 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 					<h1 style="display: inline;"><b><%=r.getRecipeTitle() %></b></h1>
 					<!-- 내가 찜하지 않은 레시피인 경우 -->
 					<span class="recipe_like" style="font-size: 20px;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart like" viewBox="0 0 16 16">
+						<% if(userLike == 0) { %>
+						<svg id="like" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart like" viewBox="0 0 16 16">
 							<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 						</svg>
-						<!-- 내가 찜한 레시피인 경우 -->
-						<!-- 
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-							<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+						<% } else { %>
+						<svg id="like" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="red" class="bi bi-heart like" viewBox="0 0 16 16">
+							<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 						</svg>
-						-->
-						(2000)
+						<% } %>
+						<span>(<%= r.getLikeCount() %>)</span>
 					</span>
 					
 				</div>
+				
+				<script>
+				$("#like").click(function(){
+         			
+         			if(<%=loginUser == null%>){
+         				alert("로그인후에 사용가능합니다.");
+         			}else{
+         				const $this = $(this);
+                 		if($(this).attr("fill") == "red"){
+                 			$.ajax({
+                 				url:"<%=contextPath%>/dlike.re",
+                 				data:{
+                 					rNo:<%=r.getRecipeNo()%>
+                 				},
+                 				type:"post",
+                 				success:function(){
+		                 			$this.attr("fill", "black");
+		                 			$this.next().html("(" + <%= r.getLikeCount() - 1 %> + ")");
+                 					alert("레시피 찜 목록에서 삭제되었습니다.");
+                 				}, error:function(){
+                 					console.log("추가실패");
+                 				}
+                 			})
+                 			
+                 		}else{
+                 			$.ajax({
+                 				url:"<%=contextPath%>/like.re",
+                 				data:{
+                 					rNo:<%=r.getRecipeNo()%>
+                 				},
+                 				type:"post",
+                 				success:function(){
+		                 			$this.attr("fill", "red");
+		                 			$this.next().html("(" + <%= r.getLikeCount() + 1 %> + ")");
+                 					alert("레시피 찜 목록에 저장되었습니다.");
+                 				}, error:function(){
+                 					console.log("삭제실패");
+                 				}
+                 			})
+                 		}
+         			}
+         		})
+				</script>
 				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary">칼로리 제로 고추장을 사용한 불고기 레시피!</div>
 				<div>
 					<div class="recipe_tag">
@@ -212,6 +260,7 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 					    
 					    <%int i = 0; %>
 					    <% for(Recipe st : step) { %> 
+					    <div class="step_wrap">
 					        <div class="recipe_step">Step <%= i + 1 %></div>
 					      
 					        <%if(st.getStepContent() != null) {%>
@@ -220,16 +269,14 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 					       		 <div class="step_content"></div>
 					        <% } %>
 					        
-					         <%if(st.getStepAttachmentUrl() != null) {%>
-					       	 <div class="thumbnail"><img src="" alt=""></div>
-					        <% }else{ %>
-					       	 <div class="thumbnail"></div>
+					        <%if(st.getStepAttachmentUrl() != null) {%>
+					       	<div class="thumbnail"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" alt="스텝사진"></div>
 					        <% } %>
-					      <%i++; %>
+					    </div>
+					    <% i++; %>
 					    <% } %>
 					</div>
  
-				
 				<!-- 레시피 부가 내용 하나만 값 채워넣고 FOR문으로 길이만큼 돌리게?  -->
 				<div class="content_etc">
 					<div class="ingredient_info">
@@ -250,30 +297,21 @@ List<Recipe> list = (List<Recipe>)request.getAttribute("ingredient");//재료
 					
 
 					<!-- 상품 썸네일 start -->
-					<div class="product img-thumbnail p-2" style="width:300px">
-						<img class="product-img" src="<%=r.getPath()%>" alt="Card image" style="width:100%">
+					<div class="product img-thumbnail p-2" style="width:300px; height:350px" onclick="location.href='<%=contextPath%>/detail.pr?no=<%=r.getProductNo()%>'">
+						<img class="product-img" src="<%=contextPath + "/" + r.getPath()%>" alt="Card image" style="width:100%; height:60%">
 						<div class="product-body">
 							<small class="product-category text-secondary d-block mb-3 mt-2">분류><%=r.getCategoryName() %></small>
 							<h6 class="product-title"><b class="text"><%=r.getProductName() %></b></h6>
 							<h6 class="product-price d-block my-4">
 
-									<% if(r.getDiscountPrice() != 0) { %> 
-		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s></div>                        
-		                           <%}else if(r.getDiscountPrice() == 0){ %>
+								   <% if(r.getDiscountPrice() == 0) { %> 
+		                              <div class="product_price"><%=r.getPrice()%>원</div>                        
+		                           <%}else { %>
 			                       <!-- 할인하고 있을 때 -->
-		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%></s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%></div>
+		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%>원</s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%>원</div>
 		                           <% } %>	
 
 							</h6>
-
-							<div class="icon d-flex justify-content-end">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="like me-4" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-									<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-								</svg>
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="cart me-3" viewBox="0 0 16 16" onclick="클릭시실행될함수">
-									<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-								</svg>
-							</div>
 						</div>
 					</div>
 					<!-- 상품 썸네일 end -->
