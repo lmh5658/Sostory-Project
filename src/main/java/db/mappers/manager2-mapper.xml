@@ -90,5 +90,40 @@
 		  AND ANSWER_STATUS = '미처리'
 	</entry>
 	
+	<entry key="deleteAnswerManager">
+		DELETE
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<entry key="searchMemCount">
+		SELECT COUNT(*) COUNT
+		  FROM TB_QNA_REPLY
+		  JOIN TB_MEMBER USING(USER_NO)
+		 WHERE USER_ID LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="searchMemList">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT
+			      ANSWER_NO
+			    , p.PRODUCT_NO
+			    , M.USER_ID
+			    , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			    , ANSWER_TITLE
+			    , ANSWER_STATUS
+			FROM TB_QNA_REPLY QR
+			LEFT JOIN TB_PRODUCT P ON(QR.PRODUCT_NO = P.PRODUCT_NO)
+			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
+			WHERE ANSWER_TYPE = 2
+              AND USER_ID LIKE '%' || ? || '%'
+			ORDER BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
 
 </properties>

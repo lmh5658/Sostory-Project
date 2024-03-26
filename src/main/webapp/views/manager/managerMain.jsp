@@ -39,29 +39,18 @@
         .section_title>label{
             margin-left: 10px;
         }
-        .section_bottom{
-            display: flex;
-            flex-direction: column;
-        }
-        .section_bottom_1{ display: flex; margin-top: 30px;}
-        .section_bottom_1>div{
-            width: 100%; 
-            display: flex;
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
-            height: 200px;
-        }
+      
         .section_bottom_2>div{
             height: 100%;
-            width: 80%;
+            width: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 30px;
             font-weight: bold;
-            background-color: rgb(241, 238, 238);
-        }
+ 			margin: 2% 0% 0% 25%;
+ 			 
+ 			}
         .section_mtitle{
         	font-size: 18px; 
 			font-weight: bold; 
@@ -108,15 +97,10 @@
             </div>
             
             <div class="section_bottom">
-                <div class="section_bottom_1">
-                    <div class="section_bottom_2">
-                        <div style="border-bottom: 1px solid rgb(212, 212, 212);">오늘의 방문자 수</div>
-                        <div ></div>
-                     </div>
 					
                     <div class="section_bottom_2">
                         <div style="border-bottom: 1px solid rgb(212, 212, 212);">미답변 문의</div>
-                        <div><%=qnaCount %></div>
+                        <div ><%=qnaCount %></div>
                     </div>
                 </div>
                 <div class="section_mtitle">
