@@ -43,12 +43,13 @@
 	             <div class="carousel-inner">
 	             <div class="carousel-item active">
 	                 <img src="<%= contextPath %>/resources/images/이미지1.jpg" alt="ad1" class="d-block" style="width:100%; height: 600px;">
+	                 <img src="<%= contextPath %>/resources/images/mainImage1.jpg" alt="ad1" class="d-block" style="width:100%; height: 600px;">
 	             </div>
 	             <div class="carousel-item">
-	                 <img src="<%= contextPath %>/resources/images/이미지2.jpg" alt="ad2" class="d-block" style="width:100%; height: 600px;">
+	                 <img src="<%= contextPath %>/resources/images/mainImage2.jpg" alt="ad2" class="d-block" style="width:100%; height: 600px;">
 	             </div>
 	             <div class="carousel-item">
-	                 <img src="<%= contextPath %>/resources/images/이미지3.jpg" alt="ad3" class="d-block" style="width:100%; height: 600px;">
+	                 <img src="<%= contextPath %>/resources/images/mainImage1.jpg" alt="ad3" class="d-block" style="width:100%; height: 600px;">
 	             </div>
 	             </div>
 	             
@@ -89,13 +90,17 @@
 	                     </div> 
 	                     <!-- 상품 썸네일 리스트영역 end -->
 	                     
+	                     <!-- 메인페이지 상품목록 관련 스크립트 -->
 	                     <script>
-	                     	/*$(function(){
+	                     	let user = null;			// script 전영역에서 공통으로 사용할 로그인한 회원정보 변수
+	                     	
+	                     	$(function(){
+
 	                     		// 상품목록조회 함수호출
 	                     		selectProductList('all');
 	                     		
 	                     		
-	                     	})*/
+	                     	})
 	                     	
 	                     	// 상품목록조회 Ajax통신
                      		function selectProductList(category){
@@ -103,10 +108,16 @@
                      			$.ajax({
 	                     			url:"<%= contextPath %>/product.mp",
 	                     			data:{"category":category},
-	                     			success:function(productList){
+	                     			success:function(result){
 	                     				
+	                     				let productList = result[0];	// 메인페이지 상품목록
+                     					let cartList = result[1];		// 로그인한 사용자가 장바구니에 담은 상품번호 리스트
+                     					let likedList = result[2];		// 로그인한 사용자가 찜한상품 상품번호 리스트
+                     					user = result[3];			// 로그인한 사용자일 경우 : 사용자 회원번호
+                     					console.log(user.userNo == null);
 	                     				console.log("성공");
-	                     				console.log(productList);
+	                     				console.log(result);
+	                     			
 	                     				
 	                     				let list = "";			// 상품목록리스트 생성용 HTML 변수
 	                     				
@@ -123,7 +134,8 @@
 	                     						list += 			"<img class='product-img' src='" + <%= contextPath + '/' %>  + product.productUrl + "' alt='product image' style='width:100%; height:300px;'>";
 	                     						list += 			"<small class='product-category text-secondary d-block mb-3 mt-2'>" + product.categoryName + "</small>";
 	                     						list += 			"<h7 class='product-title'><b>" + product.productName + "</b></h7>";
-	                     						list += 			"<h7 class='product-price d-block my-3'><b>" + product.price + "원</b></h7>";
+	                     						list += 			"<h7 class='product-price d-block my-3'><b>" + product.price + "원</b></h7>";	
+	                     						
 	                     						list += 		"</div>";
 	                     						list += 		"<div class='icon d-flex justify-content-end' style='margin-top:-20px;'>";
 	                     						list += 			"<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='like me-4' viewBox='0 0 16 16'>";
@@ -135,28 +147,47 @@
 	                     						list += 			"</svg>";
 	                     						list += 		"</div>";
 	                     						list += "</div>";
-
+	                     						
 	                     					}
 	                     					
 	                     					// 상품목록 생성
 	                     					$(".product-list").html(list);
 	                     					
-	                     				}
-	                     				
-	                     				
-	                     			},complete:function(){
-	                     				console.log("완료");
-	                     			}
-	                     		})
-                     		}
-                     		
-	                     	// 레시피목록조회 Ajax통신
-                     		function selectRecipeList(){
-                     			
-                     		}
+	                     					// ====================================================================== 로그인한 사용자일 경우 ======================================================================================
+	                     					
+	                     					
+	                     					if(user.userNo != null) {// 로그인한 사용자일 경우
+	                     						
+	                     						// (1) 장바구니 담긴상품표시 (장바구니에 추가한 상품이 존재할경우)
+	                     						if(cartList.length != 0){
+	                     							$(".product").each(function(){
+	                     								for(let i=0 ; i<cartList.length ; i++){
+	                     									if(cartList[i].pNo == $(this).find("input:hidden").val()){
+	                     										$(this).find(".cart").attr("fill", "blue");
+	                     									} // if end
+	                     								} // for end
+	                     							}) // each end
+	                     						} // 장바구니 표시 if문 end
+	                     						
+	                     						// (2) 찜한 상품표시 (찜한 상품이 존재할경우)
+	                     						if(likedList.length != 0){
+	                     							$(".product").each(function(){
+	                     								for(let i=0 ; i<likedList.length ; i++){
+	                     									if(likedList[i].pNo == $(this).find("input:hidden").val()){
+	                     										$(this).find(".like").attr("fill", "red");
+	                     									} // if end
+	                     								} // for end
+	                     							}) // each end
+	                     						} // 찜상품 표시 if end
+	                     					} // 로그인한 사용자 if end
+
+	                     				} // if end
+	                     			} // success end
+	                     		}) // ajax end
+                     		} // selectProductList end
 	                     	
                      		/* 조회할 상품리스트 카테고리 버튼클릭시 실행될 함수
-                     		
+                     		 *
                      		 * "all" == 전체상품
                      		 * "best" == 랭킹상품
                      		 * "new" == 신상품
@@ -176,12 +207,14 @@
                      		*/
                      		$(".product-list").on("click", "svg.like", function(){
                      			console.log("하이");
-                     			if(<%= loginUser %> == null){
+                     			if(user.userNo == null) { 
                      				if(confirm("로그인을 먼저 진행해주세요.")){
                      					location.href="<%= contextPath %>/loginForm.me";
                      				}
-                     			}else{ // 로그인 상태일 경우
+                     			} else { // 로그인 상태일경우
+                     				console.log("하트 : " + $(this).attr("fill"));
                      				if($(this).attr("fill") == 'red'){	// 찜해제 요청
+                     					console.log("찜해제");
                      					$.ajax({
                      						url:"<%= contextPath %>/dheart.pr",
                      						data:{"proNo":$(this).next().val()},
@@ -190,9 +223,9 @@
                      								$(this).attr("fill", "black");
                      							}else{
                      								alert("상품 찜해제가 정상적으로 처리되지 않았습니다. 다시 시도해주세요~");
-                     							}
-                     						}
-                     					})
+                     							} // if-else end
+                     						} // success end
+                     					}) // 찜해제 ajax end
                      				}else{	// 찜하기 요청
                      					$.ajax({
                      						url:"<%= contextPath %>/heart.pr",
@@ -200,15 +233,16 @@
                      						success:function(result){
                      							if(result > 0){
                      								$(this).attr("fill", "red");
+                     								selectProductList($("#category").val());
                      							}else{
                      								alert("상품 찜하기가 정상적으로 처리되지 않았습니다. 다시 시도해주세요~");
-                     							}
-                     						}
-                     					})
-                     				}
-                     			}
+                     							} // if-else end
+                     						} // success end
+                     					}) // 찜하기 ajax end
+                     				} // 찜추가/해제 if-else end
+                     			} // 로그인 여부 if-else end
                      			 
-                     		})
+                     		}) // on end
                      		
                      		
                      		// 상품 장바구니추가버튼클릭시 실행될 함수
@@ -262,14 +296,16 @@
                          		
                          	})
                          	
+                         	// 메인페이지 레시피목록 조회 Ajax 통신용 함수
                          	function selectRecipeList(requestPage){
                          		$.ajax({
                          			url:"<%= contextPath %>/recipe.mp",
                          			data:{"page":requestPage},
-                         			// async:false,
-                         			success:function(recipeList){
-                         				console.log("성공");
-                         				console.log(recipeList);
+                         			async:false,
+                         			success:function(result){
+                         				
+                         				let recipeList = result[0];	// 메인페이지 레시피목록
+                         				maxPage = result[1];		// 레시피 리스트 최대페이지수
                          				
                          				let list = "";				// 레시피리스트 생서할 HTML구문 변수
                          				
@@ -302,11 +338,12 @@
                          						list +=				"</div>";
                          						
                          						// 레시피 좋아요 영역
+                         						list += 			"<input type='hidden' value='" + recipe.recipeNo + "'>";
                          						list += 			"<div class='recipe-good' style='width: 40%; padding-left: 40px; padding-top:25px;'>";
-                         						list += 				"<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='like me-4' viewBox='0 0 16 16' onclick='likeRecipe(" + recipe.recipeNo + ");'>";
+                         						list += 				"<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='like me-4' style='margin-top: 35px;' viewBox='0 0 16 16'>";
 	                     						list += 					"<path d='m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15'/>";
 	                     						list += 				"</svg>"; 
-                                              	list += 				"<label class='total-good'>(" + recipe.totalLiked + ")</label>";
+                                              	list += 				"<label class='total-good' style='margin-top: 35px;'>(" + recipe.totalLiked + ")</label>";
                                               	list += 			"</div>";
                                               	list += 		"</div>";
                                               	
@@ -335,16 +372,33 @@
                          				$(".recipe-list").html(list);
                          				
                          				
-                         			},complete:function(){
-                         				console.log("완료");
-                         			}
-                         		})
-                         	}
+                         			} // success end
+                         		}) // ajax end
+                         	} // selectRecipeList end
                          	
                          // 레시피 좋아요 클릭시, 실행될 함수
-                       	function likeRecipe(recipeNo){
-                       		console.log("레시피 번호 : " + recipeNo);
-                       	}
+                       	$(".recipe-list").on("click", "svg.like", function(){
+                       		console.log($(this).prev().val());
+                       		if(user.userNo == null){
+                       			if(confirm("로그인을 먼저 진행해주세요.")){
+                 					location.href="<%= contextPath %>/loginForm.me";
+                 				}
+                       		}else{
+                       			/*
+                       			if($(this).attr("fill") == 'red'){	// 레시피 찜해제
+                       				$.ajax({
+                       					url:"<%= contextPath %>/heart.re",
+                       					data:{"no":$(this)}
+                       				})
+                       				
+                       			}else{	// 레시피 찜하기
+                       				
+                       			}
+                       			*/
+                       		} // 로그인 여부확인 if-else end
+                       		
+                       		
+                       	}) // 레시피 좋아요 클릭시 실행 함수 end
                          	
 	                     </script>
 	                     

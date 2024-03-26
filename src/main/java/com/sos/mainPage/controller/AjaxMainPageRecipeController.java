@@ -37,7 +37,7 @@ public class AjaxMainPageRecipeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 서블릿 역할 : 메인페이지 노출용 Recipe 리스트 조회
-		System.out.println("레시피");
+		
 		// 레시피 리스트용 페이징바
 		int totalRecipe = new MainPageService().totalRecipe();
 		int currentPage = Integer.parseInt(request.getParameter("page"));
@@ -80,12 +80,15 @@ public class AjaxMainPageRecipeController extends HttpServlet {
 			}
 		}
 		
+		// 전송결과를 담을 JSONArray
+		JSONArray jResult = new JSONArray();
+		jResult.add(jRecipeList);
+		jResult.add(pi.getMaxPage());		// 메인페이지 레시피목록 주기적 변경을 위해 필요함
+		
 		// 결과전송
 		response.setContentType("application/json; charset=utf-8");
-		response.getWriter().print(jRecipeList);
+		response.getWriter().print(jResult);
 		
-		// 헤더로 전송할 데이터
-		request.getSession().setAttribute("recipePageInfo", pi);
 		
 	}
 
