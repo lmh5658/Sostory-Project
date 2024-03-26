@@ -33,6 +33,23 @@ public class MainPageService {
 	}
 	
 	/**
+	 * 유효한레시피 갯수조회시 실행될 메소드
+	 * 
+	 * @return : 조회된 유효한 레시피갯수
+	 */
+	public int totalRecipe() {
+		
+		Connection conn = getConnection();
+		
+		int total = mpDao.totalRecipe(conn);
+		
+		close(conn);
+		
+		return total;
+		
+	}
+	
+	/**
 	 * 메인페이지 노출용 레시피 리스트 조회시 실행될 메소드
 	 * 
 	 * @return : 조회된 3개 레시피객체 리스트
