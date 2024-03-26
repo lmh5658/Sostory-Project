@@ -42,7 +42,6 @@
 	             <!-- The slideshow/carousel -->
 	             <div class="carousel-inner">
 	             <div class="carousel-item active">
-	                 <img src="<%= contextPath %>/resources/images/이미지1.jpg" alt="ad1" class="d-block" style="width:100%; height: 600px;">
 	                 <img src="<%= contextPath %>/resources/images/mainImage1.jpg" alt="ad1" class="d-block" style="width:100%; height: 600px;">
 	             </div>
 	             <div class="carousel-item">
