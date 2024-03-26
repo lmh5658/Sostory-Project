@@ -16,16 +16,16 @@ import com.sos.manager.model2.service2.ManagerService2;
 import com.sos.product.model.vo.ProductQnaReply;
 
 /**
- * Servlet implementation class Ajax1to1QnaselectController
+ * Servlet implementation class ManagerMemSearchController
  */
-@WebServlet("/qnaselect.ma")
-public class Ajax1to1QnaselectController extends HttpServlet {
+@WebServlet("/msearch.ma")
+public class Ajax1to1MemSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ajax1to1QnaselectController() {
+    public Ajax1to1MemSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,18 +35,10 @@ public class Ajax1to1QnaselectController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String select = request.getParameter("select");
-		
-		int listCount = 0;
-		if(select.equals("all")) {
-			listCount = new ManagerService2().managerQnalistCount();
-		}else if(select.equals("processed")){
-			listCount = new ManagerService2().managerProQnalistCount();
-		}else if(select.equals("unprocessed")) {
-			listCount = new ManagerService2().managerUnproQnalistCount();
-		}
-		 
-		int currentPage = Integer.parseInt(request.getParameter("page")); 
+		String search = request.getParameter("search");
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		System.out.println(currentPage);
+		int listCount = new ManagerService2().searchMemCount(search);
 		int pageLimit = 5;
 		int boardLimit = 6;
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
@@ -57,20 +49,18 @@ public class Ajax1to1QnaselectController extends HttpServlet {
 		}
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 
-		
-		List<ProductQnaReply> list = new ManagerService2().selectQnaList(select, pi);
+		List<ProductQnaReply> list = new ManagerService2().searchMemList(search, pi);
 		
 		HashMap<String, Object> hm = new HashMap();
 		if(!list.isEmpty()) {
-			hm.put("list", list);
 			hm.put("pi", pi);
-			hm.put("select", select);
+			hm.put("list", list);
+			hm.put("search", search);
 		}
-		
+		System.out.println(list);
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(hm, response.getWriter());
-	
-	
+		
 	}
 
 	/**

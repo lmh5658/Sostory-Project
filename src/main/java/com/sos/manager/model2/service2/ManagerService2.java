@@ -1,7 +1,9 @@
 package com.sos.manager.model2.service2;
 
 import static com.sos.common.template.JDBCTemplate.close;
+import static com.sos.common.template.JDBCTemplate.commit;
 import static com.sos.common.template.JDBCTemplate.getConnection;
+import static com.sos.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -58,5 +60,33 @@ public class ManagerService2 {
 		return count;
 	}
 	
-
+	public int deleteAnswerManager(int answerNo) {
+		Connection conn = getConnection();
+		int result = mDao.deleteAnswerManager(conn, answerNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int searchMemCount(String search) {
+		Connection conn = getConnection();
+		int count = mDao.searchMemCount(conn, search);
+		close(conn);
+		return count;
+	}
+	
+	public List<ProductQnaReply> searchMemList(String search, PageInfo pi){
+		Connection conn = getConnection();
+		List<ProductQnaReply> list = mDao.searchMemList(conn, search, pi);
+		close(conn);
+		return list;
+		
+	}
+	
+	
+	
 }

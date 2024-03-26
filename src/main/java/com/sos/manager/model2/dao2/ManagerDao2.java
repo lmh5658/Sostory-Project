@@ -207,8 +207,88 @@ public class ManagerDao2 {
 		return count;
 	}
 	
+	public int deleteAnswerManager(Connection conn, int answerNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteAnswerManager");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+		
+		
+	}
+	
+	public int searchMemCount(Connection conn, String search){
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchMemCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+		
+	}
 	
 	
+	public List<ProductQnaReply> searchMemList(Connection conn, String search, PageInfo pi){
+		List<ProductQnaReply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("searchMemList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setString(1, search);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ProductQnaReply pQna = new ProductQnaReply();
+				pQna.setAnswerNo(rset.getInt("ANSWER_NO"));
+				pQna.setProductNo(rset.getInt("PRODUCT_NO"));
+				pQna.setUserNo(rset.getString("USER_ID"));
+				pQna.setAnswerDate(rset.getString("ANSWER_DATE"));
+				pQna.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				pQna.setAnswerStatus(rset.getString("ANSWER_STATUS"));
+				list.add(pQna);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
 	
 	
 	
