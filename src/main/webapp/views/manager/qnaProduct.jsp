@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ page import="com.sos.product.model.vo.Qna, java.util.List, com.sos.common.model.vo.PageInfo"%>
+
+ <%
+ 	List<Qna> list = (List<Qna>)request.getAttribute("list");
+ 	List<Integer> aNoList = (List<Integer>)request.getAttribute("aNoList");
+ 	int count = (int)request.getAttribute("listCount");
+ 	
+ 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+ %>   
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,25 +138,258 @@
             </div>
             <div class="select_div">
                 <div>
-                    <select name="" id="">
-                        <option value="">전체</option>
-                        <option value="">장류</option>
-                        <option value="">드레싱</option>
-                        <option value="">기타</option>
+                    <select name="" id="categorySort" onchange="sortCategory(1);">
+                        <option value="all">전체</option>
+                        <option value="jang">장류</option>
+                        <option value="dress">드레싱</option>
+                        <option value="etc">기타</option>
                     </select>
                 </div>
+                
+                <script>
+                
+                
+             
+                
+                
+                function sortCategory(page){
+               	
+		                var category
+               			category = $("#categorySort").val();
+               			console.log(category);
+               			
+               			$.ajax({
+							url:"<%=contextPath%>/sort.ma",
+							data:{
+								category:category,
+								page:page
+								
+							},
+							type:"post",
+							success:function(hm){
+								let value="";
+								let pa ="";
+								let unprocessed ="미처리";
+								
+									
+									for(let i=0; i<hm.list.length; i++){
+										
+										if(hm.list[i].answerType== unprocessed){
+											
+										value+="<tr>" +
+										"<td><input type='checkbox' name='typArr' class='typArr'></td>"+
+                						"<td>"+hm.list[i].answerNo+"</td>"+
+                						"<td>"+hm.list[i].answerDate+"</td>"+
+                						"<td>"+hm.list[i].userNo+"</td>"+
+                						"<td>"+hm.list[i].productNo+"</td>"+
+                						"<td>"+hm.list[i].answerTitle+"</td>"+
+                						"<td style='color: red;'>"+hm.list[i].answerType+"</td>"+
+                						"</tr>";
+										}else{
+											value+="<tr>" +
+											"<td><input type='checkbox' name='typArr' class='typArr'></td>"+
+	                						"<td>"+hm.list[i].answerNo+"</td>"+
+	                						"<td>"+hm.list[i].answerDate+"</td>"+
+	                						"<td>"+hm.list[i].userNo+"</td>"+
+	                						"<td>"+hm.list[i].productNo+"</td>"+
+	                						"<td>"+hm.list[i].answerTitle+"</td>"+
+	                						"<td>"+hm.list[i].answerType+"</td>"+
+	                						"</tr>";
+											
+										}
+											
+                						
+										
+                						
+									}
+									
+									$("#boardList tbody").html("");
+									$("#boardList tbody").html(value);
+									
+									
+									
+		                              if(1 == hm.pi.currentPage) {
+		                                 pa += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+		                              }else {
+		                                 pa += "<li class='page-item'><a class='page-link' onclick='sortCategory(" + (page- 1) + ")'>Previous</a></li>";
+		                              }
+		                                  
+		                                 for(let p=hm.pi.startPage; p<=hm.pi.endPage; p++) {
+		                                     if (p == hm.pi.currentPage){
+		                                    	 pa += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+		                                     } else {
+		                                    	 pa += '<li class="page-item"><a class="page-link" onclick="sortCategory(' + p + ')">' + p + '</a></li>';
+		                                     }
+		                                  }
+		                              
+		                              if(hm.pi.endPage != hm.pi.maxPage){         
+		                            	  pa += '<li class="page-item"><a class="page-link" onclick="sortCategory(' + (page + 1) + ')>Next</a></li>'
+		                                  }else{
+		                                	  pa += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+		                                  }
+		                              	$("#pagingg").html("");
+										$("#pagingg").html(pa);
+									
+									
+								
+								
+								let count = "";
+               	            	if(hm.category == "all"){
+               	            		count +=  '총 문의 수 : <label style="color: red;">' + hm.pi.listCount + '</label>'
+               	            	}else if(hm.category == "jang"){
+               	            		count +=  '총 문의 수 : <label style="color: red;">' + hm.pi.listCount + '</label>'              	            		
+               	            	}else if(hm.category == "dress"){
+               	            		count +=  '총 문의 수 : <label style="color: red;">' + hm.pi.listCount + '</label>'              	            		
+               	            	}else if(hm.category == "etc"){
+               	            		count +=  '총 문의 수 : <label style="color: red;">' + hm.pi.listCount + '</label>'              	            		
+               	            	}
+								
+               	            	$("#qnaCount").html("");
+               	            	$("#qnaCount").html(count);
+								
+							}
+						})
+						
+					
+						
+                }
+                
+            	
+            	  	$(function(){
+            	  		
+            	  	
+                	$(".select_delete").click(function(){
+                		if(confirm("정말 삭제하시겠습니까?")){
+                			
+                		$(".typArr:checked").each(function(){
+                			if($(this).is(":checked")){
+   	            			 location.href="<%=contextPath%>/delpr.ma?AnswerNo=" + $(this).parent().next().text();
+               				
+               				}
+    			  				
+                		})
+                      	}else{
+                    	  // confirm에서 아니요 클릭시 아무변화없는 현재페이지
+                   		}
+                	})
+            	  })
+            	  
+                </script>
+                
                 <div class="option_2">
-                    <button class="select_delete" onclick="return confirm('정말로 삭제하시겠습니까?');">선택삭제</button>
-                    <select name="" id="">
-                        <option value="">전체</option>
-                        <option value="">처리</option>
-                        <option value="">미처리</option>
+                    <button class="select_delete" >선택삭제</button>
+                    <select name="selectp" id="selectp"  onchange="sortProc(1);">
+                        <option value="all">전체</option>
+                        <option value="processed">처리</option>
+                        <option value="unprocessed">미처리</option>
                     </select>
                 </div>
+                
+                <script>
+                
+                function sortProc(page){
+                	
+                	$.ajax({
+           				url:"<%=contextPath%>/sortp.ma",
+           				data:{
+           					select:$("#selectp").val(),
+           					page:page
+           					
+           				},
+           				type:"post",
+           				success:function(result){
+           					let unprocessed ="미처리";
+           					let list = "";
+           					
+           					for(let i=0; i<result.list.length; i++){
+								
+								if(result.list[i].answerType== unprocessed){
+									
+								list+="<tr>" +
+								"<td><input type='checkbox' name='typArr' class='typArr'></td>"+
+        						"<td>"+result.list[i].answerNo+"</td>"+
+        						"<td>"+result.list[i].answerDate+"</td>"+
+        						"<td>"+result.list[i].userNo+"</td>"+
+        						"<td>"+result.list[i].productNo+"</td>"+
+        						"<td>"+result.list[i].answerTitle+"</td>"+
+        						"<td style='color: red;'>"+result.list[i].answerType+"</td>"+
+        						"</tr>";
+								}else{
+									list+="<tr>" +
+									"<td><input type='checkbox' name='typArr' class='typArr'></td>"+
+            						"<td>"+result.list[i].answerNo+"</td>"+
+            						"<td>"+result.list[i].answerDate+"</td>"+
+            						"<td>"+result.list[i].userNo+"</td>"+
+            						"<td>"+result.list[i].productNo+"</td>"+
+            						"<td>"+result.list[i].answerTitle+"</td>"+
+            						"<td>"+result.list[i].answerType+"</td>"+
+            						"</tr>";
+									
+								}
+									
+        						
+								
+        						
+							}
+           					
+           					$("#boardList tbody").html("");
+							$("#boardList tbody").html(list);
+           					
+           					let paging = "";
+           				 	
+           					if(1 == result.pi.currentPage) {
+           						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+           	                }else {
+           	                	paging += "<li class='page-item'><a class='page-link' onclick='sortProc(" + (page- 1) + ")'>Previous</a></li>";
+           	                }
+           	                
+           	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
+           		                if (p == result.pi.currentPage){
+           		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+           		                } else {
+           		                	paging += '<li class="page-item"><a class="page-link" onclick="sortProc(' + p + ')">' + p + '</a></li>';
+           		                }
+           	                }
+           					
+           					if(result.pi.endPage != result.pi.maxPage){			
+           						paging += '<li class="page-item"><a class="page-link" onclick="sortProc(' + (page + 1) + ')>Next</a></li>'
+           	                }else{
+           	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+           	                }
+           					
+           	            	$("#pagingg").html("");
+           	            	$("#pagingg").html(paging);
+           	            	
+           	            	
+           	            	let count = "";
+           	            	if(result.select == "all"){
+           	            		count +=  '총 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+           	            	}else if(result.select == "unprocessed"){
+           	            		count +=  '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+           	            		console.log(count);
+           	            	}else if(result.select == "processed"){
+           	            		count +=  '처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
+           	            	}
+           	            	$("#qnaCount").html("");
+           	            	$("#qnaCount").html(count);
+           	            	
+           				}
+           				
+           			})
+                
+                }
+                </script>
+                
+                
+                
+                
+                
+                
+                
             </div>
             <div class="table_d">
                 <div>
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="boardList">
                         <thead>
                             <tr class="table_title">
                                 <th><input type="checkbox" id="cbx_chkAll"></th>
@@ -154,121 +397,106 @@
                                 <th>작성일자</th>
                                 <th>아이디</th>
                                 <th>상품명</th>
-                                <th>상품코드</th>
                                 <th>문의내역</th>
                                 <th>처리결과</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>6</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>상품 입고는 언제되나요?</td>
-                                <td>미처리</td>
+                        	<%if(list.isEmpty()){ %>
+                        	  <td colspan="6" style="text-align: center;">존재하는 게시글이 없습니다.</td>
+                        	<%}else{ %>
+                        
+                        	<% for(Qna q : list) { %>
+                            <tr class="table_title productQna">
+                                <td><input type="checkbox" name="typArr" class="typArr" value="<%=q.getAnswerNo()%>"></td>
+                                <td><%=q.getAnswerNo() %></td>
+                                <td><%=q.getAnswerDate() %></td>
+                                <td><%=q.getUserNo() %></td>
+                                <td><%=q.getProductNo() %></td>
+                                <td><%=q.getAnswerTitle() %></td>
+                                <td><%=q.getAnswerType() %></td>
                             </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>5</td>
-                                <td>2024/02/25</td>
-                                <td>user01</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>실온보관 가능한가요?</td>
-                                <td>미처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>4</td>
-                                <td>2024/02/25</td>
-                                <td>user03</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>많이 팔아주세요</td>
-                                <td>처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>3</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>상품 유통기한은 언제까지인가요 </td>
-                                <td>처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>2</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>많이 매운가요</td>
-                                <td>처리</td>
-                            </tr>
-                            <tr class="table_title">
-                                <td><input type="checkbox" name="typArr"></td>
-                                <td>1</td>
-                                <td>2024/02/25</td>
-                                <td>user02</td>
-                                <td>고추장</td>
-                                <td>A2</td>
-                                <td>많이 짠가요</td>
-                                <td>처리</td>
-                            </tr>
+                            <%} %>
+                          <%} %>
                         </tbody>
                     </table>     
                 </div>
-                    <div style="font-weight: bold;">
-                        총 문의 수 : <label style="color: red;">6</label>
-                    </div>                  
+               
+               <script>
+                    	$(function(){
+                    		$("#boardList>tbody>tr").click(function(){
+                    			location.href ="<%=contextPath%>/detail.bo?no=" +$(this).children().eq(0).text();
+                    		})
+                    	})
+                    
+             </script>
+               
+               
+               
+                
+                
+                
+             <div id="qnaCount" style="font-weight: bold;">
+                        총 문의 수 : <label style="color: red;"><%=count %></label>
+            </div>                  
             </div>
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-              </ul>
+             <!-- 페이징 바 영역 -->
+             <div class="center">
+             
+                    <ul class="pagination justify-content center" id="pagingg">
+                    	<%if(pi.getCurrentPage()==1){ %>
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <%}else{ %>
+                        <li class="page-item"><a class="page-link" href="<%= contextPath%>/qnaProduct.ma?page=<%=pi.getCurrentPage()-1 %>">Previous</a></li>
+                        <%} %>
+                        <%for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++){ %>
+	                        <%if(p== pi.getCurrentPage()) {%>
+	                        <li class="page-item active"><a class="page-link" href="#"><%=p %></a></li>
+	                        <%}else{ %>
+	                        <li class="page-item"><a class="page-link" href="<%= contextPath%>/qnaProduct.ma?page=<%=p %>"><%=p %></a></li>
+                        
+                        <%} %>
+                       <%} %>
+                        
+                        <% if(pi.getCurrentPage()==pi.getMaxPage()){ %>
+                        <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                        <%}else{ %>
+                        <li class="page-item"><a class="page-link" href="<%= contextPath%>/qnaProduct.ma?page=<%=pi.getCurrentPage()+1 %>">Next</a></li>
+                        <%} %>
+                      </ul>
+             </div>
+             
+             
+             
+             
+             
+             
             <script>
 
                 $(function(){
-                        // 전체 선택 / 해제
-                    $("#cbx_chkAll").click(function(){
-                        if($("#cbx_chkAll").is(":checked")){
-                        $("input[name=typArr]").prop("checked", true);
-                        }else {
-                        $("input[name=typArr]").prop("checked", false);
-                        }
-                    });
-                    
-                    $("input[name=typArr]").click(function(){
-                        var totalArr = $("input[name=typArr]").length;
-                        var checked = $("input[name=typArr]:checked").length;
-                        
-                        if(totalArr != ckecked){
-                        $("#cbx_chkAll").prop("checked", false);
-                        }else{
-                        $("#cbx_chkAll").prop("checked", true);
-                        }
-                    });
+                       // 전체 선택 / 해제
+    
+                   $("#cbx_chkAll").click(function() {
+					    var isChecked = $(this).prop("checked");
+					    $(".typArr").prop('checked', isChecked);
+					});
 
-                    $(".table_title>td").each(function(){
-                        if($(this).text() == "미처리"){
-                            $(this).css("color", "red");
-                        }else{
-                            $(this).css("color", "black");
-                        }
-                    })
+                   
+                    
+                	$(".table_title>td").each(function(){
+                       if($(this).text() == "미처리"){
+                           $(this).css("color", "red");
+                       }else{
+                           $(this).css("color", "black");
+                       }
+                   })
+                
+                
                 })
                 
               </script>
+              
+              
 
         </div>
 

@@ -125,5 +125,63 @@
 			WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	
+	
+	
+	
+	
+	
+<entry key="managerQnalistCountp">
+SELECT COUNT(*) COUNT
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_TYPE = 1
+
+
+</entry>
+
+<entry key="managerProQnalistCountp">
+SELECT COUNT(*) COUNT
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_TYPE = 1
+		  AND ANSWER_STATUS = '처리'
+
+
+</entry>
+
+
+<entry key="managerUnproQnalistCountp">
+SELECT COUNT(*) COUNT
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_TYPE = 1
+		  AND ANSWER_STATUS = '미처리'
+
+
+</entry>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </properties>

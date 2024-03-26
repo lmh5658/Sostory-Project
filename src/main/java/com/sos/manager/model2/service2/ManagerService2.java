@@ -86,6 +86,27 @@ public class ManagerService2 {
 		return list;
 		
 	}
+
+	public int managerQnalistCountp() {
+		Connection conn = getConnection();
+		int count = mDao.managerQnalistCountp(conn);
+		close(conn);
+		return count;
+	}
+
+	public int managerProQnalistCountp() {
+		Connection conn = getConnection();
+		int count = mDao.managerProQnalistCountp(conn);
+		close(conn);
+		return count;
+	}
+
+	public int managerUnproQnalistCountp() {
+		Connection conn = getConnection();
+		int count = mDao.managerUnproQnalistCountp(conn);
+		close(conn);
+		return count;
+	}
 	
 	
 	

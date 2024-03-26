@@ -115,6 +115,286 @@ FROM (
 
 </entry>
 
+<entry key="deleteQna">
+	
+		DELETE FROM TB_QNA_REPLY
+		WHERE ANSWER_NO = ? AND ANSWER_TYPE = 1
+	
+	
+</entry>
+
+
+<entry key="countCategoryJang">
+	SELECT COUNT(*) COUNT
+	FROM TB_QNA_REPLY
+	JOIN TB_PRODUCT USING(PRODUCT_NO)
+	JOIN TB_CATEGORY USING(CATEGORY_NO)
+	WHERE CATEGORY_NAME = '장류'
+	AND ANSWER_TYPE = 1
+
+
+</entry>
+
+<entry key="countCategoryDress">
+	SELECT COUNT(*) COUNT
+	FROM TB_QNA_REPLY
+	JOIN TB_PRODUCT USING(PRODUCT_NO)
+	JOIN TB_CATEGORY USING(CATEGORY_NO)
+	WHERE CATEGORY_NAME = '드레싱'
+	AND ANSWER_TYPE = 1
+
+</entry>
+
+<entry key="countCategoryEtc">
+
+	SELECT COUNT(*) COUNT
+	FROM TB_QNA_REPLY
+	JOIN TB_PRODUCT USING(PRODUCT_NO)
+	JOIN TB_CATEGORY USING(CATEGORY_NO)
+	WHERE CATEGORY_NAME = '기타'
+	AND ANSWER_TYPE = 1
+
+
+</entry>
+
+<entry key="selectCategoryJang">
+
+SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NAME = '장류'
+			 AND ANSWER_TYPE = 1
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+
+</entry>
+
+<entry key="selectCategoryDress">
+
+SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NAME = '드레싱'
+			 AND ANSWER_TYPE = 1
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+
+</entry>
+
+<entry key="selectCategoryEtc">
+
+SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            JOIN TB_CATEGORY USING(CATEGORY_NO)
+			WHERE CATEGORY_NAME = '기타'
+			 AND ANSWER_TYPE = 1
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+
+</entry>
+
+<entry key="selectCategoryAll">
+
+SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            JOIN TB_CATEGORY USING(CATEGORY_NO)
+            WHERE ANSWER_TYPE = 1
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+
+</entry>
+
+<entry key="countCategoryAll">
+
+	SELECT COUNT(*) COUNT
+	FROM TB_QNA_REPLY
+	JOIN TB_PRODUCT USING(PRODUCT_NO)
+	JOIN TB_CATEGORY USING(CATEGORY_NO)
+	WHERE ANSWER_TYPE = 1
+
+
+</entry>
+
+
+<entry key="managerQnalist">
+		SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            where ANSWER_TYPE = 1
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+			
+	</entry>
+	
+	<entry key="managerProQnalist">
+		SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            where ANSWER_TYPE = 1 
+            and ANSWER_STATUS = '처리'
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="managerUnproQnalist">
+	
+			SELECT *
+			FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+			SELECT
+			     ANSWER_NO
+			   , PRODUCT_NAME
+			   , ANSWER_TITLE
+			   , USER_ID
+			   , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			   , ANSWER_CONTENT
+			   , ANSWER_STATUS
+			   , REPLY
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
+			FROM TB_QNA_REPLY
+			JOIN TB_PRODUCT USING(PRODUCT_NO)
+			JOIN TB_MEMBER USING(USER_NO)
+            where ANSWER_TYPE = 1 
+            and ANSWER_STATUS = '미처리'
+			ORDER
+			  BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+			
+			
+	</entry>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

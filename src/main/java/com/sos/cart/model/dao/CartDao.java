@@ -153,6 +153,7 @@ public class CartDao {
 		int result =0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("deleteCart");
+		System.out.println(sql);
 		
 		try {
 			pstmt=conn.prepareStatement(sql);

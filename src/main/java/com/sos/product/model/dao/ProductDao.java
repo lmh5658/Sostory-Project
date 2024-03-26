@@ -1447,5 +1447,104 @@ public class ProductDao {
 		
 		return count;
 	}
+
+		public List<Qna> selectQnaAllList(Connection conn,PageInfo pi) {
+			List<Qna> list = new ArrayList<>();
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectQnaAllList");
+			
+			try {
+				
+				pstmt = conn.prepareStatement(sql);	
+				int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+				int endRow = startRow + pi.getBoardLimit() - 1;
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Qna q = new Qna();
+					q.setAnswerNo(rset.getInt("ANSWER_NO"));
+					q.setProductNo(rset.getString("PRODUCT_NAME"));
+					q.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+					q.setUserNo(rset.getString("USER_ID"));
+					q.setAnswerDate(rset.getString("ANSWER_DATE"));
+					q.setAnswerContent(rset.getString("ANSWER_CONTENT"));
+					q.setAnswerType(rset.getString("ANSWER_STATUS"));
+					q.setReply(rset.getString("REPLY"));
+					q.setReplyDate(rset.getString("REPLY_DATE"));
+					
+					list.add(q);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			
+			return list;
+			
+		}
+		
+		public int selectQnaAllCount(Connection conn) {
+			
+			int countList = 0;
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectQnaAllCount");
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				rset = pstmt.executeQuery();
+				
+				if(rset.next()) {
+					countList = rset.getInt("count");
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			
+			return countList;
+		}
+		
+		public List<Qna> selectQnaAllListaNo(Connection conn) {
+			List<Qna> list = new ArrayList<>();
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectQnaAllListaNo");
+			
+			try {
+				
+				pstmt = conn.prepareStatement(sql);	
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Qna q = new Qna();
+					q.setAnswerNo(rset.getInt("ANSWER_NO"));
+					
+					list.add(q);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			
+			return list;
+			
+		}
+		
+		
+		
 	
 }
