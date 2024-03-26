@@ -191,7 +191,7 @@
                					let list = "";
                					for(let i=0; i<result.list.length; i++){
                						list += "<tr>"
-               						     + "<td><input type='checkbox' class='typArr'></td>"
+               						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
                						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
                						     + "<td>" + result.list[i].answerDate + "</td>"
                						     + "<td>" + result.list[i].userNo + "</td>"
@@ -236,9 +236,9 @@
                	            	if(result.select == "all"){
                	            		count +=  '총 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
                	            	}else if(result.select == "processed"){
-               	            		count +=  '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
-               	            	}else if(result.select == "unprocessed"){
                	            		count +=  '처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
+               	            	}else if(result.select == "unprocessed"){
+               	            		count +=  '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
 
                	            	}
                	            	
@@ -295,7 +295,7 @@
                         <tbody>
                         	<% for(ProductQnaReply p : list){ %>
                             <tr class="table_content">
-                                <td>
+                                <td onclick="event.stopPropagation()">
                                 <input type="checkbox" class="typArr">
                                 </td>
                                 <td class="answerNo"><%= p.getAnswerNo() %></td>
@@ -317,9 +317,8 @@
             
             	$(function(){
             		$(".table_content").click(function(){
-            			console.log($(this).find(".answerNo").text());
             			// let select = $(".table_content").children().eq(1).text();
-            			location.href="<%=contextPath%>/mselect.ma?page=1&search=" + $(this).find(".answerNo").text();
+            			location.href="<%=contextPath%>/mselect.ma?answerNo=" + $(this).find(".answerNo").text();
             		})
             	})
             

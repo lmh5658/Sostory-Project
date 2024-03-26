@@ -126,39 +126,64 @@
 	</entry>
 	
 	
+	<entry key="managerQnalistCountp">
+		SELECT COUNT(*) COUNT
+				FROM TB_QNA_REPLY
+				WHERE ANSWER_TYPE = 1
+		
+	
+	</entry>
+	
+	<entry key="managerProQnalistCountp">
+		SELECT COUNT(*) COUNT
+				FROM TB_QNA_REPLY
+				WHERE ANSWER_TYPE = 1
+				  AND ANSWER_STATUS = '처리'
+		
+		
+	</entry>
 	
 	
+	<entry key="managerUnproQnalistCountp">
+		SELECT COUNT(*) COUNT
+				FROM TB_QNA_REPLY
+				WHERE ANSWER_TYPE = 1
+				  AND ANSWER_STATUS = '미처리'
+		
+	</entry>
 	
-	
-	
-<entry key="managerQnalistCountp">
-SELECT COUNT(*) COUNT
+	<entry key="managerQnaReply">
+		SELECT 
+		      ANSWER_NO
+		    , ANSWER_TITLE
+		    , ANSWER_CONTENT
+		    , ANSWER_STATUS
+		    , REPLY
 		FROM TB_QNA_REPLY
-		WHERE ANSWER_TYPE = 1
+		WHERE ANSWER_NO = ?
+		  AND ANSWER_TYPE = 2
+	</entry>
+	
+	<entry key="managerQnaReplyFile">
+		SELECT 
+		      PRO_FILE_NO
+		    , FILE_NAME
+		    , FILE_CHANGENAME
+		    , FILE_ROUTE
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
+	</entry>
 
-
-</entry>
-
-<entry key="managerProQnalistCountp">
-SELECT COUNT(*) COUNT
-		FROM TB_QNA_REPLY
-		WHERE ANSWER_TYPE = 1
-		  AND ANSWER_STATUS = '처리'
-
-
-</entry>
-
-
-<entry key="managerUnproQnalistCountp">
-SELECT COUNT(*) COUNT
-		FROM TB_QNA_REPLY
-		WHERE ANSWER_TYPE = 1
-		  AND ANSWER_STATUS = '미처리'
-
-
-</entry>
-
-
+	<entry key="insertQnaReplyContent">
+		 UPDATE 
+			   TB_QNA_REPLY
+			SET REPLY = ?
+			  , ANSWER_STATUS = '처리'
+			  , REPLY_DATE = SYSDATE
+			  , ADMIN_NO = ?
+		  WHERE ANSWER_NO = ?
+	</entry>
 
 
 

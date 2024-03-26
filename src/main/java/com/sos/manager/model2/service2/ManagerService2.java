@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.sos.common.model.vo.PageInfo;
 import com.sos.manager.model2.dao2.ManagerDao2;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.ProductQnaReply;
 
 public class ManagerService2 {
@@ -108,6 +109,33 @@ public class ManagerService2 {
 		return count;
 	}
 	
+	public ProductQnaReply managerQnaReply(int answerNo) {
+		Connection conn = getConnection();
+		ProductQnaReply pq = mDao.managerQnaReply(conn, answerNo);
+		close(conn);
+		return pq;
+	}
+	
+	public AttachmentProduct managerQnaReplyFile(int answerNo) {
+		Connection conn = getConnection();
+		AttachmentProduct ap = mDao.managerQnaReplyFile(conn, answerNo);
+		close(conn);
+		return ap;
+		
+	}
+	
+	public int insertQnaReply(int answerNo, String replyContent, int adminNo) {
+		Connection conn = getConnection();
+		int result = mDao.insertQnaReplyContent(conn, answerNo, replyContent, adminNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+		
+		
+	}
 	
 	
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.sos.common.model.vo.PageInfo;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.ProductQnaReply;
 
 public class ManagerDao2 {
@@ -359,6 +360,84 @@ public class ManagerDao2 {
 	}
 	
 	
+	public ProductQnaReply managerQnaReply(Connection conn, int answerNo) {
+		
+		ProductQnaReply pq = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("managerQnaReply");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				pq = new ProductQnaReply();
+				pq.setAnswerNo(rset.getInt("ANSWER_NO"));;
+				pq.setAnswerTitle(rset.getString("ANSWER_TITLE"));
+				pq.setAnswerContent(rset.getString("ANSWER_CONTENT"));
+				pq.setAnswerStatus(rset.getString("ANSWER_STATUS"));
+				pq.setReply(rset.getString("REPLY"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return pq;
+		
+	}
 	
+	public AttachmentProduct managerQnaReplyFile(Connection conn, int answerNo) {
+		AttachmentProduct ap = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("managerQnaReplyFile");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ap = new AttachmentProduct();
+				ap.setProFileNo(rset.getInt("PRO_FILE_NO"));
+				ap.setFileName(rset.getString("FILE_NAME"));
+				ap.setFileChangeName(rset.getString("FILE_CHANGENAME"));
+				ap.setFileRoute(rset.getString("FILE_ROUTE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return ap;
+	}
+	
+	public int insertQnaReplyContent(Connection conn, int answerNo, String replyContent, int adminNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertQnaReplyContent");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, replyContent);
+			pstmt.setInt(2, adminNo);
+			pstmt.setInt(3, answerNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
 
 }
