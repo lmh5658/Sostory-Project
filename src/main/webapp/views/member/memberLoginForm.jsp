@@ -108,8 +108,10 @@
                             	<td colspan="2"><input class="form-control" type="password"  placeholder="비밀번호를 입력해주세요" required name="userPwd"></td>
                        		</tr>
                         	<tr>
+                        		<!-- 
                             	<td><input type="checkbox" id="#saved"><label for="#saved">&nbsp;아이디 저장</label></td>
-                            	<td style="text-align: right;">
+                            	 -->
+                            	<td colspan="2" style="text-align: right;">
 	                            	<a href="findForm.me">아이디 비밀번호 찾기</a>
                             	</td>
                         	</tr>
