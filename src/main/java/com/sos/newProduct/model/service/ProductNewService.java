@@ -194,10 +194,10 @@ public class ProductNewService {
 		
 	}
 
-	public int updateReply(int no, String content) {
+	public int updateReply(int no, String content, int adminNo) {
 		
 			Connection conn = getConnection();
-			int result = pDao.updateReply(conn,no,content);
+			int result = pDao.updateReply(conn,no,content,adminNo);
 			
 			if(result>0) {
 				commit(conn);

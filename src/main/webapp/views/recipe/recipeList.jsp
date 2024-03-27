@@ -3,7 +3,7 @@
 <%@ page import="com.sos.common.model.vo.PageInfo" %>
 <%@ page import="com.sos.recipe.model.vo.Recipe"%>
 <%@ page import="java.util.List" %>
-<% 
+<%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	String search = (String)request.getAttribute("search");
 	List<Recipe> list = (List<Recipe>)request.getAttribute("list");
@@ -29,7 +29,6 @@
         height: 10px;
         border-bottom: 1px solid lightgrey;
     }
-
     .category_wrap {
         display: flex;
         gap: 70px;
@@ -38,7 +37,8 @@
     .category_button {
         width: 100px;
         height: 40px;
-        background-color: rgb(224, 224, 224);
+        background-color: white;
+        border:solid 2px grey;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -64,7 +64,6 @@
         height: 100%;
         cursor: pointer;
     }
-
     .etc_wrap{
         width: 100%;
         display: flex;
