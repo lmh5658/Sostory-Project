@@ -3,6 +3,7 @@
 <%@ page import="com.sos.product.model.vo.*, java.util.List, com.sos.member.model.vo.Member" %>
 <%
 	Product pro = (Product)request.getAttribute("pro");
+	System.out.println(pro);
 	
 	List<Member> list = (List<Member>)request.getAttribute("list");
 	// 결제 여부 확인 리스트 회원번호, 회원아이디
@@ -217,7 +218,7 @@
 
                                             <div class="main_right_bottom_bottom d-flex flex-direction center">
 												
-												<svg id="heart" xmlns="http://www.w3.org/2000/svg" width="60" height="60" class="bi bi-heart-fill" viewBox="0 0 16 16">
+												<svg id="heart" xmlns="http://www.w3.org/2000/svg" width="75" height="75" class="bi bi-heart-fill" viewBox="0 0 16 16">
 											        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
 											    </svg>
 											
@@ -460,7 +461,7 @@
                     </nav>
 
                     <div class="main_bottom_img" id="proinfor">
-                        <img src="./resources/images/상품상세이미지.png" style="width:100%; height: 100%;">
+                        <img src="<%=contextPath+ "/" +pro.getContentPath()%>" style="width:100%; height: 100%;">
                     </div>
                     <!-- 레시피 커뮤니티 리스트 start -->
                     <div class="recipe-list  d-flex w-100 justify-content-evenly p-5" style="background-color:cornsilk;">
@@ -515,6 +516,10 @@
                         <!-- 레시피 썸네일 end -->
                         
 						<% } %>
+					 <% } else { %>
+					 	 <div class="recipe-wrap" style="font-size:40px">
+					 	 	<b>상품과 관련된 레시피가 존재하지 않습니다.</b>
+					 	 </div>
 					 <% } %>
                     </div>
                     <!-- 레시피 커뮤니티 리스트 end -->
@@ -575,6 +580,7 @@
                             <table class="table"> <!-- 부트스트랩 테이블에 줄넣어주기 -->
                                 <thead>
                                     <tr>
+                                    	<th>리뷰번호</th>
                                         <th width="400px">리뷰내용</th>
                                         <th>평점</th>
                                         <th width="120px">작성자</th>
@@ -688,6 +694,7 @@
                              				
                            					for(let i=0; i<result.rlist.length; i++){
                             					value += "<tr>"
+                            						   + "<td>" + result.rlist[i].reviewNo + "</td>"
                             						   + "<td>" + result.rlist[i].reviewContent + "</td>"
                             						   + "<td>" + result.rlist[i].rating + "</td>"
                             						   + "<td>" + result.rlist[i].writerNo + "</td>"

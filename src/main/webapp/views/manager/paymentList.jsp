@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주문내역 조회</title>
 <style>
 /*주문관리>결제관리 스타일*/
          .section_right{

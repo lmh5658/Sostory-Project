@@ -194,6 +194,29 @@
             </div>
             
             <script>
+            
+	            $(function () {
+	                // 전체 선택 / 해제
+	                $("#cbx_chkAll").click(function () {
+	                    if ($("#cbx_chkAll").is(":checked")) {
+	                        $("input[name=typArr]").prop("checked", true);
+	                    } else {
+	                        $("input[name=typArr]").prop("checked", false);
+	                    }
+	                });
+	                $("input[name=typArr]").click(function () {
+	                    var totalArr = $("input[name=typArr]").length;
+	                    var checked = $("input[name=typArr]:checked").length;
+	
+	                    if (totalArr != ckecked) {
+	                        $("#cbx_chkAll").prop("checked", false);
+	                    } else {
+	                        $("#cbx_chkAll").prop("checked", true);
+	                    }
+	                });
+	                
+	            })
+            	
 	            function deleteProduct(){
 	            	const $deleteProduct = $("input[name=typArr]:checked");
 	            	

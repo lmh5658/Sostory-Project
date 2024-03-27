@@ -116,6 +116,7 @@ public class ProductDao {
 								  rset.getString("PATH")
 						);
 				pro.setDiscountPrice(rset.getInt("DISCOUNT_PRICE"));
+				pro.setContentPath(rset.getString("CONTENT_PATH"));
 			}
 			
 		} catch (SQLException e) {
@@ -307,6 +308,7 @@ public class ProductDao {
 			
 			while(rset.next()) {
 				ProductReview pr = new ProductReview();
+				pr.setReviewNo(rset.getInt("REVIEW_NO"));
 				pr.setProductNo(rset.getInt("PRODUCT_NO"));
 				pr.setReviewContent(rset.getString("REVIEW_CONTENT"));
 				pr.setRating(rset.getInt("RATING"));
