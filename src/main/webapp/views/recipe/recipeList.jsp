@@ -200,10 +200,12 @@
 		</div>
 	
 		<div class="etc_wrap">
+			<!-- 
 			<select name="">
 				<option value="">인기순</option>
 				<option value="">낮은 인기순</option>
-			</select>   
+			</select>  
+			 --> 
 			<% if (loginUser != null) { %>
 				<a href="<%=contextPath %>/enroll.re?no=<%=loginUser.getUserNo() %>" class="btn btn-secondary">글쓰기</a>
 			<% }else{ %>
@@ -281,7 +283,6 @@
 			})
 			
 			$(".recipe_thumbnail").click(function(){
-
 				location.href = "<%= contextPath %>/detail.re?no=" + $(".recipe_thumbnail>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
 			});
 			$(".recipe_product").click(function(){

@@ -48,7 +48,7 @@ public class RecipeListController extends HttpServlet {
 		boardLimit = 9; //한 페이지당 게시글 총 수
 		
 		maxPage = (int)Math.ceil((double)listCount / boardLimit); //마지막 페이지
-		startPage = ((currentPage - 1) / pageLimit) * pageLimit  + 1;// 페이징바 시작 값
+		startPage = ((currentPage - 1) / pageLimit) * pageLimit + 1;// 페이징바 시작 값
 		
 		endPage = startPage + pageLimit - 1; //마지막 페이지
 		if(endPage > maxPage) {

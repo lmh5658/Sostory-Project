@@ -39,12 +39,12 @@ public class RecipeUpdateFormController extends HttpServlet {
 		HttpSession session = request.getSession();
 		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 		
-		List<OrderProduct> writeRecipetitle = new RecipeService().selectUpdateOrderProduct(userNo);
-		List<Recipe> ingredient = new RecipeService().selectIngridient(userNo);
-		List<Recipe> step = new RecipeService().selectStep(userNo);
-		Recipe recipe = new RecipeService().selectDetailRecipe(userNo);
+		List<OrderProduct> orderProduct = new RecipeService().selectOrderProduct(userNo);
+		List<Recipe> ingredient = new RecipeService().selectIngridient(recipeNo);
+		List<Recipe> step = new RecipeService().selectStep(recipeNo);
+		Recipe recipe = new RecipeService().selectDetailRecipe(recipeNo);
 		
-		request.setAttribute("writeRecipetitle", writeRecipetitle);
+		request.setAttribute("orderProduct", orderProduct);
 		request.setAttribute("ingredient", ingredient);
 		request.setAttribute("step", step);
 		request.setAttribute("recipe", recipe);
