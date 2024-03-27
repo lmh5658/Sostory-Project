@@ -11,7 +11,7 @@
 <!-- Footer start -->
 <footer class="footer pt-3 border-top border-2">
     <div class="footer-logo">
-        <img src="<%= request.getContextPath() %>/resources/images/로고.png" alt="소스토리 로고이미지" class="w-100 h-100">
+        <img src="<%= request.getContextPath() %>/resources/images/logo.png" alt="소스토리 로고이미지" class="w-100 h-100">
     </div>
     <div class="footer-company center">
         <ul>

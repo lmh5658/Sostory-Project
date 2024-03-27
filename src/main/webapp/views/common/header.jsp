@@ -57,7 +57,7 @@
 
         <!-- Header 왼쪽(로고) 영역 start -->
         <div class="header-left-logo center">
-            <img src="<%= contextPath %>/resources/images/로고.png" alt="소스토리 로고이미지" onclick="gotoMain();">
+            <img src="<%= contextPath %>/resources/images/logo.png" alt="소스토리 로고이미지" onclick="gotoMain();">
         </div>
         <!-- Header 왼쪽(로고) 영역 end -->
         
