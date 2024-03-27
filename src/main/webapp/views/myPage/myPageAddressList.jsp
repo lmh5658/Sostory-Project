@@ -273,7 +273,7 @@
                                     </div>
 
                                     <div class="d-flex form-field mt-2 justify-content-end">
-                                        <input type="text" class="form-control" id="addressDetailModify" name="addressDetail" style="width: 200px;">
+                                        <input type="text" class="form-control" id="addressDetailModify" name="addressDetail" style="width: 603px;">
                                     </div>
                                     <div class="d-flex form-field mt-2 justify-content-end">
                                         <button type="button" class="btn btn-secondary" onclick="findAddress()">주소검색</button>
@@ -378,7 +378,7 @@
                                     </div>
 
                                     <div class="d-flex form-field mt-2 justify-content-end">
-                                        <input type="text" class="form-control" id="addressDetailAdd" required name="addressDetail" style="width: 200px;">
+                                        <input type="text" class="form-control" id="addressDetailAdd" required name="addressDetail" style="width: 603px;">
                                     </div>
                                     <div class="d-flex form-field mt-2 justify-content-end">
                                          <button type="button" class="btn btn-secondary" onclick="findAddress()">주소검색</button>

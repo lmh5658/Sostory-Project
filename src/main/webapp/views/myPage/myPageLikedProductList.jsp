@@ -233,15 +233,14 @@
 		                                <img class="product-img" src="<%= contextPath + "/" + li.getProductThumbnailUrl() %>" alt="Card image" style="width:100%; height:300px;">
 		                                <div class="product-body">
 		                                    <small class="product-category text-secondary d-block mb-3 mt-2"><%= li.getCategoryName() %></small>
-		                                    <h7 class="product-title"><b><%= li.getProductName() %></b></h7>
+		                                    <h7 class="product-title d-block"><b><%= li.getProductName() %></b></h7>
 		                                    <!-- 할인상품이 맞을경우 -->
 		                                    <% if(li.getDiscountPrice() != 0){ %>
-		                                    	<h7 class="product-price d-block mt-4"><s><b class="text-secondary"><%= li.getPrice() %></b></s></h7>
-		                                    	<h7 class="product-price d-block mt-1"><b><%= li.getPrice() - li.getDiscountPrice() %></b></h7>
+		                                    	<label class="product-price mt-1"><b><%= li.getPrice() - li.getDiscountPrice() %>원</b></label>
+		                                    	<label class="product-price mt-4"><s><b class="text-secondary"><%= li.getPrice() %>원</b></s></label>
 		                                    <% } else { %>
 		                                    <!-- 할인상품이 아닐경우 -->
-		                                    	<h7 class="product-price d-block mt-4"><b><%= li.getPrice() %></b></h7>
-		                                    	<h7 class="product-price d-block mt-1" style="color:white;">영역</h7>
+		                                    	<label class="product-price mt-4"><b><%= li.getPrice() %>원</b></label>
 		                                    <% } %>
 		                                </div>
 	                                </div>

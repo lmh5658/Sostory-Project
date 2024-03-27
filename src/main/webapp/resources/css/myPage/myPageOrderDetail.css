@@ -149,7 +149,7 @@ font-size: 17px;
 
 .product-name{
     font-weight: bolder;
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
 }
 
@@ -164,8 +164,7 @@ font-size: 17px;
 
 .amount{
     text-align: center;
-    font-size: 18px;
-    font-weight: bolder;
+    font-size: 16px;
 }
 
 .th{
