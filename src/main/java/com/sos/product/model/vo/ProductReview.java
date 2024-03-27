@@ -2,6 +2,7 @@ package com.sos.product.model.vo;
 
 public class ProductReview {
 	
+	private int reviewNo;
 	private int productNo;
 	private String writerNo;
 	private int rating;
@@ -11,15 +12,24 @@ public class ProductReview {
 	
 	public ProductReview() {}
 
-	public ProductReview(int productNo, String writerNo, int rating, String reviewContent, String postDate,
-			int reviewAttachmentPath) {
+	public ProductReview(int reviewNo, int productNo, String writerNo, int rating, String reviewContent,
+			String postDate, int reviewAttachmentPath) {
 		super();
+		this.reviewNo = reviewNo;
 		this.productNo = productNo;
 		this.writerNo = writerNo;
 		this.rating = rating;
 		this.reviewContent = reviewContent;
 		this.postDate = postDate;
 		this.reviewAttachmentPath = reviewAttachmentPath;
+	}
+
+	public int getReviewNo() {
+		return reviewNo;
+	}
+
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
 	}
 
 	public int getProductNo() {
@@ -72,10 +82,12 @@ public class ProductReview {
 
 	@Override
 	public String toString() {
-		return "ProductReview [productNo=" + productNo + ", writerNo=" + writerNo + ", rating=" + rating
-				+ ", reviewContent=" + reviewContent + ", postDate=" + postDate + ", reviewAttachmentPath="
-				+ reviewAttachmentPath + "]";
+		return "ProductReview [reviewNo=" + reviewNo + ", productNo=" + productNo + ", writerNo=" + writerNo
+				+ ", rating=" + rating + ", reviewContent=" + reviewContent + ", postDate=" + postDate
+				+ ", reviewAttachmentPath=" + reviewAttachmentPath + "]";
 	}
+
+	
 
 	
 	
