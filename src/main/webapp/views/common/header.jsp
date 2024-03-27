@@ -147,10 +147,9 @@
             <div class="header-right-bottom">
                 <div class="header-nav py-4 mb-3">
                     <nav class="nav nav-underline justify-content-around">
-                        <a class="nav-item nav-link link-body-emphasis active" href="<%= contextPath %>">HOME</a>
+                        <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>">HOME</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.pr?page=1">전체상품</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath%>/listNew.pr?page=1">신상품</a>
-                        <a class="nav-item nav-link link-body-emphasis" href="#">타임세일</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%=contextPath%>/rank.pr?page=1">랭킹</a>
                         <a class="nav-item nav-link link-body-emphasis" href="<%= contextPath %>/list.re?page=1">소스트리</a>
                     </nav>
