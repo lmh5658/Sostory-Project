@@ -37,6 +37,7 @@
 		    , PRICE
 		    , DISCOUNT_PRICE
 		    , PATH
+		    , CONTENT_PATH
 		FROM TB_PRODUCT
 		JOIN TB_CATEGORY USING(CATEGORY_NO)
 		WHERE PRODUCT_NO = ?
@@ -49,7 +50,7 @@
 		    , USER_ID
 		FROM TB_ORDER
 		JOIN TB_MEMBER USING(USER_NO)
-		WHERE ORDER_STATUS IN(1,2,3,4)
+		WHERE ORDER_STATUS = 4
 	</entry>
 	
 	<entry key="selectQnaList">
@@ -187,8 +188,9 @@
 		FROM(
 		SELECT ROWNUM RNUM, A.*
 		FROM( 
-		SELECT 
-		      PRODUCT_NO
+		SELECT
+			  REVIEW_NO
+		    , PRODUCT_NO
 		    , REVIEW_CONTENT
 		    , RATING
 		    , USER_ID
@@ -197,7 +199,7 @@
 		LEFT JOIN TB_MEMBER M ON(M.USER_NO = R.WRITER_NO)
 		WHERE R.PRODUCT_NO = ?
 		ORDER 
-		   BY POST_DATE DESC
+		   BY REVIEW_NO DESC
 		)A
 		)
 		WHERE RNUM BETWEEN ? AND ?
@@ -207,14 +209,16 @@
 		INSERT 
 		    INTO TB_REVIEW
 		    (
-		      PRODUCT_NO
+		      REVIEW_NO 
+		    , PRODUCT_NO
 		    , WRITER_NO
 		    , RATING
 		    , REVIEW_CONTENT
 		    )
 		    VALUES
 		    (
-		     ?
+		     SEQ_RVNO.NEXTVAL
+		    ,?
 		    ,?
 		    ,?
 		    ,?
@@ -223,7 +227,7 @@
 	</entry>
 	
 	<entry key="selectReview">
-		SELECT 
+		SELECT 			
 		       REVIEW_CONTENT
 		     , RATING
 		     , USER_ID

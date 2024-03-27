@@ -170,8 +170,8 @@
 
                             </div>
 
-                            <div id="thumb" class="product img-thumbnail p-2" style="width:150px; margin:40px">
-                                <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%; height:200px">
+                            <div id="thumb" class="product img-thumbnail p-2" style="border: none;">
+                                <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="height:170px">
                             	<input type="hidden" class="pNo" value="<%= p.getProductNo() %>">
                             </div>
                             <div class="product-name">
