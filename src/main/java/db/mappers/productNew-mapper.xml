@@ -422,7 +422,7 @@ SELECT *
 			and PRODUCT_NAME LIKE '%' || ? || '%'
 			  
 			ORDER
-			   BY ANSWER_NO DESC
+			   BY answer_status asc
 			) A
 			) WHERE RNUM BETWEEN ? AND ?
 
