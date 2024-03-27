@@ -164,7 +164,7 @@
                             <div class="center">
                                 <div class="d-flex flex-column productPrice" style="border-radius: 30px; border: 1px solid black; width: 200px; height: 150px;">
                                     
-	                                <h4 class="center" style="padding-top: 30px;">상품금액</h4>
+	                                <h4 class="center" style="padding-top: 30px;">상품원가</h4>
 	                                <h2 class="center" id="totalPrice">0</h2>
                                 </div>
 
