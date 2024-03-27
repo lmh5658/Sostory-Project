@@ -387,7 +387,9 @@ SELECT *
 <entry key="updateReply">
 	UPDATE TB_QNA_REPLY
 	SET REPLY = ?,
-    ANSWER_STATUS = '처리'
+    ANSWER_STATUS = '처리',
+    REPLY_DATE = SYSDATE,
+    ADMIN_NO = ?
     
     
 	WHERE ANSWER_NO = ?

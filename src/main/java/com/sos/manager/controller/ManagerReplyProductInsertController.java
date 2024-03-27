@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.member.model.vo.Member;
 import com.sos.newProduct.model.service.ProductNewService;
 
 /**
@@ -31,11 +32,11 @@ public class ManagerReplyProductInsertController extends HttpServlet {
 		
 		// 해당 문의번호, 답변내용 받아와서 REPLY(답변내용), REPLY(답변날짜) UPDATE해주기
 		
-		
+		int adminNo = (int)((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 		int no = Integer.parseInt(request.getParameter("no"));
 		String content = request.getParameter("replyContent");
 
-		int result = new ProductNewService().updateReply(no,content); // 답변내용 업데이트 후, 미처리 => 처리로
+		int result = new ProductNewService().updateReply(no,content,adminNo); // 답변내용 업데이트 후, 미처리 => 처리로
 		
 		
 		request.getSession().setAttribute("alertMsg", "답변이 성공적으로 등록되었습니다");
