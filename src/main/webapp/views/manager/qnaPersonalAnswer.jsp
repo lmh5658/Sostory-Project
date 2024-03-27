@@ -109,8 +109,11 @@
                     <tr>
                         <th>답변</th>
                         <td>
-                            <textarea cols="30" rows="10" class="form-control" name="replyContent"><%= pq.getAnswerStatus() == "처리" ?  pq.getReply()  : "" %></textarea>
-                        
+                        	<% if(pq.getReply() == null) {%>
+                            <textarea cols="30" rows="10" class="form-control" name="replyContent" placeholder="내용을 입력해주세요"></textarea>
+                        	<% }else {%>
+                            <textarea cols="30" rows="10" class="form-control" name="replyContent"><%= pq.getReply() %></textarea>
+                        	<% } %>
                         </td>
                     </tr>
                     <tr>

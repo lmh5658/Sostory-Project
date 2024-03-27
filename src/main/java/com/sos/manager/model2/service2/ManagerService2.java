@@ -124,7 +124,7 @@ public class ManagerService2 {
 		
 	}
 	
-	public int insertQnaReply(int answerNo, String replyContent, int adminNo) {
+	public int insertQnaReplyContent(int answerNo, String replyContent, int adminNo) {
 		Connection conn = getConnection();
 		int result = mDao.insertQnaReplyContent(conn, answerNo, replyContent, adminNo);
 		if(result > 0) {

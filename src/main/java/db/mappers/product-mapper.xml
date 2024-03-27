@@ -45,12 +45,11 @@
 	
 	<entry key="selectPaymentUser">
 		SELECT 
-		       USER_NO
-		     , USER_ID
-		FROM TB_MEMBER M
-		LEFT JOIN TB_ORDER O USING(USER_NO)
-		LEFT JOIN TB_PAYMENT P USING(PAYMENT_NO)
-		WHERE PAYMENT_STATUS = 'Y'
+		      USER_NO
+		    , USER_ID
+		FROM TB_ORDER
+		JOIN TB_MEMBER USING(USER_NO)
+		WHERE ORDER_STATUS IN(1,2,3,4)
 	</entry>
 	
 	<entry key="selectQnaList">

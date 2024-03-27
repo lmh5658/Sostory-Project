@@ -390,50 +390,56 @@
      				let productNo = <%= pro.getProductNo()%>;
                  	
                  	console.log(productNo);
-                 $.ajax({
-          			url:"<%=contextPath%>/count.ca",
-          			data:{
-          				userNo : userNo,
-          				productNo: productNo
-          				
-          			},
-          			post:"post",
-          			success:function(result){
-          				if(result>0){ // 장바구니 테이블에 같은상품이 존재
-          					
-          					if(confirm("장바구니로 이동하시겠습니까?")){
-          						location.href="<%=contextPath%>/list.ca";
-                            }else {
-                            	
-                            }
-          				}else{
-          					$.ajax({
-								url:"<%=contextPath%>/add.ca",
-								data:{
-									productNo:productNo,
-									userNo:userNo,
-									cart_amount:$amount // 상세페이지에서 변경된 수량
-									
-								},
-								type:"post",
-								success:function(result){
-									if(result>0){ // 장바구니 상품등록 
-										
-									   if(confirm("장바구니로 이동하시겠습니까?")){
-										   location.href="<%=contextPath%>/list.ca";
-		                               }else {
-		                            	   
-		                               }
-									
-									
-									
-								}
-							}
-						})
-         				}
-         			
-         			}                            			
-         		})
+                 	
+                 	if(<%=loginUser != null%>){
+                 		  $.ajax({
+                    			url:"<%=contextPath%>/count.ca",
+                    			data:{
+                    				userNo : userNo,
+                    				productNo: productNo
+                    				
+                    			},
+                    			post:"post",
+                    			success:function(result){
+                    				if(result>0){ // 장바구니 테이블에 같은상품이 존재
+                    					
+                    					if(confirm("장바구니로 이동하시겠습니까?")){
+                    						location.href="<%=contextPath%>/list.ca";
+                                      }else {
+                                      	
+                                      }
+                    				}else{
+                    					$.ajax({
+          								url:"<%=contextPath%>/add.ca",
+          								data:{
+          									productNo:productNo,
+          									userNo:userNo,
+          									cart_amount:$amount // 상세페이지에서 변경된 수량
+          									
+          								},
+          								type:"post",
+          								success:function(result){
+          									if(result>0){ // 장바구니 상품등록 
+          										
+          									   if(confirm("장바구니로 이동하시겠습니까?")){
+          										   location.href="<%=contextPath%>/list.ca";
+          		                               }else {
+          		                            	   
+          		                               }
+          									
+          									
+          									
+          								}
+          							}
+          						})
+                   				}
+                   			
+                   			}                            			
+                   		})
+                 	}else{
+                 		alert("로그인을 하셔야 구매할 수 있습니다.");
+                 	}
+               
               		
              }
                  

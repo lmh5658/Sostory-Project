@@ -87,22 +87,19 @@
             <div class="content-product-list center my-5">
 
                     <!-- 상품 리스트 제목 영역 start -->
-                    <div class="product-list-title">
-                        <h1 class="d-inline"><b style="color: red;">BEST </b></h1><h1 class="d-inline"><b>Product</b></h1>
+                    <div class="product-list-title" style="margin-top: 100px">
+                        <h1 class="d-inline"><b style="color: red; font-size: 70px;">BEST </b></h1><h1 class="d-inline" style="font-size: 70px;"><b>Product</b></h1>
                     </div>
                     <!-- 상품 리스트 제목 영역 end -->
 
                     <!-- 상품 카테고리 영역 start -->
                     <div class="product-category my-5 w-100 d-flex justify-content-evenly">
-                        <a href="" class="btn btn-outline-danger btn-sm py-1 px-3">전체</a>
-                        <a href="" class="btn btn-outline-danger btn-sm py-1 px-3">장류</a>
-                        <a href="" class="btn btn-outline-danger btn-sm py-1 px-3">드레싱</a>
-                        <a href="" class="btn btn-outline-danger btn-sm py-1 px-3">기타</a>
+                       
                         <!-- 검색 영역-->
                         
                       
 						  <!-- Button to Open the Modal -->
-						   <a href="#" style="color: black;" data-toggle="modal" data-target="#myModal"><svg xmlns="http://www.w3.org/2000/svg"  height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						   <a href="#" style="color: black;" data-toggle="modal" data-target="#myModal"><svg xmlns="http://www.w3.org/2000/svg"  height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin-left:700px">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                           </svg></a>
 						  
@@ -163,18 +160,18 @@
 
 
                     <!-- 상품 리스트 start -->
-                    <div class="product-thumbnail-list d-flex flex-direction wrap w-100">
+                    <div class="product-thumbnail-list d-flex flex-direction wrap w-100";>
                       
                     	<% for(Product p : list) { %>
-                        <div class="product thumbnail-list d-flex w-100 justify-content-evenly"> 
+                        <div class="product thumbnail-list d-flex w-100 justify-content-evenly" style="height:200px; display: flex; justify-content: center; align-items: center;"> 
                             <!-- 상품 썸네일 start -->
                             <div class="product-count">
                                 <h2><%=p.getRowNum() %></h2>
 
                             </div>
 
-                            <div id="thumb" class="product img-thumbnail p-2" style="width:200px">
-                                <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%">
+                            <div id="thumb" class="product img-thumbnail p-2" style="width:150px; margin:40px">
+                                <img class="product-img" src="<%= contextPath + "/" + p.getPath() %>" alt="Card image" style="width:100%; height:200px">
                             	<input type="hidden" class="pNo" value="<%= p.getProductNo() %>">
                             </div>
                             <div class="product-name">
@@ -228,6 +225,69 @@
                        
                     <!-- 상품 리스트 end--> 
                     </div>
+                    
+                    <script>
+                   			$(function(){
+                   				let likeUserPro = <%=proNo%>
+                   				
+                   				let pNo = 0;
+                   				$(".product").each(function(){
+                   					
+                   					pNo = $(this).find(".pNo").val();
+                   					
+                   					for(let i=0; i<likeUserPro.length; i++){
+                   						if(pNo == likeUserPro[i]){
+                   							$(this).find(".heart").attr("fill", "red");
+                   						}
+                   					}
+                   					
+                   				})
+                   			
+                   			})
+                   			
+                   				
+                   				$(".heart").click(function(){
+                   					
+                   					if(<%= loginUser == null%>){
+                   						alert("로그인 먼저 진행해주세요.");
+                   						
+                   					}else if(<%=loginUser != null%>){
+
+                   						if($(this).attr("fill") == "red"){
+                           					$(this).attr("fill", "black");
+                           					
+        	                   				$.ajax({
+        	                   					url:"<%=contextPath%>/dheart.pr",
+        	                   					data:{
+        	                   						proNo:$(this).next().val()
+        	                   					},
+        	                   					type:"post",
+        	                   					success:function(result){
+        	                   						
+        	                   					}
+        	                   					
+        	                   				})	
+        	                   				
+                           				}else{
+                           					$(this).attr("fill", "red");
+                           					
+                        						$.ajax({
+                        							url:"<%=contextPath%>/heart.pr",
+                        							data:{
+                        								proNo:$(this).next().val()
+                        							},
+                        							type:"post",
+                        							success:function(result){
+                        								
+                        							}
+                        						})
+                           					
+                           				}
+                   					}
+                   				
+                       			})
+                   				
+                       </script>
                     
                     
                     

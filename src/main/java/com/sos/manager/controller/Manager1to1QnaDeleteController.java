@@ -33,10 +33,10 @@ public class Manager1to1QnaDeleteController extends HttpServlet {
 		System.out.println(answerNo);
 		int result = new ManagerService2().deleteAnswerManager(answerNo);
 		
-		if(result > 0) {
-			request.getSession().setAttribute("alertMsg", "성공적으로 삭제가 완료되었습니다.");
-			response.sendRedirect(request.getContextPath() +"/qnaPersonal.ma?page=1");
-		}
+		
+		request.getSession().setAttribute("alertMsg", "성공적으로 삭제가 완료되었습니다.");
+		response.sendRedirect(request.getContextPath() +"/qnaPersonal.ma?page=1");
+	
 			
 		
 		
