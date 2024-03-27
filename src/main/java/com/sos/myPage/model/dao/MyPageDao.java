@@ -1087,7 +1087,7 @@ public class MyPageDao {
 				
 				list.add(o);
 			}
-			
+			System.out.println("dao : " + list);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {

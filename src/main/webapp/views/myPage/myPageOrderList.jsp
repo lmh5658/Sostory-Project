@@ -295,6 +295,7 @@
    	                   				 "to" : to,
    	                   				 "page" : requestPage
    	                   			 	},success : function(result){
+   	                   			 		console.log(result);
    	                   			 		const orderList = result[0];
    	                   			 		const pageInfo = result[1];
    	                   			 		
@@ -342,7 +343,7 @@
 					                       	let defaultFrom = fromDate.toISOString().substring(0,10);
    	                   			 			
    	                        				// 이전페이지 이동버튼
-					   	                    if(pageInfo.currentPage == 1 || pi.getMaxPage() == 0){
+					   	                    if(pageInfo.currentPage == 1 || pageInfo.getMaxPage == 0){
    	                        					paging += "<li class='page-item disabled' style='cursor:pointer;'><a class='page-link'>Previous</a></li>";
    	                        				}else{
 						                       	if($("#from").val() == "" && $("#to").val() == ""){ // input type=date value값이 없을경우
@@ -375,7 +376,7 @@
    	                        				}
    	                        				
    	                        				// 다음페이지 이동버튼
-   	                        				if(pageInfo.currentPage == pageInfo.maxPage || pi.getMaxPage() == 0){
+   	                        				if(pageInfo.currentPage == pageInfo.maxPage || pageInfo.getMaxPage == 0){
    	                        					paging += "<li class='page-item disabled' style='cursor:pointer;'><a class='page-link'>Next</a.</li>";	
    	                        				}else{
    	                        					

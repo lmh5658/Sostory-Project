@@ -250,9 +250,14 @@
                     <!-- 1:1문의상세 테이블 영역 end -->
 
                     <div class="table-button">
-                        <button type="button" class="btn btn-secondary me-3 px-4" onclick="history.back();">목록가기</button>
+                        <button type="button" class="btn btn-secondary me-3 px-4" onclick="orderList();">목록가기</button>
                     </div>
-
+					
+					<script>
+						function orderList(){
+							location.href = "<%= contextPath %>/qlist.me?type=2";
+						}
+					</script>
 
                 </div>   
                 <!-- 1:1문의 상세페이지 영역 end -->

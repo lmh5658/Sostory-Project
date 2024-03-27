@@ -439,6 +439,34 @@
 	
 	<!-- 주문목록 조회요청 -->
 	<entry key="selectOrderList">
+		SELECT *
+		  FROM (
+		         SELECT ROWNUM RNUM, OT.*
+		           FROM (
+		                 SELECT 
+		                       TB_ORDER.ORDER_NO
+		                      ,(
+		                        SELECT SUM(ORDER_PRODUCT_AMOUNT)
+		                          FROM TB_ORDER_PRODUCT
+		                         WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                        )TOTAL_ORDER
+		                       ,(
+		                         SELECT PRODUCT_NAME
+		                           FROM TB_ORDER_PRODUCT
+		                           JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                          WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                            AND ROWNUM = 1
+		                        )TITLE_PRODUCT_NAME
+		                       ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+		                       ,ORDER_STATUS
+		                  FROM TB_ORDER
+		                 WHERE USER_NO = ?
+		                   AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') BETWEEN ? AND ?
+		                 ORDER BY ORDER_DATE DESC
+		                )OT
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+		<!--  
 		SELECT OT.*
 		  FROM (
 		        SELECT 
@@ -465,6 +493,7 @@
 		         ORDER BY TB_ORDER_PRODUCT.ORDER_NO DESC
 		        )OT
 		 WHERE RNUM BETWEEN ? AND ?
+		 -->
 	</entry>
 	
 	<!-- 주문내역 취소요청 -->

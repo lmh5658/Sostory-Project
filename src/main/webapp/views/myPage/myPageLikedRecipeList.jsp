@@ -287,6 +287,11 @@
 			        <!-- 레시피 리스트관련 스크립트 start -->
 			        <script>
 			        	$(function(){
+			        		// 레시피 찜해제요청시 실행될 함수
+			        		$(".recipe_wrap").on("click", ".like", function(){
+			        			console.log($(this));
+			        		})
+			        		
 			        		// 레시피상세페이지 이동요청시 실행될 함수 (레시피썸네일영역 클릭시)
 			        		$(".recipe-item").on("click", function(){
 			        			const $rNo = $(this).children(".rNo").val();	// 레시피번호
