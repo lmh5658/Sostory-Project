@@ -56,7 +56,7 @@
     	cursor: pointer;
     	}
     	
-    	#heart:hover {
+    	.heart:hover {
             fill: red; /* 호버 시 색상 변경 */
             cursor: pointer; /* 호버 시 커서 모양 변경 */
         }

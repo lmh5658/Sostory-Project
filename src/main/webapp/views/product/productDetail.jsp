@@ -718,7 +718,7 @@
                              			},
                              			post:"post",
                              			success:function(result){
-                             				console.log(result);
+                             				console.log("sdfsd" + result.qlist);
   
                              				let page = "";
                              				if(1 == result.pi.currentPage){
@@ -746,13 +746,18 @@
                         					
                         					let value = "";            					
                         					for(let i=0; i<result.qlist.length; i++){
-                            					value += "<tr>"
+                            					value += "<tr class='listc'>"
                             						   + "<td>" + result.qlist[i].answerNo + "</td>"
                             						   + "<td>" + result.qlist[i].answerTitle + "</td>"
                             						   + "<td>" + result.qlist[i].userNo + "</td>"
                             						   + "<td>" + result.qlist[i].answerType + "</td>"
                             						   + "<td>" + result.qlist[i].answerDate + "</td>"
+                            						   + "</tr>"
+                            						   + "<tr style='display: none'>"
+                            						   + "<td colspan='5' height='100px'>"
+                            						   + "</td>"
                             						   + "</tr>";
+                            						  
                            					}
                         					
                            					$("#qna_table tbody").html(value);
@@ -765,6 +770,33 @@
                              	
                              		
                              </script>
+                             
+                             
+                            
+                             <script>
+                                  
+                                      $(document).on("click", ".listc", function(){
+                                          // $(this) : 클릭이벤트가 발생한 div요소
+                                          // $(this).next() : 클릭이벤트가 발생한 div요소 뒤에 있는 p요소 하나만(클릭한 질문에 대한 답변)
+										
+                                          const $p = $(this).next() // jQuery 방식으로 선택된 요소들을 담아둘때는 변수명 앞에 $를 같이 기술하곤함
+
+                                          // 답변 p요소가 사라져있는 상태일 경우 => 보여지도록 (slideDown)
+                                          if($p.css("display") == "none"){
+
+                                              // 기존의 열려있던 답변들은 다 닫히고
+                                              
+
+                                              // 현재 클릭한 답변만 보여지도록
+                                              $p.slideDown();
+                                          }else{
+                                              $p.slideUp();
+                                          } // css("속성값") 만 제시한 한경우 속성값만 돌아옴
+                                          // 답변 p요소가 보여져있는 상태일 경우 => 사라지도록 (slideUp)
+                                      })
+                                 
+                              </script>
+                            
 
 
                     <!-- 상품상세 문의 start -->
