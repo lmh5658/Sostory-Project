@@ -221,8 +221,9 @@
                                 <label class="product-price">
                                     <!-- 할인중인 상품 -->
                                     <%if(p.getDiscountPrice() != 0) { %>
-	                                    <s><%= p.getPrice() %>원</s><br>
 	                                    <b><%= p.getPrice() - p.getDiscountPrice() %>원</b>
+	                                    <br>
+	                                    <s class="text-secondary"><%= p.getPrice() %>원</s>
                                     <% } else { %>
                                     	<b><%= p.getPrice() %>원</b>
                                     <% } %>

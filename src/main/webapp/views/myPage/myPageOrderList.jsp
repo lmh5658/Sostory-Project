@@ -187,6 +187,7 @@
 
                     <!-- 컨텐츠 영역 start -->
                     <div class="period">
+                    	<label class="text-secondary d-block">* 주문내역은 최대 5년 이내의 내역만 조회가능합니다.</label>
                         <button class="btn btn-outline-secondary btn-sm me-3" id="all">전체</button>
                         <button class="btn btn-outline-secondary btn-sm me-3" id="week">1주일</button>
                         <button class="btn btn-outline-secondary btn-sm me-3" id="month3">3개월</button>               

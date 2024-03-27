@@ -297,7 +297,7 @@
 			        				url:"<%= contextPath %>/dlike.re",
 			        				data:{"rNo":$rNo},
 			        				success:function(){
-			        					$(this).parents("div.recipe").remove();
+			        					alert("해당 레시피를 찜목록에서 삭제했습니다.");
 			        					location.reload();
 			        				}
 			        			})
