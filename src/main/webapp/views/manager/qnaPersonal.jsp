@@ -328,6 +328,7 @@
                  					$("#table_div tbody").html(list);
                  					
                  					$("#listCount").html("");
+                 					$("#paging").html("");
                  					
                  					
                  					

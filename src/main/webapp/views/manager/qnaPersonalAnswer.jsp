@@ -122,8 +122,9 @@
                             <% if(ap != null) { %>
 								<%= ap.getFileName() %>
 								<input type="hidden" name="originFileNo" value="<%= ap.getProFileNo() %>">                          	
-                            <% } %>
+                            <% } else { %>
                             <input type="file" class="form-control" name="upfile">
+                            <% } %>
                             </div>
                         </td>
                     </tr>
