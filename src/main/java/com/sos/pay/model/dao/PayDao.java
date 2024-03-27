@@ -183,14 +183,14 @@ private Properties prop = new Properties();
 			for(Pay p : list) {
 				pstmt=conn.prepareStatement(sql);
 				String countString = p.getCount();
+				String productNoString = p.getProductNo();
+				if (productNoString != null) {
+					int productNo = Integer.parseInt(productNoString);
+					pstmt.setInt(1, productNo);
+				}
 	            if (countString != null) {
 	                int count = Integer.parseInt(countString);
-	                pstmt.setInt(1, count);
-	            }
-	            String productNoString = p.getProductNo();
-	            if (productNoString != null) {
-	                int productNo = Integer.parseInt(productNoString);
-	                pstmt.setInt(2, productNo);
+	                pstmt.setInt(2, count);
 	            }
 			
 				result = pstmt.executeUpdate();

@@ -242,8 +242,8 @@
                                         totalPrice += price * quantity;
                                         totalDiscount += discountPrice * quantity;
                                     });
-                                    $('#totalPrice').text(totalPrice); // 모든 상품들의 가격 합 업데이트
-                                    $('#allPrice').text(totalPrice-totalDiscount); // 할인된 총 가격 업데이트
+                                    $('#totalPrice').text(totalPrice+totalDiscount); // 모든 상품들의 가격 합 업데이트
+                                    $('#allPrice').text(totalPrice); // 할인된 총 가격 업데이트
                                     $('#discountPrice').text(totalDiscount); // 할인된 총 가격 업데이트
                                     
                                     $('#hiddenAllPrice').val(totalPrice); // 숨겨진 input에 AlllPrice 할당
