@@ -17,12 +17,12 @@
 			.signup-table th {
 				display: flex;
 				justify-content: start;
-				align-items: center;
+				align-items: top;
 				font-weight: bold;
 				color: rgb(124, 121, 121);
-				height: 50px;
-				margin-bottom: 15px;
+				height: 70px;
 			}
+			td{vertical-align:top;}
 
 			#signup-text {
 				font-size: large;
@@ -35,7 +35,7 @@
 				content: "";
 				display: block;
 				border-bottom: 2px solid rgba(169, 169, 169, 0.486);
-				margin-bottom: 20px;
+				margin-bottom: 30px;
 				width: 80%;
 			}
 
@@ -111,14 +111,14 @@
 
 							<tr>
 								<th>* 이름</th>
-								<td colspan="2"><input type="text" name="userName" class="form-control" placeholder="이름을 입력하세요"
+								<td colspan="2"><input id="userName" type="text" name="userName" class="form-control" placeholder="이름을 입력하세요"
 										required> </td>
 								<td></td>
 							</tr>
 
 							<tr>
 								<th>* 휴대폰번호</th>
-								<td colspan="2"><input type="text" name="phone" class="form-control" placeholder="휴대폰번호를 입력하세요"></td>
+								<td colspan="2"><input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰번호를 입력하세요('-'제외 숫자만 입력)"></td>
 								<td></td>
 							</tr>
 
@@ -187,7 +187,6 @@
 						$(function(){
 							$("#pwd").keyup(function(){
 								let regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&+=])[A-Za-z\d!@#$%^&+=]{9,}$/;
-								console.log($("#pwd").val());
 								if(regExp.test($("#pwd").val())){
 									$("#pwd").next("label").text("사용가능한 비밀번호입니다.").css("color", "green");
 								}else if($("#pwd").val() == ""){
@@ -275,22 +274,46 @@
 					
 					<script>
 						function validate(){
+							// 아이디 중복확인 진행 유무
 							if(!$(".signup-table input[name=userId]").prop("readonly")){
 								alert("아이디 중복확인을 진행해주세요.");
 								return false;
 							}
 							
+							// 비밀번호 일치여부
 							if($("#pwd").next("label").text() != "사용가능한 비밀번호입니다." 
 									|| $("#checkPwd").next("label").text() != "비밀번호가 일치합니다."){
 								alert("비밀번호를 확인해주세요.");
 								return false;
 							}
 							
+							// 이용약관 동의 유효성 검사
+							let termCheck = true;
 							$(".terms_checkbox").each(function(){
 								if(!$(this).prop("checked")){
-									return false;
+									termCheck = false;
 								}
 							})
+							if(!termCheck){
+								alert("이용약관에 동의해주세요.");
+								return termCheck;
+							}
+							
+							// 이름 유효성 검사
+							let regExp = /^[가-힣a-zA-Z]+$/;
+							if(!regExp.test($("#userName").val())){
+								console.log($("#userName").val());
+								alert("이름을 확인해주세요.");
+								return false;
+							}
+
+							// 전화번호 유효성 검사
+							regExp = /^010\d{8}$/;
+							if(!regExp.test($("#phone").val())){
+								console.log("실행");
+								alert("전화번호를 확인해주세요.");
+								return false;
+							}
 						}
 					</script>
 				
