@@ -231,7 +231,7 @@
             	
             	
            		function statusData(page){
-                		
+                		let status = "미처리";
                 		$.ajax({
                				url:"<%=contextPath%>/qnaselect.ma",
                				data:{
@@ -245,41 +245,60 @@
                					if(result.list != null){
                						
                						let list = "";
+               						
                  					for(let i=0; i<result.list.length; i++){
-                 						list += "<tr class='table_content'>"
-                 						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
-                 						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
-                 						     + "<td>" + result.list[i].answerDate + "</td>"
-                 						     + "<td>" + result.list[i].userNo + "</td>"
-                 						     + "<td>" + result.list[i].answerTitle + "</td>"
-                 						     + "<td>" + result.list[i].answerStatus + "</td>"; 
-                 						     + "</tr>" 
+                 						if(result.list[i].answerStatus == status){
+                 							list += "<tr class='table_content'>"
+                    						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
+                    						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
+                    						     + "<td>" + result.list[i].answerDate + "</td>"
+                    						     + "<td>" + result.list[i].userNo + "</td>"
+                    						     + "<td>" + result.list[i].answerTitle + "</td>"
+                    						     + "<td style='color:red'>" + result.list[i].answerStatus + "</td>"; 
+                    						     + "</tr>" 
+                 							
+                 						}else{
+                 							list += "<tr class='table_content'>"
+                   						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
+                   						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
+                   						     + "<td>" + result.list[i].answerDate + "</td>"
+                   						     + "<td>" + result.list[i].userNo + "</td>"
+                   						     + "<td>" + result.list[i].answerTitle + "</td>"
+                   						     + "<td>" + result.list[i].answerStatus + "</td>"; 
+                   						     + "</tr>" 
+                 						}
+                 						
                  					}
                  					
                  					$("#table_div tbody").html("");
                  					$("#table_div tbody").html(list);
                  					
                  					let paging = "";
-                 				 	
-                 					if(1 == result.pi.currentPage) {
-                 						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
-                 	                }else {
-                 	                	paging += "<li class='page-item'><a class='page-link' onclick='statusData(" + (page- 1) + ")'>Previous</a></li>";
-                 	                }
-                 	                
-                 	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
-                 		                if (p == result.pi.currentPage){
-                 		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
-                 		                } else {
-                 		                	paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + p + ')">' + p + '</a></li>';
-                 		                }
-                 	                }
+                 				 	if(result.pi != null){
+                 				 		if(1 == result.pi.currentPage) {
+                     						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+                     	                }else {
+                     	                	paging += "<li class='page-item'><a class='page-link' onclick='statusData(" + (page- 1) + ")'>Previous</a></li>";
+                     	                }
+                     	                
+                     	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
+                     		                if (p == result.pi.currentPage){
+                     		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+                     		                } else {
+                     		                	paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + p + ')">' + p + '</a></li>';
+                     		                }
+                     	                }
+                     					
+                     					if(result.pi.endPage != result.pi.maxPage){			
+                     						paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + (page + 1) + ')>Next</a></li>'
+                     	                }else{
+                     	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+                     	                }
+                 				 		
+                 				 	}else{
+                 				 		
+                 				 	}
                  					
-                 					if(result.pi.endPage != result.pi.maxPage){			
-                 						paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + (page + 1) + ')>Next</a></li>'
-                 	                }else{
-                 	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
-                 	                }
                  					
                  	            	$("#paging").html("");
                  	            	$("#paging").html(paging);
@@ -309,6 +328,7 @@
                  					$("#table_div tbody").html(list);
                  					
                  					$("#listCount").html("");
+                 					
                  					
                  					
                					}
@@ -425,7 +445,7 @@
               </ul>
               
             <script>
-
+           
                 $(function(){
                         // 전체 선택 / 해제
                     $("#cbx_chkAll").click(function(){
@@ -446,14 +466,15 @@
                         $("#cbx_chkAll").prop("checked", true);
                         }
                     });
-
-                    $(".table_title>td").each(function(){
+                    
+                    $(".table_content td").each(function(){
                         if($(this).text() == "미처리"){
                             $(this).css("color", "red");
                         }else{
                             $(this).css("color", "black");
                         }
                     })
+                   
                 })
                 
               </script>

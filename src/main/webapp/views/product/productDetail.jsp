@@ -754,9 +754,14 @@
                             						   + "<td>" + result.qlist[i].answerDate + "</td>"
                             						   + "</tr>"
                             						   + "<tr style='display: none'>"
-                            						   + "<td colspan='5' height='100px'>"
-                            						   + "</td>"
+                            						   + "<td colspan='2'><b>문의 내용 : </b><br><br>" + result.qlist[i].answerContent +"</td>" 
+                            						     if (result.qlist[i].reply != null) {
+                            							   value += "<td colspan='3' height='100px'><b>답변 : </b><br><br>" + result.qlist[i].reply + "<br><br>" + result.qlist[i].replyDate + "</td>";
+                            							} else {
+                            							    value += "<td colspan='3' height='100px'><b>답변 : </b><br><br>미답변 상태입니다.</td>";
+                            							}
                             						   + "</tr>";
+                            						  
                             						  
                            					}
                         					
