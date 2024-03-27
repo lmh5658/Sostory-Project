@@ -56,7 +56,7 @@
     
 </style>
 <body>
-<div class="wrap container p-3">
+<div class="wrap">
 
         <%@ include file="/views/common/header.jsp" %>
 
