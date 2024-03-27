@@ -73,9 +73,9 @@
 	                 <!-- 상품 카테고리 영역 start -->
 	                 <input type="hidden" value="all" id="category">
 	                 <div class="product-category my-5 w-100 d-flex justify-content-evenly">
-	                     <button class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('all');">전체</button>
-	                     <button class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('best');">랭킹</button>
-	                     <button class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('new');">신상품</button>
+	                     <button id="category1" class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('all');">전체</button>
+	                     <button id="category2" class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('best');">랭킹</button>
+	                     <button id="category3" class="btn btn-outline-danger btn-sm py-1 px-3" onclick="filter('new');">신상품</button>
 	                 </div>
 	                 <!-- 상품 카테고리 영역 end -->
 	
@@ -102,6 +102,24 @@
 	                     	$(function(){
 	                     		// 상품목록조회 함수호출
 	                     		selectProductList('all');
+	                     		
+	                     		let num = 0;
+	                     		let id = "";
+	                     		
+	                     		// 상품목록조회 영역 3초마다 갱신
+	                     		setInterval(function(){
+	                     			
+	                     			if(num < 3){
+	                     				num += 1;
+	                     			}else{
+	                     				num = 1;
+	                     			}
+	                     			
+	                     			id = 'category' + num;
+	                     			
+	                     			$(document.getElementById(id)).click();
+	                     			
+	                     		}, 3000);
 	                     	})
 	                     	
 	                     	// 특정상품 클릭시, 해당상품 상세페이지 이동요청시 실행될 함수
@@ -135,10 +153,6 @@
                      					let cartList = result[1];		// 로그인한 사용자가 장바구니에 담은 상품번호 리스트
                      					let likedList = result[2];		// 로그인한 사용자가 찜한상품 상품번호 리스트
                      					user = result[3];			// 로그인한 사용자일 경우 : 사용자 회원번호
-                     					console.log(user.userNo == null);
-	                     				console.log("성공");
-	                     				console.log(result);
-	                     			
 	                     				
 	                     				let list = "";			// 상품목록리스트 생성용 HTML 변수
 	                     				
@@ -352,12 +366,27 @@
 	                     <!-- 레시피 더보기 버튼 영역 end -->
 	                     
 	                     <script>
-                         	$(function(){
-                         		let page = 1;
-                         		
-                         		selectRecipeList(page);
-                         	})
-                         	
+	                     	let maxPage = 0;
+	                     	
+	                     	$(function(){
+	                     		let page = 1;
+	                     		
+	                     		selectRecipeList(page);
+	                     		
+	                     		setInterval(function(){
+	                     			
+	                     			if(page < maxPage){
+	                     				page += 1;
+	                     			}else {
+	                     				page = 1;
+	                     			}
+	                     			
+	                     			selectRecipeList(page);
+	                     			
+	                     		}, 3000);
+	                     		
+	                     	})
+	                     	
                          	// 특정레시피 클릭시, 해당레시피 상세페이지 이동요청시 실행될 함수
                          	$(".recipe-list").on("click", ".recipe-body", function(){
                          		let rNo = $(this).next().children(":hidden").val();
@@ -385,8 +414,9 @@
                          				
                          				let recipeList = result[0];	// 메인페이지 레시피목록
                          				maxPage = result[1];		// 레시피 리스트 최대페이지수
+                         				console.log("최대페이지 1 : " , maxPage);
                          				let likedList = result[2];	// 사용자가 찜한레시피 번호
-                         				console.log(result[2]);
+                         				
                          				let list = "";				// 레시피리스트 생서할 HTML구문 변수
                          				
                          				if(recipeList.length != 0){
@@ -505,7 +535,6 @@
                        		
                        		
                        	}) // 레시피 좋아요 클릭시 실행 함수 end
-                         	
 	                    </script>
 	                     
 	                 </div>

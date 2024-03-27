@@ -289,16 +289,19 @@
 			        	$(function(){
 			        		// 레시피 찜해제요청시 실행될 함수
 			        		$(".recipe_wrap").on("click", ".recipe_like", function(){
+			        			
 			        			let $like = $(this).children(".like");								// 좋아요 아이콘
 			        			let $rNo = $(this).parents(".recipe_etc").children().eq(0).val();	// 레시피번호
+			        			
 			        			$.ajax({
 			        				url:"<%= contextPath %>/dlike.re",
 			        				data:{"rNo":$rNo},
 			        				success:function(){
-			        					alert("레시피가 찜목록에서 삭제되었습니다.");
+			        					$(this).parents("div.recipe").remove();
 			        					location.reload();
 			        				}
 			        			})
+			        			
 			        		})
 			        		
 			        		// 레시피상세페이지 이동요청시 실행될 함수 (레시피썸네일영역 클릭시)
