@@ -102,7 +102,7 @@
 								   $(this).attr("href", "<%= contextPath %>/deleteForm.me");
 							   }
 						   
-						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+						   if(userPwd != null && "<%= loginUser.getUserPwd() %>" != userPwd){
 								   /*
 								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
 								    * ==> alert("실패메세지")
@@ -133,7 +133,7 @@
 								   $(this).attr("href", "<%= contextPath %>/updateForm.me");
 							   }
 						   
-						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+						   if(userPwd != null && "<%= loginUser.getUserPwd() %>" != userPwd){
 								   /*
 								    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
 								    * ==> alert("실패메세지")
@@ -408,11 +408,10 @@
                     	
                     	// 주문취소 요청시 실행될 함수
                     	function cancle(orderNo){
-                    		
                     		if(confirm("주문을 취소하시겠습니까?")){
                     			$.ajax({
                         			url:"<%= contextPath %>/deleteOrder.me",
-                        			data:{"recipeNo" : orderNo},
+                        			data:{"orderNo" : orderNo},
                         			success:function(result){
                         				if(result > 0){
                         					alert("주문이 취소되었습니다.");
@@ -421,10 +420,11 @@
                         					alert("주문취소가 정상적으로 처리되지 않았습니다. 유효한 주문인지 다시확인해주세요.");
                         				}	
                         			}
-                        		})	
-                    		}
+                        		}) // ajax end
+                        		
+                    		} // confirm if end
                     		
-                    	}
+                    	} // cacle() end
                     	
                     	// 주문내용 클릭시, 해당주문상세페이지 이동요청시 실행될 함수
                     	function detail(orderNo){

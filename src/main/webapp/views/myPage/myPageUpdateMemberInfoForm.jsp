@@ -101,7 +101,7 @@
 								   $(this).attr("href", "<%= contextPath %>/deleteForm.me");
 							   }
 						   
-						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+						   if(userPwd != null && "<%= loginUser.getUserPwd() %>" != userPwd){
 								   /*
 								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
 								    * ==> alert("실패메세지")
@@ -132,7 +132,7 @@
 								   $(this).attr("href", "<%= contextPath %>/updateForm.me");
 							   }
 						   
-						   if("<%= loginUser.getUserPwd() %>" != userPwd){
+						   if(userPwd != null && "<%= loginUser.getUserPwd() %>" != userPwd){
 								   /*
 								    * 로그인한 회원(정보변경 요청한 회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치하지 않을경우
 								    * ==> alert("실패메세지")

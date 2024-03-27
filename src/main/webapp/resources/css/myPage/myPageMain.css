@@ -77,7 +77,6 @@ a{
     width: 150px;
     height: 150px;
     border-radius: 80px;
-    padding: 80px;
     display: flex;
 }
 
@@ -99,13 +98,13 @@ a{
 }
 
 #userProfile{
-	border: 1px solid black;
+	border: 1px solid tomato;
 	display: block;
-    width: 170px;
-    height: 170px;
+    width: 160px;
+    height: 160px;
     border-radius: 80px;
-    margin-left:-70px;
-    margin-top: -80px;
+    margin-left:-10px;
+    margin-top: 6px;
 }
 
 .profile-right>h3{
