@@ -253,30 +253,47 @@
 	<entry key="selectOrderSearchList">
 		  SELECT OT.*
 	        FROM (
-	              SELECT
-	                      DISTINCT TB_ORDER_PRODUCT.ORDER_NO
-	                     ,ROWNUM RNUM
-	                     ,(
+	              WITH OrderedOrders AS (
+                    SELECT
+                        TB_ORDER_PRODUCT.ORDER_NO,
+                        ROW_NUMBER() OVER (PARTITION BY TB_ORDER_PRODUCT.ORDER_NO ORDER BY ORDER_DATE DESC) AS RNUM,
+                        TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE,
+                        ORDER_STATUS,
+                        USER_ID,
+                        TOTAL_ORIGIN_PRICE AS PAYMENT
+                        ,(
 	                       SELECT PRODUCT_NAME
 	                         FROM TB_ORDER_PRODUCT
 	                         JOIN TB_PRODUCT USING (PRODUCT_NO)
 	                        WHERE ORDER_NO = TB_ORDER.ORDER_NO
 	                          AND ROWNUM = 1
-	                      )TITLE_PRODUCT_NAME
+	                      ) TITLE_PRODUCT_NAME
 	                     ,(
 	                       SELECT COUNT(*)
 	                        FROM TB_ORDER_PRODUCT
 	                       WHERE ORDER_NO = TB_ORDER.ORDER_NO
 	                       ) AS TOTAL_ORDER
-	                     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
-	                     ,ORDER_STATUS
-	                     ,USER_NAME
-	                     ,TOTAL_ORIGIN_PRICE AS PAYMENT
-	                FROM TB_ORDER
-	                JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
-	                JOIN TB_MEMBER ON (TB_ORDER.USER_NO = TB_MEMBER.USER_NO)
-	               WHERE USER_ID LIKE ?
-	               ORDER BY ORDER_DATE DESC
+                    FROM
+                        TB_ORDER
+                        JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+                        JOIN TB_MEMBER ON (TB_ORDER.USER_NO = TB_MEMBER.USER_NO)
+                )
+                SELECT
+                    ORDER_NO,
+                    RNUM,
+                    ORDER_DATE,
+                    ORDER_STATUS,
+                    USER_ID,
+                    PAYMENT,
+                    TITLE_PRODUCT_NAME,
+                    TOTAL_ORDER
+                FROM
+                    OrderedOrders
+                WHERE
+                    RNUM = 1
+                AND USER_ID LIKE ?
+                ORDER BY
+                    ORDER_DATE DESC
 	              )OT
 	       WHERE RNUM BETWEEN ? AND ?
 	</entry>

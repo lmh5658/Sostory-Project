@@ -529,7 +529,7 @@ public class ManagerDao {
 				o.setTotalOrder(rset.getInt("total_order"));
 				o.setOrderDate(rset.getString("order_date"));
 				o.setOrderStatus(rset.getString("order_status"));
-				o.setUserName(rset.getString("user_name"));
+				o.setUserName(rset.getString("user_id"));
 				o.setPay(rset.getInt("payment"));
 				list.add(o);
 			}
