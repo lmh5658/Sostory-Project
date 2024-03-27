@@ -17,7 +17,7 @@
              FROM TB_PRODUCT
              JOIN TB_CATEGORY USING(CATEGORY_NO)
              WHERE STATUS = 'Y'
-             ORDER BY PRODUCT_NO DESC
+             ORDER BY DBMS_RANDOM.value
              ) A
          )
          WHERE RNUM BETWEEN ? AND ?
