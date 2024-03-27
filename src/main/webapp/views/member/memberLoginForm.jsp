@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% String failMsg = (String)request.getAttribute("failMsg"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,6 +69,19 @@
     </style>
 </head>
 <body>
+	<!-- Session값 유효여부 판단
+		 - Session에 전달받은 alertMsg값이 있을경우 : Session값 알림팝업으로 띄워주기
+		 - Session에 전달받은 alertMsg값이 없을경우 : Session값 삭제하기	
+	 -->
+	<% if(failMsg != null){ %>
+		<script>
+			alert('<%= failMsg %>');
+		</script>
+	<% 
+		request.removeAttribute("alertMsg");
+	   } 
+	%>
+	
 	<div class="wrap">
 
       <%@ include file="/views/common/header.jsp" %>

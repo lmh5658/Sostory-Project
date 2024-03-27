@@ -40,8 +40,8 @@ public class MemberLoginController extends HttpServlet {
 		
 		if(loginUser == null) { // 조회된 회원이 없을경우
 			// 로그인 실패 메세지의 알림창을 띄워주기 ==> 메인페이지로 이동
-			request.getSession().setAttribute("alertMsg", "등록되지 않은 아이디이거나 아이디 또는 비밀번호가 일치하지 않습니다.");
-			response.sendRedirect(request.getContextPath() + "/login.me");
+			request.setAttribute("failMsg", "등록되지 않은 아이디이거나 아이디 또는 비밀번호가 일치하지 않습니다.");
+			request.getRequestDispatcher("/views/member/memberLoginForm.jsp").forward(request, response);
 			
 		}else { // 조회된 회원이 있을경우 : 메인페이지로 이동
 			// 로그인화면의 메인페이지로 이동
