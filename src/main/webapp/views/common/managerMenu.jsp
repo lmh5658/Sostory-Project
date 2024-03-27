@@ -46,13 +46,15 @@
 			</div>
 
 		</div>
+		<!-- 
 		<div class="side_menu">
 			<button class="list">레시피관리</button>
 			<div>
 				<a href="<%= request.getContextPath() %>/recipeList.ma?page=1">레시피조회</a><br> 
-				<!-- <a href="<%= request.getContextPath() %>/updateForm.re">레시피등록</a> -->
+				<a href="<%= request.getContextPath() %>/updateForm.re">레시피등록</a>
 			</div>
 		</div>
+		 -->
 		<!-- 
 		<div class="side_menu">
 			<button class="list">리뷰관리</button>

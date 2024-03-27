@@ -8,6 +8,7 @@
 	List<Order> orderList = (List<Order>)request.getAttribute("orderList");
 	String keyword = (String)request.getAttribute("keyword");
 	String[] orderStatus = {"결제완료", "결제전", "배송중", "배송완료"};
+	System.out.println(orderList.size());
 %>
 <!DOCTYPE html>
 <html>
@@ -50,17 +51,13 @@
             width: 80%;
             text-align: center;
             border: 1px solid #dddddd;
-         }
-         td:hover{
-            cursor: pointer;
-         }
-         
+         }         
          .table_title th{
             background-color: #dddddd;;
             font-weight: bold; /* 헤더 글씨체를 굵게 설정 */
             padding: 8px; /* 셀 안의 여백 설정 */
          }
-
+		 .order_title:hover{cursor:pointer}
          .pro_name{
             display: flex;
             align-items: center; 
@@ -161,9 +158,9 @@
                         	<% } else { %>
                         		<% for(Order o : orderList) { %>
 	                            <tr class="table_title">
-	                                <td id="orderNo"><%= o.getOrderNo() %></td>
+	                                <td class="orderNo"><%= o.getOrderNo() %></td>
 	                                <td><%= o.getUserName() %></td>
-	                                <td><%= o.getTitleProductName() %> 외 <%= o.getTotalOrder() %></td>
+	                                <td class="order_title"><%= o.getTitleProductName() %> 외 <%= o.getTotalOrder() %></td>
 	                                <td><%= String.format("%,d", o.getPay()) %> 원</td>
 	                                <td><%= o.getOrderDate() %></td>
 	                                <td>
@@ -189,8 +186,8 @@
             </div>
             
             <script>
-            	$(".table_title").click(function(){
-            		location.href = "<%=contextPath%>/detailOrder.me?oNo=" + $(this).children().eq(0).text();
+            	$(".order_title").click(function(){
+            		location.href = "<%=contextPath%>/detailOrder.me?oNo=" + $(this).siblings().eq(0).text();
             	})
             
             	$(".orderStatus").on("change", function(){
