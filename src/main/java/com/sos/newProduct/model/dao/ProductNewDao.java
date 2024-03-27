@@ -719,7 +719,7 @@ public class ProductNewDao {
 		
 	}
 
-	public int updateReply(Connection conn, int no, String content) {
+	public int updateReply(Connection conn, int no, String content, int adminNo) {
 		
 		int result=0;
 		PreparedStatement pstmt = null;
@@ -728,7 +728,8 @@ public class ProductNewDao {
 		try {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, content);
-			pstmt.setInt(2, no);
+			pstmt.setInt(2, adminNo);
+			pstmt.setInt(3, no);
 			
 			result=pstmt.executeUpdate();
 			
