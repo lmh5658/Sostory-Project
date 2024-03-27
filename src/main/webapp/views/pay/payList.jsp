@@ -190,7 +190,7 @@
                     <th style="font-size: 20px;">총 결제 금액</th>
                     <th style="font-size: 20px;"><%=totalPrice+addressPrice %>원</th>
                 
-                     <input type="hidden" name="payPrice" value="<%=totalPrice+dcPrice+addressPrice %>">
+                     <input type="hidden" name="payPrice" value="<%=totalPrice+addressPrice %>">
                     
                 </tr>
             </table>

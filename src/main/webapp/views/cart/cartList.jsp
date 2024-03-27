@@ -119,12 +119,12 @@
                             </div>
                             <div class="cart-price cart-hh">
                             <%if(c.getDiscountPrice() ==0){ %>
-                            	<h5 class="cart-price d-block mb-3 mt-2"><b id="cartPrice"><%=c.getPrice() %></b></h5>
+                            	<h5 class="cart-price d-block mb-3 mt-2"><b id="cartPrice"><%=c.getPrice() %>원</b></h5>
                             	<%}else{ %>
-                            	<h5 class="cart-price d-block mb-3 mt-2"><b id="cartPrice"><%=c.getPrice()-c.getDiscountPrice() %></b></h5>
+                            	<h5 class="cart-price d-block mb-3 mt-2"><b id="cartPrice"><%=c.getPrice()-c.getDiscountPrice() %>원</b></h5>
                             	<span>&nbsp&nbsp</span>
-                            	<h5 class="cart-price d-block mb-3 mt-2" style="color:gray;"><b><s><%=c.getPrice() %></s></b></h5>
-                            	<s id="cartDiscountPrice"><%=c.getDiscountPrice() %></s> <%-- 스타일 display : none으로 가격 숨김 --%>
+                            	<h5 class="cart-price d-block mb-3 mt-2" style="color:gray;"><b><s><%=c.getPrice() %>원</s></b></h5>
+                            	<s id="cartDiscountPrice"><%=c.getDiscountPrice() %>원</s> <%-- 스타일 display : none으로 가격 숨김 --%>
                             
                             	<%} %>
                             	<input type="hidden" name="priceMisnusDiscountPrice" value="<%=c.getPrice()-c.getDiscountPrice() %>">
@@ -178,7 +178,7 @@
 
                             <div class="center">
                                 <div class="d-flex flex-column" style="border-radius: 30px; border: 1px solid black; width: 200px; height: 150px;">
-	                                <h4 class="center" style="padding-top: 30px;">상품할인금액</h4>
+	                                <h4 class="center" style="padding-top: 30px;">할인</h4>
 	                                <h2 class="center" id="discountPrice">0</h2>
 	                                <input type="hidden" name="discountPrice" id="hiddendiscountPrice">
                                 </div>
