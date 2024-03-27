@@ -37,7 +37,7 @@ public class Ajax1to1MemSearchController extends HttpServlet {
 		
 		String search = request.getParameter("search");
 		int currentPage = Integer.parseInt(request.getParameter("page"));
-		System.out.println(currentPage);
+		
 		int listCount = new ManagerService2().searchMemCount(search);
 		int pageLimit = 5;
 		int boardLimit = 6;
@@ -50,7 +50,7 @@ public class Ajax1to1MemSearchController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 
 		List<ProductQnaReply> list = new ManagerService2().searchMemList(search, pi);
-		
+		System.out.println(pi);
 		HashMap<String, Object> hm = new HashMap();
 		if(!list.isEmpty()) {
 			hm.put("pi", pi);

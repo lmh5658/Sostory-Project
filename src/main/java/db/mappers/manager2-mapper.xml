@@ -101,6 +101,7 @@
 		  FROM TB_QNA_REPLY
 		  JOIN TB_MEMBER USING(USER_NO)
 		 WHERE USER_ID LIKE '%' || ? || '%'
+		   AND ANSWER_TYPE = 2
 	</entry>
 	
 	<entry key="searchMemList">
@@ -119,7 +120,7 @@
 			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
 			WHERE ANSWER_TYPE = 2
               AND USER_ID LIKE '%' || ? || '%'
-			ORDER BY ANSWER_NO DESC
+			ORDER BY ANSWER_STATUS ASC
 			) A
 			)
 			WHERE RNUM BETWEEN ? AND ?

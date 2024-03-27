@@ -40,14 +40,14 @@ public class Manage1to1QnaReplyUpdateController extends HttpServlet {
 		System.out.println(adminNo);
 		
 		
-		int result = new ManagerService2().insertQnaReply(answerNo, replyContent, adminNo);
+		int result = new ManagerService2().insertQnaReplyContent(answerNo, replyContent, adminNo);
 		if(result > 0) {
-			request.setAttribute("alertMsg", "문의등록이 성공적으로 완료되었습니다.");
+			request.getSession().setAttribute("alertMsg", "문의등록을 완료하였습니다.");
 		}else {
-			request.setAttribute("alertMsg", "문의등록을 실패하였습니다.");
+			request.getSession().setAttribute("alertMsg", "문의등록을 실패하였습니다.");
 		}
 		
-		request.getRequestDispatcher("/views/manager/qnaPersonal.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/qnaPersonal.ma?page=1");
 		
 		
 		

@@ -138,7 +138,7 @@
                     
                 </div>
                 <div class="option_2">
-                    <button id="select_btn" class="select_delete">선택삭제</button>
+                    <button id="select_btn" class="select_delete" onclick="return alert('정말로 삭제하시겠습니까?');">선택삭제</button>
                     <select name="select" id="selecte" onchange="statusData(1);">
                         <option value="all">전체</option>
                         <option value="processed">처리</option>
@@ -159,7 +159,62 @@
 	            			},
 	            			type:"post",
 	            			success:function(result){
-	            				console.log(result);
+	            				
+	            				if(result.list != null && result.pi != null){
+	            					
+	            					let list = "";
+	               					for(let i=0; i<result.list.length; i++){
+	               						list += "<tr class='table_content'>"
+	               						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
+	               						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
+	               						     + "<td>" + result.list[i].answerDate + "</td>"
+	               						     + "<td>" + result.list[i].userNo + "</td>"
+	               						     + "<td>" + result.list[i].answerTitle + "</td>"
+	               						     + "<td>" + result.list[i].answerStatus + "</td>"; 
+	               						     + "</tr>"
+	               						
+	               					}
+	               					
+	               					$("#table_div tbody").html("");
+	               					$("#table_div tbody").html(list);
+	               					
+	               					let paging = "";
+	               				 	
+	               					if(1 == result.pi.currentPage) {
+	               						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+	               	                }else {
+	               	                	paging += "<li class='page-item'><a class='page-link' onclick='member(" + (page- 1) + ")'>Previous</a></li>";
+	               	                }
+	               	                
+	               	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
+	               		                if (p == result.pi.currentPage){
+	               		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+	               		                } else {
+	               		                	paging += '<li class="page-item"><a class="page-link" onclick="member(' + p + ')">' + p + '</a></li>';
+	               		                }
+	               	                }
+	               					
+	               					if(result.pi.endPage != result.pi.maxPage){			
+	               						paging += '<li class="page-item"><a class="page-link" onclick="member(' + (page + 1) + ')>Next</a></li>'
+	               	                }else{
+	               	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+	               	                }
+	               					
+	               	            	$("#paging").html("");
+	               	            	$("#paging").html(paging);
+	               	            	
+	               	            	let count = result.search + ' 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+	               	            	
+
+	               	            	$("#listCount").html("");
+	               	            	$("#listCount").html(count);
+	            					
+	            				}else{
+	            					alert("검색한 " + $("#memId").val() + " 회원 아이디는 존재하지않습니다.");
+	            				}
+	            			
+	            				
+               	           	
 	            				
 	            				
 	            			}
@@ -185,72 +240,70 @@
                				},
                				type:"post",
                				success:function(result){
-               					console.log(result.pi);
+               					
                					//{pi: {…}, list: [{..},{..},]}
-               					
-               					let list = "";
-               					for(let i=0; i<result.list.length; i++){
-               						list += "<tr>"
-               						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
-               						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
-               						     + "<td>" + result.list[i].answerDate + "</td>"
-               						     + "<td>" + result.list[i].userNo + "</td>"
-               						     + "<td>" + result.list[i].answerTitle + "</td>"
-               						     + "<td>" + result.list[i].answerStatus + "</td>"; 
-               						     + "</tr>"
+             							let list = "";
+                     					for(let i=0; i<result.list.length; i++){
+                     						list += "<tr class='table_content'>"
+                     						     + "<td onclick='event.stopPropagation()'><input type='checkbox' class='typArr'></td>"
+                     						     + "<td class='answerNo'>" + result.list[i].answerNo + "</td>"
+                     						     + "<td>" + result.list[i].answerDate + "</td>"
+                     						     + "<td>" + result.list[i].userNo + "</td>"
+                     						     + "<td>" + result.list[i].answerTitle + "</td>"
+                     						     + "<td>" + result.list[i].answerStatus + "</td>"; 
+                     						     + "</tr>"
+                     						
+                     						     
+                     					}
+                     					
+                     					$("#table_div tbody").html("");
+                     					$("#table_div tbody").html(list);
+                     					
+                     					let paging = "";
+                     				 	
+                     					if(1 == result.pi.currentPage) {
+                     						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
+                     	                }else {
+                     	                	paging += "<li class='page-item'><a class='page-link' onclick='statusData(" + (page- 1) + ")'>Previous</a></li>";
+                     	                }
+                     	                
+                     	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
+                     		                if (p == result.pi.currentPage){
+                     		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
+                     		                } else {
+                     		                	paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + p + ')">' + p + '</a></li>';
+                     		                }
+                     	                }
+                     					
+                     					if(result.pi.endPage != result.pi.maxPage){			
+                     						paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + (page + 1) + ')>Next</a></li>'
+                     	                }else{
+                     	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
+                     	                }
+                     					
+                     	            	$("#paging").html("");
+                     	            	$("#paging").html(paging);
+                     	            	console.log(result.select);
+                     	            	
+                     	            	let count = "";
+                     	            	if(result.select == "all"){
+                     	            		count +=  '총 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>';
+                     	            	}else if(result.select == "processed"){
+                     	            		count += '처리 문의 수 : <label style="color: red;">'  + result.pi.listCount + '</label>';        	            		
+                     	            	}else if(result.select == "unprocessed"){
+                     	            		count += '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>';           	            		
+                     	            	}
+                     	            	
+                     	            	$("#listCount").html("");
+                     	            	$("#listCount").html(count);
+               							
                						
-               						     
-               					}
                					
-               					$("#table_div tbody").html("");
-               					$("#table_div tbody").html(list);
-               					
-               					let paging = "";
-               				 	
-               					if(1 == result.pi.currentPage) {
-               						paging += "<li class='page-item disabled'><a class='page-link'>Previous</a></li>";
-               	                }else {
-               	                	paging += "<li class='page-item'><a class='page-link' onclick='statusData(" + (page- 1) + ")'>Previous</a></li>";
-               	                }
-               	                
-               	               for(let p=result.pi.startPage; p<=result.pi.endPage; p++) {
-               		                if (p == result.pi.currentPage){
-               		                	paging += '<li class="page-item active"><a class="page-link">' + p + '</a></li>';
-               		                } else {
-               		                	paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + p + ')">' + p + '</a></li>';
-               		                }
-               	                }
-               					
-               					if(result.pi.endPage != result.pi.maxPage){			
-               						paging += '<li class="page-item"><a class="page-link" onclick="statusData(' + (page + 1) + ')>Next</a></li>'
-               	                }else{
-               	                	paging += '<li class="page-item disabled"><a class="page-link">Next</a></li>'
-               	                }
-               					
-               	            	$("#paging").html("");
-               	            	$("#paging").html(paging);
-               	            	
-               	            	console.log($("#select_btn"));
-               	            	
-               	            	let count = "";
-               	            	if(result.select == "all"){
-               	            		count +=  '총 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
-               	            	}else if(result.select == "processed"){
-               	            		count +=  '처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
-               	            	}else if(result.select == "unprocessed"){
-               	            		count +=  '미처리 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'              	            		
-
-               	            	}
-               	            	
-               	            	$("#listCount").html("");
-               	            	$("#listCount").html(count);
-               	            	
-               	            	
-               	            	
-               	            	
-               	            	
-               					
+               				},
+               				error:function(){
+               					alert("존재하는 게시글이없습니다.");
                				}
+               					
                				
                			})
                 		
@@ -295,14 +348,12 @@
                         <tbody>
                         	<% for(ProductQnaReply p : list){ %>
                             <tr class="table_content">
-                                <td onclick="event.stopPropagation()">
-                                <input type="checkbox" class="typArr">
-                                </td>
+                                <td onclick="event.stopPropagation()"><input type="checkbox" class="typArr"></td>
                                 <td class="answerNo"><%= p.getAnswerNo() %></td>
                                 <td><%= p.getAnswerDate() %></td>
                                 <td><%= p.getUserNo() %></td>
                                 <td class="content"><%= p.getAnswerTitle() %></td>
-                                <td><%= p.getAnswerStatus() %></td>
+                                <td><%= p.getAnswerStatus()%></td>
                             </tr>
                             <% } %>
                         </tbody>
@@ -315,12 +366,12 @@
             
             <script>
             
-            	$(function(){
-            		$(".table_content").click(function(){
-            			// let select = $(".table_content").children().eq(1).text();
-            			location.href="<%=contextPath%>/mselect.ma?answerNo=" + $(this).find(".answerNo").text();
-            		})
-            	})
+            
+           		$(document).on("click",".table_content", function(){
+           			// let select = $(".table_content").children().eq(1).text();
+           			location.href="<%=contextPath%>/mselect.ma?answerNo=" + $(this).find(".answerNo").text();
+           		})
+            	
             
             </script>
             
