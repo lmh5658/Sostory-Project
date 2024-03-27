@@ -117,7 +117,6 @@ public class AjaxMainPageRecipeController extends HttpServlet {
 		jResult.add(pi.getMaxPage());		// 메인페이지 레시피목록 주기적 변경을 위해 필요함
 		jResult.add(jLikedRecipes);
 		
-		System.out.println(jResult);
 		// 결과전송
 		response.setContentType("application/json; charset=utf-8");
 		response.getWriter().print(jResult);
