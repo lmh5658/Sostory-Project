@@ -82,7 +82,7 @@ public class AjaxMyPageOrderListController extends HttpServlet {
 			
 			// 주문목록조회 요청
 			List<Order> list = new MyPageService().selectOrderList(info);
-			System.out.println(list);
+			
 			/* 방법 1) 응답데이터들을 Ajax 통신용 응답데이터로 변환 및 담기 : JSON활용
 			 * 
 			 * (1) 조회된 주문목록(List)
@@ -129,7 +129,7 @@ public class AjaxMyPageOrderListController extends HttpServlet {
 			JSONArray jResult = new JSONArray();
 			jResult.add(jOlist);
 			jResult.add(jPageInfo);
-			System.out.println("가림 테스트 : " + jOlist);
+			
 			// 응답데이터 전달
 			response.setContentType("application/json; charset=utf-8");
 			response.getWriter().print(jResult);

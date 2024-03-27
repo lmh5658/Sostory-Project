@@ -128,7 +128,7 @@
 	                     	
 	                     	// 상품목록 "더보기" 버튼클릭시 해당리스트 카테고리의 상품목록 페이지 이동요청시 실행될 함수
 	                     	$("#product-btn").click(function(){
-	                     		console.log("버튼클릭");
+	                     		
 	                     		if($("#category").val() == 'all'){// 전체상품페이지
 	                     			location.href = "<%= contextPath %>/alist.pr?page=1";
 	                     		}else if($("#category").val() == 'best'){ // 랭킹상품페이지
@@ -214,14 +214,19 @@
 	                     									} 
 	                     								} 
 	                     							}) 
-	                     						} // if end
+	                     						} // 찜상품표시 if end
 	                     						
-	                     					} // if end 
+	                     					} // 로그인여부 if end
 
-	                     				 } 
-	                     			}
-	                     		}) 
-                     		} 
+	                     				 } // 상품목록리스트 생성용 if end
+	                     				 
+	                     			} // success end
+	                     			
+	                     		}) // ajax end
+	                     		
+                     		} // selectProductList() end
+                     		
+                     		
 	                     	
                      		/* 조회할 상품리스트 카테고리 버튼클릭시 실행될 함수
                      		 *
@@ -231,6 +236,17 @@
                      		*/
                      		function filter(category){
                      			$("#category").val(category);
+                     			
+                     			if(category == 'all'){
+                     				$(document.getElementById('category' + 1)).siblings(".active").removeClass("active");
+                     				$(document.getElementById('category' + 1)).addClass("active");	
+                     			}else if(category == 'best'){
+                     				$(document.getElementById('category' + 2)).siblings(".active").removeClass("active");
+                     				$(document.getElementById('category' + 2)).addClass("active");
+                     			}else if(category == 'new'){
+                     				$(document.getElementById('category' + 3)).siblings(".active").removeClass("active");
+                     				$(document.getElementById('category' + 3)).addClass("active");
+                     			}
                      			selectProductList(category);
                      		}
                      		
@@ -249,12 +265,32 @@
                      					location.href="<%= contextPath %>/loginForm.me";
                      				}
                      			} else { // 로그인 상태일경우
-                     				if($(this).attr("fill") == 'blue'){ // 장바구니 삭제요청
+                     				
+                     				if($(this).attr("fill") == 'blue'){ // 장바구니 삭제요청    
                      					$(this).attr("fill", "black");
                      					$.ajax({
-                     						url:"<%= contextPath %>/add.cart",
+                     						url:"<%= contextPath %>/del.ca",
                      						data:{
-                     							"productNo":$(this).next().val(),
+                     							"productNo":$(this).prev().val(),
+                     							"userNo":user.userNo,
+                     							},
+                     						success:function(result){
+                     							if(result > 0){
+                     								
+                     							}else{
+                     								
+                     							} 
+                     							
+                     						} // success end
+                     						
+                     					}) // ajax end
+                     					
+                     				}else{
+                     					$(this).attr("fill", "blue");
+                     					$.ajax({
+                     						url:"<%= contextPath %>/add.ca",
+                     						data:{
+                     							"productNo":$(this).prev().val(),
                      							"userNo":user.userNo,
                      							"cart_amount":1
                      							},
@@ -264,28 +300,17 @@
                      							}else{
                      								
                      							} 
-                     						} 
-                     					}) 
-                     				}else{
-                     					$(this).attr("fill", "blue");
-                     					$.ajax({
-                     						url:"<%= contextPath %>/del.ca",
-                     						data:{
-                     							"productNo":$(this).next().val(),
-                     							"userNo":user.userNo,
-                     							},
-                     						success:function(result){
-                     							if(result > 0){
-                     								
-                     							}else{
-                     								
-                     							} 
-                     						} 
-                     					}) 
-                     				}
+                     						} // success end
+                     						
+                     					}) // ajax end 
+                     					
+                     				} // 장바구니추가&삭제 if-else end
                      			
-                     			} 
-                     		})
+                     			} // 로그인여부 if-else end 
+                     			
+                     		}) // 장바구니 클릭시 실행함수 end
+                     		
+                     		
                      		
                      		/* 상품 찜하기버튼클릭시 실행될 함수
                      		 * 
@@ -313,8 +338,10 @@
                      							}else{
                      								
                      							} 
-                     						} 
-                     					}) 
+                     							
+                     						} // success end 
+                     						
+                     					}) // ajax end
                      				}else{
                      					
                      					$(this).attr("fill", "red");
@@ -328,12 +355,16 @@
                      							}else{
                      								
                      							}
-                     						} 
-                     					})
-                     				} 
-                     			} 
+                     							
+                     						} // success end
+                     						
+                     					}) // ajax end
+                     					
+                     				} // 찜하기 & 찜해제 if-else end 
+                     				
+                     			} // 로그인 여부 if-else end 
                      			 
-                     		}) 
+                     		}) // 상품찜하기 버튼클릭시 실행함수 end 
                  
 	                     </script>
 	
@@ -377,7 +408,6 @@
 	                     		selectRecipeList(page);		// 페이지 로드와 동시에 메인페이지 레시피목록조회 함수호출
 	                     		
 	                     		// 3초마다 레시피목록 갱신
-	                     		
 	                     		setInterval(function(){
 	                     			if(page < maxPage){
 	                     				page += 1;
@@ -387,7 +417,8 @@
 	                     			selectRecipeList(page);
 	                     		}, 3000);
 	                     		
-	                     	})
+	                     	}) // $(function{}) end
+	                     	
 	                     	
                          	// 특정레시피 클릭시, 해당레시피 상세페이지 이동요청시 실행될 함수
                          	$(".recipe-list").on("click", ".recipe-body", function(){
@@ -433,7 +464,7 @@
                          						
                          						// 레시피 썸네일 영역
                          						list += 		"<div class='recipe-body'>";
-                         						list += 			"<img class='recipe-img-top' src='" + <%= contextPath + '/' %> + recipe.recipeUrl  + "' alt='recipe thumbnail' style='width:100%; border-radius: 30px;'>";
+                         						list += 			"<img class='recipe-img-top' src='" + <%= contextPath + '/' %> + recipe.recipeUrl  + "' alt='recipe thumbnail' style='width:300px; height:200px; border-radius: 40px;'>";
                          						list += 			"<small class='recipe-category d-block text-secondary my-3'>" + recipe.categoryName + "</small>";
                          						list += 			"<h7 class='recipe-title'><b>" + recipe.recipeTitle + "</b></h7>";
                          						list += 			"<small class='recipe-intro d-block text-secondary text-wrap my-2'>" + recipe.recipeIntro + "</small>";
@@ -478,8 +509,9 @@
                                               	list += 	"</div>";
                                               	list += "</div>";
 
-                         					}
-                         				}
+                         					} // for end
+                         					
+                         				} // 레시피리스트 생성 if end
                          				
                          				// 레시피목록 생성
                          				$(".recipe-list").html(list);
@@ -491,15 +523,21 @@
                          						for(let i=0 ; i<likedList.length ; i++){
                          							if(rNo == likedList[i]){
                          								$(this).next().children(".like").attr("fill", "red");
-                         							} 
-                         						} 
-                         					}) 
-                         				} 
+                         							}
+                         							
+                         						} // likedList for end
+                         						
+                         					}) // each end
+                         					
+                         				} // 로그인여부 확인용 if end 
                          				
-                         				
-                         			} 
-                         		}) 
-                         	} 
+                         			} // success end
+                         			
+                         		}) // ajax end 
+                         		
+                         	} // selectRecipe() end
+                         	
+                         	
                          	
                          // 레시피 좋아요 클릭시, 실행될 함수
                        	$(".recipe-list").on("click", "svg.like", function(){
@@ -531,13 +569,15 @@
                        					},error:function(){
                        						
                        					}
-                       				}) 
-                       			}
+                       					
+                       				}) // ajax end
+                       				
+                       			} // 레시피찜&해제 if-else end
                        			
-                       		} 
+                       		} // 로그인여부 확인용 if-else end 
                        		
-                       		
-                       	}) 
+                       	}) // on() end
+                       	
 	                    </script>
 	                     
 	                 </div>
