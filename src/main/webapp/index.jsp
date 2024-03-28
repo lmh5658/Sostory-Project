@@ -115,7 +115,7 @@
 	                     			}
 	                     			id = 'category' + num;
 	                     			$(document.getElementById(id)).click();
-	                     		}, 3000);
+	                     		}, 5000);
 	                     		
 	                     		
 	                     	})
@@ -415,7 +415,7 @@
 	                     				page = 1;
 	                     			}
 	                     			selectRecipeList(page);
-	                     		}, 3000);
+	                     		}, 5000);
 	                     		
 	                     	}) // $(function{}) end
 	                     	
