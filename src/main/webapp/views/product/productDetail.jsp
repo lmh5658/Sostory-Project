@@ -125,9 +125,23 @@
 	     text-decoration-line: none;
 	     color:black;
 	    }
-        
-
-
+	    
+		/*위로 올라오게하는 하이퍼링크 버튼 효과*/
+ 		.top_button{
+		 padding: 10px 20px;
+            background-color: rgb(211, 15, 15);
+		 color: white;
+		 text-align: center;
+		 text-decoration: none;
+		 font-size: 16px;
+		 border-radius: 8px;
+		 font-weight: bold;
+		}
+		
+		.top_button:hover {
+          text-decoration-line: none;
+	      color:black;   		
+	      }	
 </style>
 
 </head>
@@ -139,7 +153,8 @@
 <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
             
             <!-- Section start -->
-            <section class="main">
+            <section class="main" id="main">
+            
                 <h3 style="margin-top: 170px; margin-bottom: 30px;">HOME><%= pro.getCategoryName() %></h3>
 
                 <!-- 상품상세 상단 start -->
@@ -474,6 +489,9 @@
                     <div class="main_bottom_img center" id="proinfor">
                         <img src="<%=contextPath+ "/" +pro.getContentPath()%>" style="width:70%; height: 100%;">
                     </div>
+                    
+                    
+                    
                     <!-- 레시피 커뮤니티 리스트 start -->
                     <div class="recipe-list  d-flex w-100 justify-content-evenly p-5" style="background-color:cornsilk;">
 
@@ -541,6 +559,8 @@
                     		location.href = "<%=contextPath%>/detail.re?no=" + $("#recipeNo").val();
                     	})
                     </script>
+
+					<a href="#main" class="top_button center">TOP</a>
 
                     <br><br>
                     

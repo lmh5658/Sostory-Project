@@ -131,6 +131,25 @@
 		cursor: pointer;
 		opacity: 0.8;
 	}
+	
+	/*위로 올라오게하는 하이퍼링크 버튼 효과*/
+     .top_button{
+     	margin-bottom: 2%;
+ 		 width: 100%;
+		 padding: 10px 20px;
+         background-color: rgb(211, 15, 15);
+		 color: white;
+		 text-align: center;
+		 text-decoration: none;
+		 font-size: 16px;
+		 border-radius: 8px;
+		 font-weight: bold;
+		}
+		
+		.top_button:hover {
+          text-decoration-line: none;
+	      color:black;   		
+	     }	
 </style>
 </head>
 <body>
@@ -139,7 +158,7 @@
 		<%@ include file="/views/common/header.jsp" %>
 		
 	    <!-- Section start -->
-		<section class="main-content">
+		<section class="main-content" id="main">
 			<div class="detail_head"> 
 				<span>홈  > <%=r.getCategoryName() %></span>
 				<% if(loginUser != null && loginUser.getUserNo() == r.getUserNo()) { %>
@@ -324,6 +343,8 @@
 					<!-- 상품 썸네일 end -->
 				</div>
 			</div>
+			<a href="#main" class="top_button">TOP</a>
+			<br>
 		</section>
 	     <!-- Section end -->
 	     
