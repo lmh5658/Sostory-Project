@@ -320,7 +320,7 @@
 		                           <%}else { %>
 			                       <!-- 할인하고 있을 때 -->
 		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%>원</s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%>원</div>
-		                           <% } %>	
+		                           <% } %>
 
 							</h6>
 						</div>
