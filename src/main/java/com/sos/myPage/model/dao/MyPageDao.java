@@ -988,7 +988,6 @@ public class MyPageDao {
 					li.setProductName(rset.getString("product_name"));
 					li.setPrice(rset.getInt("price"));
 					li.setDiscountPrice(rset.getInt("discount_price"));
-					li.setRating(rset.getDouble("rating"));
 					li.setProductThumbnailUrl(rset.getString("product_url"));
 				}
 				

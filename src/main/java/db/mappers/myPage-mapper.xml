@@ -381,6 +381,49 @@
 	
 	<!-- 찜한레시피 목록조회 -->
 	<entry key="selectLikedRecipeList">
+		SELECT *
+		  FROM (
+		        SELECT 
+		               ROWNUM RNUM
+		              ,OL.*
+		          FROM (
+		                SELECT 
+		                       TB_USER_LIKED.*
+		                      ,RECIPE_TITLE
+		                      ,RECIPE_INTRO
+		                      ,USER_ID
+		                      ,USER_PATH USER_PROFILE_URL
+		                      ,THUMBNAIL_URL
+		                      ,(
+		                        SELECT COUNT(*)
+		                          FROM TB_LIKE
+		                         WHERE LIKE_NO = TB_USER_LIKED.LIKE_NO
+		                           AND LIKE_TYPE = 'R'
+		                       ) LIKED_TOTAL
+		                      ,CATEGORY_NAME
+		                      ,PRODUCT_NO
+		                      ,PRODUCT_NAME
+		                      ,PRICE
+		                      ,DISCOUNT_PRICE
+		                      ,PATH PRODUCT_URL
+		                  FROM (
+		                         SELECT 
+		                               LIKE_NO
+		                              ,LIKE_REFNO RECIPE_NO
+		                          FROM TB_LIKE
+		                         WHERE LIKE_TYPE = 'R'
+		                           AND USER_NO = ?
+		                        )TB_USER_LIKED
+		                  JOIN TB_RECIPE ON (TB_RECIPE.RECIPE_NO = TB_USER_LIKED.RECIPE_NO)
+		                  JOIN TB_MEMBER ON (TB_RECIPE.USER_NO = TB_MEMBER.USER_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE RECIPE_STATUS = 'Y'
+		                 ORDER BY LIKE_NO DESC
+		                ) OL
+		        )
+		  WHERE RNUM BETWEEN ? AND ?
+		<!--
 		SELECT T.*
 		  FROM (
 		        SELECT ROWNUM RNUM, R.*
@@ -427,6 +470,7 @@
 		                ) R
 		        ) T
 		 WHERE RNUM BETWEEN ? AND ?
+		 -->
 	</entry>
 	
 	<!-- 총주문목록수 조회요청 -->
