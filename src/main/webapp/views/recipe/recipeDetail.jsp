@@ -45,7 +45,6 @@
 		height: 100%;
 	}
 	.etc{
-		width: 40%;
 		display: flex;
 		flex-direction: column;
 		margin-right: auto;
@@ -53,13 +52,14 @@
 	}
 	.like{cursor: pointer;}
 	.recipe_info{
+	 	position:absolute;
 		width: 350px;
 		height: 200px;
 		background-color: rgb(231, 76, 60);
+		left: 60%;
 		top: 700px;
 		right: 630px;
 		display: flex;
-		margin-left: 162%;
 		flex-direction: column;
 		align-items: center;
 		box-shadow: 5px 5px 3px grey;
@@ -101,6 +101,7 @@
 		font-weight: bold;
 		font-size: large;
 		margin: 10px 0px;
+		padding-right: 40px;
 	}
 	.content_etc{
 		width: 60%;
@@ -111,10 +112,10 @@
 	.step_img{
 		background-color: grey;
 		width: 100%;
-		height: 400px;
-		padding-right: 50px;
+		height: 350px;
+		padding-right: 40px;
 		background-clip: content-box;
-		margin-bottom: 60px;
+		margin-bottom: 40px;
 	}
 	.ingredient_info{
 		width: 80%;
@@ -141,9 +142,11 @@
 		<section class="main-content">
 			<div class="detail_head"> 
 				<span>홈  > <%=r.getCategoryName() %></span>
-			<% if(loginUser != null && loginUser.getUserNo() == r.getUserNo()) { %>
+				<% if(loginUser != null && loginUser.getUserNo() == r.getUserNo()) { %>
+				<!-- 
 				<button id="updateButton" type="button" class="btn" style="background-color: rgb(231, 76, 60); color: white;">수정하기</button>
-			<% } %>
+				 -->
+				<% } %>
 			</div>
 			 <script>
 			    $("#updateButton").click(function(){
@@ -157,7 +160,7 @@
 			</div>
 
 			<!-- 레시피 요약 -->
-			<div class="etc">
+			<div class="etc" style="width:50%">
 				<div class="recipe_info">
 					<div style="margin-right: auto; margin-top: 5px;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
@@ -246,7 +249,7 @@
          			}
          		})
 				</script>
-				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary"><%=r.getRecipeIntro()%>></div>
+				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary"><%=r.getRecipeIntro()%></div>
 				<div>
 					<div class="recipe_tag">
 						<%for(Recipe in : list) { %>
@@ -274,7 +277,7 @@
 					        <% } %>
 					        
 					        <%if(st.getStepAttachmentUrl() != null) {%>
-					       	<div class="thumbnail"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" alt="스텝사진"></div>
+					       	<div class="step_img"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" alt="스텝사진"></div>
 					        <% } %>
 					    </div>
 					    <% i++; %>
