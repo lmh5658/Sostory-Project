@@ -117,10 +117,6 @@
 		background-clip: content-box;
 		margin-bottom: 40px;
 	}
-	step_img>img{
-		width: 100%;
-		height: 100%;
-	}
 	.ingredient_info{
 		width: 80%;
 		margin-bottom: 50px;
@@ -281,7 +277,7 @@
 					        <% } %>
 					        
 					        <%if(st.getStepAttachmentUrl() != null) {%>
-					       	<div class="step_img"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" alt="스텝사진"></div>
+					       	<div class="step_img"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" style="width: 100%; height: 100%;" alt="스텝사진"></div>
 					        <% } %>
 					    </div>
 					    <% i++; %>
