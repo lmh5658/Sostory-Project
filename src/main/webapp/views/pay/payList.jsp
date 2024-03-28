@@ -100,11 +100,19 @@
 									<% } %>
 								<%} %>
                             </select>
+   
+                            
                         </th>
                     </tr>
                     <tr>
+                        <th><label style="color: red;">*&nbsp;&nbsp;</label>배송지명</th>
+                        <th colspan="3"><input type="text" class="form-control" placeholder="배송지명을 입력하세요" id="addressLocal" name="addressLocal" required></th>
+                        
+                        <th></th>
+                    </tr>
+                    <tr>
                         <th><label style="color: red;">*&nbsp;&nbsp;</label>주소</th>
-                        <th colspan="3"><input type="text" class="form-control" placeholder="기본주소" id="addressName" name="addressName"></th>
+                        <th colspan="3"><input type="text" class="form-control" placeholder="기본주소를 입력하세요" id="addressName" name="addressName"></th>
                         
                         <th><button type="button" class="btn btn-secondary" onclick="findAddress()">주소 찾기</button></th>
                     </tr>
@@ -206,15 +214,15 @@
                         </tr>
                         <tr>
                             <th>예금주명</th>
-                            <td><input type="text"  class="form-control" placeholder="이름을 입력하세요" name="accountHolder"></td>
+                            <td><input type="text"  class="form-control" placeholder="이름을 입력하세요" name="accountHolder" required></td>
                         </tr>
                         <tr>
                             <th>은행명</th>
-                            <td><input type="text"  class="form-control" placeholder="예)농협" name="bankName"></td>
+                            <td><input type="text"  class="form-control" placeholder="예)농협" name="bankName" required></td>
                         </tr>
                         <tr>
                             <th>계좌번호</th>
-                            <td><input type="text"  class="form-control" placeholder="숫자만 입력하세요" name="accountNumber"></td>
+                            <td><input type="text"  class="form-control" placeholder="숫자만 입력하세요" name="accountNumber" required></td>
                         </tr>
                         <tr>
                             <th colspan="2">
@@ -226,7 +234,7 @@
                         </tr>
                         <tr style="text-align: center;">
                             <th colspan="2">입금은행명 : 농협 <br>
-                                입금은행계좌명 : 234234-234234-234
+                                입금은행계좌명 : 3070235-234234-234
                             </th>
                         </tr>
                     </table>
@@ -306,6 +314,7 @@
 			            if (selectedAddress) {
 			                $("#addressName").val(selectedAddress.addressAddress); // 주소 정보를 input의 value로 설정
 			                $("#addressDetail").val(selectedAddress.addressDetail); // 주소 정보를 input의 value로 설정
+			                $("#addressLocal").val(selectedAddress.addressLocal); // 주소 정보를 input의 value로 설정
 			            }
 			        });
 			    });
@@ -375,6 +384,7 @@
 							success:function(a){
 								$("#addressName").val(a.addressAddress);
 								$("#addressDetail").val(a.addressDetail);
+								$("#addressLocal").val(a.addressLocal);
 								console.log("조회성공!");
 								},
 							error:function(){
@@ -393,6 +403,7 @@
             			 // 체크 해제되었을 때 초기화
             	        $("#addressName").val("");
             	        $("#addressDetail").val("");
+            	        $("#addressLocal").val("");
             	        
             	        
             	    	 // 체크 해제되었을 때 select 태그를 활성화.
