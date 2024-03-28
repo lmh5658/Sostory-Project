@@ -555,7 +555,7 @@
                             <!-- 상품을 구매한 회원에게 보여지는 요소 -->
                             <span class="d-flex justify-content-end">
                             <% for(Member m : list) { %>
-	                            <% if(loginUser != null && loginUser.getUserId().equalsIgnoreCase(m.getUserId())) { %>
+	                            <% if(loginUser != null && loginUser.getUserNo() == m.getUserNo()) { %>
 	                            <button class="btn btn-outline-dark" onclick="insertReview();">후기 작성하기</button>
                             	<% } %>
                             <% } %>                            
