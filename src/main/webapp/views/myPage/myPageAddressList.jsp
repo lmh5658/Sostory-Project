@@ -317,8 +317,8 @@
                    					$updateAddr.find("#addressName").val(addr.addressLocal);
                    					$updateAddr.find("#recipient-name").val(addr.addressName);
                    					$updateAddr.find("#phone").val(addr.addressPhone);
-                   					$updateAddr.find("#address").val(addr.addressAddress);
-                   					$updateAddr.find("#addressDetail").val(addr.addressDetail);
+                   					$updateAddr.find("#addressModify").val(addr.addressAddress);
+                   					$updateAddr.find("#addressDetailModify").val(addr.addressDetail);
                    					
                    					if(addr.addressType == 'Y'){
                    						$updateAddr.find(":checkbox").attr("checked", true);
