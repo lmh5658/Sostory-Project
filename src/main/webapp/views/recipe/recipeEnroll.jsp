@@ -161,7 +161,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                         $(function(){
                             $("#addIngredientButton").click(function(){
                                 const ingName = '<input class="ingredient" name="ingredientName" type="text" style="width: 120px; margin-right: 20px;" placeholder="재료명" required>';
-                                const ingMount = '<input class="ingredient" name="amount" type="number" style="width: 120px;" placeholder="수량" required>';
+                                const ingMount = '<input class="ingredient" min="1" name="amount" type="number" style="width: 120px;" placeholder="수량" required>';
                                 const unit = '<select class="ingredient" name="unit" style="width: 70px;" required><option selected hidden>단위</option><option value="g">g</option><option value="kg">kg</option><option value="ml">ml</option><option value="L">L</option></select>';
                                 const deleteButton = '<button type="button" class="btn btn-sm deleteButton" style="background-color: rgb(224, 224, 224);">삭제</button>';
                                 let el = $("<tr></tr>").html("<td></td>" + '<td id="ingredientForm">' + ingName + "&nbsp;" +  ingMount + "&nbsp;" + unit + "&nbsp;" + deleteButton + "</td>");
