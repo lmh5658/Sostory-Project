@@ -41,7 +41,7 @@ public class ProductDetailController extends HttpServlet {
 		int productNo = Integer.parseInt(request.getParameter("no"));
 		
 		Product pro = new ProductService().selectProduct(productNo);
-		List<Member> list = new ProductService().selectPaymentUser();
+		List<Member> list = new ProductService().selectPaymentUser(productNo);
 		List<ProductRecipe> rlist = new ProductService().selectRecipeList(productNo);
 		
 		int userNo = 0;

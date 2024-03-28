@@ -129,7 +129,7 @@ public class ProductDao {
 		return pro;
 	}
 	
-	public List<Member> selectPaymentUser(Connection conn) {
+	public List<Member> selectPaymentUser(Connection conn, int productNo) {
 		List<Member> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -137,6 +137,7 @@ public class ProductDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productNo);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {

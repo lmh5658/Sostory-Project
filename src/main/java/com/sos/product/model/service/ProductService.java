@@ -47,9 +47,9 @@ public class ProductService {
 		return pro;
 	}
 	
-	public List<Member> selectPaymentUser() {
+	public List<Member> selectPaymentUser(int productNo) {
 		Connection conn = getConnection();
-		List<Member> list = pDao.selectPaymentUser(conn);
+		List<Member> list = pDao.selectPaymentUser(conn, productNo);
 		close(conn);
 		return list;
 	}

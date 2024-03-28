@@ -45,12 +45,14 @@
 	</entry>
 	
 	<entry key="selectPaymentUser">
-		SELECT 
+		  SELECT 
 		      distinct USER_NO
 		    , USER_ID
 		FROM TB_ORDER
 		JOIN TB_MEMBER USING(USER_NO)
+        JOIN TB_ORDER_PRODUCT USING(ORDER_NO)
 		WHERE ORDER_STATUS IN(1,3,4)
+          AND PRODUCT_NO = ?
 	</entry>
 	
 	<entry key="selectQnaList">
