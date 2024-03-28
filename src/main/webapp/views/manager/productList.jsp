@@ -219,8 +219,7 @@
             	
 	            function deleteProduct(){
 	            	const $deleteProduct = $("input[name=typArr]:checked");
-	            	
-	            	if($deleteProduct != 0){
+	            	if($deleteProduct.length != 0){
 						if(confirm($deleteProduct.length + "개의 상품을 삭제하시겠습니까?")){
 							let addValues = "";
 							for(let i=0; i<$deleteProduct.length-1; i++){

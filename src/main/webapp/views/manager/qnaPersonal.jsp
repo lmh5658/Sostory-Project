@@ -138,7 +138,7 @@
                     
                 </div>
                 <div class="option_2">
-                    <button id="select_btn" class="select_delete" onclick="return alert('정말로 삭제하시겠습니까?');">선택삭제</button>
+                    <button id="select_btn" class="select_delete" onclick="return confirmDelete();">선택삭제</button>
                     <select name="select" id="selecte" onchange="statusData(1);">
                         <option value="all">전체</option>
                         <option value="processed">처리</option>
@@ -148,6 +148,15 @@
             </div>
             
             <script>
+            	function confirmDelete(){
+            		const $deletePersonalQ = $("input[name=typArr]:checked");
+	            	if($deletePersonalQ.length != 0){
+            			return confirm('정말로 삭제하시겠습니까?');
+            		} else {
+            			alert("삭제할 상품을 선택해주세요.");
+            			return false;
+            		}
+            	}
             	
 	            function member(page){
 	        		

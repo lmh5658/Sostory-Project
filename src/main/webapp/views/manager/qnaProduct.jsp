@@ -357,18 +357,23 @@
             	  		
             	  	
                 	$(".select_delete").click(function(){
-                		if(confirm("정말 삭제하시겠습니까?")){
-                			
-                		$(".typArr:checked").each(function(){
-                			if($(this).is(":checked")){
-   	            			 location.href="<%=contextPath%>/delpr.ma?AnswerNo=" + $(this).parent().next().text();
-               				
-               				}
-    			  				
-                		})
-                      	}else{
-                    	  // confirm에서 아니요 클릭시 아무변화없는 현재페이지
-                   		}
+                		const $deleteQ = $("input[name=typArr]:checked");
+    	            	if($deleteQ.length != 0){
+	                		if(confirm("정말 삭제하시겠습니까?")){
+	                			
+	                		$(".typArr:checked").each(function(){
+	                			if($(this).is(":checked")){
+	   	            			 location.href="<%=contextPath%>/delpr.ma?AnswerNo=" + $(this).parent().next().text();
+	               				
+	               				}
+	    			  				
+	                		})
+	                      	}else{
+	                    	  // confirm에서 아니요 클릭시 아무변화없는 현재페이지
+	                   		}
+    	            	} else {
+    	            		alert("삭제할 상품문의를 선택해주세요.");
+    	            	}
                 	})
             	  })
             	  

@@ -350,8 +350,7 @@
                         // 회원 삭제
                         function deleteMember(){
                         	const $deleteMember = $("input[name=typArr]:checked");
-                        	
-                        	if($deleteMember != 0){
+                        	if($deleteMember.length != 0){
 								if(confirm($deleteMember.length + "명의 회원을 삭제하시겠습니까?")){
 									let addValues = "";
 									for(let i=0; i<$deleteMember.length-1; i++){
