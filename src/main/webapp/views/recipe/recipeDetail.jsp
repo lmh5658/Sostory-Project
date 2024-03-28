@@ -117,6 +117,10 @@
 		background-clip: content-box;
 		margin-bottom: 40px;
 	}
+	step_img>img{
+		width: 100%;
+		height: 100%;
+	}
 	.ingredient_info{
 		width: 80%;
 		margin-bottom: 50px;
