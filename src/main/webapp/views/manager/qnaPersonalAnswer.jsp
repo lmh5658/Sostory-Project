@@ -4,6 +4,7 @@
 <%
 	ProductQnaReply pq = (ProductQnaReply)request.getAttribute("pq");
 	AttachmentProduct ap = (AttachmentProduct)request.getAttribute("ap");
+	System.out.println(ap);
 %>
 <!DOCTYPE html>
 <html>
@@ -61,6 +62,9 @@
             
          }
          .section_title b{font-size: 20px;}
+         #afile{
+         	text-decoration-line: none;
+         }
 </style>
 </head>
 <body>
@@ -103,7 +107,17 @@
                     <tr>
                         <th>내용</th>
                         <td>
-                            <textarea id="" cols="30" rows="10" readonly class="form-control" name="content"><%= pq.getAnswerContent() %></textarea>                        	
+                            <textarea id="" cols="30" rows="10" readonly class="form-control" name="content"><%= pq.getAnswerContent() %></textarea>                  	
+                        </td>
+                    </tr>
+                    <tr>
+                    	<th>첨부파일</th>
+                        <td>
+                        	<% if( ap == null){ %>
+	                        &nbsp;&nbsp;첨부파일이 없습니다.                           
+							<% } else { %>
+	                        <a id="afile" download="<%= ap.getFileName() %>" href='<%= contextPath + "/" + ap.getFileRoute() + ap.getFileChangeName()%>' style="color:black">&nbsp;&nbsp;<%= ap.getFileName() %></a>
+	                        <% } %>
                         </td>
                     </tr>
                     <tr>
@@ -114,18 +128,6 @@
                         	<% }else {%>
                             <textarea cols="30" rows="10" class="form-control" name="replyContent"><%= pq.getReply() %></textarea>
                         	<% } %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div class="files" class="fomt-">
-                            <% if(ap != null) { %>
-								<%= ap.getFileName() %>
-								<input type="hidden" name="originFileNo" value="<%= ap.getProFileNo() %>">                          	
-                            <% } else { %>
-                            <input type="file" class="form-control" name="upfile">
-                            <% } %>
-                            </div>
                         </td>
                     </tr>
                 </table> 
