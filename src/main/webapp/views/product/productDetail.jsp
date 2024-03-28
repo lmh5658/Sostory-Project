@@ -7,6 +7,7 @@
 	
 	List<Member> list = (List<Member>)request.getAttribute("list");
 	// 결제 여부 확인 리스트 회원번호, 회원아이디
+	System.out.println(list);
 	List<ProductRecipe> rlist =(List<ProductRecipe>)request.getAttribute("rlist");
 	// 레시피번호, 사용자아이디, 상품이름, 카테고리이름, 레시피제목, 파일경로, 레시피설명, 레시피좋아요수 COUNT
 	List<ProductLike> likeUser = (List<ProductLike>)request.getAttribute("likeUser");

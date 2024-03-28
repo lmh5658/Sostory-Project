@@ -119,7 +119,16 @@
                         </td>
                         
                         <%} %>
-                        
+                    </tr>
+                    <tr>
+                    	<th>첨부파일</th>
+                        <td>
+                        	<% if( ap == null){ %>
+	                        &nbsp;&nbsp;첨부파일이 없습니다.                           
+							<% } else { %>
+	                        <a id="afile" download="<%= ap.getFileName() %>" href='<%= contextPath + "/" + ap.getFileRoute() + ap.getFileChangeName()%>' style="color:black">&nbsp;&nbsp;<%= ap.getFileName() %></a>
+	                        <% } %>
+                        </td>
                     </tr>
                    <tr>
                         <td colspan="2">
