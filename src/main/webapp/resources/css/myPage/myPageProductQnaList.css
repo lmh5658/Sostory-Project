@@ -107,7 +107,7 @@ h3>label{
     vertical-align: middle;
 }
 
-.qna-list>.table>tbody tr:hover{
+.qna-list>.table>tbody .qna:hover{
     cursor: pointer;
     opacity: 0.6;
 }

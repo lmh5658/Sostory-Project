@@ -240,7 +240,8 @@
                         			"page" : requestPage,			// 사용자가 요청한 페이지번호
                         			"status" : $("#filter").val()	// 답변상태 (전체 | 진행중 |답변완료)
                         		},success:function(result){
-
+									
+                        			
                         			// 상품문의 리스트테이블 및 페이징바 생성
                         			const qnaList = result[0];		// 조회된 상품문의 리스트
                         			const pageInfo = result[1];		// 조회된 상품문의 리스트에 대한 페이징바
@@ -270,7 +271,7 @@
                             				
                             				status = qnaList[q].answerStatus == "미처리" ? "진행중" : "답변완료";
                             				
-                            				list += "<tr>";
+                            				list += "<tr class='qna'>";
                             				list += 	"<input type='hidden' value='" + qnaList[q].productNo + "'>"
                             				list += 	"<td>" + qnaList[q].productName + "</td>";
                             				list += 	"<td>" + qnaList[q].answerDate + "</td>";
@@ -337,9 +338,8 @@
 	                    <script>
 	                        $(function(){
 	                            // 문의제목 클릭시, 해당문의 상세페이지로 이동하는 함수
-	                            $(".qna-list>.table").on("click", "tr", function(){
-	                                
-	                            	location.href="<%= contextPath %>/detail.pr?no=" + $(this).children(":hidden").val(); 
+                            	$(".qna-list>.table").on("click", ".qna", function(){
+	                            	location.href="<%= contextPath %>/detail.pr?no=" + $(this).children(':hidden').val(); 
 	                            
 	                            })
 	                        })
