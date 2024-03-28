@@ -216,6 +216,7 @@
                             <!-- 주문상품 한개 -->
                             <% for(Product p : productList) { %>
                             <div class="order_product">
+                            	<input type="hidden" class="pNo" value="<%= p.getProductNo() %>">
                                 <img style="width:200px; height:150px;" src="<%= contextPath + '/' + p.getPath() %> " alt="상품이미지">
                                 <label class="product-name"><%= p.getProductName() %></label>
                                 <label class="product-price">
@@ -234,6 +235,14 @@
                             
                         </div>
                         <!-- 주문상품목록 end -->
+                        
+                        <script>
+                        	// 상품클릭시, 해당상품상세페이지로 이동시 실행될 함수
+                        	$(".product-list").on("click", ".order_product", function(){
+                        		let $pNo = $(this).children(":hidden").val();
+                        		location.href="<%= contextPath %>/detail.pr?no=" + $pNo;
+                        	})
+                        </script>
 
                     </div>
 

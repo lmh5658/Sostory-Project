@@ -226,9 +226,7 @@
                                         기능설명 : 수정버튼 클릭시, 레시피 수정페이지로 이동 
                                         기능구현 : 태그내 href 속성에 수정페이지 URL 넣으면됨
                                     -->
-                                    <td>
-                                        <a href="<%= contextPath %>/updateForm.re?no=<%= r.getRecipeNo() %>" class="btn text-primary fs-5">수정</a>
-                                        | 
+                                    <td> 
                                         <!-- 
                                             기능설명 : 삭제버튼 클릭시, confirm 팝업 후 삭제 
                                             기능구현 : 아래 삭제여부 확인용 팝업창있음
