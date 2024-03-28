@@ -273,7 +273,6 @@
 					                        <!-- 할인하고 있을 때 -->
 					                        	<div class="product_price"><s style="color:grey; font-size:14px"><%= li.getPrice() %>원</s>&nbsp;<%= li.getPrice() - li.getDiscountPrice() %>원</div>
 					                        <% } %>
-					                        <div class="product_star">별(<%= li.getRating() %>)</div>
 					                    </div>
 					                </div>
 					              </div>
