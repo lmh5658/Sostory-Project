@@ -99,7 +99,7 @@
 					   if(location.href.indexOf("<%= contextPath %>/deleteForm.me") == -1){
 						   
 						   let userPwd = prompt("본인확인을 위해 비밀번호를 입력해주세요.", "");
-						   
+						  
 						   if("<%= loginUser.getUserPwd() %>" == userPwd){
 								   /* 
 								    * 로그인한 회원(회원탈퇴 요청회원)의 비밀번호와 사용자가 입력한 비밀번호가 일치할경우
@@ -462,7 +462,7 @@
     			                // 커서를 상세주소 필드로 이동한다. 상세주소는 입력받아야함
     			                // 상세주소 input id값설정. ==> 밑에 코드경우 addressDetail
     			                document.getElementById("addressDetailModify").focus();
-    			                document.getElementById("addressDetailAdd").value = addr;
+    			                document.getElementById("addressDetailAdd").focus();
     			            }
     			        }).open();
         			}
