@@ -56,7 +56,7 @@
 		width: 350px;
 		height: 200px;
 		background-color: rgb(231, 76, 60);
-		left: 65%;
+		left: 60%;
 		top: 700px;
 		right: 630px;
 		display: flex;
@@ -101,6 +101,7 @@
 		font-weight: bold;
 		font-size: large;
 		margin: 10px 0px;
+		padding-right: 40px;
 	}
 	.content_etc{
 		width: 60%;
@@ -111,10 +112,10 @@
 	.step_img{
 		background-color: grey;
 		width: 100%;
-		height: 400px;
-		padding-right: 50px;
+		height: 350px;
+		padding-right: 40px;
 		background-clip: content-box;
-		margin-bottom: 60px;
+		margin-bottom: 40px;
 	}
 	.ingredient_info{
 		width: 80%;
@@ -248,7 +249,7 @@
          			}
          		})
 				</script>
-				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary"><%=r.getRecipeIntro()%>></div>
+				<div style="height: 90px; margin: 10px 0px;" class="recipe_summary"><%=r.getRecipeIntro()%></div>
 				<div>
 					<div class="recipe_tag">
 						<%for(Recipe in : list) { %>
@@ -276,7 +277,7 @@
 					        <% } %>
 					        
 					        <%if(st.getStepAttachmentUrl() != null) {%>
-					       	<div class="thumbnail"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" alt="스텝사진"></div>
+					       	<div class="step_img"><img src="<%=contextPath + "/" + st.getStepAttachmentUrl() %>" alt="스텝사진"></div>
 					        <% } %>
 					    </div>
 					    <% i++; %>
