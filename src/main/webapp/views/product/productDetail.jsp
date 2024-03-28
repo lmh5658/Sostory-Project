@@ -112,8 +112,18 @@
         
         }
        
-	    
-        
+	    #pInfor:hover{
+	     text-decoration-line: none;
+	     color:black;
+	    }
+	    #pReview:hover{
+	     text-decoration-line: none;
+	     color:black;
+	    }
+	    #pQna:hover{
+	     text-decoration-line: none;
+	     color:black;
+	    }
         
 
 
@@ -157,7 +167,7 @@
                                     <div class="main_right_middle d-flex flex-column">
                                         
                                             <div class="address_information">
-                                                <button type="button" class="btn btn-outline-dark">배송정보</button>
+                                                <button type="button" class="btn btn-outline-dark" id="bInfo">배송정보</button>
                                             
                                                 <span style="font-size: 20px; color: gray;"> 3,000원 </span>
                                                 
@@ -454,9 +464,10 @@
                  <!-- 상품상세 하단 start -->
                 <div class="main_bottom">
                     <nav class="product_detail_nav">
-                        <a href="#proinfor">상세정보</a>
-                        <a href="#proReview">상품리뷰</a>
-                        <a href="#proQna">상품문의</a>
+                        <a href="#proinfor" id="pInfor">상세정보</a>
+                        <a href="#proReview" id="pReview">상품리뷰</a>
+                        <a href="#proQna" id="pQna">상품문의</a>
+                        
                     
                     </nav>
 
@@ -718,7 +729,7 @@
                              			},
                              			post:"post",
                              			success:function(result){
-                             				console.log("sdfsd" + result.qlist);
+                             				
   
                              				let page = "";
                              				if(1 == result.pi.currentPage){
@@ -743,27 +754,64 @@
                         					
                         					$("#qna_page").html(page);
                         					
-                        					
+                        					/*
                         					let value = "";            					
                         					for(let i=0; i<result.qlist.length; i++){
-                            					value += "<tr class='listc'>"
-                            						   + "<td>" + result.qlist[i].answerNo + "</td>"
-                            						   + "<td>" + result.qlist[i].answerTitle + "</td>"
-                            						   + "<td>" + result.qlist[i].userNo + "</td>"
-                            						   + "<td>" + result.qlist[i].answerType + "</td>"
-                            						   + "<td>" + result.qlist[i].answerDate + "</td>"
-                            						   + "</tr>"
-                            						   + "<tr style='display: none'>"
-                            						   + "<td colspan='2'><b>문의 내용 : </b><br><br>" + result.qlist[i].answerContent +"</td>" 
+                            					value += "<tr class='listc'>";
+                            						   + "<td>" + result.qlist[i].answerNo + "</td>";
+                            						   + "<td>" + result.qlist[i].answerTitle + "</td>";
+                            						   + "<td>" + result.qlist[i].userNo + "</td>";
+                            						   + "<td>" + result.qlist[i].answerType + "</td>";
+                            						   + "<td>" + result.qlist[i].answerDate + "</td>";
+                            						   + "</tr>";
+                            						   + "<tr style='display: none'>";
+                            						   + "<td colspan='2'><b>문의 내용 : </b><br><br>" + result.qlist[i].answerContent + "<br><br>";
+                            						   
+                            						   	if(result.qlist[i].fileName == null){                          
+                           		                        	value += "현재 첨부파일이 없습니다.";                            
+                           							 	} else {
+                           		                        	value += "<a download='" +  result.qlist[i].fileName + "' href='" + <%= contextPath + "/" %> + result.qlist[i].fileRoute + result.qlist[i].fileChangeName + "'>" + result.qlist[i].fileName + "</a></td>";
+                           		                        }
+                            						   
                             						     if (result.qlist[i].reply != null) {
                             							   value += "<td colspan='3' height='100px'><b>답변 : </b><br><br>" + result.qlist[i].reply + "<br><br>" + result.qlist[i].replyDate + "</td>";
                             							} else {
                             							    value += "<td colspan='3' height='100px'><b>답변 : </b><br><br>미답변 상태입니다.</td>";
                             							}
+                            		                       
+                            							   		 
                             						   + "</tr>";
                             						  
                             						  
                            					}
+                        					*/
+                        					
+                        					let value = "";
+                        					for (let i = 0; i < result.qlist.length; i++) {
+                        					    value += "<tr class='listc'>" +
+                        					        "<td>" + result.qlist[i].answerNo + "</td>" +
+                        					        "<td>" + result.qlist[i].answerTitle + "</td>" +
+                        					        "<td>" + result.qlist[i].userNo + "</td>" +
+                        					        "<td>" + result.qlist[i].answerType + "</td>" +
+                        					        "<td>" + result.qlist[i].answerDate + "</td>" +
+                        					        "</tr>" +
+                        					        "<tr style='display: none'>" +
+                        					        "<td colspan='2'><b>문의 내용 : </b><br><br>" + result.qlist[i].answerContent + "<br><br>";
+                        					        
+                        					    if (result.qlist[i].fileName == null) {                          
+                        					        value += "현재 첨부파일이 없습니다.";                            
+                        					    } else {
+                        					        value += "<a download='" + result.qlist[i].fileName + "' href='" + "<%= contextPath + "/" %>" + result.qlist[i].fileRoute + result.qlist[i].fileChangeName + "'>" + result.qlist[i].fileName + "</a></td>";
+                        					    }
+                        					    
+                        					    if (result.qlist[i].reply != null) {
+                        					        value += "<td colspan='3' height='100px'><b>답변 : </b><br><br>" + result.qlist[i].reply + "<br><br>" + result.qlist[i].replyDate + "</td>";
+                        					    } else {
+                        					        value += "<td colspan='3' height='100px'><b>답변 : </b><br><br>미답변 상태입니다.</td>";
+                        					    }
+                        					    
+                        					    value += "</tr>";
+                        					}
                         					
                            					$("#qna_table tbody").html(value);
                            					

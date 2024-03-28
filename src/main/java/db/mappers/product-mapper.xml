@@ -61,6 +61,7 @@
 			FROM (
 			SELECT
 			     ANSWER_NO
+               , PRODUCT_NO
 			   , PRODUCT_NAME
 			   , ANSWER_TITLE
 			   , USER_ID
@@ -68,10 +69,25 @@
 			   , ANSWER_CONTENT
 			   , ANSWER_STATUS
 			   , REPLY
-			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE		   
-			FROM TB_QNA_REPLY
-			JOIN TB_PRODUCT USING(PRODUCT_NO)
-			JOIN TB_MEMBER USING(USER_NO)
+			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE
+               , (SELECT FILE_NAME
+                   FROM TB_ATTACHMENT_PRODUCT
+                   WHERE TYPE = 'Q'
+                     AND REF_NO = ANSWER_NO
+               ) FILE_NAME
+               ,  (SELECT FILE_CHANGENAME
+                   FROM TB_ATTACHMENT_PRODUCT
+                   WHERE TYPE = 'Q'
+                     AND REF_NO = ANSWER_NO
+               ) FILE_CHANGENAME
+               ,  (SELECT FILE_ROUTE
+                   FROM TB_ATTACHMENT_PRODUCT
+                   WHERE TYPE = 'Q'
+                     AND REF_NO = ANSWER_NO
+               ) FILE_ROUTE
+			FROM TB_QNA_REPLY 
+			LEFT JOIN TB_PRODUCT USING(PRODUCT_NO)
+			LEFT JOIN TB_MEMBER USING(USER_NO)
 			WHERE PRODUCT_NO = ?
 			 AND ANSWER_TYPE = 1
 			ORDER
@@ -308,7 +324,7 @@
         , ?
         , ?
         , 'Y'
-        , ? <!-- 넘어오는 상품번호 --> 
+        , SEQ_QNO.CURRVAL
         , 'Q'
          )
 	</entry>
@@ -815,7 +831,7 @@
 		SELECT
 		    COUNT(*) COUNT
 		FROM TB_ORDER
-		WHERE ORDER_STATUS = 1
+		WHERE ORDER_STATUS IN (1,3,4)
 	</entry>
 	
 	<entry key="productBestList">

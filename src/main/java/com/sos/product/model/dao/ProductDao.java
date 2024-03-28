@@ -213,9 +213,13 @@ public class ProductDao {
 				q.setAnswerType(rset.getString("ANSWER_STATUS"));
 				q.setReply(rset.getString("REPLY"));
 				q.setReplyDate(rset.getString("REPLY_DATE"));
+				q.setFileName(rset.getString("FILE_NAME"));
+				q.setFileChangeName(rset.getString("FILE_CHANGENAME"));
+				q.setFileRoute(rset.getString("FILE_ROUTE"));
 				
 				list.add(q);
 			}
+			System.out.println(list);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -427,7 +431,7 @@ public class ProductDao {
 		return result;
 	}
 	
-	public int insertQnaFiles(Connection conn, AttachmentProduct ap, int productNo) {
+	public int insertQnaFiles(Connection conn, AttachmentProduct ap) {
 
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -437,7 +441,6 @@ public class ProductDao {
 			pstmt.setString(1, ap.getFileName());
 			pstmt.setString(2, ap.getFileChangeName());
 			pstmt.setString(3, ap.getFileRoute());
-			pstmt.setInt(4, productNo);
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

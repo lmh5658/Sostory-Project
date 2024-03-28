@@ -135,13 +135,16 @@ public class ProductService {
 		return list;
 	}
 	
-	public int insertQna(String title, String content, int productNo, int userNo, AttachmentProduct ap) {
+	public int insertQna(String title, String content, int userNo, int productNo, AttachmentProduct ap) {
 		Connection conn = getConnection();
-		int result1 = pDao.insertQna(conn, title, content, productNo, userNo);
+		
+		int result1 = pDao.insertQna(conn, title, content, userNo, productNo);
+		
 		int result2 = 1;
-		if(ap !=null) {
-			result2 = pDao.insertQnaFiles(conn, ap, productNo);			
+		if(result1 > 0 && ap !=null) {
+			result2 = pDao.insertQnaFiles(conn, ap);	
 		}
+		
 		if(result1 > 0 && result2 > 0) {
 			commit(conn);
 		}else {
