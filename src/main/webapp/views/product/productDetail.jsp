@@ -585,10 +585,7 @@
                         </div>
                         
                         
-                        <script>
-                        	$()
-                        	
-                        </script>
+                       
                                 
 						
 						
