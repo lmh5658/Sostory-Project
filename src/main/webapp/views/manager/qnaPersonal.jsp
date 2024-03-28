@@ -203,7 +203,7 @@
 	               	            	$("#paging").html("");
 	               	            	$("#paging").html(paging);
 	               	            	
-	               	            	let count = result.search + ' 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
+	               	            	let count = result.search + '님의 문의 수 : <label style="color: red;">' + result.pi.listCount + '</label>'
 	               	            	
 
 	               	            	$("#listCount").html("");
