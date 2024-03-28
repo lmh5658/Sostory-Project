@@ -569,11 +569,11 @@
                             <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">
                                 <h2 style="margin-left: 10px;">평점</h2>
 								
-                               <select class="form-control" style="width: 100px; margin-left: 10px;" id="category">
-                               <% for(int i=1; i<=5; i++) { %>
-                                   <option value="<%= i %>"><%= i %></option>
-                                <% } %>
-                                </select>         
+                              <select class="form-control" style="width: 100px; margin-left: 10px;" id="category">
+                              <% for(int i=1; i<=5; i++) { %>
+                                 <option value="<%= i %>"><%= i %></option>
+                              <% } %>
+                              </select>         
                                     
                             </div>
                              <div class="" style="margin-top: 20px; margin-bottom: 20px; margin-right: 20px;">

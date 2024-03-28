@@ -191,7 +191,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                                 이미지 추가
                             </div>
                              -->
-                            <input type="file" name="stepUpfile1">
+                            <input type="file" name="stepUpfile1" required>
                         </td>
                     </tr>
                     <tr>
@@ -210,7 +210,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                             countStep++;
                             const stepContent = '<td><textarea class="form-control" name="stepContent" rows="6" style="resize: none;" required></textarea></td>';
                             // const stepImg = '<td><div class="add_step_img">이미지 추가<input type="file" required></div></td>';
-                            const stepFile = '<td><input type="file" name="stepUpfile' + countStep + '"></td>'
+                            const stepFile = '<td><input type="file" name="stepUpfile' + countStep + '" + required></td>'
                             // let el = $("<tr></tr>").addClass("input_step").html("<td>Step " + countStep + ".</td>" + stepContent + stepImg);
                             let el = $("<tr></tr>").addClass("input_step").html("<td>Step " + countStep + ".</td>" + stepContent + stepFile);
                             $("#addStep").parent().parent().before(el);

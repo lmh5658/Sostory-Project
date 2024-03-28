@@ -138,7 +138,7 @@
                     
                 </div>
                 <div class="option_2">
-                    <button id="select_btn" class="select_delete" onclick="return confirmDelete();">선택삭제</button>
+                    <button id="select_btn" class="select_delete">선택삭제</button>
                     <select name="select" id="selecte" onchange="statusData(1);">
                         <option value="all">전체</option>
                         <option value="processed">처리</option>
@@ -147,16 +147,56 @@
                 </div>
             </div>
             
+            <div class="table_d" id="table_div">
+                <div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="table_title">
+                                <th><input type="checkbox" id="cbx_chkAll"></th>
+                                <th>번호</th>
+                                <th>작성일자</th>
+                                <th>아이디</th>
+                                <th>문의내역</th>
+                                <th>처리결과</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	<% if(!list.isEmpty()) { %>
+                        	<% for(ProductQnaReply p : list){ %>
+                            <tr class="table_content">
+                                <td onclick="event.stopPropagation()"><input type="checkbox" class="typArr"></td>
+                                <td class="answerNo"><%= p.getAnswerNo() %></td>
+                                <td><%= p.getAnswerDate() %></td>
+                                <td><%= p.getUserNo() %></td>
+                                <td class="content"><%= p.getAnswerTitle() %></td>
+                                <td><%= p.getAnswerStatus()%></td>
+                            </tr>
+                            <% } %>
+                            <% }else { %>
+                            	<tr class="table_content">
+                                <td class="answerNo" colspan="6" onclick="event.stopPropagation()">존재하는 문의내역이 없습니다.</td>
+                            	</tr>
+                            <% } %>
+                        </tbody>
+                    </table>     
+                </div>
+                    <div style="font-weight: bold;" id="listCount">
+                        총 문의 수 : <label style="color: red;"><%= listCount %></label>
+                    </div>                  
+            </div>
+            
             <script>
-            	function confirmDelete(){
-            		const $deletePersonalQ = $("input[name=typArr]:checked");
-	            	if($deletePersonalQ.length != 0){
-            			return confirm('정말로 삭제하시겠습니까?');
-            		} else {
-            			alert("삭제할 상품을 선택해주세요.");
-            			return false;
-            		}
-            	}
+            
+            
+           		$(document).on("click",".table_content", function(){
+           			// let select = $(".table_content").children().eq(1).text();
+           			location.href="<%=contextPath%>/mselect.ma?answerNo=" + $(this).find(".answerNo").text();
+           		})
+            	
+            
+            </script>
+            
+       		<script>
             	
 	            function member(page){
 	        		
@@ -221,23 +261,11 @@
 	            				}else{
 	            					alert("검색한 " + $("#memId").val() + " 회원 아이디는 존재하지않습니다.");
 	            				}
-	            			
-	            				
-               	           	
-	            				
 	            				
 	            			}
-	            			
-	            			
 	            		})
-	            		
-	            	
-	        		
 	        		
 	        	}
-            	
-            	
-            	
             	
            		function statusData(page){
                 		let status = "미처리";
@@ -332,101 +360,35 @@
                 						 + "<td colspan='6' onclick='event.stopPropagation()'>존재하는 문의내역이 없습니다.</td>"
                 						 + "</tr>" 
                  					
-                 					
                  					$("#table_div tbody").html("");
                  					$("#table_div tbody").html(list);
                  					
                  					$("#listCount").html("");
                  					$("#paging").html("");
-                 					
-                 					
-                 					
                					}
-             							
-               							
-               						
                					
                				}
                				
-               					
-               				
                			})
-                		
-                		
-                	
             		
             	}
             	
-            	
             	$("#select_btn").click(function(){
-            		
-            		$(".typArr").each(function(){
-            			if($(this).is(":checked")){
-            				location.href="<%=contextPath%>/mpdelete.ma?no=" + $(this).parent().next().text();
-            				
+            		const $deletePersonalQ = $(".typArr:checked");
+            		if($deletePersonalQ.length != 0){
+            			if(confirm('정말로 삭제하시겠습니까?')) {
+		            		$(".typArr").each(function(){
+		            			if($(this).is(":checked")){
+		            				location.href="<%=contextPath%>/mpdelete.ma?no=" + $(this).parent().next().text();
+		            			}
+		            		})
             			}
-            		})
+            		} else {
+            			alert("삭제할 문의를 선택해주세요.");
+            		}
             		
             	})
-            	
-            	
-            	
-            	
             </script>
-        
-            
-            
-            
-            <div class="table_d" id="table_div">
-                <div>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr class="table_title">
-                                <th><input type="checkbox" id="cbx_chkAll"></th>
-                                <th>번호</th>
-                                <th>작성일자</th>
-                                <th>아이디</th>
-                                <th>문의내역</th>
-                                <th>처리결과</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        	<% if(!list.isEmpty()) { %>
-                        	<% for(ProductQnaReply p : list){ %>
-                            <tr class="table_content">
-                                <td onclick="event.stopPropagation()"><input type="checkbox" class="typArr"></td>
-                                <td class="answerNo"><%= p.getAnswerNo() %></td>
-                                <td><%= p.getAnswerDate() %></td>
-                                <td><%= p.getUserNo() %></td>
-                                <td class="content"><%= p.getAnswerTitle() %></td>
-                                <td><%= p.getAnswerStatus()%></td>
-                            </tr>
-                            <% } %>
-                            <% }else { %>
-                            	<tr class="table_content">
-                                <td class="answerNo" colspan="6" onclick="event.stopPropagation()">존재하는 문의내역이 없습니다.</td>
-                            	</tr>
-                            <% } %>
-                        </tbody>
-                    </table>     
-                </div>
-                    <div style="font-weight: bold;" id="listCount">
-                        총 문의 수 : <label style="color: red;"><%= listCount %></label>
-                    </div>                  
-            </div>
-            
-            <script>
-            
-            
-           		$(document).on("click",".table_content", function(){
-           			// let select = $(".table_content").children().eq(1).text();
-           			location.href="<%=contextPath%>/mselect.ma?answerNo=" + $(this).find(".answerNo").text();
-           		})
-            	
-            
-            </script>
-            
-       
             
             
              
@@ -455,7 +417,6 @@
               </ul>
               
             <script>
-           
                 $(function(){
                         // 전체 선택 / 해제
                     $("#cbx_chkAll").click(function(){

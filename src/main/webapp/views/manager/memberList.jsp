@@ -286,8 +286,8 @@
                                         <th><input type="checkbox" id="cbx_chkAll"></th>
                                         <th>회원번호</th>
                                         <th>아이디</th>
-                                        <th>닉네임</th>
                                         <th>이름</th>
+                                        <th>닉네임</th>
                                         <th>전화번호</th>
                                         <th>이메일</th>
                                         <th>주소</th>

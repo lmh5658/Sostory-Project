@@ -39,10 +39,10 @@ public class DeleteProductController extends HttpServlet {
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", productNo.length + "개의 상품이 비활성화 되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/memberList.ma?page=1");
+			response.sendRedirect(request.getContextPath() + "/productList.ma?page=1");
 		} else {
 			request.getSession().setAttribute("alertMsg", "상품삭제에 실패했습니다.");
-			response.sendRedirect(request.getContextPath() + "/memberList.ma?page=1");
+			response.sendRedirect(request.getContextPath() + "/productList.ma?page=1");
 		}
 	}
 
