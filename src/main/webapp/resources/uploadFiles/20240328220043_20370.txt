@@ -1,0 +1,43 @@
+현재 github에 workspace가 아닌 "프로젝트"가 올라가있음 
+이때 다른 PC에서 clone받아서 이어서 진행하고자 할 때 해야되는 과정!!! 
+제발 꼭 보면서 해주세요!!!!! 제발요!!!!
+
+0) 우선 해당 PC에 DB구축되었는지 확인 (server계정생성, Table 구축)
+
+1) C:\workspaces 안에 06_web-workspace 이름의 새로운 폴더 "직접" 만들기 ****
+
+2) 이클립스로 06_web-workspace 선택해서 열기 
+
+3) 기존에 workspace 처음에 세팅했던거 하기 
+    (Show View, Customize Perspective, 인코딩설정, Server Runtime Environment, 서버생성 후 포트번호(8888) 수정과 체크박스) 
+
+4) github 사이트 가서 현재 내려받고자하는 프로젝트의 레파지토리 들어가기 
+   clone하기 => 이때 내려받을 경로 지정은 C:\workspaces\06_web-workspace로 지정할것!!!! ******  => 이 안에 해당 프로젝트가 다운될꺼임
+
+5) 다시 이클립스로 가서 현재 06_web-workspace폴더안에 내려받아진 프로젝트 열기
+   File > Open Projects From File Systems 선택 후 => 열고자하는 프로젝트(C:\workspaces\06_web-workspace\webProject) 선택해서 폴더선택 
+
+6) 프로젝트 오른쪽버튼 > properties  눌러서 
+    6_1) Project Facets 가보기
+          이때 Java, JavaScript, Dynamic Web Module에 체크되어있어야됨 
+          자바버전 11 맞는지 확인 (아니면 수정할것) 등
+
+    6_2) Java Build Path 가보기 
+          Java Build Path에 Source탭에 Default output folder 경로가 webapp안에 WEB-INF안에 classes로 안되어있으면 수정하기 
+          (webProject/src/main/webapp/WEB-INF/classes 로)
+
+    6_3) Java Compiler 가서 자바 버전 확인하기 
+
+7) 현재 프로젝트 안에 보면 src/main/java/db/ 안에 driver폴더 없을꺼임 (왜냐면 github에 driver.properties 자체가 안올라가있을거라서! => 이건 올리면 안됨)
+    driver폴더 만들고 driver.properties 다시 만들어서 안에 내용 작성해두기 
+   
+    그리고 src/main/webapp/WEB-INF/lib 폴더 안에 아무것도 없을꺼임 (왜냐면 github에 ojdbc6.jar가 안올라가있을거라서! => 이건 올리면 안됨)
+    => C:\dev 안에 있는 ojdbc6.jar 복사해서 lib안에 붙여넣기 하기 
+
+8) 생성된 서버에 Add and Remove로 해당 프로젝트 추가 후 
+   서버 더블 클릭해서 Modules 탭 가보기 
+   이때 Path값을 /web으로 수정한 후 서버 스타트해서 페이지 접속해서 테스트 해보기 
+
+
+
+(utf-8 세팅=> properties (enco, spelling => utf-8) / code template)

@@ -4,6 +4,7 @@
 <%
 	Qna q = (Qna)request.getAttribute("q");
 	AttachmentProduct ap = (AttachmentProduct)request.getAttribute("ap");
+	System.out.println(ap);
 	
 %>
 

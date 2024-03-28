@@ -230,9 +230,7 @@
         	                   					},
         	                   					type:"post",
         	                   					success:function(result){
-        	                   						if(result>0){
-        	                   							alert("찜해제");
-        	                   						}
+        	                   						
         	                   					}
         	                   					
         	                   				})	
@@ -247,9 +245,7 @@
                         							},
                         							type:"post",
                         							success:function(result){
-                        								if(result>0){
-                        									alert("찜하기 성공");
-                        								}
+                        								
                         							}
                         						})
                            					

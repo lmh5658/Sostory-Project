@@ -259,7 +259,7 @@
 	               	            	$("#listCount").html(count);
 	            					
 	            				}else{
-	            					alert("검색한 " + $("#memId").val() + " 회원 아이디는 존재하지않습니다.");
+	            					alert("검색한 " + $("#memId").val() + " 회원님의 문의내역은 없습니다.");
 	            				}
 	            				
 	            			}
