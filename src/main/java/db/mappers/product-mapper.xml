@@ -74,17 +74,17 @@
 			   , TO_CHAR(REPLY_DATE, 'yyyy/mm/dd') REPLY_DATE
                , (SELECT FILE_NAME
                    FROM TB_ATTACHMENT_PRODUCT
-                   WHERE TYPE = 'Q'
+                   WHERE TYPE = 'P'
                      AND REF_NO = ANSWER_NO
                ) FILE_NAME
                ,  (SELECT FILE_CHANGENAME
                    FROM TB_ATTACHMENT_PRODUCT
-                   WHERE TYPE = 'Q'
+                   WHERE TYPE = 'P'
                      AND REF_NO = ANSWER_NO
                ) FILE_CHANGENAME
                ,  (SELECT FILE_ROUTE
                    FROM TB_ATTACHMENT_PRODUCT
-                   WHERE TYPE = 'Q'
+                   WHERE TYPE = 'P'
                      AND REF_NO = ANSWER_NO
                ) FILE_ROUTE
 			FROM TB_QNA_REPLY 
@@ -327,7 +327,7 @@
         , ?
         , 'Y'
         , SEQ_QNO.CURRVAL
-        , 'Q'
+        , 'P'
          )
 	</entry>
 	
