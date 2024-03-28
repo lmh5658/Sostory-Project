@@ -22,6 +22,7 @@ public class Order {
 	private String payMethod;
 	private String addressName;
 	private String userName;
+	private String addressLocal;
 	
 	public Order() {}
 
@@ -41,13 +42,14 @@ public class Order {
 		this.accountNumber = accountNumber;
 		this.userNo=userNo;
 		this.payDate=payDate;
+		
 	}
 	
 	
 
 
 	public Order(int userNo, String name, String phone, String email, String address, String addressDetail,
-			String requestContent, int pay, String accountHolder, String bankName, String accountNumber) {
+			String requestContent, int pay, String accountHolder, String bankName, String accountNumber, String addressLocal) {
 		super();
 		this.userNo = userNo;
 		this.name = name;
@@ -60,6 +62,20 @@ public class Order {
 		this.accountHolder = accountHolder;
 		this.bankName = bankName;
 		this.accountNumber = accountNumber;
+		this.addressLocal=addressLocal;
+	}
+
+
+	
+	
+	
+	public String getAddressLocal() {
+		return addressLocal;
+	}
+
+
+	public void setAddressLocal(String addressLocal) {
+		this.addressLocal = addressLocal;
 	}
 
 

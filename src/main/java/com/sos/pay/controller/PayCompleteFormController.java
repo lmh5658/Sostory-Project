@@ -46,6 +46,7 @@ public class PayCompleteFormController extends HttpServlet {
 		String email = request.getParameter("orderEmail");
 		
 		// 배송지 주소, 상세주소, 요청사항, 총상품금액
+		String addressLocal = request.getParameter("addressLocal");
 		String addressName = request.getParameter("addressName");
 		String addressDetail = request.getParameter("addressDetail");
 		String requestContent = request.getParameter("requestContent");
@@ -56,7 +57,7 @@ public class PayCompleteFormController extends HttpServlet {
 		String bankName = request.getParameter("bankName");
 		String accountNumber = request.getParameter("accountNumber");
 		
-		Order o = new Order(userNo,name,phone,email,addressName,addressDetail,requestContent,payPrice,accountHolder,bankName,accountNumber);
+		Order o = new Order(userNo,name,phone,email,addressName,addressDetail,requestContent,payPrice,accountHolder,bankName,accountNumber,addressLocal);
 		
 		
 		// 상품번호, 주문수량 => Pay(vo) 클래스에 담아서 ==> TB_ORDER_PRODUCT 

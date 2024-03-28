@@ -157,6 +157,7 @@ private Properties prop = new Properties();
 			pstmt.setString(9, o.getAccountHolder());
 			pstmt.setString(10, o.getBankName());
 			pstmt.setString(11, o.getAccountNumber());
+			pstmt.setString(12, o.getAddressLocal());
 			
 			result=pstmt.executeUpdate();
 		

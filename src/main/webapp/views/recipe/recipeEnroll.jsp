@@ -60,6 +60,13 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
 		
 		<%@ include file="/views/common/header.jsp" %>
 		
+		<% if(loginUser == null){ // alert 시킬 알람문구가 존재할 경우 %>
+		  <script>
+		     alert('로그인을 먼저 진행해주세요'); // 문자열 취급시 따옴표로 감싸야됨
+		     location.href="<%=contextPath%>"
+		  </script>
+		<% } %>
+		
 	     <!-- Section start -->
 	     <section class="main-content">
 
@@ -103,7 +110,7 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input class="form-control" type="text" name="recipeTitle" placeholder="레시피 제목을 입력해주세요" required></td>
+                        <td><input class="form-control recipeTitle" type="text" name="recipeTitle" placeholder="최대 12글자" required></td>
                     </tr>
                     <tr>
                         <td>대표사진</td>
@@ -260,14 +267,20 @@ List<Ingredient> ingredient = (List<Ingredient>)request.getAttribute("ingredient
             	function enroll(){
             		let disableSelected = true;
             		$("option:selected").each(function(){
-            			console.log("실행");
             			if($(this).val() == "disabled"){
             				disableSelected = false;
             			}
             		})
-            		
             		if(!disableSelected){
             			alert("필수 입력사항을 확인해주세요");
+            			return disableSelected;
+            		}
+            		
+            		const regExp = /^.{1,12}$/;
+            		console.log("실행됨");
+            		if(!regExp.test($(".recipeTitle").val())){
+            			alert("레시피 제목을 확인해주세요");
+            			disableSelected = false;
             		}
             		
             		return disableSelected;

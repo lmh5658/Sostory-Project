@@ -319,7 +319,16 @@
               			 									+ orderList[o].titleProductName + "</td>";
 	   	                   			 			}
 	   	                   			 			list +=		"<td>" + orderList[o].orderDate + "</td>";
-	   	                   			 			list += 	"<td>" + orderList[o].orderStatus + "</td>";
+	   	                   			 			
+	   	                   			 			if(orderList[o].orderStatus == 1){
+	   	                   			 				list += "<td>결제완료</td>";
+	   	                   			 			}else if(orderList[o].orderStatus == 2){
+	   	                   			 				list += "<td>결제전</td>";
+	   	                   			 			}else if(orderList[o].orderStatus == 3){
+	   	                   			 				list += "<td>배송중</td>";
+	   	                   			 			}else if(orderList[o].orderStatus == 4){
+	   	                   			 				list += "<td>배송완료</td>";
+	   	                   			 			}
 	   	                   			 			
 	   	                   			 			if(orderList[o].orderStatus == 3 || orderList[o].orderStatus == 4){
 	   	                   			 				list += "<td class='text-danger'><b>불가</b></td>";

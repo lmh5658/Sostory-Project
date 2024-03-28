@@ -117,6 +117,10 @@
 		background-clip: content-box;
 		margin-bottom: 40px;
 	}
+	step_img>img{
+		width: 100%;
+		height: 100%;
+	}
 	.ingredient_info{
 		width: 80%;
 		margin-bottom: 50px;
@@ -316,7 +320,7 @@
 		                           <%}else { %>
 			                       <!-- 할인하고 있을 때 -->
 		                              <div class="product_price"><s style="color:grey; font-size:14px"><%=r.getPrice()%>원</s>&nbsp;<%=r.getPrice()-r.getDiscountPrice()%>원</div>
-		                           <% } %>	
+		                           <% } %>
 
 							</h6>
 						</div>

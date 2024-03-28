@@ -45,9 +45,10 @@
 			  TOTAL_ORIGIN_PRICE,
 			  PAY_NAME,
 			  PAY_BANK,
-			  PAY_ACCOUNTNUMBER
+			  PAY_ACCOUNTNUMBER,
+			  ADDRESS_NAME
 			  )
-	VALUES (SEQ_ONO.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?)
+	VALUES (SEQ_ONO.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?)
 
 
 </entry>

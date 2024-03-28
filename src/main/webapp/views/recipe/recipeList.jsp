@@ -135,8 +135,8 @@
     }
     .product_img{margin-right: 10px;}
     .product_img>img{
-    	width: 100%;
-    	height: 100%;
+    	width: 80%;
+    	height: 80%;
     }
     .recipe_product>.product_img{
         width: 40%;
@@ -247,7 +247,7 @@
 					<div class="recipe_product" >
 						<input type="hidden" value="<%= r.getProductNo() %>">
 						<div class="product_img">
-							<img src="<%=contextPath%>/resources/images/이미지2.jpg" alt="상품">
+							<img src="<%=contextPath + "/" + r.getPath()%>" alt="상품">
 						</div>
 							<div class="product_name" style="display: flex; flex-direction: column;">
 							<%=r.getProductName()%>
@@ -282,10 +282,10 @@
 			})
 			
 			$(".recipe_thumbnail").click(function(){
-				location.href = "<%= contextPath %>/detail.re?no=" + $(".recipe_thumbnail>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
+				location.href = "<%= contextPath %>/detail.re?no=" + $(this).children("input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
 			});
 			$(".recipe_product").click(function(){
-				location.href = "<%= contextPath %>/detail.pr?no=" + $(".recipe_product>input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
+				location.href = "<%= contextPath %>/detail.pr?no=" + $(this).children("input").val(); //레시피 번호와 같이 넘기기 경로 넘길때
 			});
 			
 			$(".like").click(function(){
