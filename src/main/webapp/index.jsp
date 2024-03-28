@@ -100,10 +100,10 @@
 	                     	let user = null;				// script 전영역에서 공통으로 사용할 로그인한 회원정보 변수
 	                     	
 	                     	$(function(){
-	                     		
+	                     		$(document.getElementById('category' + 1)).addClass("active");
 	                     		selectProductList('all');	// 페이지로드 즉시 메인페이지 상품목록 조회 함수호출
 	                     		
-	                     		let num = 0;
+	                     		let num = 1;
 	                     		let id = "";
 	                     		
 	                     		// 상품목록조회 영역 3초마다 갱신
@@ -487,7 +487,7 @@
                          						list += 				"<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='like me-4' viewBox='0 0 16 16'>";
 	                     						list += 					"<path d='m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15'/>";
 	                     						list += 				"</svg>"; 
-                                              	list += 				"<label class='total-good' style='margin-top: 35px;'>(" + recipe.totalLiked + ")</label>";
+                                              	list += 				"<label class='total-good' style='margin-top: 35px;'>(<label class='totalLiked'>" + recipe.totalLiked + "</label>)</label>";
                                               	list += 			"</div>";
                                               	list += 		"</div>";
                                               	
@@ -548,6 +548,7 @@
                  					location.href="<%= contextPath %>/loginForm.me";
                  				}
                        		}else{
+                       			console.log(parseInt($(this).next().children(".totalLiked").text()) + 1);
                        			if($(this).attr("fill") == 'red'){	// 레시피 찜해제
                        				$(this).attr("fill", "black");
                        				$.ajax({
@@ -561,6 +562,7 @@
                        				}) 
                        			}else{	// 레시피 찜하기
                        				$(this).attr("fill", "red");
+                       				$(this).next().children(".totalLiked").text(parseInt($(this).next().children(".totalLiked").text()) + 1);
                        				$.ajax({
                        					url:"<%= contextPath %>/like.re",
                        					data:{"rNo":rNo},
