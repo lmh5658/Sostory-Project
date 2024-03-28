@@ -47,7 +47,7 @@
 	<entry key="selectPaymentUser">
 		SELECT 
 		      distinct USER_NO
-		    , distinct USER_ID
+		    , USER_ID
 		FROM TB_ORDER
 		JOIN TB_MEMBER USING(USER_NO)
 		WHERE ORDER_STATUS IN(1,3,4)
