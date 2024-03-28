@@ -551,6 +551,7 @@
                        			console.log(parseInt($(this).next().children(".totalLiked").text()) + 1);
                        			if($(this).attr("fill") == 'red'){	// 레시피 찜해제
                        				$(this).attr("fill", "black");
+                       				$(this).next().children(".totalLiked").text(parseInt($(this).next().children(".totalLiked").text()) - 1);
                        				$.ajax({
                        					url:"<%= contextPath %>/dlike.re",
                        					data:{"rNo":rNo},
