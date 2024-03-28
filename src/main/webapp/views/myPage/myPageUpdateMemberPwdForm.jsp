@@ -222,7 +222,7 @@
 								$("#checkPwd").keyup(function(){
 									console.log("하이");
 									// 비밀번호 유효성체크용 정규표현식 : 영문자, 숫자, 특수문자 포함 11글자이상 여부판단
-									const regexPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[#?!@$ %^&*-]).{9,}$/;
+									const regexPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[#?!@$ %^&*-]).{11,}$/;
 									
 									if(regexPwd.test($("#checkPwd").val())){ // 유효한 비밀번호형식일 경우
 										$("#checkMsg").text("사용가능한 비밀번호입니다.");
