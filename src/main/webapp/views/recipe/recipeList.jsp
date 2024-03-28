@@ -133,14 +133,16 @@
     	cursor:pointer;
     	opacity:0.8;
     }
-    .product_img{margin-right: 10px;}
+    .product_img{
+    	margin-right: 10px;
+    	}
     .product_img>img{
-    	width: 80%;
-    	height: 80%;
+    	width: 100%;
+    	height: 100%;
     }
     .recipe_product>.product_img{
-        width: 40%;
-        height: 20%;
+        width: 100px;
+        height: 100px;
         display: flex;
         justify-content: center;
         align-items: center;
