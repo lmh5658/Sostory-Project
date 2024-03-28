@@ -42,7 +42,15 @@ public class Address {
 		this.addressLocal = addressLocal;
 	}
 	
-	
+	public Address(String addressAddress, String addressDetail, String addressLocal, String addressName,
+			String addressPhone) {
+		super();
+		this.addressAddress = addressAddress;
+		this.addressDetail = addressDetail;
+		this.addressLocal = addressLocal;
+		this.addressName = addressName;
+		this.addressPhone = addressPhone;
+	}
 
 	public int getAddressNo() {
 		return addressNo;

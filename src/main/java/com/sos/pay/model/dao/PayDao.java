@@ -89,7 +89,10 @@ private Properties prop = new Properties();
 			while(rset.next()) {
 				list.add(new Address(rset.getString("address_address")
 								  	,rset.getString("address_detail")
-								  	,rset.getString("address_local")));
+								  	,rset.getString("address_local")
+								  	,rset.getString("address_name")
+								  	,rset.getString("address_phone")));
+				
 			}
 			
 			
@@ -123,7 +126,9 @@ private Properties prop = new Properties();
 			if(rset.next()){
 				a = new Address(rset.getString("address_address"),
 						  		rset.getString("address_detail"),
-						  		rset.getString("address_local"));
+						  		rset.getString("address_local"),
+						  		rset.getString("address_name"),
+						  		rset.getString("address_phone"));
 			}
 			
 			

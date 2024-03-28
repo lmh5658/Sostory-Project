@@ -419,30 +419,29 @@
                                       }else {
                                       	
                                       }
-                    				}else{
-                    					$.ajax({
-          								url:"<%=contextPath%>/add.ca",
-          								data:{
-          									productNo:productNo,
-          									userNo:userNo,
-          									cart_amount:$amount // 상세페이지에서 변경된 수량
-          									
-          								},
-          								type:"post",
-          								success:function(result){
-          									if(result>0){ // 장바구니 상품등록 
-          										
-          									   if(confirm("장바구니로 이동하시겠습니까?")){
-          										   location.href="<%=contextPath%>/list.ca";
-          		                               }else {
-          		                            	   
-          		                               }
-          									
-          									
-          									
-          								}
-          							}
-          						})
+                    				 }else{ // 장바구니에 같은 상품이 없다면
+                    					 if(confirm("장바구니로 이동하시겠습니까?")){
+	                    						 $.ajax({
+	                   								url:"<%=contextPath%>/add.ca",
+	                   								data:{
+	                   									productNo:productNo,
+	                   									userNo:userNo,
+	                   									cart_amount:$amount // 상세페이지에서 변경된 수량
+	                   									
+	                   								},
+	                   								type:"post",
+	                   								success:function(result){
+	                   									if(result>0){ // 장바구니 상품등록 
+	                   									
+	                   									}
+	                   								}
+	                   							})
+										   location.href="<%=contextPath%>/list.ca";
+		                               }else{
+		                            	   
+		                              }
+                    					
+                    					
                    				}
                    			
                    			}                            			

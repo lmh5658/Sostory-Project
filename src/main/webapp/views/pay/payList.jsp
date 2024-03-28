@@ -67,7 +67,7 @@
                             <th style="text-align: right;"><label style="color: red;">*&nbsp;&nbsp;</label><b>필수입력사항</b>&nbsp;&nbsp;</th>
                         </tr>
                         <tr>
-                            <th><label style="color: red;">*&nbsp;&nbsp;</label>받는분</th>
+                            <th><label style="color: red;">*&nbsp;&nbsp;</label>주문자</th>
                             <td><input type="text" class="form-control" placeholder="이름을 입력하세요" id="orderName" name="orderName" required></td>
                             <td></td>
                         </tr>
@@ -110,17 +110,31 @@
                         
                         <th></th>
                     </tr>
+           
+                    <tr>
+                        <th><label style="color: red;">*&nbsp;&nbsp;</label>수령자명</th>
+                        <th colspan="3"><input type="text" class="form-control" placeholder="수령자명을 입력하세요" id="addressName" name="addressName"></th>
+                        
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th><label style="color: red;">*&nbsp;&nbsp;</label>수령자 휴대폰번호</th>
+                        <th colspan="3"><input type="text" class="form-control" placeholder="수령자 휴대폰번호를 입력하세요(숫자만)" id="addressPhone" name="addressPhone"></th>
+                        
+                        <th></th>
+                    </tr>
                     <tr>
                         <th><label style="color: red;">*&nbsp;&nbsp;</label>주소</th>
-                        <th colspan="3"><input type="text" class="form-control" placeholder="기본주소를 입력하세요" id="addressName" name="addressName"></th>
+                        <th colspan="3"><input type="text" class="form-control" placeholder="기본주소를 입력하세요" id="addressAddress" name="addressAddress"></th>
                         
                         <th><button type="button" class="btn btn-secondary" onclick="findAddress()">주소 찾기</button></th>
                     </tr>
-                    <tr>
+                     <tr>
                         <th></th>
                         <th colspan="3"><input type="text" class="form-control" placeholder="상세주소를 입력하세요" id="addressDetail" name="addressDetail"></th>
                         <th></th>
                     </tr>
+                   
                     <tr>
                         <th><label style="color: red;">&nbsp;&nbsp;</label>배송시 요청사항</th>
                         <th colspan="3">
@@ -145,11 +159,11 @@
                          <th> <%=p.getProductName() %> </th>
                         <th>
                         	<%if(p.getDiscountPrice().equals("0")){ %>
-                        		<%=p.getPrice() %>
+                        		<b><%=p.getPrice() %>원</b>
                         	<%}else{ %>
 						
-						        <%=p.getPriceMinusDcprice() %>
-						        <h7 style="color:gray;"><b><s><%=p.getPrice() %></s></b></h7>
+						        <b><%=p.getPriceMinusDcprice() %>원</b>
+						        <h7 style="color:gray;"><b><s><%=p.getPrice() %>원</s></b></h7>
 						
 						    <%} %>
 						</th>
@@ -176,7 +190,7 @@
             <table class="table" style="width: 100%; text-align: right;">
                 <tr>
                     <th></th><th></th>
-                    <th>상품금액</th>
+                    <th>상품원가</th>
                     <th><%=totalPrice+dcPrice %>원</th>
                 </tr>
                 <tr>
@@ -234,7 +248,7 @@
                         </tr>
                         <tr style="text-align: center;">
                             <th colspan="2">입금은행명 : 농협 <br>
-                                입금은행계좌명 : 3070235-234234-234
+                                입금은행계좌명 : 3070235-1025-221
                             </th>
                         </tr>
                     </table>
@@ -312,9 +326,11 @@
 			            var selectedAddressIndex = $(this).val(); // 선택한 option의 값 가져오기
 			            var selectedAddress = addressList[selectedAddressIndex - 1]; // 선택한 option에 해당하는 주소 정보 가져오기 (인덱스는 0부터 시작하므로 -1 필요)
 			            if (selectedAddress) {
-			                $("#addressName").val(selectedAddress.addressAddress); // 주소 정보를 input의 value로 설정
+			                $("#addressAddress").val(selectedAddress.addressAddress); // 주소 정보를 input의 value로 설정
 			                $("#addressDetail").val(selectedAddress.addressDetail); // 주소 정보를 input의 value로 설정
 			                $("#addressLocal").val(selectedAddress.addressLocal); // 주소 정보를 input의 value로 설정
+			                $("#addressName").val(selectedAddress.addressName); // 주소 정보를 input의 value로 설정
+			                $("#addressPhone").val(selectedAddress.addressPhone); // 주소 정보를 input의 value로 설정
 			            }
 			        });
 			    });
@@ -382,9 +398,11 @@
 						},
 							type:"post",
 							success:function(a){
-								$("#addressName").val(a.addressAddress);
-								$("#addressDetail").val(a.addressDetail);
 								$("#addressLocal").val(a.addressLocal);
+								$("#addressDetail").val(a.addressDetail);
+								$("#addressAddress").val(a.addressAddress);
+								$("#addressPhone").val(a.addressPhone);
+								$("#addressName").val(a.addressName);
 								console.log("조회성공!");
 								},
 							error:function(){
@@ -404,6 +422,8 @@
             	        $("#addressName").val("");
             	        $("#addressDetail").val("");
             	        $("#addressLocal").val("");
+            	        $("#addressAddress").val("");
+            	        $("#addressPhone").val("");
             	        
             	        
             	    	 // 체크 해제되었을 때 select 태그를 활성화.
