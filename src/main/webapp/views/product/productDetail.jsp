@@ -471,8 +471,8 @@
                     
                     </nav>
 
-                    <div class="main_bottom_img" id="proinfor">
-                        <img src="<%=contextPath+ "/" +pro.getContentPath()%>" style="width:100%; height: 100%;">
+                    <div class="main_bottom_img center" id="proinfor">
+                        <img src="<%=contextPath+ "/" +pro.getContentPath()%>" style="width:70%; height: 100%;">
                     </div>
                     <!-- 레시피 커뮤니티 리스트 start -->
                     <div class="recipe-list  d-flex w-100 justify-content-evenly p-5" style="background-color:cornsilk;">

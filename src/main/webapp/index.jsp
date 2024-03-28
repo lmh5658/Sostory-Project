@@ -48,7 +48,7 @@
 	                 <img src="<%= contextPath %>/resources/images/mainImage2.jpg" alt="ad2" class="d-block" style="width:100%; height: 600px;">
 	             </div>
 	             <div class="carousel-item">
-	                 <img src="<%= contextPath %>/resources/images/mainImage1.jpg" alt="ad3" class="d-block" style="width:100%; height: 600px;">
+	                 <img src="<%= contextPath %>/resources/uploadFiles/20240328113950_65655.jpg" alt="ad3" class="d-block" style="width:100%; height: 600px;">
 	             </div>
 	             </div>
 	             
@@ -59,6 +59,7 @@
 	             <button class="carousel-control-next" type="button" data-bs-target="#ad" data-bs-slide="next">
 	             <span class="carousel-control-next-icon"></span>
 	             </button>
+	            
 	         </div>
 	
 	         <!-- 상품 리스트 영역 start -->
