@@ -384,6 +384,19 @@ SELECT *
 
 </entry>
 
+<entry key="selectReplyListFile">
+		SELECT 
+		      PRO_FILE_NO
+		    , FILE_NAME
+		    , FILE_CHANGENAME
+		    , FILE_ROUTE
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'P'
+	</entry>
+
+
+
 <entry key="updateReply">
 	UPDATE TB_QNA_REPLY
 	SET REPLY = ?,

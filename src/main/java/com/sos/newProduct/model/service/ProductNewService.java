@@ -11,6 +11,7 @@ import java.util.List;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.newProduct.model.dao.ProductNewDao;
 import com.sos.newProduct.model.vo.ProductNew;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.ProductQnaReply;
 import com.sos.product.model.vo.Qna;
@@ -193,6 +194,16 @@ public class ProductNewService {
 		return q;
 		
 	}
+	
+	public AttachmentProduct selectReplyListFile(int answerNo) {
+		Connection conn = getConnection();
+		AttachmentProduct ap = pDao.selectReplyListFile(conn, answerNo);
+		close(conn);
+		return ap;
+		
+	}
+	
+	
 
 	public int updateReply(int no, String content, int adminNo) {
 		

@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sos.manager.model2.service2.ManagerService2;
 import com.sos.newProduct.model.service.ProductNewService;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Qna;
 
 /**
@@ -37,8 +39,11 @@ public class ManagerReplyProductController extends HttpServlet {
 		int no = Integer.parseInt(request.getParameter("no"));
 		
 		Qna q = new ProductNewService().selectReplyList(no);
+		AttachmentProduct ap = new ProductNewService().selectReplyListFile(no);
+		
 		
 		request.setAttribute("q", q);
+		request.setAttribute("ap", ap);
 		request.getRequestDispatcher("/views/manager/qnaProductAnswer.jsp").forward(request, response);
 
 		

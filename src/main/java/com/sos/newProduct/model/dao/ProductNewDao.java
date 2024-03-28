@@ -16,6 +16,7 @@ import com.sos.cart.model.vo.Cart;
 import com.sos.common.model.vo.PageInfo;
 import com.sos.newProduct.model.vo.ProductNew;
 import com.sos.product.model.dao.ProductDao;
+import com.sos.product.model.vo.AttachmentProduct;
 import com.sos.product.model.vo.Product;
 import com.sos.product.model.vo.Qna;
 
@@ -496,6 +497,36 @@ public class ProductNewDao {
 		
 		return count;
 	}
+	
+	public AttachmentProduct selectReplyListFile(Connection conn, int answerNo) {
+		AttachmentProduct ap = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReplyListFile");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, answerNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ap = new AttachmentProduct();
+				ap.setProFileNo(rset.getInt("PRO_FILE_NO"));
+				ap.setFileName(rset.getString("FILE_NAME"));
+				ap.setFileChangeName(rset.getString("FILE_CHANGENAME"));
+				ap.setFileRoute(rset.getString("FILE_ROUTE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return ap;
+	}
+	
+	
 
 	public int countCategoryEtc(Connection conn) {
 		int count = 0;

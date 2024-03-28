@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ page import="com.sos.product.model.vo.Qna, java.util.List, com.sos.common.model.vo.PageInfo"%>
+ <%@ page import="com.sos.product.model.vo.*, java.util.List, com.sos.common.model.vo.PageInfo"%>
 <%
 	Qna q = (Qna)request.getAttribute("q");
+	AttachmentProduct ap = (AttachmentProduct)request.getAttribute("ap");
 	
-
 %>
 
 <!DOCTYPE html>
