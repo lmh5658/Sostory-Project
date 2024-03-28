@@ -85,7 +85,7 @@
     }
     .recipe{
         width: 330px;
-        height: 450px;
+        height: 500px;
         margin: 20px 30px;
         padding: 20px;
         flex-shrink: 0;
@@ -95,7 +95,7 @@
     }
     .recipe_thumbnail{
         width: 100%;
-        height: 45%;
+        height: 40%;
         background-color: white;
         border-radius: 40px;
     }
@@ -229,7 +229,7 @@
 					</div>
 					<div class="recipe_category">분류><%=r.getCategoryName()%></div>
 					<div class="recipe_name" style="font-weight: bolder;"><%=r.getRecipeTitle()%></div>
-					<div class="recipe_detail">
+					<div class="recipe_detail" style="width:100%; height:50px;">
 						<%=r.getRecipeIntro()%>
 					</div>
 					<div class="recipe_etc">
