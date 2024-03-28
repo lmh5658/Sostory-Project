@@ -8,7 +8,6 @@
 	   	 FROM TB_RECIPE
 		WHERE RECIPE_STATUS = 'Y' 
 	</entry>
-	
 	<entry key="selectCategoryListCount">
 		SELECT COUNT(*) AS count
 	   	 FROM TB_RECIPE
