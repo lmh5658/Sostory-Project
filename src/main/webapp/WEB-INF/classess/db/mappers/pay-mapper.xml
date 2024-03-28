@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+<entry key="selectOrderInfo">
+
+	SELECT USER_NAME, PHONE, EMAIL
+	FROM TB_MEMBER
+	WHERE USER_NO = ?
+
+</entry>
+
+<entry key="selectAddressInfo">
+	
+	SELECT ADDRESS_ADDRESS, ADDRESS_DETAIL,ADDRESS_LOCAL
+	FROM TB_ADDRESS
+	JOIN TB_MEMBER USING(USER_NO)
+	WHERE USER_NO=? AND ADDRESS_TYPE='N'
+		
+</entry>
+
+
+<entry key="selectAddressBasicInfo">
+
+	SELECT ADDRESS_ADDRESS, ADDRESS_DETAIL,ADDRESS_LOCAL
+	FROM TB_ADDRESS
+	JOIN TB_MEMBER USING(USER_NO)
+	WHERE USER_NO=? AND ADDRESS_TYPE='Y'
+
+</entry>
+
+<entry key="insertOrder">
+
+	INSERT INTO TB_ORDER
+			 (
+			  ORDER_NO,
+			  USER_NO,
+			  ORDERER,
+			  ORDER_PHONE,
+			  ORDER_EMAIL,
+			  ADDRESS,
+			  ADRRESS_DETAIL,
+			  REQUIREMENT,
+			  TOTAL_ORIGIN_PRICE,
+			  PAY_NAME,
+			  PAY_BANK,
+			  PAY_ACCOUNTNUMBER,
+			  ADDRESS_NAME
+			  )
+	VALUES (SEQ_ONO.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?)
+
+
+</entry>
+
+<entry key="insertOrderProduct">
+		
+	INSERT INTO TB_ORDER_PRODUCT
+		(
+		ORDER_PRODUCT_NO,
+		PRODUCT_NO,
+		ORDER_NO,
+		ORDER_PRODUCT_AMOUNT
+		)
+
+	VALUES(SEQ_OPNO.NEXTVAL,?,SEQ_ONO.CURRVAL,?)
+
+
+</entry>
+
+<entry key = "selectOrder">
+	SELECT ORDER_NO, TO_CHAR(PAY_DATE, 'YYYY/MM/DD HH:MI:SS') PAY_DATE
+		FROM (
+		    SELECT ORDER_NO,PAY_DATE
+		    FROM TB_ORDER
+		    WHERE USER_NO = ?
+		    ORDER BY ORDER_NO DESC
+		) WHERE ROWNUM = 1
+
+
+</entry>
+
+<entry key="deleteCart">
+
+	DELETE FROM TB_CART
+	WHERE USER_NO = ?
+
+
+</entry>
+
+<entry key="selectCartInfo">
+
+	SELECT PRODUCT_NAME, PRICE, DISCOUNT_PRICE, PATH,CART_AMOUNT, PRICE-DISCOUNT_PRICE DCPRICE,PRODUCT_NO
+	FROM TB_PRODUCT
+	JOIN TB_CART USING(PRODUCT_NO)
+	WHERE USER_NO = ? 
+
+
+
+</entry>
+
+<entry key = "updateCount">
+
+	UPDATE TB_CART
+	SET CART_AMOUNT = ?
+	WHERE USER_NO = ? AND PRODUCT_NO =?
+
+
+
+</entry>
+
+<entry key="updateProduct">
+
+	UPDATE TB_PRODUCT
+	SET inventory = inventory - ?
+	WHERE PRODUCT_NO = ?
+
+
+</entry>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</properties>

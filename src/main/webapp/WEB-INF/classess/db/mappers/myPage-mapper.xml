@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+	<!-- 비밀번호 변경요청 -->
+	<entry key="updateMemberPwd">
+		UPDATE TB_MEMBER
+		   SET USER_PWD = ?
+		   	  ,MODIFY_DATE = SYSDATE
+		 WHERE USER_NO =?
+		   AND USER_PWD =?
+	</entry>
+	
+	<!-- 회원정보 변경요청 -->
+	<entry key="updateMemberInfo">
+		UPDATE TB_MEMBER
+		   SET NICKNAME = ?
+		   	  ,PHONE = ?
+		   	  ,GENDER = ?
+		   	  ,BIRTH_DATE = ?
+		   	  ,MODIFY_DATE = SYSDATE
+		   	  ,USER_PATH = ?
+		 WHERE USER_NO = ?
+	</entry>
+	
+	<!-- 회원 탈퇴요청 -->
+	<entry key="deleteMember">
+		UPDATE TB_MEMBER
+		   SET USER_STATUS = 'N'
+		 WHERE USER_NO = ?
+	</entry>
+	
+	
+	<!-- 배송지리스트 조회요청 -->
+	<entry key="selectAddressList">
+		SELECT 
+		       ADDRESS_NO
+		      ,ADDRESS_LOCAL
+		      ,ADDRESS_NAME
+		      ,ADDRESS_ADDRESS || ' ' || ADDRESS_DETAIL ADDRESS
+		      ,ADDRESS_PHONE
+		      ,ADDRESS_TYPE
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   AND ADDRESS_STATUS = 'Y'
+		 ORDER BY ADDRESS_TYPE DESC
+		         ,ADDRESS_NO
+	</entry>
+	
+	<!-- 배송지 정보조회 -->
+	<entry key="selectAddress">
+		SELECT
+			   ADDRESS_NO
+			  ,ADDRESS_LOCAL
+			  ,ADDRESS_NAME
+			  ,ADDRESS_PHONE
+			  ,ADDRESS_ADDRESS
+			  ,ADDRESS_DETAIL
+			  ,ADDRESS_TYPE
+		  FROM TB_ADDRESS
+		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<!-- 기본배송지 유무조회 -->
+	<entry key="selectDefaultAddress">
+		SELECT COUNT(*) COUNT
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   AND ADDRESS_TYPE = 'Y'
+		   AND ADDRESS_STATUS = 'Y'
+	</entry>
+	
+	<!-- 회원정보 최종변경일 수정 -->
+	<entry key="updateMemberModifyDate">
+		UPDATE TB_MEMBER
+		   SET MODIFY_DATE = SYSDATE
+		 WHERE USER_NO = ?
+	</entry>
+	
+	<!-- 배송지타입 수정요청 -->
+	<entry key="updateAddressType">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_TYPE = 'N'
+		 WHERE USER_NO = ?
+		   AND ADDRESS_TYPE ='Y'
+	</entry>
+	
+	<!-- 배송지 등록요청 -->
+	<entry key="insertAddress">
+		INSERT
+		    INTO TB_ADDRESS
+		        (
+		          ADDRESS_NO
+		         ,USER_NO
+		         ,ADDRESS_LOCAL
+		         ,ADDRESS_NAME
+		         ,ADDRESS_ADDRESS
+		         ,ADDRESS_DETAIL
+		         ,ADDRESS_PHONE
+		         ,ADDRESS_TYPE
+		        )
+		    VALUES
+		        (
+		          SEQ_ANO.NEXTVAL
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		         ,?
+		        )
+	</entry>
+	
+	<!-- 배송지 수정요청 -->
+	<entry key="updateAddress">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_LOCAL = ?
+		      ,ADDRESS_NAME = ?
+		      ,ADDRESS_ADDRESS = ?
+		      ,ADDRESS_DETAIL = ?
+		      ,ADDRESS_PHONE = ?
+		      ,ADDRESS_TYPE = ?
+		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<!-- 배송지 삭제요청 -->
+	<entry key="deleteAddress">
+		UPDATE TB_ADDRESS
+		   SET ADDRESS_STATUS = 'N'
+		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<!-- 총 문의수 계산 -->
+	<entry key="totalQna">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_TYPE = ?
+		   AND USER_NO = ?
+	</entry>
+	
+	<!-- 전체상태 문의 목록조회 -->
+	<entry key="selectAllQnaList">
+		SELECT B.*
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT 
+		                      ANSWER_NO
+		                     ,PRODUCT_NO
+		                     ,PRODUCT_NAME
+		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
+		                     ,ANSWER_TITLE
+		                     ,ANSWER_STATUS
+		                  FROM TB_QNA_REPLY
+		                  LEFT JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE USER_NO = ?
+		                   AND ANSWER_TYPE = ?
+		                 ORDER BY ANSWER_DATE DESC
+		                         ,ANSWER_NO DESC
+		                ) A
+		        ) B
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 답변상태별 문의 목록조회 -->
+	<entry key="selectQnaList">
+		SELECT B.*
+		  FROM (
+		        SELECT ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT 
+		                      ANSWER_NO
+		                     ,PRODUCT_NO
+		                     ,PRODUCT_NAME
+		                     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE
+		                     ,ANSWER_TITLE
+		                     ,ANSWER_STATUS
+		                  FROM TB_QNA_REPLY
+		                  LEFT JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                 WHERE USER_NO = ?
+		                   AND ANSWER_TYPE = ?
+		                   AND ANSWER_STATUS = ?
+		                 ORDER BY ANSWER_DATE DESC
+		                         ,ANSWER_NO DESC
+		                ) A
+		        ) B
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 1:1문의 조회요청 -->
+	<entry key="selectQna">
+		SELECT 
+		      ANSWER_NO
+		     ,TO_CHAR(ANSWER_DATE, 'YYYY-MM-DD') ANSWER_DATE 
+		     ,ANSWER_TITLE
+		     ,ANSWER_CONTENT
+		     ,REPLY
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<!-- 첨부파일 조회요청 -->
+	<entry key="selectAttachment">
+		SELECT
+		      PRO_FILE_NO
+		     ,FILE_NAME
+		     ,FILE_ROUTE || FILE_CHANGENAME "FILE_URL"
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<!-- 문의 등록요청 -->
+	<entry key="insertQna">
+		INSERT
+		    INTO TB_QNA_REPLY
+		        (
+		         ANSWER_NO
+		        ,USER_NO
+		        ,ANSWER_TITLE
+		        ,ANSWER_CONTENT
+		        ,ANSWER_TYPE
+		        )
+		    VALUES
+		        (
+		         SEQ_QNO.NEXTVAL
+		        ,?
+		        ,?
+		        ,?
+		        ,2
+		        )
+	</entry>
+	
+	<!-- 첨부파일 등록요청 -->
+	<entry key="insertAttachment">
+		INSERT
+		    INTO TB_ATTACHMENT_PRODUCT
+		        (
+		         PRO_FILE_NO
+		        ,FILE_NAME
+		        ,FILE_CHANGENAME
+		        ,FILE_ROUTE
+		        ,REF_NO
+		        ,TYPE
+		        )
+		    VALUES
+		        (
+		         SEQ_FNO.NEXTVAL
+		        ,?
+		        ,?
+		        ,?
+		        ,SEQ_QNO.CURRVAL
+		        ,'Q'
+		        )
+	</entry>
+	
+	<!-- 문의 첨부파일 유무조회 -->
+	<entry key="attachmentYn">
+		SELECT FILE_CHANGENAME
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+	</entry>
+	
+	<!-- 첨부파일 삭제요청 -->
+	<entry key="deleteAttachment">
+		DELETE
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
+	</entry>
+	
+	<!-- 문의 삭제요청 -->
+	<entry key="deleteQna">
+		DELETE
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<!-- 찜한상품 갯수조회 -->
+	<entry key="selectTotalLikedProduct">
+		SELECT COUNT(*) TOTAL
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                      LIKE_NO
+		                     ,PRODUCT_NO
+		                     ,CATEGORY_NAME
+		                     ,PRODUCT_NAME
+		                     ,PRICE
+		                     ,DISCOUNT_PRICE
+		                     ,PATH PRODUCT_URL
+		                  FROM TB_LIKE
+		                  JOIN TB_PRODUCT ON (LIKE_REFNO = PRODUCT_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                 WHERE USER_NO = ?
+		                   AND LIKE_TYPE = 'P'
+		                   AND STATUS = 'Y'
+		                 ORDER BY LIKE_DATE DESC
+		                ) R
+		        ) T
+	</entry>
+	
+	<!-- 찜한상품 목록조회 -->
+	<entry key="selectLikedProductList">
+		SELECT T.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                      LIKE_NO
+		                     ,PRODUCT_NO
+		                     ,CATEGORY_NAME
+		                     ,PRODUCT_NAME
+		                     ,PRICE
+		                     ,DISCOUNT_PRICE
+		                     ,PATH PRODUCT_URL
+		                  FROM TB_LIKE
+		                  JOIN TB_PRODUCT ON (LIKE_REFNO = PRODUCT_NO)
+		                  JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                 WHERE USER_NO = ?
+		                   AND LIKE_TYPE = 'P'
+		                   AND STATUS = 'Y'
+		                 ORDER BY LIKE_DATE DESC
+		                ) R
+		        ) T
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 찜한레시피 갯수조회 -->
+	<entry key="selectTotalLikedRecipe">
+		SELECT COUNT(*) TOTAL
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                 SELECT 
+		                        TB_USER_LIKED.*
+		                       ,CATEGORY_NAME
+		                       ,USER_ID
+		                       ,USER_PATH USER_PROFILE_URL
+		                       ,RECIPE_TITLE
+		                       ,RECIPE_INTRO
+		                       ,THUMBNAIL_URL
+                               ,(
+                                 SELECT COUNT(*)
+                                   FROM TB_LIKE
+                                  WHERE LIKE_REFNO = TB_USER_LIKED.RECIPE_NO
+                                    AND LIKE_TYPE = 'R'
+                                ) LIKED_TOTAL
+		                       ,TB_RECIPE.PRODUCT_NO PRODUCT_NO
+		                       ,PRODUCT_NAME
+		                       ,PRICE
+		                       ,DISCOUNT_PRICE
+		                       ,(
+		                         SELECT ROUND(AVG(NVL(RATING, 0)), 1) RATING
+		                           FROM TB_REVIEW
+		                          WHERE PRODUCT_NO = TB_PRODUCT.PRODUCT_NO
+		                        ) RATING
+		                       ,PATH PRODUCT_URL
+		                  FROM (
+		                        SELECT
+		                               LIKE_NO
+		                              ,LIKE_REFNO RECIPE_NO
+		                          FROM TB_LIKE
+		                         WHERE USER_NO = ?
+		                           AND LIKE_TYPE = 'R'
+		                         ORDER BY LIKE_DATE DESC
+		                        ) TB_USER_LIKED
+		                  JOIN TB_RECIPE ON (TB_USER_LIKED.RECIPE_NO = TB_RECIPE.RECIPE_NO)
+		                  LEFT JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                  LEFT JOIN TB_MEMBER USING (USER_NO)
+		                  LEFT JOIN TB_PRODUCT ON (TB_RECIPE.PRODUCT_NO = TB_PRODUCT.PRODUCT_NO)
+		                  LEFT JOIN TB_REVIEW ON (TB_PRODUCT.PRODUCT_NO = TB_REVIEW.PRODUCT_NO)
+		                 WHERE RECIPE_STATUS = 'Y'
+		                ) R
+		        ) T
+	</entry>
+	
+	<!-- 찜한레시피 목록조회 -->
+	<entry key="selectLikedRecipeList">
+		SELECT T.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                 SELECT 
+		                        TB_USER_LIKED.*
+		                       ,CATEGORY_NAME
+		                       ,USER_ID
+		                       ,USER_PATH USER_PROFILE_URL
+		                       ,RECIPE_TITLE
+		                       ,RECIPE_INTRO
+		                       ,THUMBNAIL_URL
+                               ,(
+                                 SELECT COUNT(*)
+                                   FROM TB_LIKE
+                                  WHERE LIKE_REFNO = TB_USER_LIKED.RECIPE_NO
+                                    AND LIKE_TYPE = 'R'
+                                ) LIKED_TOTAL
+		                       ,TB_RECIPE.PRODUCT_NO PRODUCT_NO
+		                       ,PRODUCT_NAME
+		                       ,PRICE
+		                       ,DISCOUNT_PRICE
+		                       ,(
+		                         SELECT ROUND(AVG(NVL(RATING, 0)), 1) RATING
+		                           FROM TB_REVIEW
+		                          WHERE PRODUCT_NO = TB_PRODUCT.PRODUCT_NO
+		                        ) RATING
+		                       ,PATH PRODUCT_URL
+		                  FROM (
+		                        SELECT
+		                               LIKE_NO
+		                              ,LIKE_REFNO RECIPE_NO
+		                          FROM TB_LIKE
+		                         WHERE USER_NO = ?
+		                           AND LIKE_TYPE = 'R'
+		                         ORDER BY LIKE_DATE DESC
+		                        ) TB_USER_LIKED
+		                  JOIN TB_RECIPE ON (TB_USER_LIKED.RECIPE_NO = TB_RECIPE.RECIPE_NO)
+		                  LEFT JOIN TB_CATEGORY USING (CATEGORY_NO)
+		                  LEFT JOIN TB_MEMBER USING (USER_NO)
+		                  LEFT JOIN TB_PRODUCT ON (TB_RECIPE.PRODUCT_NO = TB_PRODUCT.PRODUCT_NO)
+		                  LEFT JOIN TB_REVIEW ON (TB_PRODUCT.PRODUCT_NO = TB_REVIEW.PRODUCT_NO)
+		                 WHERE RECIPE_STATUS = 'Y'
+		                ) R
+		        ) T
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 총주문목록수 조회요청 -->
+	<entry key="totalOrders">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_ORDER
+		 WHERE USER_NO = ?
+		   AND ORDER_DATE BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 주문목록 조회요청 -->
+	<entry key="selectOrderList">
+		SELECT *
+		  FROM (
+		         SELECT ROWNUM RNUM, OT.*
+		           FROM (
+		                 SELECT 
+		                       TB_ORDER.ORDER_NO
+		                      ,(
+		                        SELECT SUM(ORDER_PRODUCT_AMOUNT)
+		                          FROM TB_ORDER_PRODUCT
+		                         WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                        )TOTAL_ORDER
+		                       ,(
+		                         SELECT PRODUCT_NAME
+		                           FROM TB_ORDER_PRODUCT
+		                           JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                          WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                            AND ROWNUM = 1
+		                        )TITLE_PRODUCT_NAME
+		                       ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+		                       ,ORDER_STATUS
+		                  FROM TB_ORDER
+		                 WHERE USER_NO = ?
+		                   AND TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') BETWEEN ? AND ?
+		                 ORDER BY ORDER_DATE DESC
+		                )OT
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+		<!--  
+		SELECT OT.*
+		  FROM (
+		        SELECT 
+		                DISTINCT TB_ORDER_PRODUCT.ORDER_NO
+		               ,ROWNUM RNUM
+		               ,(         
+		                 SELECT PRODUCT_NAME
+		                   FROM TB_ORDER_PRODUCT
+		                   JOIN TB_PRODUCT USING (PRODUCT_NO)
+		                  WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                    AND ROWNUM = 1
+		                )TITLE_PRODUCT_NAME
+		               ,(
+		                 SELECT COUNT(*) 
+		                  FROM TB_ORDER_PRODUCT
+		                 WHERE ORDER_NO = TB_ORDER.ORDER_NO
+		                 ) AS TOTAL_ORDER
+		               ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+		               ,ORDER_STATUS
+		          FROM TB_ORDER
+		          JOIN TB_ORDER_PRODUCT ON (TB_ORDER.ORDER_NO = TB_ORDER_PRODUCT.ORDER_NO)
+		         WHERE USER_NO = ?
+		           AND ORDER_DATE BETWEEN ? AND ?
+		         ORDER BY TB_ORDER_PRODUCT.ORDER_NO DESC
+		        )OT
+		 WHERE RNUM BETWEEN ? AND ?
+		 -->
+	</entry>
+	
+	<!-- 주문내역 취소요청 -->
+	<entry key="deleteOrder">
+		DELETE
+			FROM TB_ORDER
+		   WHERE ORDER_NO = ?
+	</entry>
+	
+	<!-- 주문정보 상세조회 -->
+	<entry key="selectOrderInfo">
+		SELECT
+		      ORDER_NO
+		     ,TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') ORDER_DATE
+		     ,ADDRESS_NAME
+		     ,ADDRESS
+		     ,ADRRESS_DETAIL
+		     ,ORDERER
+		     ,ORDER_PHONE
+		     ,PAY_METHOD
+		     ,TO_CHAR(PAY_DATE, 'YYYY-MM-DD') PAY_DATE
+		  FROM TB_ORDER
+		 WHERE ORDER_NO = ?
+	</entry>
+	
+	<!-- 주문상품 상세조회 -->
+	<entry key="selectOrderProducts">
+		SELECT 
+		      PRODUCT_NO
+		     ,PRODUCT_NAME
+		     ,PRICE
+		     ,DISCOUNT_PRICE
+		     ,ORDER_PRODUCT_AMOUNT
+		     ,PATH
+		  FROM TB_ORDER_PRODUCT
+		  JOIN TB_PRODUCT USING (PRODUCT_NO)
+		 WHERE ORDER_NO = ?
+	</entry>
+	
+	<!-- 작성한 레시피 총갯수 -->
+	<entry key="totalRecipe">
+		SELECT COUNT(*) TOTAL
+		  FROM TB_RECIPE
+		 WHERE USER_NO = ?
+	</entry>
+	
+	<!-- 작성한 레시피 목록조회 -->
+	<entry key="selectRecipeList">
+		SELECT RR.*
+		  FROM (
+		        SELECT ROWNUM RNUM, R.*
+		          FROM (
+		                SELECT
+		                      RECIPE_NO
+		                     ,RECIPE_TITLE
+		                     ,POST_DATE
+		                     ,(
+		                        SELECT COUNT(*)
+		                          FROM TB_LIKE
+		                         WHERE LIKE_REFNO = TB_RECIPE.RECIPE_NO
+		                           AND LIKE_TYPE = 'R'
+		                      )TOTAL_LIKED
+		                    ,THUMBNAIL_URL
+		                  FROM TB_RECIPE
+		                 WHERE RECIPE_STATUS = 'Y'
+		                   AND USER_NO = ?
+		                 ORDER BY RECIPE_NO DESC
+		                )R
+		        )RR
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 작성한 레피시 삭제요청 -->
+	<entry key="deleteRecipe">
+		UPDATE TB_RECIPE
+		   SET RECIPE_STATUS = 'N'
+		 WHERE RECIPE_NO = ?
+	</entry>
+	
+	<!-- 마이페이지 메인페이지 정보조회 -->
+	<entry key="selectMyPageMainInfo">
+		SELECT (
+		         SELECT COUNT(*) 
+		           FROM TB_ORDER
+		          WHERE ORDER_STATUS = 3
+		            AND USER_NO = TB_MEMBER.USER_NO
+		        )TOTAL_DELIVERING
+		       ,(
+		         SELECT COUNT(*)
+		           FROM TB_LIKE
+		          WHERE LIKE_TYPE = 'P'
+		            AND USER_NO = TB_MEMBER.USER_NO
+		        )TOTAL_LIKED_PRODUCT
+		       ,(
+		         SELECT COUNT(*)
+		           FROM TB_LIKE
+		          WHERE LIKE_TYPE = 'R'
+		            AND USER_NO = TB_MEMBER.USER_NO
+		         )TOTAL_LIKED_RECIPE
+		        ,(
+		          SELECT COUNT(*)
+		            FROM TB_QNA_REPLY
+		           WHERE ANSWER_STATUS = '미처리'
+		             AND ANSWER_TYPE = 1
+		             AND USER_NO = TB_MEMBER.USER_NO
+		          )TOTAL_ONGOING_QNA_PRODUCT
+		        ,(
+		          SELECT COUNT(*)
+		            FROM TB_QNA_REPLY
+		           WHERE ANSWER_STATUS = '미처리'
+		             AND ANSWER_TYPE = 2
+		             AND USER_NO = TB_MEMBER.USER_NO
+		          )TOTAL_ONGOING_QNA_ETC
+		  FROM TB_MEMBER
+		 WHERE USER_NO = ?
+		   AND USER_STATUS = 'Y'
+	</entry>
+	
+</properties>

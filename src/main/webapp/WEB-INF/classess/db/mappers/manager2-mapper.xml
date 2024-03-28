@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+
+	<entry key="managerQnalistCount">
+		SELECT COUNT(*) COUNT
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_TYPE = 2
+	</entry>
+
+
+	<entry key="managerQnalist">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT
+			      ANSWER_NO
+			    , p.PRODUCT_NO
+			    , M.USER_ID
+			    , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			    , ANSWER_TITLE
+			    , ANSWER_STATUS
+			FROM TB_QNA_REPLY QR
+			LEFT JOIN TB_PRODUCT P ON(QR.PRODUCT_NO = P.PRODUCT_NO)
+			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
+			WHERE  ANSWER_TYPE = 2
+			ORDER BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+			
+	</entry>
+	
+	<entry key="managerProQnalist">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT
+			      ANSWER_NO
+			    , p.PRODUCT_NO
+			    , M.USER_ID
+			    , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			    , ANSWER_TITLE
+			    , ANSWER_STATUS
+			FROM TB_QNA_REPLY QR
+			LEFT JOIN TB_PRODUCT P ON(QR.PRODUCT_NO = P.PRODUCT_NO)
+			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
+			WHERE  ANSWER_TYPE = 2
+			  AND ANSWER_STATUS = '처리'
+			ORDER BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="managerUnproQnalist">
+			SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT
+			      ANSWER_NO
+			    , p.PRODUCT_NO
+			    , M.USER_ID
+			    , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			    , ANSWER_TITLE
+			    , ANSWER_STATUS
+			FROM TB_QNA_REPLY QR
+			LEFT JOIN TB_PRODUCT P ON(QR.PRODUCT_NO = P.PRODUCT_NO)
+			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
+			WHERE  ANSWER_TYPE = 2
+			  AND ANSWER_STATUS = '미처리'
+			ORDER BY ANSWER_NO DESC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="managerProQnalistCount">
+	  SELECT COUNT(*) COUNT
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_TYPE = 2
+		  AND ANSWER_STATUS = '처리'
+	</entry>
+	
+	<entry key="managerUnproQnalistCount">
+	  SELECT COUNT(*) COUNT
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_TYPE = 2
+		  AND ANSWER_STATUS = '미처리'
+	</entry>
+	
+	<entry key="deleteAnswerManager">
+		DELETE
+		  FROM TB_QNA_REPLY
+		 WHERE ANSWER_NO = ?
+	</entry>
+	
+	<entry key="searchMemCount">
+		SELECT COUNT(*) COUNT
+		  FROM TB_QNA_REPLY
+		  JOIN TB_MEMBER USING(USER_NO)
+		 WHERE USER_ID LIKE '%' || ? || '%'
+		   AND ANSWER_TYPE = 2
+	</entry>
+	
+	<entry key="searchMemList">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, A.*
+			FROM(
+			SELECT
+			      ANSWER_NO
+			    , p.PRODUCT_NO
+			    , M.USER_ID
+			    , TO_CHAR(ANSWER_DATE, 'yyyy/mm/dd') ANSWER_DATE
+			    , ANSWER_TITLE
+			    , ANSWER_STATUS
+			FROM TB_QNA_REPLY QR
+			LEFT JOIN TB_PRODUCT P ON(QR.PRODUCT_NO = P.PRODUCT_NO)
+			LEFT JOIN TB_MEMBER M ON(QR.USER_NO = M.USER_NO)
+			WHERE ANSWER_TYPE = 2
+              AND USER_ID LIKE '%' || ? || '%'
+			ORDER BY ANSWER_STATUS ASC
+			) A
+			)
+			WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	
+	<entry key="managerQnalistCountp">
+		SELECT COUNT(*) COUNT
+				FROM TB_QNA_REPLY
+				WHERE ANSWER_TYPE = 1
+		
+	
+	</entry>
+	
+	<entry key="managerProQnalistCountp">
+		SELECT COUNT(*) COUNT
+				FROM TB_QNA_REPLY
+				WHERE ANSWER_TYPE = 1
+				  AND ANSWER_STATUS = '처리'
+		
+		
+	</entry>
+	
+	
+	<entry key="managerUnproQnalistCountp">
+		SELECT COUNT(*) COUNT
+				FROM TB_QNA_REPLY
+				WHERE ANSWER_TYPE = 1
+				  AND ANSWER_STATUS = '미처리'
+		
+	</entry>
+	
+	<entry key="managerQnaReply">
+		SELECT 
+		      ANSWER_NO
+		    , ANSWER_TITLE
+		    , ANSWER_CONTENT
+		    , ANSWER_STATUS
+		    , REPLY
+		FROM TB_QNA_REPLY
+		WHERE ANSWER_NO = ?
+		  AND ANSWER_TYPE = 2
+	</entry>
+	
+	<entry key="managerQnaReplyFile">
+		SELECT 
+		      PRO_FILE_NO
+		    , FILE_NAME
+		    , FILE_CHANGENAME
+		    , FILE_ROUTE
+		  FROM TB_ATTACHMENT_PRODUCT
+		 WHERE REF_NO = ?
+		   AND TYPE = 'Q'
+	</entry>
+
+	<entry key="insertQnaReplyContent">
+		 UPDATE 
+			   TB_QNA_REPLY
+			SET REPLY = ?
+			  , ANSWER_STATUS = '처리'
+			  , REPLY_DATE = SYSDATE
+			  , ADMIN_NO = ?
+		  WHERE ANSWER_NO = ?
+	</entry>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</properties>
