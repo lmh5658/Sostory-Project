@@ -63,6 +63,12 @@
 			
 	</entry>
 	
+	<entry key="selectSearchListCount">
+		SELECT COUNT(*) COUNT
+		  FROM TB_RECIPE
+		 WHERE RECIPE_TITLE LIKE ?
+	</entry>
+	
 	<!-- 카테고리 -->
 	<entry key="selectCategoryList">
 		SELECT *
@@ -134,7 +140,6 @@
                left JOIN TB_LIKE L ON R.USER_NO = L.USER_NO
                left JOIN TB_CATEGORY C ON C.CATEGORY_NO = R.CATEGORY_NO
 		        WHERE R.RECIPE_STATUS = 'Y'
-		        	AND RECIPE_TITLE LIKE '%'|| ? ||'%'
 		        GROUP BY 
 		            R.RECIPE_NO,
 		            C.CATEGORY_NAME,
@@ -149,6 +154,7 @@
 		            M.USER_PATH    
 		            
 		    ) A
+            where RECIPE_TITLE LIKE ?
 		    ORDER BY LIKE_COUNT DESC
 		)
 		WHERE RNUM BETWEEN ? AND ?

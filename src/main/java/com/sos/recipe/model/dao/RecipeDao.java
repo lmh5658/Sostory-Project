@@ -126,7 +126,7 @@ public class RecipeDao {
 			pstmt = conn.prepareStatement(sql);
 			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
 			int endRow = startRow + pi.getBoardLimit() - 1;
-			pstmt.setString(1, search);
+			pstmt.setString(1, "%" + search + "%");
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
 			rset = pstmt.executeQuery();
@@ -609,6 +609,31 @@ public class RecipeDao {
 		}
 		
 		return list;
+	}
+
+	public int selectSearchListCount(Connection conn, String search) {
+		int listCount = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSearchListCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
 	}
 	
 	

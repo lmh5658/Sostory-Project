@@ -42,8 +42,10 @@ public class RecipeSearchController extends HttpServlet {
 				int maxPage; 		// 마지막페이지
 				int startPage;		// currentPage가 포함된 페이징바의 시작 수
 				int endPage;		//currentPage가 포함된 페이징바의 끝 수
+				
+				String search = request.getParameter("search");
 			
-				listCount = new RecipeService().selectListCount(); //총 게시글 갯수
+				listCount = new RecipeService().selectSearchListCount(search); //총 게시글 갯수
 				currentPage = Integer.parseInt(request.getParameter("page")); //현재 페이지
 				pageLimit = 5; //페이징바 최대 수 
 				boardLimit = 9; //한 페이지당 게시글 총 수
@@ -60,7 +62,6 @@ public class RecipeSearchController extends HttpServlet {
 				
 				PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 
-				String search = request.getParameter("search");
 				
 				List<Recipe> searchList = new RecipeService().selectSearchList(pi, search);
 						

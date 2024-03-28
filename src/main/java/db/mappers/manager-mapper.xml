@@ -232,7 +232,8 @@
                     USER_ID,
                     PAYMENT,
                     TITLE_PRODUCT_NAME,
-                    TOTAL_ORDER
+                    TOTAL_ORDER,
+                    ROWNUM RNUM2
                 FROM
                     OrderedOrders
                 WHERE
@@ -240,7 +241,7 @@
                 ORDER BY
                     ORDER_DATE DESC
 	              )OT
-	       WHERE RNUM BETWEEN ? AND ?
+	       WHERE RNUM2 BETWEEN ? AND ?
 	</entry>
 
 	<entry key="selectCountOrderSearch">
@@ -286,7 +287,8 @@
                     USER_ID,
                     PAYMENT,
                     TITLE_PRODUCT_NAME,
-                    TOTAL_ORDER
+                    TOTAL_ORDER,
+                    ROWNUM RNUM2
                 FROM
                     OrderedOrders
                 WHERE
@@ -295,7 +297,7 @@
                 ORDER BY
                     ORDER_DATE DESC
 	              )OT
-	       WHERE RNUM BETWEEN ? AND ?
+	       WHERE RNUM2 BETWEEN ? AND ?
 	</entry>
 
 	<entry key="updateOrderStatus">

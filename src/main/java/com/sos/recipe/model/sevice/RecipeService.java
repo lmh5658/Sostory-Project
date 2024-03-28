@@ -180,6 +180,13 @@ public class RecipeService {
 		return userLikeList;
 	}
 
+	public int selectSearchListCount(String search) {
+		Connection conn = getConnection();
+		int listCount= rDao.selectSearchListCount(conn, search);
+		close(conn);
+		return listCount;
+	}
+
 	
 
 	
