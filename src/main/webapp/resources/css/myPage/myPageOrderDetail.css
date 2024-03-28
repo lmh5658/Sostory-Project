@@ -185,3 +185,8 @@ font-size: 17px;
     justify-content: center;
     margin-top: 100px;
 }
+
+.order_product:hover{
+	cursor:pointer;
+	opacity:0.8;
+}

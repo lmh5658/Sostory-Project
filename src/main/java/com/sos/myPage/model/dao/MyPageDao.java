@@ -1211,7 +1211,7 @@ public class MyPageDao {
 				
 				list.add(p);
 			}
-			
+			System.out.println("가림 : " + list);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
