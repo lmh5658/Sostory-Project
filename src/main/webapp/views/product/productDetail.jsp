@@ -557,7 +557,6 @@
                             <% for(Member m : list) { %>
 	                            <% if(loginUser != null && loginUser.getUserId().equalsIgnoreCase(m.getUserId())) { %>
 	                            <button class="btn btn-|outline-dark" onclick="insertReview();">후기 작성하기</button>
-	                            <% break; %>
                             	<% } %>
                             <% } %>                            
                             </span>
