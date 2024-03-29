@@ -226,13 +226,6 @@ public class MyPageDao {
 	}
 	
 	/**
-	 * @param conn
-	 * @param userNo
-	 * @return
-	 */
-	
-	
-	/**
 	 * 해당회원의 정보가 새롭게 수정|등록 되었을 경우 회원정보 수정일 수정시 실행될 메소드
 	 * 
 	 * @param conn

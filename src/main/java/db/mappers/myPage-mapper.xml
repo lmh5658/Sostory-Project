@@ -68,7 +68,6 @@
 		  FROM TB_ADDRESS
 		 WHERE USER_NO = ?
 		   AND ADDRESS_TYPE = 'Y'
-		   AND ADDRESS_STATUS = 'Y'
 	</entry>
 	
 	<!-- 회원정보 최종변경일 수정 -->
