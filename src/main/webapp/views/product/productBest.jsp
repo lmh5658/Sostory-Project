@@ -381,7 +381,7 @@
 		  			for(let i=0 ; i<proNo.length ; i++){
 		  				// 찜한 상품일 경우 ==> 아이콘컬러 : 빨간색
 		  				if(proNo[i] == $pNo){	
-		  					$cart.attr("fill", "red");
+		  					$pNo.attr("fill", "red");
 		  				}
 		  			}
 		  		
