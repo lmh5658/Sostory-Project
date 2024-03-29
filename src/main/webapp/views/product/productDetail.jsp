@@ -556,7 +556,7 @@
                     
                     <script>
                     	$(".recipe-img-top").click(function(){
-                    		location.href = "<%=contextPath%>/detail.re?no=" + $("#recipeNo").val();
+                    		location.href = "<%=contextPath%>/detail.re?no=" + $(this).next().val();
                     	})
                     </script>
 
